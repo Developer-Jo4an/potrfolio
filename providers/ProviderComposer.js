@@ -1,10 +1,18 @@
-"use client"
+"use client";
 import ModalProvider from "./ModalProvider";
+import SizeProvider from "./SizeProvider";
+import CallbacksProvider from "./CallbacksProvider";
+import Loader from "../components/shared/loader/Loader";
 
 export default function ProviderComposer({children}) {
   return (
-    <ModalProvider>
-      {children}
-    </ModalProvider>
+    <SizeProvider>
+      <ModalProvider>
+        <CallbacksProvider>
+          {children}
+          <Loader/>
+        </CallbacksProvider>
+      </ModalProvider>
+    </SizeProvider>
   );
 }

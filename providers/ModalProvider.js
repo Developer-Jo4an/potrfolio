@@ -1,7 +1,7 @@
 import {createContext, useContext, useState} from "react";
 import {AnimatePresence, motion} from "framer-motion";
 import {modals as modalsComponents} from "../constants/modal/modals";
-import {animations, backgroundAnimations} from "../constants/modal/animations";
+import {animations, backgroundAnimations} from "../animations/modal/animations";
 import {createId} from "../utils/closing";
 import styles from "../styles/providers/modal.module.scss";
 
@@ -12,7 +12,7 @@ const {get, next} = createId();
 export default function ModalProvider({children}) {
   const [modals, setModals] = useState([]);
 
-  const reducedModals = modals.reduce((acc, modalData) => {
+  const activeModals = modals.reduce((acc, modalData) => {
     const isVisible = !modalData.isQueue || !acc.some(({isQueue}) => isQueue);
 
     if (isVisible)
@@ -22,7 +22,7 @@ export default function ModalProvider({children}) {
   }, []);
 
   const actions = {
-    add({type, animation, isQueue, props = {}} = {}) {
+    add({type, animation, isQueue = true, props = {}} = {}) {
       const id = get();
 
       setModals(modals => [...modals, {type, id, animation, isQueue, props}]);
@@ -32,21 +32,28 @@ export default function ModalProvider({children}) {
       return id;
     },
     close({id}) {
-      if (id === "all") {
-        setModals([]);
-        return;
-      }
+      const necessaryFunction = ({
+        all() {
+          setModals([]);
+        },
+        active() {
+          setModals(prev => prev.filter(({id: modalId}) => !activeModals.includes(modalId)));
+        },
+        default() {
+          setModals(modals => modals.filter(({id: modalId}) => modalId !== id));
+        }
+      })[id];
 
-      setModals(modals => modals.filter(({id: modalId}) => modalId !== id));
+      (necessaryFunction ?? necessaryFunction?.default)();
     }
   };
 
   return (
-    <ModalContext.Provider value={{...actions, modals: reducedModals}}>
+    <ModalContext.Provider value={{...actions, activeModals: activeModals, modals}}>
       {children}
       <div className={styles.modalProvider}>
         <AnimatePresence>
-          {reducedModals.map(({type, props, animation, id}) => {
+          {activeModals.map(({type, props, animation, id}) => {
             const Component = modalsComponents[type] ?? "div";
 
             const animationProps = animations[animation?.container] ?? animations.default;
@@ -66,4 +73,4 @@ export default function ModalProvider({children}) {
   );
 }
 
-export const useModalContext = () => useContext(ModalContext);
+export const useModal = () => useContext(ModalContext);

@@ -1,9 +1,6 @@
 import ProviderComposer from "../providers/ProviderComposer";
 
-export const metadata = {
-  title: "portfolio | main page",
-  description: "portfolio"
-};
+export const metadata = {title: "portfolio | main page", description: "portfolio"};
 
 export default function RootLayout({children}) {
   return (
