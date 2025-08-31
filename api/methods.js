@@ -1,7 +1,7 @@
 import axios from "axios";
 import {GET, POST} from "../constants/api/methods";
 
-export const API = process.env.API ?? "/api/v1";
+export const API = process.env.API ?? "/database";
 
 export const get = createMethod(GET);
 export const post = createMethod(POST);
@@ -19,3 +19,4 @@ function createMethod(method) {
     });
   };
 }
+

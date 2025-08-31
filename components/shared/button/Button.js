@@ -61,13 +61,13 @@ export default function Button(
         close() {
           close(options);
         }
-      })[action]?.(options);
+      })[action]?.();
     });
 
     click?.(e);
   };
 
-  useEffect(() => typeof properties.current.disabledTimeout === "number" && clearTimeout(properties.current.disabledTimeout), []);
+  useEffect(() => () => typeof properties.current.disabledTimeout === "number" && clearTimeout(properties.current.disabledTimeout), []);
 
   return (
     <button

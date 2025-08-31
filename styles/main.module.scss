@@ -1,3 +1,64 @@
+@use "styles/mixins" as *;
+
 .wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+
+  padding: 20px;
+}
+
+.mainTitle {
+  font-size: 32px;
+  color: white;
+  font-weight: 700;
+}
+
+.gameList {
+  display: grid;
+  grid-template-columns: repeat(1, 260px);
+  grid-template-rows: repeat(var(--elements-count), 300px);
+  @media (min-width: 400px) {
+    grid-template-columns: repeat(2, 170px);
+    grid-template-rows: repeat(calc(var(--elements-count) / 2), 300px);
+  }
+  @media (min-width: 590px) {
+    grid-template-columns: repeat(3, 170px);
+    grid-template-rows: repeat(calc(var(--elements-count) / 3), 300px);
+  }
+  @media (min-width: 780px) {
+    grid-template-columns: repeat(4, 170px);
+    grid-template-rows: repeat(calc(var(--elements-count) / 4), 300px);
+  }
+
+  grid-gap: 20px;
+
+  padding: 20px;
+
+  transition: .3s grid-gap ease-in-out;
+
+  will-change: grid-gap;
+
+  justify-content: center;
+
+  & > li  {
+    @include hover {
+      z-index: 1;
+    }
+
+    & > button {
+      will-change: transform;
+
+      transition: .15s transform ease-in-out;
+
+      @include hover {
+        transform: scale(1.05);
+      }
+    }
+  }
+}
+
+.gameItem {
 
 }

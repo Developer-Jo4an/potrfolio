@@ -7,7 +7,7 @@ import styles from "../styles/providers/modal.module.scss";
 
 const ModalContext = createContext({});
 
-const {get, next} = createId();
+const getId = createId();
 
 export default function ModalProvider({children}) {
   const [modals, setModals] = useState([]);
@@ -22,29 +22,27 @@ export default function ModalProvider({children}) {
   }, []);
 
   const actions = {
-    add({type, animation, isQueue = true, props = {}} = {}) {
-      const id = get();
+    add({type, animation, isCloseOnBackground = false, isQueue = true, props = {}} = {}) {
+      const id = getId();
 
-      setModals(modals => [...modals, {type, id, animation, isQueue, props}]);
-
-      next();
+      setModals(modals => [...modals, {type, id, isCloseOnBackground, animation, isQueue, props}]);
 
       return id;
     },
     close({id}) {
-      const necessaryFunction = ({
+      const necessaryFunction = {
         all() {
           setModals([]);
         },
         active() {
-          setModals(prev => prev.filter(({id: modalId}) => !activeModals.includes(modalId)));
+          setModals(prev => prev.filter(modalData => !activeModals.includes(modalData)));
         },
         default() {
           setModals(modals => modals.filter(({id: modalId}) => modalId !== id));
         }
-      })[id];
+      };
 
-      (necessaryFunction ?? necessaryFunction?.default)();
+      (necessaryFunction[id] ?? necessaryFunction.default)();
     }
   };
 
@@ -53,16 +51,26 @@ export default function ModalProvider({children}) {
       {children}
       <div className={styles.modalProvider}>
         <AnimatePresence>
-          {activeModals.map(({type, props, animation, id}) => {
+          {activeModals.map(({type, props, isCloseOnBackground, animation, id}) => {
             const Component = modalsComponents[type] ?? "div";
 
             const animationProps = animations[animation?.container] ?? animations.default;
             const backgroundAnimationProps = backgroundAnimations[animation?.background] ?? backgroundAnimations.default;
 
             return (
-              <motion.div key={id} className={styles.modalWrapper} {...backgroundAnimationProps}>
-                <motion.div className={styles.modalAnimationContainer} {...animationProps}>
-                  <Component modalProps={props} id={id}/>
+              <motion.div
+                key={id}
+                className={styles.modalWrapper}
+                {...backgroundAnimationProps}
+              >
+                <motion.div
+                  className={styles.modalAnimationContainer}
+                  {...animationProps}
+                  onClick={() => isCloseOnBackground && actions.close({id})}
+                >
+                  <div className={styles.modalParent} onClick={e => e.stopPropagation()}>
+                    <Component modalProps={props} id={id}/>
+                  </div>
                 </motion.div>
               </motion.div>
             );

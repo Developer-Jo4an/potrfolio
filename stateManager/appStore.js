@@ -17,7 +17,7 @@ const {useStore: useAppStore, selectors} = createStore({
   },
   interceptors: {},
   selectors: {
-    games: state => state.games
+    games: ({games, getGames}) => ({games, getGames})
   }
 });
 

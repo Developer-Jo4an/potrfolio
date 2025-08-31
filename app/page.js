@@ -1,20 +1,43 @@
 "use client";
-import "../styles/zeroing.scss";
 import styles from "../styles/main.module.scss";
-import {useEffect} from "react";
-import useAppStore from "../stateManager/appStore";
+import {useGames} from "../stateManager/appStore";
+import {adjustable} from "../content/adjustable";
+import {motion} from "framer-motion";
+import {animation} from "../animations/gameCard/gameCard";
+import GameCard from "../components/business/gameCard/GameCard";
+import {useRequestHandler} from "../hooks/useRequestHandler";
+import {useMemo} from "react";
+import {useAppCallbacks} from "../providers/CallbacksProvider";
+
+const {mainTitle, redirectData} = adjustable;
 
 export default function Adjustable() {
-  const a = useAppStore();
+  const {games} = useGames();
 
-  useEffect(() => {
-    a.getGames();
-  }, []);
+  const appCallbacks = useAppCallbacks();
 
-  console.log(a);
+  useRequestHandler(
+    useMemo(() => redirectData.map(({request, to}) => ({
+      request,
+      onFulfilled: () => appCallbacks.requestPage(to)
+    })), [])
+  );
 
   return (
-    <div className={styles.wrapper}>
-    </div>
+    <section className={styles.wrapper}>
+      <h1 className={styles.mainTitle}>{mainTitle}</h1>
+
+      <ul className={styles.gameList} style={{"--elements-count": games.length}}>
+        {games.map((game, index) =>
+          <motion.li
+            key={index}
+            className={styles.gameItem}
+            {...animation(index)}
+          >
+            <GameCard game={game}/>
+          </motion.li>
+        )}
+      </ul>
+    </section>
   );
 }
