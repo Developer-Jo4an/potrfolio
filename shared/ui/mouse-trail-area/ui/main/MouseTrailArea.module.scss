@@ -1,0 +1,12 @@
+.mouseTrailArea {
+  position: fixed;
+  top: 0;
+  left: 0;
+
+  canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    pointer-events: none;
+  }
+}
