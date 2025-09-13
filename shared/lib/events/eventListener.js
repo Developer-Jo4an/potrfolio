@@ -1,19 +1,25 @@
 export const eventSubscription = (
   {
     target = window,
-    callbacksBus = [],
-    add = "add",
-    remove = "remove",
-    postfix = "EventListener"
+    callbacksBus,
+    postfix = "EventListener",
+    actionAdd = "add",
+    actionRemove = "remove"
   }) => {
 
-  const clearFunctions = callbacksBus.map(({event, callback, options = {}, target: localTarget}) => {
-    const totalTarget = localTarget ?? target;
+  const listenerLogic = action => {
+    callbacksBus.forEach(({event, callback, options, target: localTarget}) => {
+      if (!event) return;
 
-    totalTarget?.[`${add}${postfix}`]?.(event, callback, options);
+      const eventsArray = Array.isArray(event) ? event : [event];
 
-    return () => totalTarget?.[`${remove}${postfix}`]?.(event, callback, options);
-  });
+      eventsArray.forEach(event => {
+        (localTarget ?? target)?.[`${action}${postfix}`]?.(event, callback, options);
+      });
+    });
+  };
 
-  return () => clearFunctions.forEach(clear => clear());
+  listenerLogic(actionAdd);
+
+  return () => listenerLogic(actionRemove);
 };

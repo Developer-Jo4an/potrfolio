@@ -1,9 +1,11 @@
 import {create} from "zustand";
 import {immer} from "zustand/middleware/immer";
-import {FULFILLED, PENDING, REJECTED, SETTLED} from "../../constants/promise/statuses";
-import {upperFirst} from "lodash/string";
 import {devtools} from "zustand/middleware";
 import {useShallow} from "zustand/shallow";
+import {FULFILLED, PENDING, REJECTED, SETTLED} from "../../constants/promise/statuses";
+import {upperFirst} from "lodash/string";
+import {isFunction, isObject} from "lodash";
+import {SUCCESS} from "../../constants/api/statuses";
 
 class StateManagerStore {
 
@@ -71,29 +73,41 @@ class StateManagerStore {
     const self = this;
 
     for (const key in asyncActions) {
-      const {request, onPending, onFulfilled, onRejected, onSettled} = asyncActions[key];
+      const asyncActionData = asyncActions[key];
+
+      if (!isObject(asyncActionData)) {
+        console.warn("asyncActionData is not a object", asyncActionData);
+        continue;
+      }
+
+      const {request, onPending, onFulfilled, onRejected, onSettled} = asyncActionData;
+
+      if (!isFunction(request)) {
+        console.warn("request is not a function", request);
+        continue;
+      }
 
       customActions[key] = async function (...data) {
         let totalData;
 
         try {
-          typeof onPending === "function" && set(state => onPending.call(self, state, totalData));
+          isFunction(onPending) && set(state => onPending.call(self, state, totalData));
 
           self.callInterceptor(key, data, PENDING);
 
           totalData = await request(...data);
 
-          typeof onFulfilled === "function" && set(state => onFulfilled.call(self, state, totalData));
+          isFunction(onFulfilled) && set(state => onFulfilled.call(self, state, totalData));
 
           self.callInterceptor(key, totalData, FULFILLED);
         } catch (e) {
           totalData = e;
 
-          typeof onRejected === "function" && set(state => onRejected.call(self, state, totalData));
+          isFunction(onRejected) && set(state => onRejected.call(self, state, totalData));
 
           self.callInterceptor(key, totalData, REJECTED);
         } finally {
-          typeof onSettled === "function" && set(state => onSettled.call(self, state, totalData));
+          isFunction(onSettled) && set(state => onSettled.call(self, state, totalData));
 
           self.callInterceptor(key, totalData, SETTLED);
         }
