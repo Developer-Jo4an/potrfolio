@@ -1,6 +1,5 @@
 import {createContext, useContext} from "react";
 
-const CallbacksContext = createContext({});
 
 export default function CallbacksProvider({children}) {
   const callbacks = {
@@ -13,5 +12,7 @@ export default function CallbacksProvider({children}) {
     </CallbacksContext.Provider>
   );
 }
+
+const CallbacksContext = createContext({});
 
 export const useAppCallbacks = () => useContext(CallbacksContext);

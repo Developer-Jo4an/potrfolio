@@ -1,13 +1,16 @@
-import SizeProvider from "../../../size/ui/main/SizeProvider";
-import CallbacksProvider from "../../../callbacks/ui/main/CallbacksProvider";
-import ModalProvider from "../../../modal/ui/main/ModalProvider";
+import {ModalProvider} from "../../../modal";
+import {CallbacksProvider} from "../../../callbacks";
+import {SizeProvider} from "../../../size";
+import {ApiProvider} from "../../../api-provider";
 
 export default function ProviderComposer({children}) {
   return (
     <SizeProvider>
       <CallbacksProvider>
         <ModalProvider>
-          {children}
+          <ApiProvider>
+            {children}
+          </ApiProvider>
         </ModalProvider>
       </CallbacksProvider>
     </SizeProvider>
