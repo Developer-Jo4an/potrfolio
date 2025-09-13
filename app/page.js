@@ -1,4 +1,3 @@
-"use client";
-export default function Adjustable() {
+import {Adjustable} from "../app-pages/index";
 
-}
+export default Adjustable;
