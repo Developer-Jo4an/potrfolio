@@ -1,5 +1,3 @@
-@use 'mixins' as *;
-
 * {
   background-color: transparent;
 
@@ -12,7 +10,7 @@
   outline: none;
 
   font-size: 16px;
-  font-family: var(--font-montserrat), sans-serif;
+  font-family: Discovery, Arial, sans-serif;
   font-weight: 400;
 
   user-select: none;
@@ -57,5 +55,14 @@ ul, ol {
   list-style: none;
 }
 
-h1, h2, h3, h4, h5, h6 {
+h1 {
+  font-family: KogniGear, Arial, sans-serif;
+}
+
+h2, h3, h4, h5, h6 {
+  font-family: Akony, Arial, sans-serif;
+}
+
+button {
+  font-family: Satoshi, Arial, sans-serif;
 }
