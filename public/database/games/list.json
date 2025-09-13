@@ -1,31 +1,7 @@
 [
   {
-    "id": "platformer",
-    "title": "Platformer",
-    "description": "Platformer - игра созданная по референсу оригинального Mario с помощью 2d фреймворка phaser"
-  },
-  {
-    "id": "platformer",
-    "title": "Platformer",
-    "description": "Platformer - игра созданная по референсу оригинального Mario с помощью 2d фреймворка phaser"
-  },
-  {
-    "id": "platformer",
-    "title": "Platformer",
-    "description": "Platformer - игра созданная по референсу оригинального Mario с помощью 2d фреймворка phaser"
-  },
-  {
-    "id": "platformer",
-    "title": "Platformer",
-    "description": "Platformer - игра созданная по референсу оригинального Mario с помощью 2d фреймворка phaser"
-  }, {
-  "id": "platformer",
-  "title": "Platformer",
-  "description": "Platformer - игра созданная по референсу оригинального Mario с помощью 2d фреймворка phaser"
-},
-  {
-    "id": "platformer",
-    "title": "Platformer",
-    "description": "Platformer - игра созданная по референсу оригинального Mario с помощью 2d фреймворка phaser"
+    "id": "basketball",
+    "title": "Баскетболл",
+    "description": "Баскетболл - игра созданная по референсу оригинального Mario с помощью 2d фреймворка phaser"
   }
 ]
