@@ -6,22 +6,24 @@ export default function useMouseTrail({isActive}) {
   const containerRef = useRef();
 
   useEffect(() => {
-    (async () => {
+    const initialization = async () => {
       const {current: container} = containerRef;
       await MouseTrailWrapper.instance.initController();
       MouseTrailWrapper.instance.container = container;
       setWrapper(MouseTrailWrapper.instance);
-    })();
+    };
+
+    const initializationPromise = initialization();
+
+    return () => {
+      initializationPromise.then(() => MouseTrailWrapper.instance.isActive = false);
+    };
   }, []);
 
   useEffect(() => {
     if (wrapper)
       wrapper.isActive = isActive;
   }, [wrapper, isActive]);
-
-  useEffect(() => () => {
-    wrapper && (wrapper.isActive = false);
-  }, [wrapper]);
 
   return containerRef;
 }
