@@ -18,7 +18,7 @@ export default class BaseMouseTrailController {
 
   historyY = [];
 
-  historySize = 60;
+  historySize = 100;
 
   ropeSize = 100;
 

@@ -1,18 +1,19 @@
 import styles from "./GameCardsList.module.scss";
-import {useEffect, useRef} from "react";
+import {useRef} from "react";
 import useGamesStore from "../../model/state-manager/gamesStore";
 import GameCard from "../game-card/GameCard";
 import {useCardFlipping} from "../../model/hooks/useCardFlipping";
+import useCardShowing from "../../model/hooks/useCardShowing";
 
 export default function GameCardsList() {
   const {gameList} = useGamesStore();
   const {current: gameCards} = useRef([]);
 
-  useCardFlipping({gameCards});
+  useCardShowing({gameCards});
 
   return (
-    <div className={styles.gameCardsList}>
-      {new Array(10).fill(gameList[0] ?? {}).map((gameData, index) =>
+    <div className={styles.gameCardsList} {...useCardFlipping({gameCards})}>
+      {gameList.map((gameData, index) =>
         <GameCard
           ref={ref => gameCards[index] = ref}
           key={index}

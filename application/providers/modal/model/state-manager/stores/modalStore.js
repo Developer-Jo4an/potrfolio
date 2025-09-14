@@ -10,15 +10,15 @@ const {useStore: useModalStore} = createStore({
   state: {
     modals: []
   },
-  actions: {
-    add(state, {type, animation, isCloseOnBackground = false, isQueue = true, props = {}} = {}) {
+  syncActions: {
+    add({state}, {type, animation, isCloseOnBackground = false, isQueue = true, props = {}} = {}) {
       const id = getId();
 
       state.modals = [...state.modals, {type, id, isCloseOnBackground, animation, isQueue, props}];
 
       return id;
     },
-    close(state, {id}) {
+    close({state}, {id}) {
       const necessaryFunction = {
         all() {
           state.modals = [];

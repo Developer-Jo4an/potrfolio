@@ -3,10 +3,11 @@ import {createStore} from "../createStore";
 const {useStore: useAppStore, selectors} = createStore({
   name: "app",
   state: {},
-  actions: {},
+  syncActions: {},
   asyncActions: {},
   interceptors: {},
-  selectors: {}
+  selectors: {},
+  helpers: {}
 });
 
 export default useAppStore;

@@ -10,7 +10,10 @@ export default function GameCard({ref, gameData}) {
         console.log(1);
       }}
     >
-      <img className={styles.gameCardImg} src={image("widgets/game-cards/aaa.png")}/>
+      <img
+        className={styles.gameCardImg}
+        src={image(`widgets/game-cards/${gameData.id}.png`)}
+      />
     </div>
   );
 }

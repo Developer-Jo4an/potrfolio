@@ -5,20 +5,28 @@ import {useShallow} from "zustand/shallow";
 import {FULFILLED, PENDING, REJECTED, SETTLED} from "../../constants/promise/statuses";
 import {upperFirst} from "lodash/string";
 import {isFunction, isObject} from "lodash";
-import {SUCCESS} from "../../constants/api/statuses";
 
 class StateManagerStore {
 
   stores = {};
 
   constructor() {
-    this.setContext = this.setContext.bind(this);
+
   }
 
   initStore(data) {
     const {stores} = this;
 
-    const {name, state = {}, actions = {}, asyncActions = {}, interceptors = {}, selectors = {}, matchers = {}} = data;
+    const {
+      name,
+      state = {},
+      syncActions = {},
+      asyncActions = {},
+      interceptors = {},
+      selectors = {},
+      matchers = {},
+      helpers = {}
+    } = data;
 
     let customSyncActions;
     let customAsyncActions;
@@ -26,16 +34,16 @@ class StateManagerStore {
     let customMatchers;
 
     const useStore = create(devtools(immer(set => {
-      customSyncActions = this.setContext(this.createActions(actions, set));
-      customAsyncActions = this.setContext(this.createAsyncActions(asyncActions, set));
-      customInterceptors = this.setContext(this.createInterceptors(interceptors, set));
-      customMatchers = this.setContext(this.createMatchers(matchers, set));
+      customSyncActions = this.createSyncActions(syncActions, set);
+      customAsyncActions = this.createAsyncActions(asyncActions, set);
+      customInterceptors = this.createInterceptors(interceptors, set);
+      customMatchers = this.createMatchers(matchers, set);
 
-      return ({
+      return {
         ...state,
         ...customSyncActions,
         ...customAsyncActions
-      });
+      };
     })));
 
     return stores[name] = {
@@ -44,11 +52,12 @@ class StateManagerStore {
       syncActions: customSyncActions,
       asyncActions: customAsyncActions,
       interceptors: customInterceptors,
-      matchers: customMatchers
+      matchers: customMatchers,
+      helpers
     };
   }
 
-  createActions(actions, set) {
+  createSyncActions(actions, set) {
     const customActions = {};
 
     const self = this;
@@ -58,7 +67,7 @@ class StateManagerStore {
 
       customActions[key] = function (...data) {
         let result;
-        set(state => result = action(state, ...data));
+        set(state => result = action({state, globalStore: self}, ...data));
         self.callMatchers(key, ...data);
         return result;
       };
@@ -91,23 +100,23 @@ class StateManagerStore {
         let totalData;
 
         try {
-          isFunction(onPending) && set(state => onPending.call(self, state, totalData));
+          isFunction(onPending) && set(state => onPending.call(self, {state, globalStore: self}, totalData));
 
           self.callInterceptor(key, data, PENDING);
 
           totalData = await request(...data);
 
-          isFunction(onFulfilled) && set(state => onFulfilled.call(self, state, totalData));
+          isFunction(onFulfilled) && set(state => onFulfilled.call(self, {state, globalStore: self}, totalData));
 
           self.callInterceptor(key, totalData, FULFILLED);
         } catch (e) {
           totalData = e;
 
-          isFunction(onRejected) && set(state => onRejected.call(self, state, totalData));
+          isFunction(onRejected) && set(state => onRejected.call(self, {state, globalStore: self}, totalData));
 
           self.callInterceptor(key, totalData, REJECTED);
         } finally {
-          isFunction(onSettled) && set(state => onSettled.call(self, state, totalData));
+          isFunction(onSettled) && set(state => onSettled.call(self, {state, globalStore: self}, totalData));
 
           self.callInterceptor(key, totalData, SETTLED);
         }
@@ -122,11 +131,13 @@ class StateManagerStore {
   createInterceptors(interceptors, set) {
     const customInterceptors = {};
 
+    const self = this;
+
     for (const key in interceptors) {
       const action = interceptors[key];
 
       customInterceptors[key] = function (data) {
-        set(state => action(state, data));
+        set(state => action({state, globalStore: self}, data));
       };
     }
 
@@ -136,6 +147,8 @@ class StateManagerStore {
   createMatchers(matchers, set) {
     const customMatchers = {};
 
+    const self = this;
+
     for (const key in matchers) {
       const {checker, handler} = matchers[key];
 
@@ -143,7 +156,7 @@ class StateManagerStore {
         const isChecked = checker(actionKey, ...data);
 
         if (isChecked)
-          set(state => handler(actionKey, state, ...data));
+          set(state => handler(actionKey, {state, globalStore: self}, ...data));
       };
     }
 
@@ -179,19 +192,10 @@ class StateManagerStore {
     }
   }
 
-  setContext(callbacks) {
-    const callbacksWithContext = {};
-
-    for (const key in callbacks)
-      callbacksWithContext[key] = callbacks[key].bind(this);
-
-    return callbacksWithContext;
-  }
-
   getStoreByName(name) {
     const {stores} = this;
 
-    return stores[name]?.useStore;
+    return stores[name];
   }
 }
 

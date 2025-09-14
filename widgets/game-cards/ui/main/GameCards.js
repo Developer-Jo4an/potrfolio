@@ -8,7 +8,7 @@ import styles from "./GameCards.module.scss";
 
 export default function GameCards() {
   return (
-    <MouseTrailArea>
+    <>
       <section className={styles.gameCards}>
         <GameCardsBackground/>
         <GameCardsInfo/>
@@ -16,6 +16,7 @@ export default function GameCards() {
         <GameCardsNavigation/>
         <GameCardsButtons/>
       </section>
-    </MouseTrailArea>
+      <MouseTrailArea/>
+    </>
   );
 }

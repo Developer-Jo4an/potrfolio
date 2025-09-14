@@ -3,5 +3,30 @@
     "id": "basketball",
     "title": "Баскетболл",
     "description": "Баскетболл - игра созданная по референсу оригинального Mario с помощью 2d фреймворка phaser"
+  },
+  {
+    "id": "dunkShot",
+    "title": "dunkShot",
+    "description": "Баскетболл - игра созданная по референсу оригинального Mario с помощью 2d фреймворка phaser"
+  },
+  {
+    "id": "mario",
+    "title": "mario",
+    "description": "Баскетболл - игра созданная по референсу оригинального Mario с помощью 2d фреймворка phaser"
+  },
+  {
+    "id": "match3",
+    "title": "match3",
+    "description": "Баскетболл - игра созданная по референсу оригинального Mario с помощью 2d фреймворка phaser"
+  },
+  {
+    "id": "fell",
+    "title": "fell",
+    "description": "Баскетболл - игра созданная по референсу оригинального Mario с помощью 2d фреймворка phaser"
+  },
+  {
+    "id": "someGame",
+    "title": "someGame",
+    "description": "Баскетболл - игра созданная по референсу оригинального Mario с помощью 2d фреймворка phaser"
   }
 ]

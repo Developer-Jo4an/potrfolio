@@ -1,13 +1,8 @@
 import styles from "./MouseTrailArea.module.scss";
 import useMouseTrail from "../../model/hooks/use-mouse-trail/useMouseTrail";
 
-export default function MouseTrailArea({isActive = true, children}) {
+export default function MouseTrailArea({isActive = true}) {
   const containerRef = useMouseTrail({isActive});
 
-  return (
-    <>
-      {children}
-      <div ref={containerRef} className={styles.mouseTrailArea}/>
-    </>
-  );
+  return <div ref={containerRef} className={styles.mouseTrailArea}/>;
 }
