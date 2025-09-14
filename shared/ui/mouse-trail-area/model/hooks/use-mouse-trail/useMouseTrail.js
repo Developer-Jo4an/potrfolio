@@ -19,5 +19,9 @@ export default function useMouseTrail({isActive}) {
       wrapper.isActive = isActive;
   }, [wrapper, isActive]);
 
+  useEffect(() => () => {
+    wrapper && (wrapper.isActive = false);
+  }, [wrapper]);
+
   return containerRef;
 }
