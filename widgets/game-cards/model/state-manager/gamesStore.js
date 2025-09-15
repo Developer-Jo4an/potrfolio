@@ -11,7 +11,7 @@ const {useStore: useGamesStore, selectors} = createStore({
     leftGame: null,
     rightGame: null,
 
-    isShowing: false,
+    isShowing: true,
 
     lastSwipeDirection: null
   },

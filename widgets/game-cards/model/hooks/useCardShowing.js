@@ -13,7 +13,7 @@ export default function useCardShowing({gameCards}) {
   useLayoutEffect(() => {
     if (!gameList.length) return;
 
-    const showingTimeline = gsap.timeline({onComplete: () => setIsShowing(true)});
+    const showingTimeline = gsap.timeline({onComplete: () => setIsShowing(false)});
 
     const visibleGames = [leftGame, activeGame, rightGame];
     const gamesObject = {leftGame, activeGame, rightGame};
@@ -50,7 +50,7 @@ export default function useCardShowing({gameCards}) {
     });
 
     return () => {
-      setIsShowing(false);
+      setIsShowing(true);
       showingTimeline.kill();
     };
   }, [gameList.length]);

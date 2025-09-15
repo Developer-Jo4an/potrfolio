@@ -16,7 +16,7 @@ export function useCardFlipping({gameCards}) {
   } = useGamesStore();
 
   useEffect(() => {
-    if (!isShowing || !gameList.length || !lastSwipeDirection) return;
+    if (isShowing || !gameList.length || !lastSwipeDirection) return;
 
     const leftIndex = gameList.findIndex(({id}) => id === leftGame);
     const activeIndex = gameList.findIndex(({id}) => id === activeGame);
@@ -89,7 +89,7 @@ export function useCardFlipping({gameCards}) {
     trackMouse: true,
     onSwiped({dir}) {
       const direction = dir.toLowerCase();
-      if (isShowing && gameList.length && [RIGHT, LEFT].includes(direction))
+      if (!isShowing && gameList.length && [RIGHT, LEFT].includes(direction))
         onSwipe({direction});
     }
   });

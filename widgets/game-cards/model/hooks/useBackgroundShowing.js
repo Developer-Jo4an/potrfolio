@@ -3,10 +3,10 @@ import gsap from "gsap";
 import useGamesStore from "../state-manager/gamesStore";
 
 export default function useBackgroundShowing({cardsBackground}) {
-  const {gameList} = useGamesStore();
+  const {gameList, isShowing} = useGamesStore();
 
   useEffect(() => {
-    if (!gameList?.length) return;
+    if (!gameList?.length || isShowing) return;
 
     const showingTimeline = gsap.timeline();
 
@@ -14,10 +14,10 @@ export default function useBackgroundShowing({cardsBackground}) {
       showingTimeline.to(cardBackground, {
         filter: "blur(5px)",
         ease: "sine.inOut",
-        duration: 1
+        duration: 0.5
       }, 0);
     });
 
     return showingTimeline.kill;
-  }, [gameList]);
+  }, [gameList, isShowing]);
 }
