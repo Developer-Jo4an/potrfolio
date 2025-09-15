@@ -13,6 +13,8 @@
   font-family: Discovery, Arial, sans-serif;
   font-weight: 400;
 
+  transform-origin: center center;
+
   user-select: none;
 
   box-sizing: border-box;
@@ -22,6 +24,7 @@
 
   text-align: left;
 
+  -webkit-tap-highlight-color: transparent;
 }
 
 html {

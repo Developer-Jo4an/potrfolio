@@ -17,8 +17,7 @@ export default function useButtonClickControls(
   const callCallbacks = useCallCallbacks({callbacksData});
 
   const onClick = e => {
-    if (!checkDisposable()) return;
-    if (!checkTimeout()) return;
+    if (!checkDisposable() || !checkTimeout()) return;
     callEventFunctions(e);
     callCallbacks();
     click?.(e);

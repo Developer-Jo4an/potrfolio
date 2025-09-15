@@ -4,10 +4,15 @@ import {isNumber} from "lodash";
 export default function useCheckTimeout({timeout}) {
   const timeoutRef = useRef();
 
-  useEffect(() => () => isNumber(timeoutRef.current) && clearTimeout(timeoutRef.current));
+  useEffect(() => () => {
+    if (isNumber(timeoutRef.current)) {
+      clearTimeout(timeoutRef.current);
+      timeoutRef.current = null;
+    }
+  }, [timeout]);
 
   return () => {
-    if (isNumber(timeoutRef.current)) return;
+    if (isNumber(timeoutRef.current)) return false;
 
     if (isNumber(timeout))
       timeoutRef.current = setTimeout(() => timeoutRef.current = null, timeout);

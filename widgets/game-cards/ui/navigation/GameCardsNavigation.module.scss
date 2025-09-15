@@ -1,0 +1,45 @@
+@use "../../../../application/styles/constants" as constants;
+@use "../../../../application/styles/mixins" as mixins;
+
+.gameCardsNavigation {
+  position: absolute;
+  left: 50%;
+  bottom: 18%;
+  transform: translateX(-50%);
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 40px;
+}
+
+.gameCardsNavigationButton {
+  width: 50px;
+  height: 50px;
+
+  border: 2px solid transparent;
+
+  transition: .3s ease-in-out transform, .3s ease-in-out background-color, .3s ease-in-out border-color;
+
+  box-shadow: inset rgba(constants.$BLACK, 0.2) 0 6px 4px;
+
+  border-radius: 50%;
+
+  @include mixins.hover {
+    transform: scale(1.1);
+  }
+
+  &:active {
+    transform: scale(0.8);
+  }
+
+  svg {
+    font-size: 28px;
+    fill: constants.$WHITE;
+  }
+}
+
+.gameCardsNavigationButtonBasketball {
+  background-color: constants.$BASKETBALL_MAIN_COLOR;
+  border-color: constants.$BASKETBALL_MAIN_COLOR;
+}
