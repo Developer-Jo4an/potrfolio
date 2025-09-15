@@ -1,5 +1,6 @@
 import styles from "../cards/GameCardsList.module.scss";
 import {image} from "../../../../shared/lib/image/url";
+import Image from "../../../../shared/ui/image/ui/main/Image";
 
 export default function GameCard({ref, gameData}) {
   return (
@@ -10,9 +11,9 @@ export default function GameCard({ref, gameData}) {
         console.log(1);
       }}
     >
-      <img
+      <Image
+        src={`widgets/game-cards/cards/${gameData.id}.png`}
         className={styles.gameCardImg}
-        src={image(`widgets/game-cards/${gameData.id}.png`)}
       />
     </div>
   );

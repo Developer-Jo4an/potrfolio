@@ -86,6 +86,7 @@ export function useCardFlipping({gameCards}) {
   }, [isShowing, gameList, activeGame, leftGame, rightGame, lastSwipeDirection]);
 
   return useSwipeable({
+    trackMouse: true,
     onSwiped({dir}) {
       const direction = dir.toLowerCase();
       if (isShowing && gameList.length && [RIGHT, LEFT].includes(direction))
