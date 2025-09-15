@@ -1,7 +1,7 @@
 import GameCardsInfo from "../info/GameCardsInfo";
 import GameCardsList from "../cards/GameCardsList";
 import GameCardsNavigation from "../navigation/GameCardsNavigation";
-import GameCardsButtons from "../buttons/GameCardsButtons";
+import GameCardsButton from "../buttons/GameCardsButton";
 import GameCardsBackground from "../background/GameCardsBackground";
 import {MouseTrailArea} from "../../../../shared/ui/mouse-trail-area";
 import styles from "./GameCards.module.scss";
@@ -14,7 +14,7 @@ export default function GameCards() {
         <GameCardsInfo/>
         <GameCardsList/>
         <GameCardsNavigation/>
-        <GameCardsButtons/>
+        <GameCardsButton/>
       </section>
       <MouseTrailArea/>
     </>

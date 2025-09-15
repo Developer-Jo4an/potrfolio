@@ -62,8 +62,8 @@ export function useCardFlipping({gameCards}) {
       };
 
       const middle = cardsAnimationSettings.flipping[({
-        [ACTIVE]: () => `${lastSwipeDirection === RIGHT ? LEFT : RIGHT}center`,
-        [lastSwipeDirection]: () => `${lastSwipeDirection}center`
+        [ACTIVE]: () => `${lastSwipeDirection === RIGHT ? LEFT : RIGHT}${CENTER}`,
+        [lastSwipeDirection]: () => `${lastSwipeDirection}${CENTER}`
       })[gameCardStatus]()];
 
       const end = {translateX, translateZ};
