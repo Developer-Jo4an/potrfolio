@@ -1,6 +1,6 @@
 import {eventSubscription} from "../../../../lib/events/eventListener";
 import {MOUSE_ENTER, MOVE, TOUCH_START} from "../../../../constants/events/eventsNames";
-import importPixi from "../../../../lib/scene/pixi/import-pixi";
+import importPIXI from "../../../../lib/scene/pixi/import-pixi";
 import global from "../../../../constants/global/global";
 import sceneInitConfig from "../../config/sceneInitConfig";
 import {trailTextureSrc} from "../../constants/assets";
@@ -77,7 +77,7 @@ export default class BaseMouseTrailController {
   async init() {
     if (this.isInitialized) return;
 
-    await importPixi();
+    await importPIXI();
     await this.initApplication();
     await this.loadTrailTexture();
     this.initEvents();

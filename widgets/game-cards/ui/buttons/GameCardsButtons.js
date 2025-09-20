@@ -4,12 +4,17 @@ import cl from "classnames";
 import {upperFirst} from "lodash/string";
 import useGamesStore from "../../model/state-manager/gamesStore";
 import {buttonContent} from "../../constants/content/buttonContent";
+import {useAppCallbacks} from "../../../../application/providers/callbacks/ui/main/CallbacksProvider";
+import {ROUTES} from "../../constants/routes";
 
 export default function GameCardsButtons() {
   const {activeGame} = useGamesStore();
 
-  const onClick = () => {
+  const allCallbacks = useAppCallbacks();
 
+  const onClick = () => {
+    if (activeGame)
+      allCallbacks.redirect(ROUTES[activeGame]);
   };
 
   return (

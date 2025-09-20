@@ -18,6 +18,6 @@ export default function useBackgroundShowing({cardsBackground}) {
       }, 0);
     });
 
-    return showingTimeline.kill;
+    return () => showingTimeline.kill();
   }, [gameList, isShowing]);
 }
