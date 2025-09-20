@@ -1,32 +1,32 @@
 [
   {
     "id": "dunkShot",
-    "title": "dunkShot",
-    "description": "Баскетболл - игра созданная по референсу оригинального Mario с помощью 2d фреймворка phaser"
+    "title": "Данк шот",
+    "description": "DunkShot - игра, созданная на референсе игры 'dunkShot' от ketchapp, pixi.js + matter.js"
   },
   {
     "id": "basketball",
     "title": "Баскетболл",
-    "description": "Баскетболл - игра созданная по референсу оригинального Mario с помощью 2d фреймворка phaser"
+    "description": "Баскетболл - игра на three.js+rapier, закидывание мячика в кольцо"
   },
   {
     "id": "mario",
-    "title": "mario",
-    "description": "Баскетболл - игра созданная по референсу оригинального Mario с помощью 2d фреймворка phaser"
+    "title": "Марио",
+    "description": "Mario - игра созданная по референсу оригинального Mario с помощью 2d фреймворка phaser"
   },
   {
     "id": "match3",
-    "title": "match3",
-    "description": "Баскетболл - игра созданная по референсу оригинального Mario с помощью 2d фреймворка phaser"
+    "title": "Три в ряд",
+    "description": "Три в ряд - ну что тут сказать, просто три в ряд, pixi.js"
   },
   {
-    "id": "fell",
-    "title": "fell",
-    "description": "Баскетболл - игра созданная по референсу оригинального Mario с помощью 2d фреймворка phaser"
+    "id": "fruits",
+    "title": "Фрукты",
+    "description": "Фрукты - игра на pixi.js + matter.js"
   },
   {
-    "id": "someGame",
-    "title": "someGame",
-    "description": "Баскетболл - игра созданная по референсу оригинального Mario с помощью 2d фреймворка phaser"
+    "id": "drive",
+    "title": "Drive",
+    "description": "Drive - игра, похожая механикой на flappy bird, только тут машинка, pixi.js"
   }
 ]

@@ -1,0 +1,35 @@
+@use "../../../../application/styles/constants" as constants;
+
+.gameCardsInfo {
+  position: absolute;
+  top: 20px;
+  left: 50%;
+
+  transform: translateX(-48%);
+
+  width: 100%;
+  max-width: 360px;
+  min-width: 320px;
+
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.gameCardsTitle {
+  span {
+    font-family: KogniGear, Discovery, sans-serif;
+    font-size: 42px;
+  }
+}
+
+.gameCardsDescription {
+  span {
+    font-family: Discovery, KogniGear, sans-serif;
+    font-size: 16px;
+  }
+}
+
+.gameCardsInfoBasketball {
+  color: constants.$BASKETBALL_MAIN_COLOR;
+}

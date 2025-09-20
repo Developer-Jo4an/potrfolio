@@ -1,4 +1,3 @@
-import {LEFT, RIGHT} from "../../../../shared/constants/directions/directions";
 import Button from "../../../../shared/ui/button/ui/main/Button";
 import cl from "classnames";
 import {upperFirst} from "lodash/string";
