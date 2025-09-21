@@ -1,0 +1,128 @@
+import BallController from "./controllers/BallController";
+import MapEntitiesController from "./controllers/MapEntitiesController";
+import BaseGameplayController from "./BaseGameplayController";
+import AimController from "./controllers/AimController";
+import BoostersController from "./controllers/BoostersController";
+import {addControllerStateHandler} from "../../../../../shared/scene/lib/state/addControllerStateHandler";
+import {copy} from "../../../../../shared/lib/copy/copy";
+import {COLLISION_FILTERS} from "../../../constants/collision";
+import {DUNK_SHOT_CONFIG_EVENT, DUNK_SHOT_GAME_DATA_EVENT} from "../../../constants/events";
+import {DUNK_SHOT_TWEEN} from "../../../constants/constants";
+import {DUNK_SHOT_STATE_MACHINE} from "../../../constants/stateMachine";
+import {dunkShotFactory} from "../../factory/DunkShotFactory";
+import {VISIBLE} from "../../../constants/modes";
+import {TO_DOWN} from "../../../constants/statuses";
+import {WHITE} from "../../../../../shared/constants/colors/colors";
+import {dunkShotAnimationPlayer} from "../../animations/DunkShotAnimationPlayer";
+
+export default class GameplayController extends BaseGameplayController {
+
+  static CONTROLLERS = [
+    BallController,
+    MapEntitiesController,
+    AimController,
+    BoostersController
+  ];
+
+  controllers = [];
+
+  throwData = {
+    startData: null,
+    currentData: null
+  };
+
+  idealThrowData = {
+    collisions: []
+  };
+
+  constructor(data) {
+    super(data);
+
+    return addControllerStateHandler(this, DUNK_SHOT_STATE_MACHINE);
+  }
+
+  init() {
+    const {
+      eventBus, renderer, canvas, stage, storage, state, engine, world, app, groups, controllers,
+      throwData, idealThrowData, config, decorators
+    } = this;
+
+    const generalData = {
+      eventBus, renderer, decorators, canvas, stage, storage, state, engine, world, app, groups, throwData,
+      idealThrowData, config, gameDataEvent: DUNK_SHOT_GAME_DATA_EVENT, configEvent: DUNK_SHOT_CONFIG_EVENT
+    };
+
+    GameplayController.CONTROLLERS.forEach(ControllerClass => {
+      const controller = new ControllerClass(generalData);
+      controller.initEvents?.();
+      controllers.push(controller);
+    });
+
+    controllers.forEach(controller => controller.init?.());
+  }
+
+  async fellSelect() {
+    const {storage: {mainSceneSettings: {states: {fell}}}} = this;
+    const {activeBasket, nextBasket, ball} = dunkShotFactory;
+
+    this.resetThrowData();
+    this.resetIdealThrowData();
+    this.deleteDamageAnimation();
+
+    activeBasket.mode = VISIBLE;
+    ball.status = TO_DOWN;
+    ball.body.collisionFilter = copy(COLLISION_FILTERS.PREPARE);
+    ball.angle = 0;
+    ball.position = {x: activeBasket.x + fell.showingOffset.x, y: activeBasket.y + fell.showingOffset.y};
+    ball.isGravity = false;
+
+    this.clearSpecificBehaviour();
+
+    await Promise.all([
+      dunkShotAnimationPlayer.ballShowAnimation(ball),
+      dunkShotAnimationPlayer.basketOriginAnimation(activeBasket)
+    ]);
+
+    await dunkShotAnimationPlayer.basketDefaultAnimation(activeBasket, {
+      rotation: {isImmediate: true},
+      scale: {isImmediate: true},
+      alpha: true
+    });
+
+    ball.isGravity = true;
+
+    await dunkShotAnimationPlayer.basketNextAnimation(nextBasket);
+  }
+
+  deleteDamageAnimation() {
+    const {ball: {_factoryUUID, view}} = dunkShotFactory;
+
+    const damageAnimation = gsap.localTimeline.getTweenByNamespaceAndId(DUNK_SHOT_TWEEN, `ballDamage${_factoryUUID}`);
+
+    if (damageAnimation) {
+      view.tint = WHITE;
+      damageAnimation.delete(DUNK_SHOT_TWEEN);
+    }
+  }
+
+  update(milliseconds, deltaTime) {
+    const {controllers} = this;
+    controllers.forEach(controller => controller.update(milliseconds, deltaTime));
+  }
+
+  resetThrowData() {
+    const {throwData} = this;
+    throwData.startData = null;
+    throwData.currentData = null;
+  }
+
+  resetIdealThrowData() {
+    const {idealThrowData} = this;
+    idealThrowData.collisions.length = 0;
+  }
+
+  reset() {
+    this.resetThrowData();
+    this.resetIdealThrowData();
+  }
+}

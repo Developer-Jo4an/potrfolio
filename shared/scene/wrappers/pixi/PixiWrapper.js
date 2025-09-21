@@ -5,10 +5,10 @@ export default class PixiWrapper extends BaseWrapper {
     super(data);
   }
 
-  get eventDispatcher() {
+  get eventBus() {
     const {controller} = this;
 
-    return controller?.eventDispatcher;
+    return controller?.eventBus;
   }
 
   initController() {

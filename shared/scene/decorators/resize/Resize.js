@@ -22,8 +22,8 @@ export default class Resize extends BaseDecorator {
   }
 
   onResized(data) {
-    const {controller: {eventDispatcher}} = this;
+    const {controller: {eventBus}} = this;
 
-    eventDispatcher.dispatchEvent({type: RESIZE, data});
+    eventBus.dispatchEvent({type: RESIZE, data});
   }
 }

@@ -1,0 +1,9 @@
+export const INSIDE_BASKET = "insideBasket";
+export const FREE = "free";
+export const DAMAGE = "damage";
+export const TO_UP = "toUp";
+export const TO_DOWN = "toDown";
+export const PROTECTED = "protected";
+export const NEXT = "next";
+export const INACTIVE = "inactive";
+export const ACTIVE = "active";

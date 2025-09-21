@@ -1,8 +1,11 @@
-import EventDispatcher from "../../utils/event-dispatcher/EventDispatcher";
+import EventDispatcher from "../../lib/event-dispatcher/EventDispatcher";
+import {copy} from "../../../lib/copy/copy";
 
 export default class BaseController {
 
-  eventDispatcher = new EventDispatcher();
+  eventBus = new EventDispatcher();
+
+  storage = {};
 
   constructor(data) {
     for (const key in data)
@@ -12,6 +15,7 @@ export default class BaseController {
   async init() {
     await this.loadAssets();
     await this.initScene();
+    await this.initMainSceneSettings();
   }
 
   async loadAssets() {
@@ -20,5 +24,11 @@ export default class BaseController {
 
   async initScene() {
 
+  }
+
+  initMainSceneSettings() {
+    const {storage, mainSceneSettings} = this;
+    if (mainSceneSettings)
+      storage.mainSceneSettings = copy(mainSceneSettings);
   }
 }

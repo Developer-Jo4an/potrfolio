@@ -38,8 +38,8 @@ export default class Update extends BaseDecorator {
   }
 
   throwEvent(ms, deltaTime) {
-    const {controller: {eventDispatcher}} = this;
+    const {controller: {eventBus}} = this;
 
-    eventDispatcher.dispatchEvent({type: UPDATED, data: {ms, deltaTime}});
+    eventBus.dispatchEvent({type: UPDATED, data: {ms, deltaTime}});
   }
 }

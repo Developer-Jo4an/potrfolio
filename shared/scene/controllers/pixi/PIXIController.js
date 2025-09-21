@@ -4,7 +4,8 @@ import Resize from "../../decorators/resize/Resize";
 import Performance from "../../decorators/performance/Performance";
 import PIXIUpdate from "../../decorators/pixi/pixi-update/PIXIUpdate";
 import {getIsDebug} from "../../../lib/debug/debug";
-import {applyDecorators} from "../../utils/decorators/applyDecorator";
+import {applyDecorators} from "../../lib/decorators/applyDecorator";
+import {copy} from "../../../lib/copy/copy";
 import {pixiLoader} from "../../loaders/pixi/PixiLoader";
 import global from "../../../constants/global/global";
 import {PIXI_APP_CONFIG} from "../../config/pixi";
@@ -18,13 +19,12 @@ import {
 export default class PIXIController extends applyDecorators(
   BaseController,
   [
-    {DecoratorClass: PIXIUpdate, decoratorField: UPDATE_DECORATOR_FIELD},
+    // {DecoratorClass: PIXIUpdate, decoratorField: UPDATE_DECORATOR_FIELD},
     {DecoratorClass: Resize, decoratorField: RESIZE_DECORATOR_FIELD},
     {DecoratorClass: State, decoratorField: STATE_DECORATOR_FIELD},
     getIsDebug() && {DecoratorClass: Performance, decoratorField: PERFORMANCE_DECORATOR_FIELD}
   ].filter(Boolean)
 ) {
-
   constructor(data) {
     super(data);
   }
@@ -54,18 +54,26 @@ export default class PIXIController extends applyDecorators(
     return this.app.ticker;
   }
 
+  get state() {
+    return this.decorators[STATE_DECORATOR_FIELD].state;
+  }
+
+  set state(state) {
+    this.decorators[STATE_DECORATOR_FIELD].state = state;
+  }
+
   async init() {
-    await this.loadAssets();
-    await this.initScene();
+    await super.init();
     await this.initDecorators();
   }
 
   async loadAssets() {
-    const {preload} = this;
+    const {preload, storage} = this;
 
     if (preload) {
+      storage.preload = copy(preload);
       await pixiLoader.init();
-      await pixiLoader.loadAssets(preload);
+      await pixiLoader.loadAssets(storage.preload);
     }
   }
 
@@ -89,10 +97,10 @@ export default class PIXIController extends applyDecorators(
   onResized() {
   }
 
-  onUpdated({data: {ms, deltaTime}}) {
+  onUpdated() {
     const {decorators} = this;
 
-    if (decorators.performance)
-      decorators.performance.update();
+    if (decorators[PERFORMANCE_DECORATOR_FIELD])
+      decorators[PERFORMANCE_DECORATOR_FIELD].update();
   }
 }

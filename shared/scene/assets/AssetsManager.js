@@ -21,8 +21,7 @@ class AssetsManager {
     spaceType[name] = alias;
   }
 
-  getAssetFromLib(space, type, name) {
-    const currentSpace = this.getSpace(space);
+  getAssetFromSpace(space, type, name) {
     const spaceType = this.getSpaceType(space, type);
     return spaceType[name];
   }

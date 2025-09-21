@@ -1,0 +1,1 @@
+export const getDefaultState = stateMachine => Object.entries(stateMachine).find(([, {isDefault}]) => isDefault)[0];

@@ -1,0 +1,175 @@
+import BasePhysicsEntity from "../base/BasePhysicsEntity";
+import {copy} from "../../../../../shared/lib/copy/copy";
+import {isFunction, upperFirst} from "lodash";
+import {assetsManager} from "../../../../../shared/scene/assets/AssetsManager";
+import {PIXI_SPACE, TEXTURE} from "../../../../../shared/scene/constants/loaders/assetsTypes";
+import {FREE, TO_DOWN} from "../../../constants/statuses";
+import {COLLISION_FILTERS} from "../../../constants/collision";
+import global from "../../../../../shared/constants/global/global";
+
+export default class Ball extends BasePhysicsEntity {
+
+  _status = FREE; // free | toUp | toDown | insideBasket | damage | protected
+
+  savedData = {
+    prevAngle: null,
+    prevPosition: null
+  };
+
+  constructor(data) {
+    super(data);
+
+    this.initEvents();
+    this.init();
+  }
+
+  get status() {
+    return this._status;
+  }
+
+  set status(status) {
+    this._status = status;
+    this.onStatusChanged();
+  }
+
+  initEvents() {
+  }
+
+  init() {
+    this.initBody();
+    this.initView();
+  }
+
+  initBody() {
+    const {storage: {mainSceneSettings: {ball: {radius, physicalSettings}}}} = this;
+
+    const body = this.body = global.Matter.Bodies.circle(
+      0, 0, radius,
+      {
+        ...copy(physicalSettings),
+        collisionFilter: copy(COLLISION_FILTERS.BALL)
+      }
+    );
+  }
+
+  initView() {
+    const {groups, storage: {mainSceneSettings: {ball}}} = this;
+
+    const viewTexture = assetsManager.getAssetFromSpace(PIXI_SPACE, TEXTURE, "2dBall");
+    const view = this.view ??= new global.PIXI.Sprite();
+    view.name = "ball";
+    view.texture = viewTexture;
+    view.parentGroup = groups.middle;
+    view.anchor.set(0.5);
+    view.scale.set(1);
+    view.alpha = 1;
+    view.tint = 0xFFFFFF;
+    view.scale.set(ball.radius * 2 / view.width, ball.radius * 2 / view.height);
+  }
+
+  onStatusChanged() {
+    const {status} = this;
+
+    const callbackKey = `on${upperFirst(status)}`;
+
+    this[callbackKey]?.();
+  }
+
+  onToUp() {
+    const {body} = this;
+    this.isGravity = true;
+    body.collisionFilter = copy(COLLISION_FILTERS.BALL);
+  }
+
+  onToDown() {
+    const {body} = this;
+    this.isGravity = true;
+    body.collisionFilter = copy(COLLISION_FILTERS.BALL);
+  }
+
+  onFree() {
+    const {body} = this;
+    this.isGravity = true;
+    body.collisionFilter = copy(COLLISION_FILTERS.BALL);
+  }
+
+  onInsideBasket() {
+    const {angle, body} = this;
+
+    this.isGravity = false;
+    this.savedData.lastAngle = angle;
+    body.collisionFilter = copy(COLLISION_FILTERS.BALL);
+  }
+
+  onDamage() {
+    const {body} = this;
+    body.collisionFilter = copy(COLLISION_FILTERS.DAMAGE);
+  }
+
+  onProtected() {
+    const {body} = this;
+    body.collisionFilter = copy(COLLISION_FILTERS.PROTECTED);
+  }
+
+  handleStatus() {
+    const {status} = this;
+
+    const callbackKey = `handle${upperFirst(status)}`;
+
+    if (isFunction(this[callbackKey]))
+      this[callbackKey]();
+    else
+      this.savedData.prevPosition = null;
+  }
+
+  handleToUp() {
+    const {position} = this;
+
+    if (!this.savedData.prevPosition)
+      this.savedData.prevPosition = {x: position.x, y: position.y};
+
+    if (position.y > this.savedData.prevPosition?.y)
+      this.status = TO_DOWN;
+
+    this.savedData.prevPosition = {x: position.x, y: position.y};
+  }
+
+  addToSpaces() {
+    const {body, view} = this;
+
+    this.addToStage(view);
+    this.addToWorld(body);
+  }
+
+  updateMatrix() {
+    const {view, body} = this;
+
+    const {position, angle} = body;
+
+    view.position.set(position.x, position.y);
+    view.rotation = angle;
+  }
+
+  update() {
+    this.updateMatrix();
+    this.handleStatus();
+  }
+
+  delete() {
+    const {view} = this;
+    view.parent?.removeChild?.(view);
+    super.delete();
+  }
+
+  reset() {
+    this.position = {x: 0, y: 0};
+    this.angle = 0;
+    this.isGravity = false;
+    this.savedData = {prevAngle: null, prevPosition: null};
+    this.delete();
+  }
+
+  activate() {
+    this.initView();
+  }
+}
