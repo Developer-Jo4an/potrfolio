@@ -17,51 +17,12 @@ class DunkShotAnimationPlayer extends AnimationPlayer {
 
   setDefaultProperties(properties) {
     super.setDefaultProperties(properties);
-    setNecessaryListeners(this)
+    setNecessaryListeners(this);
   }
 
   /**
    * basket
    */
-  basketHideAnimation(basket) {
-    const {view, _factoryUUID} = basket;
-
-    const hideTween = gsap.timeline().save(DUNK_SHOT_TWEEN, `basketHide${_factoryUUID}`);
-
-    hideTween
-    .to(view, {
-      alpha: 0,
-      ease: "sine.inOut",
-      duration: 0.3
-    });
-
-    return new Promise(res => hideTween.eventCallback("onComplete", () => {
-      hideTween.delete(DUNK_SHOT_TWEEN);
-      res();
-    }));
-  }
-
-  basketOriginAnimation(basket) {
-    const {angle, _factoryUUID} = basket;
-
-    const normalizedAngle = basket.angle = angle % PI2;
-
-    const targetAngle = findClosestNumber(normalizedAngle, 0, PI2, -PI2);
-
-    const originTween = gsap.timeline().save(DUNK_SHOT_TWEEN, `basketOrigin${_factoryUUID}`);
-
-    originTween
-    .to(basket, {
-      angle: targetAngle,
-      ease: "back.out",
-      duration: 0.3
-    });
-
-    return new Promise(res => originTween.eventCallback("onComplete", () => {
-      originTween.delete(DUNK_SHOT_TWEEN);
-      res();
-    }));
-  }
 
   basketNextAnimation(basket, isImmediate) {
     const {view, _factoryUUID} = basket;
@@ -198,7 +159,7 @@ class DunkShotAnimationPlayer extends AnimationPlayer {
   }
 
   basketDefaultAnimation(basket, {alpha, rotation, scale} = {}) {
-    const {storage: {mainSceneSettings: {basket: {circles: circlesSettings}}}} = this;
+    const {storage: {mainSceneSettings: {basket: {gridBack, back, gridFront, front}}}} = this;
     const {_factoryUUID, view, angle, basketGridBack, basketBack, basketGridFront, basketFront} = basket;
 
     const defaultTween = gsap.timeline().save(DUNK_SHOT_TWEEN, `basketDefault${_factoryUUID}`);
@@ -231,10 +192,10 @@ class DunkShotAnimationPlayer extends AnimationPlayer {
 
       const totalScalesData = [
         {element: view, scale: 1},
-        {element: basketGridBack, scale: circlesSettings.distanceBetween / basketGridBack.width},
-        {element: basketBack, scale: circlesSettings.distanceBetween / basketBack.width},
-        {element: basketGridFront, scale: circlesSettings.distanceBetween / basketGridFront.width},
-        {element: basketFront, scale: circlesSettings.distanceBetween / basketFront.width}
+        {element: basketGridBack, scale: gridBack.width / basketGridBack.width},
+        {element: basketBack, scale: back.width / basketBack.width},
+        {element: basketGridFront, scale: gridFront.width / basketGridFront.width},
+        {element: basketFront, scale: front.width / basketFront.width}
       ];
 
       prevScales.forEach((scale, index) => elements[index].scale.set(scale.x, scale.y));

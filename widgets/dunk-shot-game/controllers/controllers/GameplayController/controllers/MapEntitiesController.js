@@ -160,7 +160,7 @@ export default class MapEntitiesController extends BaseGameplayController {
       const rotationTween = gsap.localTimeline.getTweenByNamespaceAndId(DUNK_SHOT_TWEEN, `basketRotation${_factoryUUID}`);
       if (rotationTween) {
         rotationTween.delete(DUNK_SHOT_TWEEN);
-        await dunkShotAnimationPlayer.basketOriginAnimation(basket);
+        await dunkShotAnimationPlayer.basketDefaultAnimation(basket, {rotation: true});
       }
 
       this.callSpecificBehaviour();

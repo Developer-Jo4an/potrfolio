@@ -78,13 +78,10 @@ export default class GameplayController extends BaseGameplayController {
 
     this.clearSpecificBehaviour();
 
-    await Promise.all([
-      dunkShotAnimationPlayer.ballShowAnimation(ball),
-      dunkShotAnimationPlayer.basketOriginAnimation(activeBasket)
-    ]);
+    await dunkShotAnimationPlayer.ballShowAnimation(ball);
 
     await dunkShotAnimationPlayer.basketDefaultAnimation(activeBasket, {
-      rotation: {isImmediate: true},
+      rotation: true,
       scale: {isImmediate: true},
       alpha: true
     });

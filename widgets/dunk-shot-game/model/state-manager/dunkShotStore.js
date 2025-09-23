@@ -5,10 +5,15 @@ import {getGameConfig} from "../../api/requests";
 const {useStore: useDunkShotStore, selectors} = createStore({
   name: "dunkShot",
   state: {
+    wrapper: null,
     gameData: null,
     config: null
   },
-  syncActions: {},
+  syncActions: {
+    setWrapper({state}, wrapper) {
+      state.wrapper = wrapper;
+    }
+  },
   asyncActions: {
     getGameConfig: {
       request: getGameConfig,

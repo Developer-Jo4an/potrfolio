@@ -1,0 +1,39 @@
+@use "../../../../application/styles/animations" as animations;
+
+.pureHit {
+  position: absolute;
+
+  transform: translate(calc(var(--x) - 50%), calc(var(--y) - 50%));
+
+  pointer-events: none;
+  user-select: none;
+}
+
+.pureHitContainer {
+  width: 130px;
+
+  @include animations.pulse(0.7s);
+
+  img {
+    width: 100%;
+  }
+}
+
+.confetti {
+  position: absolute;
+
+  transform: translate(calc(var(--x) - 50%), calc(var(--y) - 50%));
+
+  pointer-events: none;
+  user-select: none;
+
+  border-radius: 50%;
+
+  overflow: hidden;
+
+  canvas {
+    width: 100% !important;
+    height: 100% !important;
+    position: static !important;
+  }
+}

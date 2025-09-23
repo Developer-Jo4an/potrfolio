@@ -1,0 +1,19 @@
+.dunkShotGameElements {
+  position: fixed;
+  top: 0;
+  left: 0;
+
+  &__star {
+    position: absolute;
+
+    width: 30px;
+
+    will-change: transform;
+
+    opacity: 0;
+
+    img {
+      width: 100%;
+    }
+  }
+}
