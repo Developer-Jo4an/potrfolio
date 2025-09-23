@@ -21,9 +21,9 @@ export default class Aim extends BaseEntity {
     const {groups, storage: {mainSceneSettings: {aim: {points: {count, size}}}}} = this;
 
     const views = this.views ??= createArrayWithMap(count, (_, i, {length}) => {
-      const texture = assetsManager.getAssetFromSpace(PIXI_SPACE, TEXTURE, "aim");
-      const view = new global.PIXI.Sprite(texture);
+      const view = new global.PIXI.Sprite();
       view.name = `aim:${i}`;
+      view.texture = assetsManager.getAssetFromSpace(PIXI_SPACE, TEXTURE, "aim");
       view.scale.set(1);
       groups.front.attach(view);
       const scale = (size.min + ((size.max - size.min) * (length - i) / length)) / Math.min(view.width, view.height);

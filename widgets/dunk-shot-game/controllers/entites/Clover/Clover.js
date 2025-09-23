@@ -34,8 +34,9 @@ export default class Clover extends BaseEntity {
   initView() {
     const {groups, storage: {mainSceneSettings: {clover: {view: {width, height}}}}} = this;
 
-    const view = this.view ??= new global.PIXI.Sprite(assetsManager.getAssetFromSpace(PIXI_SPACE, TEXTURE, "clover"));
+    const view = this.view ??= new global.PIXI.Sprite();
     view.name = "clover";
+    view.texture = assetsManager.getAssetFromSpace(PIXI_SPACE, TEXTURE, "clover");
     groups.middle.attach(view);
     view.scale.set(1);
     view.alpha = 1;

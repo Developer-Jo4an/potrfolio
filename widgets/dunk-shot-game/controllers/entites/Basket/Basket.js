@@ -183,10 +183,9 @@ export default class Basket extends BasePhysicsEntity {
 
     const textureType = basketTypes[type];
 
-    const basketFrontTexture = assetsManager.getAssetFromSpace(PIXI_SPACE, TEXTURE, `basket${textureType}Front`);
     const basketFront = this.basketFront ??= new global.PIXI.Sprite();
     basketFront.name = "basketFront";
-    basketFront.texture = basketFrontTexture;
+    basketFront.texture = assetsManager.getAssetFromSpace(PIXI_SPACE, TEXTURE, `basket${textureType}Front`);
     groups.front.attach(basketFront);
     basketFront.scale.set(1);
     basketFront.anchor.set(0.5, 0.25);
@@ -247,11 +246,13 @@ export default class Basket extends BasePhysicsEntity {
 
   onHidden() {
     const {circles} = this;
+
     circles.forEach(circle => circle.collisionFilter = copy(COLLISION_FILTERS.INACTIVE));
   }
 
   onVisible() {
     const {circles} = this;
+
     circles.forEach(circle => circle.collisionFilter = copy(COLLISION_FILTERS.ACTIVE));
   }
 
@@ -268,8 +269,8 @@ export default class Basket extends BasePhysicsEntity {
 
     bodies.forEach(({position, label}, index) => {
       const debugCircle = debug.circles[index] ??= new global.PIXI.Graphics();
-      groups.front.addChild(debugCircle)
-      debugCircle.zOrder = 1;
+      groups.front.addChild(debugCircle);
+      debugCircle.zIndex = 1;
       debugCircle.name = `basketDebug:${order}-${label}`;
 
       debugCircle

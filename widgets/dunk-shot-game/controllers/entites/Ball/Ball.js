@@ -55,10 +55,9 @@ export default class Ball extends BasePhysicsEntity {
   initView() {
     const {groups, storage: {mainSceneSettings: {ball}}} = this;
 
-    const viewTexture = assetsManager.getAssetFromSpace(PIXI_SPACE, TEXTURE, "2dBall");
     const view = this.view ??= new global.PIXI.Sprite();
     view.name = "ball";
-    view.texture = viewTexture;
+    view.texture = assetsManager.getAssetFromSpace(PIXI_SPACE, TEXTURE, "2dBall");
     groups.middle.attach(view)
     view.anchor.set(0.5);
     view.scale.set(1);
