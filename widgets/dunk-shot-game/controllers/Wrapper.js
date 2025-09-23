@@ -11,14 +11,9 @@ export default class Wrapper extends PixiWrapper {
     super(data);
   }
 
-  async initController(data) {
-    const {controller} = this;
+  registerController(data) {
+    const {eventBus} = this;
 
-    if (!controller) {
-      const controller = this.controller = new Controller(data);
-      await controller.init();
-      return controller;
-    } else
-      return controller;
+    this.controller ??= new Controller({...data, eventBus});
   }
 }

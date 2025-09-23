@@ -18,7 +18,6 @@ import {dunkShotAnimationPlayer} from "./animations/DunkShotAnimationPlayer";
 import {dunkShotUtils} from "./utils/DunkShotUtils";
 import {LEFT, RIGHT} from "../../../shared/constants/directions/directions";
 import {RESET_ITEMS} from "../constants/factoryVariables";
-import {gameMockConfig} from "../constants/mockLevels";
 
 export default class Controller extends PIXIController {
 
@@ -39,13 +38,12 @@ export default class Controller extends PIXIController {
     this.onResized = this.onResized.bind(this);
     this.onUpdated = this.onUpdated.bind(this);
 
+    this.initEvents();
+
     return addControllerStateHandler(this, DUNK_SHOT_STATE_MACHINE);
   }
 
   async init() {
-    this.config = gameMockConfig;
-    this.config.configuration.rows.reverse();
-    this.initEvents();
     await super.init();
   }
 
@@ -67,7 +65,6 @@ export default class Controller extends PIXIController {
 
       this.isInitialized = true;
     }
-
 
     this.updateController.startUpdate();
   }
@@ -101,7 +98,9 @@ export default class Controller extends PIXIController {
       target: eventBus,
       callbacksBus: [
         {event: RESIZE, callback: this.onResized},
-        {event: UPDATED, callback: this.onUpdated}
+        {event: UPDATED, callback: this.onUpdated},
+        {event: DUNK_SHOT_GAME_DATA_EVENT, callback: ({gameData}) => this.gameData = gameData},
+        {event: DUNK_SHOT_CONFIG_EVENT, callback: ({config}) => this.config = config}
       ]
     });
   }
@@ -113,16 +112,14 @@ export default class Controller extends PIXIController {
 
   initStage() {
     const {app} = this;
-
-    // app.stage = new global.PIXI.layers.Stage();
     app.stage.sortableChildren = true;
   }
 
   initHelpers() {
-    const {eventBus, config, renderer, canvas, stage, storage, state, engine, world, app, groups} = this;
+    const {eventBus, config, gameData, renderer, canvas, stage, storage, state, engine, world, app, groups} = this;
 
     const generalData = {
-      eventBus, renderer, canvas, stage, storage, state, engine, world, app, groups, config,
+      eventBus, renderer, canvas, stage, storage, state, engine, world, app, groups, config, gameData,
       gameDataEvent: DUNK_SHOT_GAME_DATA_EVENT, configEvent: DUNK_SHOT_CONFIG_EVENT
     };
 
@@ -144,26 +141,22 @@ export default class Controller extends PIXIController {
   }
 
   initLayers() {
-    const {storage: {mainSceneSettings: {layers}}} = this;
+    const {stage, groups, storage: {mainSceneSettings: {layers}}} = this;
 
-    layers.forEach(({id}, index) => {
-      const group = new global.PIXI.layers.Group(index, false);
-      group.name = `${id}Group`;
-
-      const layer = new global.PIXI.layers.Layer(group);
+    layers.forEach(({id}) => {
+      const layer = groups[id] = new global.PIXI.RenderLayer({sortableChildren: true});
       layer.name = `${id}Layer`;
-
-      // stage.addChild(layer);
-
-      this.groups[id] = group;
+      stage.addChild(layer);
     });
   }
 
   initControllers() {
-    const {eventBus, renderer, config, decorators, canvas, stage, storage, state, engine, world, app, groups} = this;
+    const {
+      eventBus, renderer, config, decorators, canvas, stage, storage, state, engine, gameData, world, app, groups
+    } = this;
 
     const generalData = {
-      eventBus, renderer, canvas, decorators, config, stage, storage, state, engine, world, app, groups,
+      eventBus, renderer, canvas, decorators, config, stage, storage, state, engine, world, gameData, app, groups,
       gameDataEvent: DUNK_SHOT_GAME_DATA_EVENT, configEvent: DUNK_SHOT_CONFIG_EVENT
     };
 

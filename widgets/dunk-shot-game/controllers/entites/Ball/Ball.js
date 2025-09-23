@@ -59,7 +59,7 @@ export default class Ball extends BasePhysicsEntity {
     const view = this.view ??= new global.PIXI.Sprite();
     view.name = "ball";
     view.texture = viewTexture;
-    view.parentGroup = groups.middle;
+    groups.middle.attach(view)
     view.anchor.set(0.5);
     view.scale.set(1);
     view.alpha = 1;

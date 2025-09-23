@@ -1,8 +1,8 @@
-import {dunkShotStateMachine} from "./stateMachine";
 import {getDefaultState} from "../../../shared/scene/lib/state/getDefaultState";
+import {DUNK_SHOT_STATE_MACHINE} from "./stateMachine";
 
-export const getDunkShotDefaultStats = () => ({
-  state: getDefaultState(dunkShotStateMachine),
+export const getDefaultStats = () => ({
+  state: getDefaultState(DUNK_SHOT_STATE_MACHINE),
   boosters: [],
   progress: {current: 0, min: 0, max: 3},
   pureCount: 0,

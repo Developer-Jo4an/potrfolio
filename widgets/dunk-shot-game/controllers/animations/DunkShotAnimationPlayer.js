@@ -1,6 +1,5 @@
 import AnimationPlayer from "../../../../shared/scene/animations/AnimationPlayer";
 import {clamp} from "lodash";
-import {defaultBehaviour} from "../../lib/behaviour/defaultBehaviour";
 import {toRad, distance, findClosestNumber} from "../../../../shared/lib/matrix/matrix";
 import {createProxyObject} from "../../../../shared/lib/proxy/createProxyObject";
 import {EIGHT_TENTHS} from "../../../../shared/constants/numbers/numbers";
@@ -9,6 +8,9 @@ import {DUNK_SHOT_TWEEN} from "../../constants/constants";
 import {PI2} from "../../../../shared/constants/trigonometry/trigonometry";
 import {LEFT, RIGHT} from "../../../../shared/constants/directions/directions";
 import gsap from "gsap";
+import {eventSubscription} from "../../../../shared/lib/events/eventListener";
+import {DUNK_SHOT_CONFIG_EVENT, DUNK_SHOT_GAME_DATA_EVENT} from "../../constants/events";
+import {STATE_CHANGED} from "../../../../shared/scene/constants/events/names";
 
 class DunkShotAnimationPlayer extends AnimationPlayer {
   constructor(data) {
@@ -17,7 +19,29 @@ class DunkShotAnimationPlayer extends AnimationPlayer {
 
   setDefaultProperties(properties) {
     super.setDefaultProperties(properties);
-    defaultBehaviour(this);
+
+    const {eventBus} = this;
+
+    eventSubscription({
+      target: eventBus,
+      callbacksBus: [
+        {
+          event: STATE_CHANGED,
+          callback: ({state}) => {
+            this.state = state;
+            this.onStateChanged?.(state);
+          }
+        },
+        {
+          event: DUNK_SHOT_GAME_DATA_EVENT,
+          callback: ({gameData}) => this.gameData = gameData
+        },
+        {
+          event: DUNK_SHOT_CONFIG_EVENT,
+          callback: ({config}) => this.config = config
+        }
+      ]
+    });
   }
 
   /**

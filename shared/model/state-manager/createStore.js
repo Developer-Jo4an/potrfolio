@@ -1,6 +1,6 @@
 import {create} from "zustand";
 import {immer} from "zustand/middleware/immer";
-import {devtools} from "zustand/middleware";
+import {devtools, subscribeWithSelector} from "zustand/middleware";
 import {useShallow} from "zustand/shallow";
 import {FULFILLED, PENDING, REJECTED, SETTLED} from "../../constants/promise/statuses";
 import {upperFirst} from "lodash/string";
@@ -33,7 +33,7 @@ class StateManagerStore {
     let customInterceptors;
     let customMatchers;
 
-    const useStore = create(devtools(immer(set => {
+    const useStore = create(devtools(immer(subscribeWithSelector(set => {
       customSyncActions = this.createSyncActions(syncActions, set);
       customAsyncActions = this.createAsyncActions(asyncActions, set);
       customInterceptors = this.createInterceptors(interceptors, set);
@@ -44,7 +44,7 @@ class StateManagerStore {
         ...customSyncActions,
         ...customAsyncActions
       };
-    })));
+    }))));
 
     return stores[name] = {
       useStore,

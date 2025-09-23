@@ -1,16 +1,12 @@
-import {MOCK} from "../../../shared/constants/mock/mock";
-
-export const gameMockConfig = {
-  "id": MOCK,
+{
+  "id": "mock",
   "level": {
-    "id": 4,
-    "balls": 14
+    "id": 1
   },
-  "game_type": 2,
   "boosters": {
-    "x2": 100,
-    "extra_life": 102,
-    "clover": 97
+    "x2": 0,
+    "extra_life": 0,
+    "clover": 0
   },
   "configuration": {
     "global_basket": {

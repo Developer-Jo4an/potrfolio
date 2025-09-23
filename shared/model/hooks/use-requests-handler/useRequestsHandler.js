@@ -1,6 +1,7 @@
 import {useEffect, useState} from "react";
 import axios from "axios";
 import {FULFILLED, PENDING, REJECTED} from "../../../constants/promise/statuses";
+import {isFunction} from "lodash";
 
 export const useRequestsHandler = (handlers = []) => {
   const [requestStatuses, setRequestStatuses] = useState({});
@@ -89,7 +90,7 @@ function callHandlers(handlers, handlerKey, data) {
   return Promise.all(handlers.map(handlersObject => {
     const necessaryHandler = handlersObject[handlerKey];
 
-    if (data?.config?.metadata?.requestKey === handlersObject?.request && typeof necessaryHandler === "function")
+    if (data?.config?.metadata?.requestKey === handlersObject?.request && isFunction(necessaryHandler))
       return necessaryHandler(data);
 
     return Promise.resolve();

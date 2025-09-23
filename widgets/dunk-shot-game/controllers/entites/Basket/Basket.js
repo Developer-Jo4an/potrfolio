@@ -117,7 +117,7 @@ export default class Basket extends BasePhysicsEntity {
     const basketGridBack = this.basketGridBack ??= new global.PIXI.Sprite();
     basketGridBack.name = "basketGridBack";
     basketGridBack.texture = basketGridBackTexture;
-    basketGridBack.parentGroup = groups.back;
+    groups.back.attach(basketGridBack);
     basketGridBack.scale.set(1);
     basketGridBack.anchor.set(0.5, 0);
     basketGridBack.alpha = 1;
@@ -143,7 +143,7 @@ export default class Basket extends BasePhysicsEntity {
     const basketBack = this.basketBack ??= new global.PIXI.Sprite();
     basketBack.name = "basketBack";
     basketBack.texture = basketBackTexture;
-    basketBack.parentGroup = groups.back;
+    groups.back.attach(basketBack);
     basketBack.scale.set(1);
     basketBack.anchor.set(0.5, 0.75);
     basketBack.alpha = 1;
@@ -165,7 +165,7 @@ export default class Basket extends BasePhysicsEntity {
     const basketGridFront = this.basketGridFront ??= new global.PIXI.Sprite();
     basketGridFront.name = "basketGridFront";
     basketGridFront.texture = basketGridFrontTexture;
-    basketGridFront.parentGroup = groups.front;
+    groups.front.attach(basketGridFront);
     basketGridFront.scale.set(1);
     basketGridFront.anchor.set(0.5, 0);
     basketGridFront.alpha = 1;
@@ -187,7 +187,7 @@ export default class Basket extends BasePhysicsEntity {
     const basketFront = this.basketFront ??= new global.PIXI.Sprite();
     basketFront.name = "basketFront";
     basketFront.texture = basketFrontTexture;
-    basketFront.parentGroup = groups.front;
+    groups.front.attach(basketFront);
     basketFront.scale.set(1);
     basketFront.anchor.set(0.5, 0.25);
     basketFront.alpha = 1;
@@ -268,7 +268,7 @@ export default class Basket extends BasePhysicsEntity {
 
     bodies.forEach(({position, label}, index) => {
       const debugCircle = debug.circles[index] ??= new global.PIXI.Graphics();
-      debugCircle.parentGroup = groups.front;
+      groups.front.addChild(debugCircle)
       debugCircle.zOrder = 1;
       debugCircle.name = `basketDebug:${order}-${label}`;
 

@@ -10,9 +10,9 @@ import {DAMAGE, FREE, INSIDE_BASKET, TO_UP} from "../../../../constants/statuses
 import {HALF_PI} from "../../../../../../shared/constants/trigonometry/trigonometry";
 import {FIVE, QUARTER, THIRD, TWO_AND_HALF, ZERO_FIFTEEN} from "../../../../../../shared/constants/numbers/numbers";
 import global from "../../../../../../shared/constants/global/global";
-import gsap from "gsap";
 import {STATE_DECORATOR_FIELD} from "../../../../../../shared/scene/constants/decorators/names";
 import {FELL, LOSE} from "../../../../constants/stateMachine";
+import gsap from "gsap";
 
 export default class BallController extends BaseGameplayController {
   constructor(data) {

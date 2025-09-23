@@ -25,7 +25,7 @@ export default class Aim extends BaseEntity {
       const view = new global.PIXI.Sprite(texture);
       view.name = `aim:${i}`;
       view.scale.set(1);
-      view.parentGroup = groups.front;
+      groups.front.attach(view);
       const scale = (size.min + ((size.max - size.min) * (length - i) / length)) / Math.min(view.width, view.height);
       view.scale.set(scale);
       view.anchor.set(0.5);

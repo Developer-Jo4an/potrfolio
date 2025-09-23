@@ -48,7 +48,7 @@ export default class Spike extends BasePhysicsEntity {
 
     const view = this.view ??= new global.PIXI.Sprite();
     view.name = type;
-    view.parentGroup = groups.back;
+    groups.back.attach(view);
     view.texture = assetsManager.getAssetFromSpace(PIXI_SPACE, TEXTURE, textureTypes[type]);
     view.scale.set(1);
     view.anchor.set(0.5);

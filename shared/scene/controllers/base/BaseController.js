@@ -1,9 +1,6 @@
-import EventDispatcher from "../../lib/event-dispatcher/EventDispatcher";
 import {copy} from "../../../lib/copy/copy";
 
 export default class BaseController {
-
-  eventBus = new EventDispatcher();
 
   storage = {};
 

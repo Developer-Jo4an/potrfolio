@@ -14,6 +14,7 @@ import {VISIBLE} from "../../../constants/modes";
 import {TO_DOWN} from "../../../constants/statuses";
 import {WHITE} from "../../../../../shared/constants/colors/colors";
 import {dunkShotAnimationPlayer} from "../../animations/DunkShotAnimationPlayer";
+import gsap from "gsap";
 
 export default class GameplayController extends BaseGameplayController {
 
@@ -44,12 +45,12 @@ export default class GameplayController extends BaseGameplayController {
   init() {
     const {
       eventBus, renderer, canvas, stage, storage, state, engine, world, app, groups, controllers,
-      throwData, idealThrowData, config, decorators
+      throwData, idealThrowData, config, decorators, gameData
     } = this;
 
     const generalData = {
       eventBus, renderer, decorators, canvas, stage, storage, state, engine, world, app, groups, throwData,
-      idealThrowData, config, gameDataEvent: DUNK_SHOT_GAME_DATA_EVENT, configEvent: DUNK_SHOT_CONFIG_EVENT
+      idealThrowData, config, gameData, gameDataEvent: DUNK_SHOT_GAME_DATA_EVENT, configEvent: DUNK_SHOT_CONFIG_EVENT
     };
 
     GameplayController.CONTROLLERS.forEach(ControllerClass => {

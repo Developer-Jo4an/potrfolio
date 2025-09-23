@@ -19,7 +19,7 @@ export default class Finish extends BaseEntity {
 
     const view = this.view ??= new global.PIXI.Sprite();
     view.name = "finish";
-    view.parentGroup = groups.back;
+    groups.back.attach(view)
     view.texture = assetsManager.getAssetFromSpace(PIXI_SPACE, TEXTURE, "finish");
     view.scale.set(1);
     view.anchor.set(0, 1);

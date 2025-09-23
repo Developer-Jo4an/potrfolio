@@ -1,47 +1,50 @@
+import {useRef, useState} from "react";
 import useLoadScene from "../../../../shared/scene/model/hooks/useLoadScene";
-import {useEffect, useRef, useState} from "react";
-import {getDefaultState} from "../../../../shared/scene/lib/state/getDefaultState";
-import {eventSubscription} from "../../../../shared/lib/events/eventListener";
+import useStateController from "../../../../shared/scene/model/hooks/useStateController";
+import useDunkShotStore from "../state-manager/dunkShotStore";
 import {mainSceneSettings} from "../../constants/mainSceneSettings";
 import {preload} from "../../constants/preload";
 import {DUNK_SHOT_STATE_MACHINE, IGNORE_NEXT_STATES} from "../../constants/stateMachine";
 import imports from "../../../../shared/scene/lib/import";
-import {STATE_CHANGED} from "../../../../shared/scene/constants/events/names";
 import {DUNK_SHOT_TWEEN} from "../../constants/constants";
 import gsap from "gsap";
+import {DUNK_SHOT_CONFIG_EVENT, DUNK_SHOT_GAME_DATA_EVENT} from "../../constants/events";
 
 export const useLoadDunkShotScene = () => {
-  const containerRef = useRef();
+  const {getGameConfig} = useDunkShotStore();
   const [wrapper, setWrapper] = useState();
+  const containerRef = useRef();
 
   useLoadScene({
     libraries: [imports.pixi, imports.pixiLayers, imports.matter],
     loadWrapper: () => import("../../controllers/Wrapper"),
-    beforeInit: () => gsap.localTimeline.createSpace(DUNK_SHOT_TWEEN),
+    async beforeInit(wrapper) {
+      gsap.localTimeline.createSpace(DUNK_SHOT_TWEEN);
+
+      const {eventBus} = wrapper;
+
+      const unsubscriptionForGameData = useDunkShotStore.subscribe(
+        state => state.gameData,
+        gameData => eventBus.dispatchEvent({type: DUNK_SHOT_GAME_DATA_EVENT, gameData})
+      );
+
+      const unsubscriptionForConfig = useDunkShotStore.subscribe(
+        state => state.config,
+        config => eventBus.dispatchEvent({type: DUNK_SHOT_CONFIG_EVENT, config})
+      );
+
+      await getGameConfig();
+
+      return () => {
+        unsubscriptionForGameData();
+        unsubscriptionForConfig();
+      };
+    },
     initProps: {containerRef, stateMachine: DUNK_SHOT_STATE_MACHINE, mainSceneSettings, preload},
     afterInit: wrapper => setWrapper(wrapper)
   });
 
-  useEffect(() => {
-    if (!wrapper) return;
-
-    const {eventBus, controller} = wrapper;
-
-    const clear = eventSubscription({
-      target: eventBus,
-      callbacksBus: [{
-        event: STATE_CHANGED, async callback({state}) {
-          await controller[`${state}Select`]?.();
-          if (!IGNORE_NEXT_STATES.includes(state))
-            controller.state = DUNK_SHOT_STATE_MACHINE[state].nextState;
-        }
-      }]
-    });
-
-    controller.state = getDefaultState(DUNK_SHOT_STATE_MACHINE);
-
-    return clear;
-  }, [wrapper]);
+  useStateController(wrapper, IGNORE_NEXT_STATES, DUNK_SHOT_STATE_MACHINE);
 
   return containerRef;
 };

@@ -74,10 +74,10 @@ export default class MapEntitiesController extends BaseGameplayController {
       basket.addToSpaces();
 
       ({
-        inactive() {
+        [INACTIVE]() {
           dunkShotAnimationPlayer.basketInactiveAnimation(basket, true).then(() => basket.view.visible = false);
         },
-        next() {
+        [NEXT]() {
           basket.view.visible = true;
           dunkShotAnimationPlayer.basketNextAnimation(basket);
         }

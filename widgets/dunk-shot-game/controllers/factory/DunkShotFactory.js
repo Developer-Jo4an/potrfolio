@@ -9,16 +9,16 @@ import ShadowWall from "../entites/wall/ShadowWall";
 import Aim from "../entites/aim/Aim";
 import Clover from "../entites/clover/Clover";
 import Factory from "../../../../shared/scene/factory/Factory";
-import {defaultBehaviour} from "../../lib/behaviour/defaultBehaviour";
 import {upperFirst} from "lodash";
+import {eventSubscription} from "../../../../shared/lib/events/eventListener";
+import {DUNK_SHOT_CONFIG_EVENT, DUNK_SHOT_GAME_DATA_EVENT} from "../../constants/events";
+import {STATE_CHANGED} from "../../../../shared/scene/constants/events/names";
 
 class DunkShotFactory extends Factory {
   constructor(defaultProperties) {
     super();
 
     this.defaultProperties = defaultProperties;
-
-    defaultBehaviour(this);
   }
 
   getItemByType(type, data) {
@@ -39,6 +39,33 @@ class DunkShotFactory extends Factory {
     eventBus.dispatchEvent({type: "item:created", itemData: {type, item: totalItem}});
 
     return totalItem;
+  }
+
+  setDefaultProperties(properties) {
+    super.setDefaultProperties(properties);
+
+    const {eventBus} = this;
+
+    eventSubscription({
+      target: eventBus,
+      callbacksBus: [
+        {
+          event: STATE_CHANGED,
+          callback: ({state}) => {
+            this.state = state;
+            this.onStateChanged?.(state);
+          }
+        },
+        {
+          event: DUNK_SHOT_GAME_DATA_EVENT,
+          callback: ({gameData}) => this.gameData = gameData
+        },
+        {
+          event: DUNK_SHOT_CONFIG_EVENT,
+          callback: ({config}) => this.config = config
+        }
+      ]
+    });
   }
 
 
