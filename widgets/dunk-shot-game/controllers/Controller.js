@@ -3,7 +3,6 @@ import GameplayController from "./controllers/GameplayController/GameplayControl
 import InteractionController from "./controllers/InteractionController/InteractionController";
 import CameraController from "./controllers/CameraController/CameraController";
 import EffectsController from "./controllers/EffectsController/EffectsController";
-import UpdateController from "./controllers/UpdateController/UpdateController";
 import CollisionObserver from "./controllers/CollisionObserver/CollisionObserver";
 import {eventSubscription} from "../../../shared/lib/events/eventListener";
 import {addControllerStateHandler} from "../../../shared/scene/lib/state/addControllerStateHandler";
@@ -18,10 +17,20 @@ import {dunkShotAnimationPlayer} from "./animations/DunkShotAnimationPlayer";
 import {dunkShotUtils} from "./utils/DunkShotUtils";
 import {LEFT, RIGHT} from "../../../shared/constants/directions/directions";
 import {RESET_ITEMS} from "../constants/factoryVariables";
+import {
+  PERFORMANCE_DECORATOR_FIELD,
+  RESIZE_DECORATOR_FIELD,
+  STATE_DECORATOR_FIELD, UPDATE_DECORATOR_FIELD
+} from "../../../shared/scene/constants/decorators/names";
+import Resize from "../../../shared/scene/decorators/resize/Resize";
+import State from "../../../shared/scene/decorators/state/State";
+import {getIsDebug} from "../../../shared/lib/debug/debug";
+import Performance from "../../../shared/scene/decorators/performance/Performance";
+import PIXIMatterUpdate from "../../../shared/scene/decorators/pixi/pixi-matter-update/PIXIMatterUpdate";
 
 export default class Controller extends PIXIController {
 
-  static CONTROLLERS = [
+  CONTROLLERS = [
     GameplayController,
     InteractionController,
     CameraController,
@@ -29,6 +38,13 @@ export default class Controller extends PIXIController {
   ];
 
   controllers = [];
+
+  DECORATORS = [
+    {DecoratorClass: PIXIMatterUpdate, decoratorField: UPDATE_DECORATOR_FIELD},
+    {DecoratorClass: Resize, decoratorField: RESIZE_DECORATOR_FIELD},
+    {DecoratorClass: State, decoratorField: STATE_DECORATOR_FIELD},
+    getIsDebug() && {DecoratorClass: Performance, decoratorField: PERFORMANCE_DECORATOR_FIELD}
+  ].filter(Boolean);
 
   groups = {};
 
@@ -48,7 +64,7 @@ export default class Controller extends PIXIController {
   }
 
   async initializationSelect() {
-    const {isInitialized} = this;
+    const {decorators, app, isInitialized} = this;
 
     if (!isInitialized) {
       this.onResized();
@@ -59,36 +75,42 @@ export default class Controller extends PIXIController {
       this.initMainContainer();
       this.initLayers();
       this.initControllers();
-
-      const {updateController} = this;
-      updateController.setUpdateCallback(this.onUpdated);
-
       this.isInitialized = true;
     }
 
-    this.updateController.startUpdate();
+    globalThis.__PIXI_APP__ = app;
+
+    decorators[UPDATE_DECORATOR_FIELD].startUpdate();
   }
 
   playingSelect() {
-    const {updateController} = this;
+    const {decorators} = this;
 
-    if (!updateController.isStarted)
-      updateController.startUpdate();
+    const updateDecorator = decorators[UPDATE_DECORATOR_FIELD];
+
+    if (!updateDecorator.isStarted)
+      updateDecorator.startUpdate();
   }
 
   pauseSelect() {
-    const {updateController} = this;
-    updateController.stopUpdate();
+    const {decorators} = this;
+
+    const updateDecorator = decorators[UPDATE_DECORATOR_FIELD];
+    updateDecorator.stopUpdate();
   }
 
   winSelect() {
-    const {updateController} = this;
-    updateController.stopUpdate();
+    const {decorators} = this;
+
+    const updateDecorator = decorators[UPDATE_DECORATOR_FIELD];
+    updateDecorator.stopUpdate();
   }
 
   loseSelect() {
-    const {updateController} = this;
-    updateController.stopUpdate();
+    const {decorators} = this;
+
+    const updateDecorator = decorators[UPDATE_DECORATOR_FIELD];
+    updateDecorator.stopUpdate();
   }
 
   initEvents() {
@@ -112,16 +134,12 @@ export default class Controller extends PIXIController {
 
   initStage() {
     const {app} = this;
+
     app.stage.sortableChildren = true;
   }
 
   initHelpers() {
-    const {eventBus, config, gameData, renderer, canvas, stage, storage, state, engine, world, app, groups} = this;
-
-    const generalData = {
-      eventBus, renderer, canvas, stage, storage, state, engine, world, app, groups, config, gameData,
-      gameDataEvent: DUNK_SHOT_GAME_DATA_EVENT, configEvent: DUNK_SHOT_CONFIG_EVENT
-    };
+    const {generalData} = this;
 
     dunkShotFactory.setDefaultProperties(generalData);
     dunkShotUtils.setDefaultProperties(generalData);
@@ -151,16 +169,9 @@ export default class Controller extends PIXIController {
   }
 
   initControllers() {
-    const {
-      eventBus, renderer, config, decorators, canvas, stage, storage, state, engine, gameData, world, app, groups
-    } = this;
+    const {CONTROLLERS, generalData} = this;
 
-    const generalData = {
-      eventBus, renderer, canvas, decorators, config, stage, storage, state, engine, world, gameData, app, groups,
-      gameDataEvent: DUNK_SHOT_GAME_DATA_EVENT, configEvent: DUNK_SHOT_CONFIG_EVENT
-    };
-
-    const controllers = this.controllers = Controller.CONTROLLERS.map(ControllerClass => {
+    const controllers = this.controllers = CONTROLLERS.map(ControllerClass => {
       const controller = new ControllerClass(generalData);
       controller.initEvents?.();
       return controller;
@@ -168,15 +179,23 @@ export default class Controller extends PIXIController {
 
     controllers.forEach(controller => controller.init?.());
 
-    this.updateController = new UpdateController({...generalData, controllers});
     this.collisionObserver = new CollisionObserver(generalData);
   }
 
-  onResized() {
-    const {stage, $container} = this;
-    const {offsetWidth: width, offsetHeight: height} = $container;
+  get generalData() {
+    const {
+      eventBus, config, gameData, decorators, renderer, canvas, stage, storage, state, engine, world, app, groups
+    } = this;
 
-    const scale = width / GAME_SIZE.width;
+    return {
+      eventBus, renderer, canvas, decorators, stage, storage, state, engine, world, app, groups, config, gameData,
+    };
+  }
+
+  onResized() {
+    const {stage, $container: {offsetWidth: width, offsetHeight: height}} = this;
+
+    const scale = width / GAME_SIZE.width; // Игра вписана по ширине
 
     stage.scale.set(scale);
 
@@ -186,27 +205,30 @@ export default class Controller extends PIXIController {
     );
   }
 
-  onUpdated({deltaTime}) {
-    const {updateController} = this;
+  onUpdated({deltaMS, deltaTime}) {
+    const {state, controllers, engine, stateMachine} = this;
 
     super.onUpdated(deltaTime);
 
-    updateController.update(deltaTime);
+    if (!stateMachine[state]?.isAvailableUpdate) return;
+
+    controllers.forEach(controller => controller?.update?.(deltaMS, deltaTime));
+    global.Matter.Engine.update(engine, deltaMS);
   }
 
   async reset() {
-    const {eventBus, controllers, updateController} = this;
-    const {storage, mainContainer} = dunkShotFactory;
+    const {eventBus, decorators, controllers} = this;
+    const {storage} = dunkShotFactory;
 
     gsap.localTimeline.clear(DUNK_SHOT_TWEEN);
 
     for (const key in storage)
       RESET_ITEMS.includes(key) && storage[key].resetItems();
 
-    mainContainer.reset();
+    const arrayDecorators = Object.values(decorators);
+    const toReset = [...arrayDecorators, ...controllers];
+    await Promise.all(toReset.map(item => item.reset?.() ?? Promise.resolve()));
 
-    await Promise.all([updateController, ...controllers].map(controller => controller.reset?.() ?? Promise.resolve()));
-
-    eventBus?.dispatchEvent({type: CONTROLLER_RESET});
+    eventBus.dispatchEvent({type: CONTROLLER_RESET});
   }
 }

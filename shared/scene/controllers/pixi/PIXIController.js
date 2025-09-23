@@ -4,7 +4,6 @@ import Resize from "../../decorators/resize/Resize";
 import Performance from "../../decorators/performance/Performance";
 import PIXIUpdate from "../../decorators/pixi/pixi-update/PIXIUpdate";
 import {getIsDebug} from "../../../lib/debug/debug";
-import {applyDecorators} from "../../lib/decorators/applyDecorator";
 import {copy} from "../../../lib/copy/copy";
 import {pixiLoader} from "../../loaders/pixi/PixiLoader";
 import global from "../../../constants/global/global";
@@ -16,15 +15,17 @@ import {
   UPDATE_DECORATOR_FIELD
 } from "../../constants/decorators/names";
 
-export default class PIXIController extends applyDecorators(
-  BaseController,
-  [
-    // {DecoratorClass: PIXIUpdate, decoratorField: UPDATE_DECORATOR_FIELD},
+export default class PIXIController extends BaseController {
+
+  DECORATORS = [
+    {DecoratorClass: PIXIUpdate, decoratorField: UPDATE_DECORATOR_FIELD},
     {DecoratorClass: Resize, decoratorField: RESIZE_DECORATOR_FIELD},
     {DecoratorClass: State, decoratorField: STATE_DECORATOR_FIELD},
     getIsDebug() && {DecoratorClass: Performance, decoratorField: PERFORMANCE_DECORATOR_FIELD}
-  ].filter(Boolean)
-) {
+  ].filter(Boolean);
+
+  decorators = {};
+
   constructor(data) {
     super(data);
   }
@@ -84,14 +85,20 @@ export default class PIXIController extends applyDecorators(
     const app = this.app = new global.PIXI.Application();
     await app.init({...PIXI_APP_CONFIG, resizeTo: $container, canvas, context, ...settings});
     $container.appendChild(canvas);
-
-    globalThis.__PIXI_APP__ = app;
   }
 
   initDecorators() {
-    const {decorators} = this;
+    const {DECORATORS, decorators} = this;
 
-    return Promise.all(Object.values(decorators).map(decorator => decorator.initDecorator()));
+    return Promise.all(DECORATORS.map(({DecoratorClass, decoratorField}) => {
+      const decorator = decorators[decoratorField] = new DecoratorClass(this.getDecoratorData());
+      return decorator.initDecorator();
+    }));
+  }
+
+  getDecoratorData() {
+    const {app, ticker, renderer, eventBus, stage, stateMachine, canvas, $container} = this;
+    return {app, ticker, renderer, eventBus, stage, stateMachine, canvas, $container};
   }
 
   onResized() {

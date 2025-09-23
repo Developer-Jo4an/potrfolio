@@ -6,7 +6,6 @@ import BoostersController from "./controllers/BoostersController";
 import {addControllerStateHandler} from "../../../../../shared/scene/lib/state/addControllerStateHandler";
 import {copy} from "../../../../../shared/lib/copy/copy";
 import {COLLISION_FILTERS} from "../../../constants/collision";
-import {DUNK_SHOT_CONFIG_EVENT, DUNK_SHOT_GAME_DATA_EVENT} from "../../../constants/events";
 import {DUNK_SHOT_TWEEN} from "../../../constants/constants";
 import {DUNK_SHOT_STATE_MACHINE} from "../../../constants/stateMachine";
 import {dunkShotFactory} from "../../factory/DunkShotFactory";
@@ -50,7 +49,7 @@ export default class GameplayController extends BaseGameplayController {
 
     const generalData = {
       eventBus, renderer, decorators, canvas, stage, storage, state, engine, world, app, groups, throwData,
-      idealThrowData, config, gameData, gameDataEvent: DUNK_SHOT_GAME_DATA_EVENT, configEvent: DUNK_SHOT_CONFIG_EVENT
+      idealThrowData, config, gameData
     };
 
     GameplayController.CONTROLLERS.forEach(ControllerClass => {

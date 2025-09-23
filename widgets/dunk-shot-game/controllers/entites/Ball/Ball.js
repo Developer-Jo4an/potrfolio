@@ -58,7 +58,7 @@ export default class Ball extends BasePhysicsEntity {
     const view = this.view ??= new global.PIXI.Sprite();
     view.name = "ball";
     view.texture = assetsManager.getAssetFromSpace(PIXI_SPACE, TEXTURE, "2dBall");
-    groups.middle.attach(view)
+    groups.middle.attach(view);
     view.anchor.set(0.5);
     view.scale.set(1);
     view.alpha = 1;
@@ -69,25 +69,26 @@ export default class Ball extends BasePhysicsEntity {
   onStatusChanged() {
     const {status} = this;
 
-    const callbackKey = `on${upperFirst(status)}`;
-
-    this[callbackKey]?.();
+    this[`on${upperFirst(status)}`]?.();
   }
 
   onToUp() {
     const {body} = this;
+
     this.isGravity = true;
     body.collisionFilter = copy(COLLISION_FILTERS.BALL);
   }
 
   onToDown() {
     const {body} = this;
+
     this.isGravity = true;
     body.collisionFilter = copy(COLLISION_FILTERS.BALL);
   }
 
   onFree() {
     const {body} = this;
+
     this.isGravity = true;
     body.collisionFilter = copy(COLLISION_FILTERS.BALL);
   }
@@ -102,11 +103,13 @@ export default class Ball extends BasePhysicsEntity {
 
   onDamage() {
     const {body} = this;
+
     body.collisionFilter = copy(COLLISION_FILTERS.DAMAGE);
   }
 
   onProtected() {
     const {body} = this;
+
     body.collisionFilter = copy(COLLISION_FILTERS.PROTECTED);
   }
 

@@ -7,22 +7,26 @@ export default class PIXIUpdate extends Update {
     this.update = this.update.bind(this);
   }
 
+  get isStarted() {
+    return this.ticker.started;
+  }
+
   initDecorator() {
-    const {controller: {ticker}} = this;
+    const {ticker} = this;
     ticker.add(this.update);
   }
 
   startUpdate() {
-    const {controller: {ticker}} = this;
+    const {ticker} = this;
     ticker.start();
   }
 
   stopUpdate() {
-    const {controller: {ticker}} = this;
+    const {ticker} = this;
     ticker.stop();
   }
 
-  update({elapsedMs, deltaTime}) {
-    this.throwEvent(elapsedMs, deltaTime);
+  update({deltaMS, deltaTime}) {
+    this.throwEvent({deltaMS, deltaTime});
   }
 }

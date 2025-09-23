@@ -12,7 +12,7 @@ export default class State extends BaseDecorator {
   }
 
   set state(state) {
-    const {state: currentState, controller: {eventBus, stateMachine}} = this;
+    const {state: currentState, eventBus, stateMachine} = this;
     const {availableStates} = stateMachine[currentState] ?? {};
 
     if (currentState || availableStates.includes(state)) {

@@ -28,18 +28,18 @@ export default class Update extends BaseDecorator {
   update(milliseconds) {
     const {updateData} = this;
 
-    const ms = milliseconds - (updateData.prevMilliseconds ?? milliseconds);
-    const deltaTime = ms / 1000;
+    const deltaMS = milliseconds - (updateData.prevMilliseconds ?? milliseconds);
+    const deltaTime = deltaMS / 1000;
 
-    this.throwEvent(ms, deltaTime);
+    this.throwEvent({deltaMS, deltaTime});
 
     updateData.prevMilliseconds = milliseconds;
     updateData.frame = requestAnimationFrame(this.update);
   }
 
-  throwEvent(ms, deltaTime) {
-    const {controller: {eventBus}} = this;
+  throwEvent({deltaMS, deltaTime}) {
+    const {eventBus} = this;
 
-    eventBus.dispatchEvent({type: UPDATED, data: {ms, deltaTime}});
+    eventBus.dispatchEvent({type: UPDATED, deltaMS, deltaTime});
   }
 }

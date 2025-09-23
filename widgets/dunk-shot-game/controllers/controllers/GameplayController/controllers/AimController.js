@@ -111,7 +111,13 @@ export default class AimController extends BaseGameplayController {
     const {throwData} = this;
     const {ball, aim} = dunkShotFactory;
 
-    if (!Object.values(throwData).every(Boolean) || !throwData?.currentData?.isCanThrow || ball.status !== INSIDE_BASKET) {
+    if (
+      !Object.values(throwData).every(Boolean)
+      ||
+      !throwData?.currentData?.isCanThrow
+      ||
+      ball.status !== INSIDE_BASKET
+    ) {
       aim.setProperties();
       return;
     }

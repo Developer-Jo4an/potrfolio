@@ -7,4 +7,8 @@ export default class BaseDecorator {
   initDecorator() {
 
   }
+
+  reset() {
+
+  }
 }

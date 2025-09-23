@@ -232,7 +232,7 @@ export default class BallController extends BaseGameplayController {
     }
   }
 
-  update(milliseconds, deltaTime) {
+  update() {
     const {ball} = dunkShotFactory;
 
     ball.update();

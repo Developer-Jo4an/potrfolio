@@ -4,9 +4,7 @@ import {copy} from "../../../../shared/lib/copy/copy";
 import {CENTER, LEFT, RIGHT} from "../../../../shared/constants/directions/directions";
 import {GAME_SIZE} from "../../constants/constants";
 import {dunkShotFactory} from "../factory/DunkShotFactory";
-import {eventSubscription} from "../../../../shared/lib/events/eventListener";
-import {DUNK_SHOT_CONFIG_EVENT, DUNK_SHOT_GAME_DATA_EVENT} from "../../constants/events";
-import {STATE_CHANGED} from "../../../../shared/scene/constants/events/names";
+import setNecessaryListeners from "./setNecessaryListeners";
 
 export default class DunkShotUtils extends GameUtils {
   constructor(data) {
@@ -15,32 +13,7 @@ export default class DunkShotUtils extends GameUtils {
 
   setDefaultProperties(properties) {
     super.setDefaultProperties(properties);
-
-    const {eventBus} = this;
-
-    eventSubscription({
-      target: eventBus,
-      callbacksBus: [
-        {
-          event: STATE_CHANGED,
-          callback: ({state}) => {
-            this.state = state;
-            this.onStateChanged?.(state);
-          }
-        },
-        {
-          event: DUNK_SHOT_GAME_DATA_EVENT,
-          callback: ({gameData}) => {
-            debugger
-            this.gameData = gameData
-          }
-        },
-        {
-          event: DUNK_SHOT_CONFIG_EVENT,
-          callback: ({config}) => this.config = config
-        }
-      ]
-    });
+    setNecessaryListeners(this);
   }
 
   get isNextStateLose() {
@@ -126,6 +99,7 @@ export default class DunkShotUtils extends GameUtils {
 
     if ([LEFT, RIGHT].includes(nextBasketPositionLabel)) {
       const {y} = nextBasket;
+
       return {
         x: GAME_SIZE.width / 2,
         y: y + GAME_SIZE.height * tweenPoint.yMultiplier
