@@ -1,7 +1,6 @@
 import {useEffect, useRef, useState} from "react";
 import useDunkShotStore from "../../model/state-manager/dunkShotStore";
 import {eventSubscription} from "../../../../shared/lib/events/eventListener";
-import Image from "../../../../shared/ui/image/ui/main/Image";
 import {AnimatePresence, motion} from "framer-motion";
 import {CONTROLLER_RESET, THROW_PURE_DATA} from "../../constants/events";
 import {START} from "../../../../shared/constants/statuses/statuses";
@@ -9,6 +8,7 @@ import {gsap} from "gsap";
 import styles from "./DunkShotPureHit.module.scss";
 import {Confetti} from "../../../../entities/confettii";
 import {pureHitAnimation} from "../../constants/animations";
+import {Image} from "../../../../shared/ui/image";
 
 const {offset, confetti, motion: motionSettings} = pureHitAnimation;
 

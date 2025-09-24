@@ -1,7 +1,7 @@
 import useGamesStore from "../../model/state-manager/gamesStore";
 import styles from "./GameCardsBackground.module.scss";
 import cl from "classnames";
-import Image from "../../../../shared/ui/image/ui/main/Image";
+import {Image} from "../../../../shared/ui/image";
 import useBackgroundShowing from "../../model/hooks/useBackgroundShowing";
 import {useRef} from "react";
 

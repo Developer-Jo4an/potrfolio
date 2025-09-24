@@ -1,5 +1,5 @@
 import styles from "../cards/GameCardsList.module.scss";
-import Image from "../../../../shared/ui/image/ui/main/Image";
+import {Image} from "../../../../shared/ui/image";
 
 export default function GameCard({ref, gameData}) {
   return (

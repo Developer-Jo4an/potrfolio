@@ -1,9 +1,9 @@
-import Button from "../../../../shared/ui/button/ui/main/Button";
+import {Button} from "../../../../shared/ui/button";
 import cl from "classnames";
-import {upperFirst} from "lodash/string";
 import useGamesStore from "../../model/state-manager/gamesStore";
-import styles from "./GameCardsNavigation.module.scss";
+import {upperFirst} from "lodash/string";
 import {navigationButtons} from "../../constants/content/navigationContent";
+import styles from "./GameCardsNavigation.module.scss";
 
 export default function GameCardsNavigation() {
   const {activeGame, onSwipe} = useGamesStore();

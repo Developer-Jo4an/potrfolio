@@ -1,4 +1,4 @@
-import Button from "../../../../shared/ui/button/ui/main/Button";
+import {Button} from "../../../../shared/ui/button";
 import styles from "./GameCardsButtons.module.scss";
 import cl from "classnames";
 import {upperFirst} from "lodash/string";
