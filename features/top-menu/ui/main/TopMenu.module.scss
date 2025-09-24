@@ -1,0 +1,68 @@
+@use "../../../../application/styles/constants" as constants;
+@use "../../../../application/styles/mixins" as mixins;
+
+.topMenu {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+
+  width: 100%;
+
+  padding: 20px;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+}
+
+.topNavStats {
+  flex-grow: 1;
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+
+.score, .lifes {
+  width: 100%;
+  max-width: 100px;
+  height: 60px;
+
+  background: linear-gradient(45deg, rgb(41, 231, 231) 55%, rgb(12, 140, 240) 86%);;
+
+  border-radius: 20px;
+
+  padding: 0 0 0 20px;
+
+  display: flex;
+  align-items: center;
+  gap: 5px;
+
+  svg {
+    width: 30px;
+  }
+}
+
+.score {
+  svg {
+    fill: constants.$YELLOW;
+  }
+}
+
+.lifes {
+  svg {
+    fill: constants.$RED;
+  }
+}
+
+.scoreCount, .lifesCount {
+  position: relative;
+  top: 2px;
+
+  font-family: KogniGear, Discovery, sans-serif;
+  font-size: 20px;
+  font-weight: bold;
+
+  color: constants.$WHITE;
+}

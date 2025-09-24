@@ -1,0 +1,13 @@
+.star {
+    position: absolute;
+
+    width: 30px;
+
+    will-change: transform;
+
+    opacity: 0;
+
+    img {
+        width: 100%;
+    }
+}

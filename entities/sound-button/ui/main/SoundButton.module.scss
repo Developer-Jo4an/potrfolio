@@ -1,0 +1,26 @@
+@use "../../../../application/styles/constants" as constants;
+@use "../../../../application/styles/mixins" as mixins;
+
+.soundButton {
+  width: 60px;
+  height: 60px;
+
+  background: linear-gradient(45deg, rgb(231, 41, 66) 30%, rgb(240, 12, 163) 67%);
+
+  border-radius: 20px;
+
+  transition: .3s transform ease-in-out;
+
+  svg {
+    font-size: 32px;
+    color: constants.$WHITE;
+  }
+
+  @include mixins.hover {
+    transform: scale(1.1);
+  }
+
+  &:active {
+    transform: scale(0.8);
+  }
+}

@@ -6,8 +6,8 @@ const {useStore: useDunkShotStore, selectors} = createStore({
   name: "dunkShot",
   state: {
     wrapper: null,
-    gameData: null,
-    config: null
+    gameData: {},
+    config: {}
   },
   syncActions: {
     setWrapper({state}, wrapper) {

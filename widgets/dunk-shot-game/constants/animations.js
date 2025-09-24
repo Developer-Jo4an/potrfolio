@@ -31,3 +31,20 @@ export const pureHitAnimation = {
     }
   }
 };
+
+export const starAnimation = {
+  offset: {x: 150, y: 0},
+  delayBetween: 0.04,
+  opacity: {max: 1, min: 0.2},
+  scale: {max: 1, min: 0.5}
+}
+
+export const starsAnimation = {
+  offset: {x: 150, y: 0},
+  delay: {
+    betweenStars: 0.04,
+    betweenGroups: 0.25
+  },
+  opacity: {max: 1, min: 0.2},
+  scale: {max: 1, min: 0.5}
+}

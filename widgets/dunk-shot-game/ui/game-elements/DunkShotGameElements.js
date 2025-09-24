@@ -1,16 +1,16 @@
 import DunkShotTimer from "../timer/DunkShotTimer";
 import DunkShotPureHit from "../pure-hit/DunkShotPureHit";
-// import DunkShotStarGameElement from "./DunkShotStarGameElement";
-// import DunkShotStarsGameElement from "./DunkShotStarsGameElement";
+import DunkShotStar from "../star/DunkShotStar";
+import DunkShotStars from "../stars/DunkShotStars";
 import styles from "./DunkShotGameElements.module.scss";
 
-export default function DunkShotGameElements() {
+export default function DunkShotGameElements({topMenuEls}) {
   return (
     <div className={styles.dunkShotGameElements}>
       <DunkShotTimer/>
       <DunkShotPureHit/>
-      {/*<DunkShotStarGameElement />*/}
-      {/*<DunkShotStarsGameElement />*/}
+      <DunkShotStar topMenuEls={topMenuEls}/>
+      <DunkShotStars topMenuEls={topMenuEls}/>
     </div>
   );
 }
