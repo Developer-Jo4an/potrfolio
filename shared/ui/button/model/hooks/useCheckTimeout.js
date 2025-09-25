@@ -1,20 +1,20 @@
 import {useEffect, useRef} from "react";
-import {isNumber} from "lodash";
+import {isFinite} from "lodash";
 
 export default function useCheckTimeout({timeout}) {
   const timeoutRef = useRef();
 
   useEffect(() => () => {
-    if (isNumber(timeoutRef.current)) {
+    if (isFinite(timeoutRef.current)) {
       clearTimeout(timeoutRef.current);
       timeoutRef.current = null;
     }
   }, [timeout]);
 
   return () => {
-    if (isNumber(timeoutRef.current)) return false;
+    if (isFinite(timeoutRef.current)) return false;
 
-    if (isNumber(timeout))
+    if (isFinite(timeout))
       timeoutRef.current = setTimeout(() => timeoutRef.current = null, timeout);
 
     return true;

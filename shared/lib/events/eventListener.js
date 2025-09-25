@@ -1,11 +1,11 @@
-export const eventSubscription = (
+export default function eventSubscription(
   {
     target = window,
     callbacksBus,
     postfix = "EventListener",
     actionAdd = "add",
     actionRemove = "remove"
-  }) => {
+  }) {
 
   const listenerLogic = action => {
     callbacksBus.forEach(({event, callback, options, target: localTarget}) => {

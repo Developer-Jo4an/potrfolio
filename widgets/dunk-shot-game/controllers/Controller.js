@@ -4,7 +4,7 @@ import InteractionController from "./controllers/InteractionController/Interacti
 import CameraController from "./controllers/CameraController/CameraController";
 import EffectsController from "./controllers/EffectsController/EffectsController";
 import CollisionObserver from "./controllers/CollisionObserver/CollisionObserver";
-import {eventSubscription} from "../../../shared/lib/events/eventListener";
+import eventSubscription from "../../../shared/lib/events/eventListener";
 import {addControllerStateHandler} from "../../../shared/scene/lib/state/addControllerStateHandler";
 import {RESIZE} from "../../../shared/constants/events/eventsNames";
 import {UPDATED} from "../../../shared/scene/constants/events/names";

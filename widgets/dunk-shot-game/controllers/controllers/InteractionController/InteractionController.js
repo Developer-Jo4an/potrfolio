@@ -1,6 +1,6 @@
 import BaseController from "../BaseController/BaseController";
 import {copy} from "../../../../../shared/lib/copy/copy";
-import {eventSubscription} from "../../../../../shared/lib/events/eventListener";
+import eventSubscription from "../../../../../shared/lib/events/eventListener";
 import {angle, distance} from "../../../../../shared/lib/matrix/matrix";
 import {
   DRAG_END,

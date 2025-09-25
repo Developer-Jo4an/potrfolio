@@ -1,7 +1,7 @@
 import axios from "axios";
 import {GET, POST} from "../../constants/api/methods";
 import {API} from "../../constants/api/urls";
-import {isNumber} from "lodash";
+import {isFinite} from "lodash";
 
 export const get = createMethod(GET);
 export const post = createMethod(POST);
@@ -15,7 +15,7 @@ function createMethod(method) {
       ...(params ? {params} : {}),
       ...(data ? {data} : {}),
       ...(metadata ? {metadata} : {}),
-      ...(isNumber(timeout) ? {timeout} : {})
+      ...(isFinite(timeout) ? {timeout} : {})
     });
   };
 }

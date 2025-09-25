@@ -1,5 +1,5 @@
 import BaseGameplayController from "../BaseGameplayController";
-import {eventSubscription} from "../../../../../../shared/lib/events/eventListener";
+import eventSubscription from "../../../../../../shared/lib/events/eventListener";
 import {velocity} from "../../../../../../shared/lib/matrix/matrix";
 import {gsapTimeout} from "../../../../../../shared/lib/gsap/helpers";
 import {dunkShotFactory} from "../../../factory/DunkShotFactory";

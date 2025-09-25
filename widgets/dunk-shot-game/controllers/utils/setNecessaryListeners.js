@@ -1,4 +1,4 @@
-import {eventSubscription} from "../../../../shared/lib/events/eventListener";
+import eventSubscription from "../../../../shared/lib/events/eventListener";
 import {STATE_CHANGED} from "../../../../shared/scene/constants/events/names";
 import {DUNK_SHOT_CONFIG_EVENT, DUNK_SHOT_GAME_DATA_EVENT} from "../../constants/events";
 

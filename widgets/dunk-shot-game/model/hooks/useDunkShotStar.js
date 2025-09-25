@@ -1,7 +1,7 @@
 import {useRef} from "react";
-import useKillGsapTweens from "../../../../../shared/model/hooks/gsap/useKillGsapTweens";
-import {HALF, SEVEN_TENTHS} from "../../../../../shared/constants/numbers/numbers";
-import {starAnimation} from "../../../constants/animations";
+import useKillGsapTweens from "../../../../shared/model/hooks/gsap/useKillGsapTweens";
+import {HALF, SEVEN_TENTHS} from "../../../../shared/constants/numbers/numbers";
+import {starAnimation} from "../../config/animations";
 import gsap from "gsap";
 
 const {offset, scale, delayBetween, opacity} = starAnimation;

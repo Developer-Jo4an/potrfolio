@@ -1,9 +1,9 @@
 import {useEffect, useRef} from "react";
 import classNames from "classnames";
+import eventSubscription from "../../../../shared/lib/events/eventListener";
 import {LEFT, RIGHT} from "../../../../shared/constants/directions/directions";
-import {eventSubscription} from "../../../../shared/lib/events/eventListener";
-import gsap from "gsap";
 import {RESIZE} from "../../../../shared/constants/events/eventsNames";
+import gsap from "gsap";
 import styles from "./DunkShotWalls.module.scss";
 
 export default function DunkShotWalls({containerRef}) {

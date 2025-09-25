@@ -1,5 +1,5 @@
 import {createContext, useContext, useLayoutEffect, useState} from "react";
-import {eventSubscription} from "../../../../../shared/lib/events/eventListener";
+import eventSubscription from "../../../../../shared/lib/events/eventListener";
 
 const SizeContext = createContext({});
 

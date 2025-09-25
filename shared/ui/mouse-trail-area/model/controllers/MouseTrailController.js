@@ -1,9 +1,9 @@
 import BaseMouseTrailController from "./BaseMouseTrailController";
-import global from "../../../../constants/global/global";
 import {cubicInterpolation} from "../../lib/cubicInterpolation";
-import {eventSubscription} from "../../../../lib/events/eventListener";
-import {MOVE} from "../../../../constants/events/eventsNames";
+import eventSubscription from "../../../../lib/events/eventListener";
 import getEventPosition from "../../../../lib/events/eventPosition";
+import {MOVE} from "../../../../constants/events/eventsNames";
+import global from "../../../../constants/global/global";
 
 export default class MouseTrailController extends BaseMouseTrailController {
 

@@ -1,4 +1,4 @@
-import {eventSubscription} from "../../../../lib/events/eventListener";
+import eventSubscription from "../../../../lib/events/eventListener";
 import {MOUSE_ENTER, MOVE, TOUCH_START} from "../../../../constants/events/eventsNames";
 import importPIXI from "../../../../scene/lib/import/pixi/import-pixi";
 import global from "../../../../constants/global/global";

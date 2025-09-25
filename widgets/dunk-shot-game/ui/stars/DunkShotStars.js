@@ -1,18 +1,19 @@
 import {useEffect, useRef, useState} from "react";
-import {isArray, isNumber} from "lodash";
-import {eventSubscription} from "../../../../shared/lib/events/eventListener";
-import {Image} from "../../../../shared/ui/image";
-import {useDunkShotStars} from "../../model/hooks/animations/useDunkShotStars";
+import {isArray, isFinite} from "lodash";
+import eventSubscription from "../../../../shared/lib/events/eventListener";
+import {useDunkShotStars} from "../../model/hooks/useDunkShotStars";
 import {createArrayWithMap} from "../../../../shared/lib/array/createArrayWithMap";
+import {TbStarsFilled} from "react-icons/tb";
+import {FaStar} from "react-icons/fa6";
 import {THROW_HIT} from "../../constants/events";
 import {FIVE} from "../../../../shared/constants/numbers/numbers";
 import useDunkShotStore from "../../model/state-manager/dunkShotStore";
 import styles from "./DunkShotStars.module.scss";
 
-export default function DunkShotStars({topMenuEls, progressRefs}) {
+export default function DunkShotStars({topMenuEls, progressBarEls}) {
   const {wrapper} = useDunkShotStore();
   const {gameData: {progress: {current, max} = {}} = {}} = useDunkShotStore();
-  const [starsSrc, setStarsSrc] = useState("widgets/dunk-shot-game/star.png");
+  const [StarComponent, setStarComponent] = useState(<FaStar/>);
 
   const elementRefs = useRef({stars: []});
 
@@ -32,11 +33,7 @@ export default function DunkShotStars({topMenuEls, progressRefs}) {
         {
           event: THROW_HIT,
           callback() {
-            setStarsSrc(
-              isActiveX2
-                ? "widgets/dunk-shot-game/boosters/x2.png"
-                : "widgets/dunk-shot-game/star.png"
-            );
+            setStarComponent(isActiveX2 ? <TbStarsFilled/> : <FaStar/>);
           }
         }
       ]
@@ -44,10 +41,10 @@ export default function DunkShotStars({topMenuEls, progressRefs}) {
   }, [wrapper, isActiveX2]);
 
   useEffect(() => {
-    if ([current, max].every(isNumber) && current === max) {
+    if ([current, max].every(isFinite) && current === max) {
       const {stars} = elementRefs.current;
       const {scoreIcon: to} = topMenuEls.current;
-      const {progress: {current: from}} = progressRefs.current;
+      const {score: from} = progressBarEls.current;
       starsAnimation(stars, from, to);
     }
   }, [current, max]);
@@ -65,7 +62,7 @@ export default function DunkShotStars({topMenuEls, progressRefs}) {
             }}
             className={styles.star}
           >
-            <Image src={starsSrc}/>
+            {StarComponent}
           </div>
         ))
       )}

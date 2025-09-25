@@ -1,5 +1,5 @@
 import {useEffect} from "react";
-import {eventSubscription} from "../../../lib/events/eventListener";
+import eventSubscription from "../../../lib/events/eventListener";
 import {getDefaultState} from "../../lib/state/getDefaultState";
 import {STATE_CHANGED} from "../../constants/events/names";
 

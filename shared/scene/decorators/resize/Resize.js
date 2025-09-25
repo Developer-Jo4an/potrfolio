@@ -1,5 +1,5 @@
 import BaseDecorator from "../base/BaseDecorator";
-import {eventSubscription} from "../../../lib/events/eventListener";
+import eventSubscription from "../../../lib/events/eventListener";
 import {RESIZE} from "../../../constants/events/eventsNames";
 
 export default class Resize extends BaseDecorator {

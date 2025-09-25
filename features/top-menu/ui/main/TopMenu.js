@@ -1,7 +1,7 @@
 import {useImperativeHandle, useRef} from "react";
 import {FaHeart} from "react-icons/fa";
 import {FaStar} from "react-icons/fa6";
-import {isNumber} from "lodash";
+import {isFinite} from "lodash";
 import {PauseButton} from "../../../../entities/pause-button";
 import {SoundButton} from "../../../../entities/sound-button";
 import cl from "classnames";
@@ -27,14 +27,14 @@ export default function TopMenu({className, pause, sound, lifes, score, ref}) {
         {lifes &&
           <div ref={ref => elements.lifes = ref} className={styles.lifes}>
             <FaHeart ref={ref => elements.lifesIcon = ref}/>
-            {isNumber(lifes?.count) && <div className={styles.lifesCount}>{lifes.count}</div>}
+            {isFinite(lifes?.count) && <div className={styles.lifesCount}>{lifes.count}</div>}
           </div>
         }
 
         {score &&
           <div ref={ref => elements.score = ref} className={styles.score}>
             <FaStar ref={ref => elements.scoreIcon = ref}/>
-            {isNumber(score?.count) && <div className={styles.scoreCount}>{score.count}</div>}
+            {isFinite(score?.count) && <div className={styles.scoreCount}>{score.count}</div>}
           </div>
         }
       </div>

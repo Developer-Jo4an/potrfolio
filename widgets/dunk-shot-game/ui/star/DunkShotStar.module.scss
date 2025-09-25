@@ -1,13 +1,16 @@
+@use "../../../../application/styles/constants" as constants;
+
 .star {
   position: absolute;
 
-  width: 30px;
+  width: 40px;
 
   will-change: transform;
 
   opacity: 0;
 
-  img {
+  svg {
+    fill: constants.$YELLOW;
     width: 100%;
   }
 }
