@@ -7,7 +7,6 @@ export const BASKET_COLLISION = "basket:collision";
 export const THROW_HIT = "throw:hit";
 export const THROW_PURE = "throw:pure";
 export const THROW_PURE_DATA = "throw:pure-data";
-export const PROGRESS_NEXT = "progress:next";
 export const PROGRESS_RESET = "progress:reset";
 export const CONTROLLER_RESET = "controller:reset";
 export const BASKET_TIMER_START = "basket-timer:start";
