@@ -511,7 +511,7 @@ class DunkShotAnimationPlayer extends AnimationPlayer {
    * boosters
    */
   async cloverBoosterAnimation(ball, leftClover, rightClover, activeBasket, nextBasket) {
-    const {storage: {mainSceneSettings: {boosters: {clover: {animation: {offset, cloversAcceleration}}}}}} = this;
+    const {storage: {mainSceneSettings: {boosters: {clover: {animation: {offset, cloverAcceleration}}}}}} = this;
     const clovers = [leftClover, rightClover];
     const tweenPoint = dunkShotUtils.calculateTweenPoint(activeBasket, nextBasket);
     const start = {x: ball.x + offset.ballStartPosition.x, y: ball.y + offset.ballStartPosition.y};
@@ -550,8 +550,8 @@ class DunkShotAnimationPlayer extends AnimationPlayer {
         const {classWrapper: {side}} = element;
         const {x} = getCloverPosition(element.classWrapper);
         return x + ({
-          [LEFT]: offset.cloversStartPosition.left,
-          [RIGHT]: offset.cloversStartPosition.right
+          [LEFT]: offset.cloverStartPosition.left,
+          [RIGHT]: offset.cloverStartPosition.right
         })[side];
       },
       y: (_, element) => getCloverPosition(element.classWrapper).y
@@ -584,7 +584,7 @@ class DunkShotAnimationPlayer extends AnimationPlayer {
           const animation = gsap.localTimeline.getTweenByNamespaceAndId(DUNK_SHOT_TWEEN, `cloverFly${_factoryUUID}`);
 
           if (animation)
-            animation.timeScale(Math.min(1, progress * cloversAcceleration));
+            animation.timeScale(Math.min(1, progress * cloverAcceleration));
 
           const {x, y} = getCloverPosition(clover);
           clover.view.position.set(x, y);

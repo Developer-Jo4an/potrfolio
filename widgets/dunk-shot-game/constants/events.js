@@ -13,3 +13,4 @@ export const CONTROLLER_RESET = "controller:reset";
 export const BASKET_TIMER_START = "basket-timer:start";
 export const BASKET_TIMER_END = "basket-timer:end";
 export const BASKET_TIMER_UPDATE = "basket-timer:update";
+export const BOOSTERS_SET_DISABLED = "boosters:disabled-set";

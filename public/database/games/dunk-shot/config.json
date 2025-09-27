@@ -4,9 +4,9 @@
     "id": 1
   },
   "boosters": {
-    "x2": 0,
-    "extra_life": 0,
-    "clover": 0
+    "x2": 2,
+    "extraLife": 2,
+    "clover": 2
   },
   "configuration": {
     "global_basket": {
@@ -99,6 +99,5 @@
         "init_pos": "right"
       }
     ]
-  },
-  "is_bonus_level": false
+  }
 }

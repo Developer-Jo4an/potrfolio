@@ -7,6 +7,7 @@ import {DUNK_SHOT_TWEEN} from "../../../../constants/constants";
 import {DUNK_SHOT_STATE_MACHINE} from "../../../../constants/stateMachine";
 import {INSIDE_BASKET, PROTECTED} from "../../../../constants/statuses";
 import {LEFT, RIGHT} from "../../../../../../shared/constants/directions/directions";
+import {BOOSTERS_SET_DISABLED} from "../../../../constants/events";
 import gsap from "gsap";
 
 export default class BoostersController extends BaseGameplayController {
@@ -89,7 +90,7 @@ export default class BoostersController extends BaseGameplayController {
   set isDisabledBoosters(isDisabledBoosters) {
     const {eventBus} = this;
 
-    eventBus.dispatchEvent({type: "boosters:disabled-set", isDisabled: isDisabledBoosters});
+    eventBus.dispatchEvent({type: BOOSTERS_SET_DISABLED, isDisabled: isDisabledBoosters});
   }
 
   checkBoostersDisabled() {

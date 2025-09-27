@@ -12,11 +12,13 @@ export const DUNK_SHOT_STATE_MACHINE = {
   [INITIALIZATION]: {
     availableStates: [INIT_LEVEL],
     nextState: INIT_LEVEL,
-    isDefault: true
+    isDefault: true,
+    isLoad: true
   },
   [INIT_LEVEL]: {
     availableStates: [PREPARE],
-    nextState: PREPARE
+    nextState: PREPARE,
+    isLoad: true
   },
   [PREPARE]: {
     availableStates: [PLAYING],

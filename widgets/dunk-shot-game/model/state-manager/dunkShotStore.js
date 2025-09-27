@@ -26,7 +26,7 @@ const {useStore: useDunkShotStore, selectors} = createStore({
     },
     setDunkShotProgress({state, globalStore}, {action, data}) {
       const {gameData} = state;
-      const {syncActions} = globalStore.getStoreByName(DUNK_SHOT);
+      const {originSyncActions} = globalStore.getStoreByName(DUNK_SHOT);
 
       const actions = {
         [ADD]() {
@@ -39,7 +39,7 @@ const {useStore: useDunkShotStore, selectors} = createStore({
 
           if (gameData.progress.current === gameData.progress.max) {
             gameData.bonusesCount++;
-            syncActions.setDunkShotScore({state, globalStore}, {action: ADD, value: gameData.progress.max});
+            originSyncActions.setDunkShotScore({state, globalStore}, {action: ADD, value: gameData.progress.max});
           }
         },
         [SET]({value}) {
@@ -47,7 +47,7 @@ const {useStore: useDunkShotStore, selectors} = createStore({
 
           if (gameData.progress.current === gameData.progress.max) {
             gameData.bonusesCount++;
-            syncActions.setDunkShotScore({state, globalStore}, {action: ADD, value: gameData.progress.max});
+            originSyncActions.setDunkShotScore({state, globalStore}, {action: ADD, value: gameData.progress.max});
           }
         }
       };
@@ -65,10 +65,11 @@ const {useStore: useDunkShotStore, selectors} = createStore({
 
       actions[action]?.(data);
     },
-    setDunkShotScore({state}, {action, value = 1}) {
+    setDunkShotScore({state, globalStore}, {action, value = 1}) {
       const {gameData} = state;
+      const {helpers} = globalStore.getStoreByName(DUNK_SHOT);
 
-      const x2Multiplier = gameData.boosters?.some(({name, isActive}) => isActive && name === X2) ? 2 : 1;
+      const x2Multiplier = helpers.isActiveSomeBooster(state, X2) ? 2 : 1;
 
       const actions = {
         [ADD]() {
@@ -80,7 +81,7 @@ const {useStore: useDunkShotStore, selectors} = createStore({
     },
     setDunkShotLifes({state, globalStore}, {action, data}) {
       const {gameData} = state;
-      const {syncActions} = globalStore.getStoreByName(DUNK_SHOT);
+      const {originSyncActions} = globalStore.getStoreByName(DUNK_SHOT);
 
       const actions = {
         [ADD]() {
@@ -94,21 +95,21 @@ const {useStore: useDunkShotStore, selectors} = createStore({
 
       actions[action]?.(data);
 
-      syncActions.setDunkShotBoosters(state, {action: RECALCULATE});
+      originSyncActions.setDunkShotBoosters({state, globalStore}, {action: RECALCULATE});
     },
     setDunkShotStory({state, globalStore}, {action, data}) {
       const {gameData} = state;
-      const {syncActions} = globalStore.getStoreByName(DUNK_SHOT);
+      const {originSyncActions, helpers} = globalStore.getStoreByName(DUNK_SHOT);
 
       const actions = {
         [ADD]({value}) {
           gameData.story.push(value);
 
-          const isX2Active = gameData.boosters?.some(({name, isActive}) => isActive && name === X2);
+          const isX2Active = helpers.isActiveSomeBooster(state, X2);
 
           if (isX2Active) {
-            syncActions.setDunkShotBoosters(state, {action: APPLY, data: X2});
-            syncActions.setDunkShotBoosters(state, {action: SUBTRACT, data: X2});
+            originSyncActions.setDunkShotBoosters({state, globalStore}, {action: APPLY, data: X2});
+            originSyncActions.setDunkShotBoosters({state, globalStore}, {action: SUBTRACT, data: X2});
           }
         }
       };
@@ -117,7 +118,7 @@ const {useStore: useDunkShotStore, selectors} = createStore({
     },
     setDunkShotBoosters({state, globalStore}, {action, data}) {
       const {gameData} = state;
-      const {syncActions} = globalStore.getStoreByName(DUNK_SHOT);
+      const {originSyncActions} = globalStore.getStoreByName(DUNK_SHOT);
       const defaultStats = getDefaultStats();
 
       const actions = { //todo: отрефакторить большую вложенность
@@ -144,7 +145,7 @@ const {useStore: useDunkShotStore, selectors} = createStore({
         [APPLY](boosterName) {
           ({
             [EXTRA_LIFE]() {
-              syncActions.setDunkShotLifes(state, {action: ADD});
+              originSyncActions.setDunkShotLifes({state, globalStore}, {action: ADD});
               actions[SUBTRACT](EXTRA_LIFE);
             },
             [X2]() {
@@ -181,13 +182,27 @@ const {useStore: useDunkShotStore, selectors} = createStore({
       request: getGameConfig,
       onFulfilled({state}, {data: config}) {
         state.config = config;
-        state.gameData = getDefaultStats();
+
+        state.gameData = {
+          ...getDefaultStats(),
+          boosters: Object.entries(config.boosters).map(([key, value]) => ({
+            name: key,
+            value,
+            isActive: false,
+            isDisabled: false
+          }))
+        };
       }
     }
   },
   interceptors: {},
   selectors: {},
-  helpers: {}
+  helpers: {
+    isActiveSomeBooster(state, boosterName) {
+      const {gameData} = state;
+      return gameData.boosters?.some(({name, isActive}) => isActive && name === boosterName);
+    }
+  }
 });
 
 export default useDunkShotStore;

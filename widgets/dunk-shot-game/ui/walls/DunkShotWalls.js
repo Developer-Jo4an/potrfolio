@@ -1,5 +1,5 @@
 import {useEffect, useRef} from "react";
-import classNames from "classnames";
+import cl from "classnames";
 import eventSubscription from "../../../../shared/lib/events/eventListener";
 import {LEFT, RIGHT} from "../../../../shared/constants/directions/directions";
 import {RESIZE} from "../../../../shared/constants/events/eventsNames";
@@ -32,7 +32,7 @@ export default function DunkShotWalls({containerRef}) {
       {[LEFT, RIGHT].map((side, index) => (
         <div
           key={index}
-          className={classNames(styles.wall, styles[side])}
+          className={cl(styles.wall, styles[side])}
           ref={ref => wallRefs.current[index] = ref}
         />
       ))}

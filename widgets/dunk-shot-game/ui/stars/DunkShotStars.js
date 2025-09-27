@@ -5,9 +5,11 @@ import {useDunkShotStars} from "../../model/hooks/useDunkShotStars";
 import {createArrayWithMap} from "../../../../shared/lib/array/createArrayWithMap";
 import {TbStarsFilled} from "react-icons/tb";
 import {FaStar} from "react-icons/fa6";
+import useActiveBoosters from "../../model/hooks/useActiveBoosters";
+import useDunkShotStore from "../../model/state-manager/dunkShotStore";
 import {THROW_HIT} from "../../constants/events";
 import {FIVE} from "../../../../shared/constants/numbers/numbers";
-import useDunkShotStore from "../../model/state-manager/dunkShotStore";
+import {X2} from "../../constants/boosters";
 import styles from "./DunkShotStars.module.scss";
 
 export default function DunkShotStars({topMenuEls, progressBarEls}) {
@@ -19,8 +21,7 @@ export default function DunkShotStars({topMenuEls, progressBarEls}) {
 
   const starsAnimation = useDunkShotStars();
 
-  // const {[x2]: isActiveX2} = useActiveBoosters() ?? {};
-  let isActiveX2 = false;
+  const {[X2]: isActiveX2} = useActiveBoosters() ?? {};
 
   useEffect(() => {
     if (!wrapper) return;

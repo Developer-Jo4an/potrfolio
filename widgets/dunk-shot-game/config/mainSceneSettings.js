@@ -297,12 +297,12 @@ export const mainSceneSettings = {
             "x": 0,
             "y": -60
           },
-          "cloversStartPosition": {
+          "cloverStartPosition": {
             "left": -15,
             "right": 15
           }
         },
-        "cloversAcceleration": 4,
+        "cloverAcceleration": 4,
         "tweenPoint": {
           "xMultiplier": 0.25,
           "yMultiplier": -0.125

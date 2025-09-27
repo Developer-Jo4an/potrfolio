@@ -4,11 +4,14 @@ import useLoadDunkShotScene from "../../model/hooks/useLoadDunkShotScene";
 import DunkShotWalls from "../walls/DunkShotWalls";
 import DunkShotGameElements from "../game-elements/DunkShotGameElements";
 import ProgressBar from "../../../../features/progress-bar/ui/main/ProgressBar";
+import {Loader} from "../../../../shared/ui/loader";
+import DunkShotBoosters from "../boosters/DunkShotBoosters";
 import useDunkShotStore from "../../model/state-manager/dunkShotStore";
+import {DUNK_SHOT_STATE_MACHINE} from "../../constants/stateMachine";
 import styles from "./DunkShotGame.module.scss";
 
 export default function DunkShotGame() {
-  const {gameData: {lifes, score, progress: {min, current, max} = {}} = {}} = useDunkShotStore();
+  const {gameData: {state, lifes, score, progress: {min, current, max} = {}} = {}} = useDunkShotStore();
   const {containerRef, isCanPressPause, onPause} = useLoadDunkShotScene();
   const topMenuEls = useRef();
   const progressBarEls = useRef();
@@ -25,9 +28,11 @@ export default function DunkShotGame() {
           score={{count: score}}
         />
         <ProgressBar count={current} progress={current / (max - min)} ref={progressBarEls}/>
+        <DunkShotBoosters/>
       </div>
       <DunkShotWalls containerRef={containerRef}/>
       <DunkShotGameElements topMenuEls={topMenuEls} progressBarEls={progressBarEls}/>
+      <Loader isPending={!state || DUNK_SHOT_STATE_MACHINE[state]?.isLoad}/>
     </>
   );
 }

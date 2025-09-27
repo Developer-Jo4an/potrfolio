@@ -51,7 +51,7 @@ export default class InteractionController extends BaseController {
 
     const interactiveLayer = new global.PIXI.Container();
     interactiveLayer.name = "interactiveArea";
-    interactiveLayer.hitArea = new global.PIXI.Rectangle(0, 0, app.screen.width, app.screen.height);
+    interactiveLayer.hitArea = new global.PIXI.Rectangle(0, 0, Number.MAX_VALUE, Number.MAX_VALUE);
 
     stage.addChild(interactiveLayer);
   }

@@ -4,9 +4,11 @@ import eventSubscription from "../../../../shared/lib/events/eventListener";
 import {TbStarsFilled} from "react-icons/tb";
 import {FaStar} from "react-icons/fa6";
 import useDunkShotStar from "../../model/hooks/useDunkShotStar";
+import useActiveBoosters from "../../model/hooks/useActiveBoosters";
 import useDunkShotStore from "../../model/state-manager/dunkShotStore";
 import {THROW_HIT} from "../../constants/events";
 import {FIVE} from "../../../../shared/constants/numbers/numbers";
+import {X2} from "../../constants/boosters";
 import styles from "./DunkShotStar.module.scss";
 
 export default function DunkShotStar({topMenuEls}) {
@@ -17,8 +19,7 @@ export default function DunkShotStar({topMenuEls}) {
 
   const starAnimation = useDunkShotStar();
 
-  // const {[X2]: isActiveX2} = useActiveBoosters() ?? {};
-  let isActiveX2 = false;
+  const {[X2]: isActiveX2} = useActiveBoosters() ?? {};
 
   useEffect(() => {
     if (!wrapper) return;
