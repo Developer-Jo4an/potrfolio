@@ -2,7 +2,7 @@ import {TbMultiplier2X} from "react-icons/tb";
 import {FaHeartCirclePlus} from "react-icons/fa6";
 import {GiFluffyWing} from "react-icons/gi";
 
-import {CLOVER, EXTRA_LIFE, X2} from "./boosters";
+import {WINGS, EXTRA_LIFE, X2} from "./boosters";
 
 export default {
   boosters: [
@@ -15,7 +15,7 @@ export default {
       Icon: FaHeartCirclePlus
     },
     {
-      booster: CLOVER,
+      booster: WINGS,
       Icon: GiFluffyWing
     }
   ]

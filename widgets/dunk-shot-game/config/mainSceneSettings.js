@@ -185,10 +185,10 @@ export const mainSceneSettings = {
       }
     }
   },
-  "clover": {
+  "wings": {
     "view": {
-      "width": 25,
-      "height": 25
+      "width": 35,
+      "height": 35
     }
   },
   "states": {
@@ -290,19 +290,19 @@ export const mainSceneSettings = {
     }
   },
   "boosters": {
-    "clover": {
+    "wings": {
       "animation": {
         "offset": {
           "ballStartPosition": {
             "x": 0,
             "y": -60
           },
-          "cloverStartPosition": {
+          "wingsStartPosition": {
             "left": -15,
             "right": 15
           }
         },
-        "cloverAcceleration": 4,
+        "wingsAcceleration": 4,
         "tweenPoint": {
           "xMultiplier": 0.25,
           "yMultiplier": -0.125

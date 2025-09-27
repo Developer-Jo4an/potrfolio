@@ -10,7 +10,7 @@ export const gameMockConfig = {
   "boosters": {
     "x2": 100,
     "extra_life": 102,
-    "clover": 97
+    "wings": 97
   },
   "configuration": {
     "global_basket": {

@@ -53,6 +53,8 @@
 
   border-radius: 20px 0 20px 0;
 
+  transition: .3s transform ease-in-out;
+
   @include mixins.button-hover;
 }
 

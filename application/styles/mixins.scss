@@ -13,8 +13,6 @@
 }
 
 @mixin button-hover {
-  transition: .3s transform ease-in-out;
-
   @include hover {
     transform: scale(1.1);
   }

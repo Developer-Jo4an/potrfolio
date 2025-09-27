@@ -1,1 +1,1 @@
-export const RESET_ITEMS = ["ball", "finish", "basket", "spike", "aim", "clover"];
+export const RESET_ITEMS = ["ball", "finish", "basket", "spike", "aim", "wing"];

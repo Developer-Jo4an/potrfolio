@@ -9,6 +9,8 @@
 
   border-radius: 20px;
 
+  transition: .3s transform ease-in-out;
+
   svg {
     font-size: 32px;
     color: constants.$WHITE;

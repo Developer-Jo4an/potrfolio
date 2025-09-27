@@ -434,10 +434,10 @@ class DunkShotAnimationPlayer extends AnimationPlayer {
 
 
   /**
-   * clover
+   * wings
    */
-  cloverShowAnimation(clover) {
-    const {view, _factoryUUID} = clover;
+  wingsShowAnimation(wings) {
+    const {view, _factoryUUID} = wings;
 
     const prevData = {
       scale: {x: view.scale.x, y: view.scale.y}
@@ -457,7 +457,7 @@ class DunkShotAnimationPlayer extends AnimationPlayer {
 
     view.scale.set(startData.scale.x, startData.scale.y);
 
-    const showTween = gsap.timeline().save(DUNK_SHOT_TWEEN, `cloverShow${_factoryUUID}`);
+    const showTween = gsap.timeline().save(DUNK_SHOT_TWEEN, `wingsShow${_factoryUUID}`);
 
     showTween
     .to(view, {
@@ -472,15 +472,15 @@ class DunkShotAnimationPlayer extends AnimationPlayer {
     }));
   }
 
-  cloverHideAnimation(clover, isImmediate) {
-    const {view, _factoryUUID} = clover;
+  wingsHideAnimation(wings, isImmediate) {
+    const {view, _factoryUUID} = wings;
 
     if (isImmediate) {
       view.alpha = 0;
       return Promise.resolve();
     }
 
-    const hideTween = gsap.timeline().save(DUNK_SHOT_TWEEN, `cloverHide${_factoryUUID}`);
+    const hideTween = gsap.timeline().save(DUNK_SHOT_TWEEN, `wingsHide${_factoryUUID}`);
 
     hideTween
     .to(view, {alpha: 0, duration: 0.3, ease: "sine.inOut"});
@@ -491,14 +491,14 @@ class DunkShotAnimationPlayer extends AnimationPlayer {
     }));
   }
 
-  cloverFlyAnimation(clover) {
-    const {view, _factoryUUID, side} = clover;
+  wingsFlyAnimation(wings) {
+    const {view, _factoryUUID, side} = wings;
 
     const multiplier = ({[RIGHT]: 1, [LEFT]: -1})[side];
 
     const flyTween = gsap.timeline({
       repeat: -1
-    }).save(DUNK_SHOT_TWEEN, `cloverFly${_factoryUUID}`);
+    }).save(DUNK_SHOT_TWEEN, `wingsFly${_factoryUUID}`);
 
     flyTween
     .to(view, {rotation: Math.PI / 6 * multiplier, duration: 0.05, ease: "none"})
@@ -510,16 +510,16 @@ class DunkShotAnimationPlayer extends AnimationPlayer {
   /**
    * boosters
    */
-  async cloverBoosterAnimation(ball, leftClover, rightClover, activeBasket, nextBasket) {
-    const {storage: {mainSceneSettings: {boosters: {clover: {animation: {offset, cloverAcceleration}}}}}} = this;
-    const clovers = [leftClover, rightClover];
+  async wingsBoosterAnimation(ball, leftWing, rightWing, activeBasket, nextBasket) {
+    const {storage: {mainSceneSettings: {boosters: {wings: {animation: {offset, wingsAcceleration}}}}}} = this;
+    const wings = [leftWing, rightWing];
     const tweenPoint = dunkShotUtils.calculateTweenPoint(activeBasket, nextBasket);
     const start = {x: ball.x + offset.ballStartPosition.x, y: ball.y + offset.ballStartPosition.y};
     const middle = {x: tweenPoint.x, y: tweenPoint.y};
     const end = {x: dunkShotUtils.getBallTarget(nextBasket).x, y: dunkShotUtils.getBallTarget(nextBasket).y};
 
-    const getCloverPosition = clover => {
-      const {side} = clover;
+    const getWingPosition = wing => {
+      const {side} = wing;
       return ({
         [LEFT]: {x: ball.x - ball.view.width / 2, y: ball.y},
         [RIGHT]: {x: ball.x + ball.view.width / 2, y: ball.y}
@@ -530,13 +530,13 @@ class DunkShotAnimationPlayer extends AnimationPlayer {
       onUpdate() {
         const progress = this.progress();
 
-        if (progress < EIGHT_TENTHS || clovers.every(({_factoryUUID}) =>
-          gsap.localTimeline.isExist(DUNK_SHOT_TWEEN, `cloverHide${_factoryUUID}`)
+        if (progress < EIGHT_TENTHS || wings.every(({_factoryUUID}) =>
+          gsap.localTimeline.isExist(DUNK_SHOT_TWEEN, `wingsHide${_factoryUUID}`)
         )) return;
 
-        clovers.forEach(clover => dunkShotAnimationPlayer.cloverHideAnimation(clover));
+        wings.forEach(wing => dunkShotAnimationPlayer.wingsHideAnimation(wing));
       }
-    }).save(DUNK_SHOT_TWEEN, "cloverBooster");
+    }).save(DUNK_SHOT_TWEEN, "wingsBooster");
 
     pureHitTimeline
     .to(ball, {
@@ -545,20 +545,20 @@ class DunkShotAnimationPlayer extends AnimationPlayer {
       ease: "sine.inOut",
       duration: 0.5
     })
-    .set(clovers.map(({view}) => view), {
+    .set(wings.map(({view}) => view), {
       x: (_, element) => {
         const {classWrapper: {side}} = element;
-        const {x} = getCloverPosition(element.classWrapper);
+        const {x} = getWingPosition(element.classWrapper);
         return x + ({
-          [LEFT]: offset.cloverStartPosition.left,
-          [RIGHT]: offset.cloverStartPosition.right
+          [LEFT]: offset.wingsStartPosition.left,
+          [RIGHT]: offset.wingsStartPosition.right
         })[side];
       },
-      y: (_, element) => getCloverPosition(element.classWrapper).y
+      y: (_, element) => getWingPosition(element.classWrapper).y
     })
-    .to(clovers.map(({view}) => view), {
-      x: (_, element) => getCloverPosition(element.classWrapper).x,
-      y: (_, element) => getCloverPosition(element.classWrapper).y,
+    .to(wings.map(({view}) => view), {
+      x: (_, element) => getWingPosition(element.classWrapper).x,
+      y: (_, element) => getWingPosition(element.classWrapper).y,
       alpha: 1,
       duration: 0.3,
       ease: "sine.inOut"
@@ -573,21 +573,21 @@ class DunkShotAnimationPlayer extends AnimationPlayer {
       duration: 2.25,
       ease: "sine.inOut",
       onStart() {
-        clovers.forEach(dunkShotAnimationPlayer.cloverFlyAnimation);
+        wings.forEach(dunkShotAnimationPlayer.wingsFlyAnimation);
       },
       onUpdate() {
         const progress = this.progress();
 
-        clovers.map(clover => {
-          const {_factoryUUID} = clover;
+        wings.map(wing => {
+          const {_factoryUUID} = wing;
 
-          const animation = gsap.localTimeline.getTweenByNamespaceAndId(DUNK_SHOT_TWEEN, `cloverFly${_factoryUUID}`);
+          const animation = gsap.localTimeline.getTweenByNamespaceAndId(DUNK_SHOT_TWEEN, `wingsFly${_factoryUUID}`);
 
           if (animation)
-            animation.timeScale(Math.min(1, progress * cloverAcceleration));
+            animation.timeScale(Math.min(1, progress * wingsAcceleration));
 
-          const {x, y} = getCloverPosition(clover);
-          clover.view.position.set(x, y);
+          const {x, y} = getWingPosition(wing);
+          wing.view.position.set(x, y);
         });
       }
     });
@@ -597,9 +597,9 @@ class DunkShotAnimationPlayer extends AnimationPlayer {
 
       const allTweens = gsap.localTimeline.getTweensByNamespace(DUNK_SHOT_TWEEN);
 
-      clovers.forEach(clover => {
+      wings.forEach(wing => {
         allTweens.forEach(tween => {
-          if (tween.tweenId?.endsWith?.(clover._factoryUUID))
+          if (tween.tweenId?.endsWith?.(wing._factoryUUID))
             tween.delete(DUNK_SHOT_TWEEN);
         });
       });

@@ -30,7 +30,7 @@
 
   border-radius: 20px 0 20px 0;
 
-  transition: .3s opacity ease-in-out;
+  transition: .3s opacity ease-in-out, .3s transform ease-in-out;
 
   @include mixins.button-hover;
 }
@@ -42,7 +42,7 @@
   }
 }
 
-.clover {
+.wings {
   svg {
     fill: constants.$WHITE;
     width: 30px;

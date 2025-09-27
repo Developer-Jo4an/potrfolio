@@ -23,7 +23,7 @@ export default class BoostersController extends BaseGameplayController {
 
   }
 
-  async cloverSelect() {
+  async wingsSelect() {
     const {ball, activeBasket, nextBasket, activeSpike} = dunkShotFactory;
 
     ball.status = PROTECTED;
@@ -68,15 +68,15 @@ export default class BoostersController extends BaseGameplayController {
 
     updateBall.delete(DUNK_SHOT_TWEEN);
 
-    const [leftClover, rightClover] = [LEFT, RIGHT].map(side => {
-      const clover = dunkShotFactory.createItem("clover");
-      clover.addToSpaces();
-      clover.side = side;
-      dunkShotAnimationPlayer.cloverHideAnimation(clover, true);
-      return clover;
+    const [leftWing, rightWing] = [LEFT, RIGHT].map(side => {
+      const wing = dunkShotFactory.createItem("wing");
+      wing.addToSpaces();
+      wing.side = side;
+      dunkShotAnimationPlayer.wingsHideAnimation(wing, true);
+      return wing;
     });
 
-    await dunkShotAnimationPlayer.cloverBoosterAnimation(ball, leftClover, rightClover, activeBasket, nextBasket);
+    await dunkShotAnimationPlayer.wingsBoosterAnimation(ball, leftWing, rightWing, activeBasket, nextBasket);
 
     ball.isGravity = true;
   }

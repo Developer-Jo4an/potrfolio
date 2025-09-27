@@ -3,8 +3,9 @@ import {LEFT, RIGHT} from "../../../../../shared/constants/directions/directions
 import {PIXI_SPACE, TEXTURE} from "../../../../../shared/scene/constants/loaders/assetsTypes";
 import {assetsManager} from "../../../../../shared/scene/assets/AssetsManager";
 import global from "../../../../../shared/constants/global/global";
+import {WING} from "../../../config/preload";
 
-export default class Clover extends BaseEntity {
+export default class Wing extends BaseEntity {
 
   _side = RIGHT;
 
@@ -32,11 +33,11 @@ export default class Clover extends BaseEntity {
   }
 
   initView() {
-    const {groups, storage: {mainSceneSettings: {clover: {view: {width, height}}}}} = this;
+    const {groups, storage: {mainSceneSettings: {wings: {view: {width, height}}}}} = this;
 
     const view = this.view ??= new global.PIXI.Sprite();
-    view.name = "clover";
-    view.texture = assetsManager.getAssetFromSpace(PIXI_SPACE, TEXTURE, "clover");
+    view.name = "wing";
+    view.texture = assetsManager.getAssetFromSpace(PIXI_SPACE, TEXTURE, WING);
     groups.middle.attach(view);
     view.scale.set(1);
     view.alpha = 1;

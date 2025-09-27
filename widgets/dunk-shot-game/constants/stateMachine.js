@@ -2,7 +2,7 @@ export const INITIALIZATION = "initialization";
 export const INIT_LEVEL = "initLevel";
 export const PREPARE = "prepare";
 export const PLAYING = "playing";
-export const CLOVER = "clover";
+export const WINGS = "wings";
 export const FELL = "fell";
 export const WIN = "win";
 export const LOSE = "lose";
@@ -26,13 +26,13 @@ export const DUNK_SHOT_STATE_MACHINE = {
     isAvailableUpdate: true
   },
   [PLAYING]: {
-    availableStates: [WIN, LOSE, PAUSE, FELL, CLOVER],
+    availableStates: [WIN, LOSE, PAUSE, FELL, WINGS],
     isAvailableInteraction: true,
     isAvailableCameraUpdate: true,
     isAvailableUpdate: true,
     isAvailableBoosters: true
   },
-  [CLOVER]: {
+  [WINGS]: {
     availableStates: [PLAYING, WIN],
     isAvailableCameraUpdate: true,
     isAvailableUpdate: true
@@ -58,7 +58,7 @@ export const DUNK_SHOT_STATE_MACHINE = {
   }
 };
 
-export const IGNORE_NEXT_STATES = [PREPARE, PLAYING, WIN, LOSE, PAUSE, CLOVER];
+export const IGNORE_NEXT_STATES = [PREPARE, PLAYING, WIN, LOSE, PAUSE, WINGS];
 
 
 

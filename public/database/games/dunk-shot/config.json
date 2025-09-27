@@ -6,7 +6,7 @@
   "boosters": {
     "x2": 2,
     "extraLife": 2,
-    "clover": 2
+    "wings": 2
   },
   "configuration": {
     "global_basket": {

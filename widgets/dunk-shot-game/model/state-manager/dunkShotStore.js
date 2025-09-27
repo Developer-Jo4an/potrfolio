@@ -2,7 +2,7 @@ import {createStore} from "../../../../shared/model/state-manager/createStore";
 import {getDefaultStats} from "../../constants/defaultStats";
 import {getGameConfig} from "../../api/requests";
 import {ADD, APPLY, DISABLED, RECALCULATE, SET, SUBTRACT} from "../../../../shared/constants/actions/names";
-import {CLOVER, EXTRA_LIFE, X2} from "../../constants/boosters";
+import {WINGS, EXTRA_LIFE, X2} from "../../constants/boosters";
 import {clamp} from "lodash";
 import {DUNK_SHOT} from "../../constants/stateManager";
 
@@ -128,7 +128,7 @@ const {useStore: useDunkShotStore, selectors} = createStore({
             isDisabled: ({
               [EXTRA_LIFE]: isDisabled || gameData.lifes >= defaultStats.lifes,
               [X2]: isDisabled,
-              [CLOVER]: isDisabled
+              [WINGS]: isDisabled
             })[boosterData.name]
           }));
         },
@@ -138,7 +138,7 @@ const {useStore: useDunkShotStore, selectors} = createStore({
             isDisabled: ({
               [EXTRA_LIFE]: boosterData.isDisabled || gameData.lifes >= defaultStats.lifes,
               [X2]: boosterData.isDisabled,
-              [CLOVER]: boosterData.isDisabled
+              [WINGS]: boosterData.isDisabled
             })[boosterData.name]
           }));
         },
@@ -155,8 +155,8 @@ const {useStore: useDunkShotStore, selectors} = createStore({
                   : {...boosterData, isActive: !boosterData.isActive}
               );
             },
-            [CLOVER]() {
-              actions[SUBTRACT](CLOVER);
+            [WINGS]() {
+              actions[SUBTRACT](WINGS);
             }
           })[boosterName]?.();
         },

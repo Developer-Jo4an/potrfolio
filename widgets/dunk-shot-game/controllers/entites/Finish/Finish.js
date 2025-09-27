@@ -2,6 +2,7 @@ import BaseEntity from "../base/BaseEntity";
 import {PIXI_SPACE, TEXTURE} from "../../../../../shared/scene/constants/loaders/assetsTypes";
 import {assetsManager} from "../../../../../shared/scene/assets/AssetsManager";
 import global from "../../../../../shared/constants/global/global";
+import {FINISH} from "../../../config/preload";
 
 export default class Finish extends BaseEntity {
   constructor(data) {
@@ -20,7 +21,7 @@ export default class Finish extends BaseEntity {
     const view = this.view ??= new global.PIXI.Sprite();
     view.name = "finish";
     groups.back.attach(view)
-    view.texture = assetsManager.getAssetFromSpace(PIXI_SPACE, TEXTURE, "finish");
+    view.texture = assetsManager.getAssetFromSpace(PIXI_SPACE, TEXTURE, FINISH);
     view.scale.set(1);
     view.anchor.set(0, 1);
     const scale = Math.min(width / view.width, height / view.height);

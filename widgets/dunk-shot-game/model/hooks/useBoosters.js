@@ -1,10 +1,10 @@
 import {useEffect} from "react";
 import eventSubscription from "../../../../shared/lib/events/eventListener";
 import useDunkShotStore from "../state-manager/dunkShotStore";
-import {CLOVER, EXTRA_LIFE, X2} from "../../constants/boosters";
+import {WINGS, EXTRA_LIFE, X2} from "../../constants/boosters";
 import {BOOSTERS_SET_DISABLED} from "../../constants/events";
 import {APPLY, DISABLED} from "../../../../shared/constants/actions/names";
-import {CLOVER as CLOVER_STATE} from "../../constants/stateMachine";
+import {WINGS as WINGS_STATE} from "../../constants/stateMachine";
 import content from "../../constants/content";
 
 export default function useBoosters() {
@@ -17,9 +17,9 @@ export default function useBoosters() {
     [X2]() {
       setDunkShotBoosters({action: APPLY, data: X2});
     },
-    [CLOVER]() {
-      setDunkShotBoosters({action: APPLY, data: CLOVER});
-      wrapper.state = CLOVER_STATE;
+    [WINGS]() {
+      setDunkShotBoosters({action: APPLY, data: WINGS});
+      wrapper.state = WINGS_STATE;
     }
   };
 

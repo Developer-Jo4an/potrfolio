@@ -10,6 +10,7 @@ import {VISIBLE} from "../../../constants/modes";
 import {assetsManager} from "../../../../../shared/scene/assets/AssetsManager";
 import {RED, WHITE} from "../../../../../shared/constants/colors/colors";
 import global from "../../../../../shared/constants/global/global";
+import {BASKET_GRID_BACK} from "../../../config/preload";
 
 export default class Basket extends BasePhysicsEntity {
 
@@ -112,7 +113,7 @@ export default class Basket extends BasePhysicsEntity {
       storage: {mainSceneSettings: {basket: {gridBack}}}
     } = this;
 
-    const basketGridBackTexture = assetsManager.getAssetFromSpace(PIXI_SPACE, TEXTURE, "basketGridBack");
+    const basketGridBackTexture = assetsManager.getAssetFromSpace(PIXI_SPACE, TEXTURE, BASKET_GRID_BACK);
 
     const basketGridBack = this.basketGridBack ??= new global.PIXI.Sprite();
     basketGridBack.name = "basketGridBack";

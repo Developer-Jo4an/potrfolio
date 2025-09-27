@@ -7,10 +7,11 @@ import {Wall} from "../entites/wall/Wall";
 import ShadowBall from "../entites/ball/ShadowBall";
 import ShadowWall from "../entites/wall/ShadowWall";
 import Aim from "../entites/aim/Aim";
-import Clover from "../entites/clover/Clover";
+import Wing from "../entites/wing/Wing";
 import Factory from "../../../../shared/scene/factory/Factory";
 import {upperFirst} from "lodash";
 import setNecessaryListeners from "../utils/setNecessaryListeners";
+import {ACTIVE, INACTIVE, NEXT} from "../../constants/statuses";
 
 class DunkShotFactory extends Factory {
   constructor(data) {
@@ -23,8 +24,6 @@ class DunkShotFactory extends Factory {
   }
 
   getItemByType(type, data) {
-    const {defaultProperties: {eventBus}} = this;
-
     const storage = this.getStorage(type);
 
     const reusedItem = storage.pop();
@@ -36,8 +35,6 @@ class DunkShotFactory extends Factory {
       totalItem = reusedItem;
     } else
       totalItem = this[`create${upperFirst(type)}`]?.(data);
-
-    eventBus.dispatchEvent({type: "item:created", itemData: {type, item: totalItem}});
 
     return totalItem;
   }
@@ -57,17 +54,17 @@ class DunkShotFactory extends Factory {
 
   get activeBasket() {
     const {baskets} = this;
-    return baskets?.find(({status}) => status === "active");
+    return baskets?.find(({status}) => status === ACTIVE);
   }
 
   get nextBasket() {
     const {baskets} = this;
-    return baskets?.find(({status}) => status === "next");
+    return baskets?.find(({status}) => status === NEXT);
   }
 
   get inactiveBaskets() {
     const {baskets} = this;
-    return baskets?.filter(({status}) => status === "inactive");
+    return baskets?.filter(({status}) => status === INACTIVE);
   }
 
   get lastBasket() {
@@ -116,12 +113,12 @@ class DunkShotFactory extends Factory {
 
   get inactiveSpikes() {
     const {spikes} = this;
-    return spikes?.filter(({status}) => status === "inactive");
+    return spikes?.filter(({status}) => status === INACTIVE);
   }
 
   get activeSpike() {
     const {spikes} = this;
-    return spikes?.find(({status}) => status === "active");
+    return spikes?.find(({status}) => status === ACTIVE);
   }
 
 
@@ -190,15 +187,15 @@ class DunkShotFactory extends Factory {
   }
 
   /**
-   * clover
+   * wing
    */
-  createClover(data) {
+  createWing(data) {
     const {defaultProperties} = this;
-    return new Clover({...data, ...defaultProperties});
+    return new Wing({...data, ...defaultProperties});
   }
 
-  get clovers() {
-    return this.getStorage("clover")?.activeItems;
+  get wings() {
+    return this.getStorage("wing")?.activeItems;
   }
 }
 

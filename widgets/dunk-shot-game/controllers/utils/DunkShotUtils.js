@@ -92,7 +92,7 @@ export default class DunkShotUtils extends GameUtils {
   }
 
   calculateTweenPoint(activeBasket, nextBasket) {
-    const {storage: {mainSceneSettings: {boosters: {clover: {animation: {tweenPoint}}}}}} = this;
+    const {storage: {mainSceneSettings: {boosters: {wings: {animation: {tweenPoint}}}}}} = this;
 
     const {positionLabel: activeBasketPositionLabel} = activeBasket;
     const {positionLabel: nextBasketPositionLabel} = nextBasket;
