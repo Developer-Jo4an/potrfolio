@@ -1,9 +1,12 @@
 import gsap from "gsap";
 
+export const PLAYING = "playing";
+export const PAUSED = "paused";
+
 export default class LocalTimeline {
   static statuses = {
-    playing: "playing",
-    paused: "paused"
+    playing: PLAYING,
+    paused: PAUSED
   };
 
   _spaces = {};

@@ -27,6 +27,8 @@ import State from "../../../shared/scene/decorators/state/State";
 import {getIsDebug} from "../../../shared/lib/debug/debug";
 import Performance from "../../../shared/scene/decorators/performance/Performance";
 import PIXIMatterUpdate from "../../../shared/scene/decorators/pixi/pixi-matter-update/PIXIMatterUpdate";
+import {PAUSED} from "../../../shared/lib/gsap/LocalTimeline";
+import gsap from "gsap";
 
 export default class Controller extends PIXIController {
 
@@ -64,7 +66,7 @@ export default class Controller extends PIXIController {
   }
 
   async initializationSelect() {
-    const {decorators, app, isInitialized} = this;
+    const {app, isInitialized} = this;
 
     if (!isInitialized) {
       this.onResized();
@@ -80,37 +82,43 @@ export default class Controller extends PIXIController {
 
     globalThis.__PIXI_APP__ = app;
 
-    decorators[UPDATE_DECORATOR_FIELD].startUpdate();
+    this.startUpdate();
   }
 
   playingSelect() {
+    this.startUpdate();
+  }
+
+  pauseSelect() {
+    this.stopUpdate();
+  }
+
+  winSelect() {
+    this.stopUpdate();
+  }
+
+  loseSelect() {
+    this.stopUpdate();
+  }
+
+  stopUpdate() {
+    const {decorators} = this;
+
+    const updateDecorator = decorators[UPDATE_DECORATOR_FIELD];
+    updateDecorator.stopUpdate();
+    gsap.localTimeline.pause(DUNK_SHOT_TWEEN);
+  }
+
+  startUpdate() {
     const {decorators} = this;
 
     const updateDecorator = decorators[UPDATE_DECORATOR_FIELD];
 
     if (!updateDecorator.isStarted)
       updateDecorator.startUpdate();
-  }
 
-  pauseSelect() {
-    const {decorators} = this;
-
-    const updateDecorator = decorators[UPDATE_DECORATOR_FIELD];
-    updateDecorator.stopUpdate();
-  }
-
-  winSelect() {
-    const {decorators} = this;
-
-    const updateDecorator = decorators[UPDATE_DECORATOR_FIELD];
-    updateDecorator.stopUpdate();
-  }
-
-  loseSelect() {
-    const {decorators} = this;
-
-    const updateDecorator = decorators[UPDATE_DECORATOR_FIELD];
-    updateDecorator.stopUpdate();
+    if (gsap.localTimeline.getStatusByNamespace(DUNK_SHOT_TWEEN) === PAUSED)
+      gsap.localTimeline.play(DUNK_SHOT_TWEEN);
   }
 
   initEvents() {
@@ -188,7 +196,7 @@ export default class Controller extends PIXIController {
     } = this;
 
     return {
-      eventBus, renderer, canvas, decorators, stage, storage, state, engine, world, app, groups, config, gameData,
+      eventBus, renderer, canvas, decorators, stage, storage, state, engine, world, app, groups, config, gameData
     };
   }
 

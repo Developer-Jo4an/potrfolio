@@ -41,6 +41,13 @@ const {useStore: useGamesStore, selectors} = createStore({
       state.rightGame = gameList[newRightIndex]?.id;
 
       state.lastSwipeDirection = direction;
+    },
+    reset({state}) {
+      state.gameList = [];
+
+      state.isShowing = true;
+
+      state.lastSwipeDirection = null;
     }
   },
   asyncActions: {
@@ -49,11 +56,13 @@ const {useStore: useGamesStore, selectors} = createStore({
       onFulfilled({state}, {data: gameList}) {
         state.gameList = gameList;
 
-        const [leftGame, activeGame, rightGame] = gameList;
+        if (![state.leftGame, state.activeGame, state.rightGame].every(Boolean)) {
+          const [leftGame, activeGame, rightGame] = gameList;
 
-        state.leftGame = leftGame.id;
-        state.activeGame = activeGame.id;
-        state.rightGame = rightGame.id;
+          state.leftGame = leftGame.id;
+          state.activeGame = activeGame.id;
+          state.rightGame = rightGame.id;
+        }
       }
     }
   }

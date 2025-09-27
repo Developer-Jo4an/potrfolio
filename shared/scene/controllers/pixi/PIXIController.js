@@ -84,7 +84,6 @@ export default class PIXIController extends BaseController {
 
     const app = this.app = new global.PIXI.Application();
     await app.init({...PIXI_APP_CONFIG, resizeTo: $container, canvas, context, ...settings});
-    $container.appendChild(canvas);
   }
 
   initDecorators() {
@@ -94,6 +93,12 @@ export default class PIXIController extends BaseController {
       const decorator = decorators[decoratorField] = new DecoratorClass(this.getDecoratorData());
       return decorator.initDecorator();
     }));
+  }
+
+  appendContainer($container) {
+    const {canvas} = PIXIController;
+
+    (this.$container = $container).appendChild(canvas);
   }
 
   getDecoratorData() {

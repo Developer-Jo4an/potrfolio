@@ -6,6 +6,7 @@ export default function useLoadScene(
     libraries = [],
     loadWrapper,
     initProps = {},
+    containerRef,
     beforeInit,
     afterInit
   }
@@ -23,11 +24,10 @@ export default function useLoadScene(
 
       if (isUnmount) return;
 
-      const {containerRef, ...otherProps} = initProps;
-
       const {default: WrapperClass} = await loadWrapper();
       const wrapper = WrapperClass.instance;
-      wrapper.registerController({...otherProps, $container: containerRef.current});
+      wrapper.registerController(initProps);
+      wrapper.appendContainer(containerRef.current);
 
       if (isUnmount) return;
 

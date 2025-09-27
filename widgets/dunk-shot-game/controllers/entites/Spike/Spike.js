@@ -56,10 +56,8 @@ export default class Spike extends BasePhysicsEntity {
   }
 
   addToSpaces() {
-    const {body, view} = this;
-
-    this.addToStage(view);
-    this.addToWorld(body);
+    this.addToStage();
+    this.addToWorld();
   }
 
   onStatusChanged() {

@@ -11,6 +11,10 @@ export default class PixiWrapper extends BaseWrapper {
     super(data);
   }
 
+  appendContainer($container) {
+    this.controller.appendContainer($container);
+  }
+
   registerController(data) {
     const {eventBus} = this;
 

@@ -19,12 +19,6 @@ const {useStore: useDunkShotStore, selectors} = createStore({
     },
 
     // Игровые экшены
-    setDunkShotFields({state}, fields) {
-      const {gameData} = state;
-
-      for (const key in fields)
-        gameData[key] = fields[key];
-    },
     setDunkShotState({state}, newState) {
       const {gameData} = state;
 
@@ -175,6 +169,11 @@ const {useStore: useDunkShotStore, selectors} = createStore({
       };
 
       actions[action]?.(data);
+    },
+    reset({state}) {
+      state.wrapper = null;
+      state.config = {};
+      state.gameData = {};
     }
   },
   asyncActions: {

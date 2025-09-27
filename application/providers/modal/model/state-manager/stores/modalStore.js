@@ -11,12 +11,12 @@ const {useStore: useModalStore} = createStore({
     modals: []
   },
   syncActions: {
-    add({state}, {type, animation, isCloseOnBackground = false, isQueue = true, props = {}} = {}) {
+    add({state, returned}, {type, animation, isCloseOnBackground = false, isQueue = true, props = {}} = {}) {
       const id = getId();
 
       state.modals = [...state.modals, {type, id, isCloseOnBackground, animation, isQueue, props}];
 
-      return id;
+      returned.value = {id};
     },
     close({state}, {id}) {
       const necessaryFunction = {

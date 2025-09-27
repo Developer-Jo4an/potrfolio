@@ -30,9 +30,7 @@ export default class Finish extends BaseEntity {
   }
 
   addToSpaces() {
-    const {view} = this;
-
-    this.addToStage(view);
+    this.addToStage();
   }
 
   delete() {

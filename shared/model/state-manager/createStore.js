@@ -66,10 +66,10 @@ class StateManagerStore {
       const action = actions[key];
 
       customActions[key] = function (...data) {
-        let result;
-        set(state => result = action({state, globalStore: self}, ...data));
+        const returned = {};
+        set(state => action({state, globalStore: self, returned}, ...data));
         self.callMatchers(key, ...data);
-        return result;
+        return returned;
       };
     }
 

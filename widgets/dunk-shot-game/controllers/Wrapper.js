@@ -1,5 +1,6 @@
 import PixiWrapper from "../../../shared/scene/wrappers/pixi/PixiWrapper";
 import Controller from "./Controller";
+import {STATE_DECORATOR_FIELD} from "../../../shared/scene/constants/decorators/names";
 
 export default class Wrapper extends PixiWrapper {
 
@@ -15,5 +16,17 @@ export default class Wrapper extends PixiWrapper {
     const {eventBus} = this;
 
     this.controller ??= new Controller({...data, eventBus});
+  }
+
+  get state() {
+    return this.controller.decorators[STATE_DECORATOR_FIELD].state;
+  }
+
+  set state(state) {
+    this.controller.decorators[STATE_DECORATOR_FIELD].state = state;
+  }
+
+  reset() {
+    return this.controller?.reset();
   }
 }

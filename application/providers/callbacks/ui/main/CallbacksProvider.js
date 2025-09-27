@@ -6,7 +6,7 @@ export default function CallbacksProvider({children}) {
 
   const callbacks = {
     redirect(page) {
-      router.push(page);
+      router.push(page)
     }
   };
 

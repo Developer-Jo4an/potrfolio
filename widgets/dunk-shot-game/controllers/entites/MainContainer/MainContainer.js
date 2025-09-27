@@ -23,8 +23,4 @@ export default class MainContainer extends BaseEntity {
 
     stage.addChild(view);
   }
-
-  reset() {
-    this.initView();
-  }
 }

@@ -11,7 +11,6 @@ export default class ShadowBall extends Ball {
   }
 
   addToSpaces() {
-    const {body} = this;
-    this.addToWorld(body);
+    this.addToWorld();
   }
 }

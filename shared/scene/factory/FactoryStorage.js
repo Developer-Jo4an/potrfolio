@@ -1,4 +1,5 @@
 import {createId} from "../../lib/patterns/closure/createId";
+import {isFunction} from "lodash";
 
 const getId = createId();
 
@@ -68,7 +69,7 @@ export default class FactoryStorage {
       return;
     }
 
-    if (typeof item.reset === "function")
+    if (isFunction(item.reset))
       item.reset();
     items.push(item);
     item._isFactoryActiveItem = false;

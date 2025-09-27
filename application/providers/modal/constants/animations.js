@@ -1,5 +1,9 @@
-export const containerAnimation = {
-  default: {
+export const ANIMATION_NAMES = {
+  default: "default"
+};
+
+export const containerAnimations = {
+  [ANIMATION_NAMES.default]: {
     initial: {
       scale: 0.5
     },
@@ -19,7 +23,7 @@ export const containerAnimation = {
         scale: {
           type: "tween",
           ease: "backIn",
-          duration: 0.3,
+          duration: 0.3
         }
       }
     }
@@ -27,7 +31,7 @@ export const containerAnimation = {
 };
 
 export const backgroundAnimations = {
-  default: {
+  [ANIMATION_NAMES.default]: {
     initial: {opacity: 0},
     animate: {opacity: 1},
     exit: {opacity: 0},

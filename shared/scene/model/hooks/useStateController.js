@@ -12,7 +12,8 @@ export default function useStateController(wrapper, ignoreNextStates, stateMachi
     const clear = eventSubscription({
       target: eventBus,
       callbacksBus: [{
-        event: STATE_CHANGED, async callback({state}) {
+        event: STATE_CHANGED,
+        async callback({state}) {
           await controller[`${state}Select`]?.();
           if (!ignoreNextStates.includes(state))
             controller.state = stateMachine[state].nextState;

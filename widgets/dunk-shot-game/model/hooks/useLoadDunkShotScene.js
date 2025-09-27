@@ -10,22 +10,25 @@ import {DUNK_SHOT_STATE_MACHINE, IGNORE_NEXT_STATES} from "../../constants/state
 import imports from "../../../../shared/scene/lib/import";
 import {mainSceneSettings} from "../../config/mainSceneSettings";
 import {preload} from "../../config/preload";
+import useDunkShotPause from "./useDunkShotPause";
 
 export default function useLoadDunkShotScene() {
-  const {wrapper, setWrapper} = useDunkShotStore();
+  const {wrapper, reset, setWrapper} = useDunkShotStore();
   const containerRef = useRef();
 
+  const {onPause, isCanPressPause} = useDunkShotPause();
   useLoadScene({
     libraries: [imports.pixi, imports.matter],
     loadWrapper: () => import("../../controllers/Wrapper"),
     beforeInit: useBeforeInit(),
-    initProps: {containerRef, stateMachine: DUNK_SHOT_STATE_MACHINE, mainSceneSettings, preload},
-    afterInit: wrapper => setWrapper(wrapper)
+    initProps: {stateMachine: DUNK_SHOT_STATE_MACHINE, mainSceneSettings, preload},
+    afterInit: wrapper => setWrapper(wrapper),
+    containerRef
   });
   useStateController(wrapper, IGNORE_NEXT_STATES, DUNK_SHOT_STATE_MACHINE);
   useDunkShotStats();
   useDunkShotProgressHandler();
-  useResetGame({wrapper});
+  useResetGame({wrapper, callback: reset});
 
-  return containerRef;
+  return {containerRef, isCanPressPause, onPause};
 };

@@ -11,3 +11,15 @@
     }
   }
 }
+
+@mixin button-hover {
+  transition: .3s transform ease-in-out;
+
+  @include hover {
+    transform: scale(1.1);
+  }
+
+  &:active {
+    transform: scale(0.8);
+  }
+}

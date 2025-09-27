@@ -45,9 +45,7 @@ export default class Clover extends BaseEntity {
   }
 
   addToSpaces() {
-    const {view} = this;
-
-    this.addToStage(view);
+    this.addToStage();
   }
 
   reset() {

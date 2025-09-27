@@ -2,6 +2,7 @@ import useCheckDisposable from "./useCheckDisposable";
 import useCheckTimeout from "./useCheckTimeout";
 import useCallEventFunctions from "./useCallEventFunctions";
 import useCallCallbacks from "./useCallCallbacks";
+import {isFunction} from "lodash";
 
 export default function useButtonClickControls(
   {
@@ -20,7 +21,7 @@ export default function useButtonClickControls(
     if (!checkDisposable() || !checkTimeout()) return;
     callEventFunctions(e);
     callCallbacks();
-    click?.(e);
+    isFunction(click) && click(e);
   };
 
   return {onClick};

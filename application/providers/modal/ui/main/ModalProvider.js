@@ -14,7 +14,7 @@ export default function ModalProvider({children}) {
       {children}
       <div className={styles.modalProvider}>
         <AnimatePresence>
-          {activeModals.map(props => <ModalContainer key={props.id}/>)}
+          {activeModals.map(props => <ModalContainer key={props.id} {...props}/>)}
         </AnimatePresence>
       </div>
     </>

@@ -80,4 +80,9 @@ export default class CameraController extends BaseController {
 
     this.updateCamera(milliseconds, deltaTime);
   }
+
+  reset() {
+    const {mainContainer} = dunkShotFactory;
+    mainContainer.view.position.set(0, 0);
+  }
 }

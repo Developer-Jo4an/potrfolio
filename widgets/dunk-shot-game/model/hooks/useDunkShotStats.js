@@ -26,11 +26,6 @@ export default function useDunkShotStats() {
       target: eventBus,
       callbacksBus: [
         {
-          event: STATE_CHANGED, callback({newState}) {
-            setDunkShotState(newState);
-          }
-        },
-        {
           event: THROW_HIT, callback() {
             setDunkShotScore({action: ADD});
             setDunkShotStory({action: ADD, data: {value: true}});
@@ -48,11 +43,14 @@ export default function useDunkShotStats() {
           }
         },
         {
-          event: STATE_CHANGED, callback({newState}) {
-            if (DUNK_SHOT_STATE_MACHINE[newState]?.isSubtractLife) {
+          event: STATE_CHANGED,
+          callback({state}) {
+            if (DUNK_SHOT_STATE_MACHINE[state]?.isSubtractLife) {
               setDunkShotLifes({action: SUBTRACT});
               setDunkShotStory({action: ADD, data: {value: false}});
             }
+
+            setDunkShotState(state);
           }
         }
       ]

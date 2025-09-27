@@ -1,0 +1,69 @@
+@use "../../../../application/styles/constants" as constants;
+@use "../../../../application/styles/mixins" as mixins;
+
+.pauseModal {
+  width: 90%;
+  max-width: 450px;
+
+  padding: 20px;
+
+  border-radius: 20px;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+}
+
+.title {
+  font-size: 24px;
+  font-weight: bold;
+  font-family: KogniGear, Discovery, sans-serif;
+  color: constants.$WHITE;
+}
+
+.description {
+  font-size: 20px;
+  font-family: Discovery, KogniGear, sans-serif;
+  color: constants.$WHITE;
+  text-align: center;
+}
+
+.buttons {
+  width: 100%;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+
+.button {
+  width: 90%;
+  height: 60px;
+
+  font-size: 20px;
+  font-family: Discovery, KogniGear, sans-serif;
+  font-weight: bold;
+  color: constants.$WHITE;
+
+  padding: 10px;
+
+  border-radius: 20px 0 20px 0;
+
+  @include mixins.button-hover;
+}
+
+.onButton {
+  background-color: #02e50e;
+}
+
+.offButton {
+  background-color: #e50808;
+}
+
+.dunkShot {
+  background-color: constants.$PINK;
+}
