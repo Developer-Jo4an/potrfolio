@@ -3,7 +3,7 @@ import {gsapUpdate} from "../../../../../../shared/lib/gsap/helpers";
 import {dunkShotFactory} from "../../../factory/DunkShotFactory";
 import {dunkShotAnimationPlayer} from "../../../animations/DunkShotAnimationPlayer";
 import {dunkShotUtils} from "../../../utils/DunkShotUtils";
-import {DUNK_SHOT_TWEEN} from "../../../../constants/constants";
+import {DUNK_SHOT_TWEEN} from "../../../../constants";
 import {DUNK_SHOT_STATE_MACHINE} from "../../../../constants/stateMachine";
 import {INSIDE_BASKET, PROTECTED} from "../../../../constants/statuses";
 import {LEFT, RIGHT} from "../../../../../../shared/constants/directions/directions";

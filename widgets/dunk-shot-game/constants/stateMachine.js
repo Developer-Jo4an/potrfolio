@@ -46,12 +46,14 @@ export const DUNK_SHOT_STATE_MACHINE = {
   },
   [WIN]: {
     availableStates: [INITIALIZATION],
-    nextState: INITIALIZATION
+    nextState: INITIALIZATION,
+    isEndGame: true
   },
   [LOSE]: {
     availableStates: [INITIALIZATION],
     nextState: INITIALIZATION,
-    isSubtractLife: true
+    isSubtractLife: true,
+    isEndGame: true
   },
   [PAUSE]: {
     availableStates: [PLAYING]

@@ -1,5 +1,5 @@
-@mixin pulse($duration) {
-  animation: pulse $duration infinite;
+@mixin animation($name, $rest...) {
+  animation: #{$name} $rest;
 }
 
 @keyframes pulse {
@@ -8,5 +8,14 @@
   }
   50% {
     transform: scale(1.2);
+  }
+}
+
+@keyframes rotate {
+  0% {
+    transform: rotate(0deg)
+  }
+  to {
+    transform: rotate(-1turn)
   }
 }

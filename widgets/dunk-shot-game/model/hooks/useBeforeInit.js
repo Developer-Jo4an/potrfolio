@@ -1,5 +1,5 @@
 import useDunkShotStore from "../state-manager/dunkShotStore";
-import {DUNK_SHOT_TWEEN} from "../../constants/constants";
+import {DUNK_SHOT_TWEEN} from "../../constants";
 import {DUNK_SHOT_CONFIG_EVENT, DUNK_SHOT_GAME_DATA_EVENT} from "../../constants/events";
 import gsap from "gsap";
 

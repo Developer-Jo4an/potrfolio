@@ -32,6 +32,6 @@
     "zustand": "^5.0.6"
   },
   "devDependencies": {
-    "sass": "latest"
+    "sass": "1.93"
   }
 }

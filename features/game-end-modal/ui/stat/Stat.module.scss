@@ -1,0 +1,61 @@
+@use "../../../../application/styles/constants" as constants;
+
+.stat {
+  position: relative;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  padding-bottom: 5px;
+
+  &:before {
+    content: "";
+
+    position: absolute;
+    left: 0;
+    bottom: 5px;
+
+    width: 100%;
+    height: 2px;
+
+    opacity: 0.6;
+
+    background: radial-gradient(52.37% 86.47% at 50% 50%, #fff 0, hsla(0, 0%, 100%, 0) 100%);
+  }
+}
+
+.statName {
+  font-size: 24px;
+  color: constants.$WHITE;
+  font-family: Discovery, KogniGear, sans-serif;
+}
+
+.statInfo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+}
+
+.statImage {
+  height: 100%;
+}
+
+.statSign {
+  fill: constants.$TURQUOISE;
+  height: 24px;
+}
+
+.statValue {
+  position: relative;
+  top: 3px;
+
+  font-size: 24px;
+  color: constants.$WHITE;
+  font-family: Discovery, KogniGear, sans-serif;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

@@ -6,7 +6,7 @@ import BoostersController from "./controllers/BoostersController";
 import {addControllerStateHandler} from "../../../../../shared/scene/lib/state/addControllerStateHandler";
 import {copy} from "../../../../../shared/lib/copy/copy";
 import {COLLISION_FILTERS} from "../../../constants/collision";
-import {DUNK_SHOT_TWEEN} from "../../../constants/constants";
+import {DUNK_SHOT_TWEEN} from "../../../constants";
 import {DUNK_SHOT_STATE_MACHINE} from "../../../constants/stateMachine";
 import {dunkShotFactory} from "../../factory/DunkShotFactory";
 import {VISIBLE} from "../../../constants/modes";

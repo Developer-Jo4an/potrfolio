@@ -1,3 +1,5 @@
+@use "../../../../application/styles/constants" as constants;
+
 .timerContainer {
   position: absolute;
 
@@ -9,7 +11,7 @@
 
   overflow: hidden;
 
-  background-color: rgba(black, 0.3);
+  background-color: rgba(constants.$BLACK, 0.3);
 }
 
 .timerProgress {

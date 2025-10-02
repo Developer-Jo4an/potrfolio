@@ -5,7 +5,7 @@ import {MODAL_NAMES} from "../../../../application/providers/modal";
 import {OFF, ON} from "../../../../shared/constants/helpful/statuses";
 import {useAppCallbacks} from "../../../../application/providers/callbacks/ui/main/CallbacksProvider";
 import {INDEX} from "../../../../shared/constants/pages/routes";
-import {DUNK_SHOT_GAME} from "../../constants/constants";
+import {DUNK_SHOT_GAME} from "../../constants";
 
 export default function useDunkShotPause() {
   const {gameData: {state}, wrapper} = useDunkShotStore();

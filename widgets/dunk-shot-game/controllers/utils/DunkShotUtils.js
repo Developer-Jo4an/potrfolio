@@ -2,7 +2,7 @@ import GameUtils from "../../../../shared/scene/utils/GameUtils";
 import {sample} from "lodash";
 import {copy} from "../../../../shared/lib/copy/copy";
 import {CENTER, LEFT, RIGHT} from "../../../../shared/constants/directions/directions";
-import {GAME_SIZE} from "../../constants/constants";
+import {GAME_SIZE} from "../../constants";
 import {dunkShotFactory} from "../factory/DunkShotFactory";
 import setNecessaryListeners from "./setNecessaryListeners";
 

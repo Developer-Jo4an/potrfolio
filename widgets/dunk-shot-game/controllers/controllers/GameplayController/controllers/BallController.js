@@ -3,7 +3,7 @@ import eventSubscription from "../../../../../../shared/lib/events/eventListener
 import {dunkShotFactory} from "../../../factory/DunkShotFactory";
 import {dunkShotAnimationPlayer} from "../../../animations/DunkShotAnimationPlayer";
 import {dunkShotUtils} from "../../../utils/DunkShotUtils";
-import {DUNK_SHOT_TWEEN, GAME_SIZE} from "../../../../constants/constants";
+import {DUNK_SHOT_TWEEN, GAME_SIZE} from "../../../../constants";
 import {DRAG_END, DRAG_MOVE, DRAG_START} from "../../../../../../shared/constants/events/eventsNames";
 import {PROGRESS_RESET, SPIKE_COLLISION} from "../../../../constants/events";
 import {DAMAGE, FREE, INSIDE_BASKET, TO_UP} from "../../../../constants/statuses";

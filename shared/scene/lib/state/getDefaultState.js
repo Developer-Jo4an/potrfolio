@@ -1,1 +1,3 @@
-export const getDefaultState = stateMachine => Object.entries(stateMachine).find(([, {isDefault}]) => isDefault)[0];
+export default function getDefaultState(stateMachine) {
+  return Object.entries(stateMachine).find(([, {isDefault}]) => isDefault)[0];
+}

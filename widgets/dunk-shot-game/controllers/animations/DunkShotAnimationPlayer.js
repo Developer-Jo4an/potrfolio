@@ -4,7 +4,7 @@ import {toRad, distance, findClosestNumber} from "../../../../shared/lib/matrix/
 import {createProxyObject} from "../../../../shared/lib/proxy/createProxyObject";
 import {EIGHT_TENTHS} from "../../../../shared/constants/numbers/numbers";
 import {dunkShotUtils} from "../utils/DunkShotUtils";
-import {DUNK_SHOT_TWEEN} from "../../constants/constants";
+import {DUNK_SHOT_TWEEN} from "../../constants";
 import {PI2} from "../../../../shared/constants/trigonometry/trigonometry";
 import {LEFT, RIGHT} from "../../../../shared/constants/directions/directions";
 import gsap from "gsap";

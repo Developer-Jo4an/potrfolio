@@ -12,7 +12,7 @@
 .pureHitContainer {
   width: 130px;
 
-  @include animations.pulse(0.7s);
+  @include animations.animation(pulse, 0.7s infinite);
 
   img {
     width: 100%;
@@ -37,3 +37,4 @@
     position: static !important;
   }
 }
+

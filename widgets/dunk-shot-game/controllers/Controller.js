@@ -8,7 +8,7 @@ import eventSubscription from "../../../shared/lib/events/eventListener";
 import {addControllerStateHandler} from "../../../shared/scene/lib/state/addControllerStateHandler";
 import {RESIZE} from "../../../shared/constants/events/eventsNames";
 import {UPDATED} from "../../../shared/scene/constants/events/names";
-import {DUNK_SHOT_TWEEN, GAME_SIZE} from "../constants/constants";
+import {DUNK_SHOT_TWEEN, GAME_SIZE} from "../constants";
 import {DUNK_SHOT_STATE_MACHINE} from "../constants/stateMachine";
 import global from "../../../shared/constants/global/global";
 import {CONTROLLER_RESET, DUNK_SHOT_CONFIG_EVENT, DUNK_SHOT_GAME_DATA_EVENT} from "../constants/events";

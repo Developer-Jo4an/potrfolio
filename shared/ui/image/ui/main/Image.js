@@ -1,6 +1,6 @@
 import {image} from "../../../../lib/image/url";
-import styles from "./Image.module.scss";
 import cl from "classnames";
+import styles from "./Image.module.scss";
 
 export default function Image({src, className, ...otherProps}) {
   return (

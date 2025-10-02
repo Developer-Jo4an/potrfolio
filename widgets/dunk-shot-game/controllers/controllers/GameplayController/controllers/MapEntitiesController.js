@@ -5,7 +5,7 @@ import {gsapTimeout} from "../../../../../../shared/lib/gsap/helpers";
 import {dunkShotFactory} from "../../../factory/DunkShotFactory";
 import {dunkShotAnimationPlayer} from "../../../animations/DunkShotAnimationPlayer";
 import {dunkShotUtils} from "../../../utils/DunkShotUtils";
-import {DUNK_SHOT_TWEEN} from "../../../../constants/constants";
+import {DUNK_SHOT_TWEEN} from "../../../../constants";
 import {ACTIVE, FREE, INACTIVE, INSIDE_BASKET, NEXT, PROTECTED, TO_DOWN, TO_UP} from "../../../../constants/statuses";
 import {
   BASKET_COLLISION,
