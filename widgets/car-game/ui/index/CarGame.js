@@ -2,6 +2,7 @@ import {useEffect, useMemo, useRef} from "react";
 import useLoadScene from "../../../../shared/scene/model/hooks/useLoadScene";
 import eventSubscription from "../../../../shared/lib/events/eventListener";
 import useStateControls from "../../../../shared/scene/model/hooks/useStateControls";
+import {Image} from "../../../../shared/ui/image";
 import useCarStore from "../../model/state-machine/carStore";
 import {types} from "../../constants/entities";
 import {mainSceneSettings} from "../../constants/mainSceneSettings";
@@ -56,6 +57,9 @@ export default function CarGame() {
   }, [wrapper]);
 
   return (
-    <div className={styles.carGame} ref={containerRef}/>
+    <>
+      <Image className={styles.carGameBackground} src={'widgets/car-game/background.jpg'}/>
+      <div className={styles.carGame} ref={containerRef}/>
+    </>
   );
 }

@@ -4,7 +4,7 @@ import styles from "./Car.scss";
 
 export default function Car() {
   return (
-    <section className={styles.dunkShot}>
+    <section className={styles.car}>
       <CarGame/>
     </section>
   );

@@ -39,8 +39,8 @@ export const mainSceneSettings = {
       "minCountForGenerate": 8
     },
     "width": {
-      "min": 140,
-      "max": 180
+      "min": 180,
+      "max": 260
     },
     "sparePoint": {
       "x": 180,
