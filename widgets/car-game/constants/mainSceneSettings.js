@@ -42,6 +42,7 @@ export const mainSceneSettings = {
       "min": 180,
       "max": 260
     },
+    "tileScale": [0.4, 0.4],
     "sparePoint": {
       "x": 180,
       "y": 800
