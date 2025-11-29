@@ -5,6 +5,7 @@ import Performance from "../../decorators/performance/Performance";
 import PIXIUpdate from "../../decorators/pixi/pixi-update/PIXIUpdate";
 import {getIsDebug} from "../../../lib/debug/debug";
 import {cloneDeep} from "lodash";
+import {initDevtools} from "@pixi/devtools";
 import {pixiLoader} from "../../loaders/pixi/PixiLoader";
 import global from "../../../constants/global/global";
 import {PIXI_APP_CONFIG} from "../../config/pixi";
@@ -80,7 +81,7 @@ export default class PIXIController extends BaseController {
 
     const app = this.app = new global.PIXI.Application();
     await app.init({...PIXI_APP_CONFIG, resizeTo: $container, canvas, context, ...settings});
-    globalThis.__PIXI_APP__ = app;
+    await initDevtools({app});
   }
 
   initDecorators() {
