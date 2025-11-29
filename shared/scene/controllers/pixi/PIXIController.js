@@ -32,7 +32,7 @@ export default class PIXIController extends BaseController {
 
   static get context() {
     const {canvas} = this;
-    return this._context ??= canvas.getContext("webgl2");
+    return this._context ??= canvas.getContext("webgl2", {stencil: true});
   }
 
   get canvas() {

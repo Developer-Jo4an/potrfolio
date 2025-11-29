@@ -2,6 +2,7 @@ import {WEBGL} from "../../constants/gpu-api/names";
 
 export const PIXI_APP_CONFIG = {
   preference: WEBGL,
+  preferWebGLVersion: 2,
   autoStart: false,
   antialias: true,
   resolution: 2,
