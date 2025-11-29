@@ -13,12 +13,12 @@ import getRandomIntFromRange from "../../../../shared/lib/random/getRandomIntFro
 import {CHARACTER} from "../../constants/entities/character";
 import {MAIN_CONTAINER} from "../../constants/entities/mainContainer";
 import {ROAD_CHUNK} from "../../constants/entities/roadChunk";
-import {LEFT, RIGHT} from "../../constants/gameplay";
 import {GAME_SIZE} from "../../constants/game";
 import {CHARACTER_WITH_BONUSES, CHARACTER_WITH_ROAD_CHUNK, CHARACTER_WITH_SPIKES} from "../../constants/collision";
 import {BONUS} from "../../constants/entities/bonus";
 import {SPIKE} from "../../constants/entities/spike";
 import global from "../../../../shared/constants/global/global";
+import {LEFT, RIGHT} from "../../../../shared/constants/directions/directions";
 
 export default class Level extends System {
   initializationLevelSelect() {
@@ -100,25 +100,28 @@ export default class Level extends System {
     const {
       storage: {
         mainSceneSettings: {
-          character: {rotationFromDirection, moduleAngle},
-          roadChunks: {addedAngle, width, sparePoint, hypotMultipliers}
+          character: {rotationFromDirection},
+          roadChunks: {width, height, sparePoint}
         }
       }
     } = this;
 
     const direction = {[RIGHT]: LEFT, [LEFT]: RIGHT}[prevChunkComponent?.direction] ?? LEFT;
+
     const startWidth = prevChunkComponent?.width.end ?? getRandomIntFromRange(width.min, width.max);
-    const endWidth = getRandomIntFromRange(width.min, width.max);
     const startPoint = cloneDeep(prevChunkComponent?.points.end ?? sparePoint);
     const startPointFirst = {x: startPoint.x - startWidth / 2, y: startPoint.y};
     const startPointSecond = {x: startPoint.x + startWidth / 2, y: startPoint.y};
-    const adjacentLeg = ({[LEFT]: startPoint.x, [RIGHT]: GAME_SIZE.width - startPoint.x})[direction];
-    const oppositeLeg = adjacentLeg * Math.tan(moduleAngle);
-    const fullHypot = Math.hypot(oppositeLeg, adjacentLeg);
-    const hypot = getRandomIntFromRange(fullHypot * hypotMultipliers.min, fullHypot * hypotMultipliers.max);
-    const angleX = rotationFromDirection[direction] + addedAngle[direction].x;
-    const angleY = rotationFromDirection[direction] + addedAngle[direction].y;
-    const endPoint = {x: startPoint.x + Math.cos(angleX) * hypot, y: startPoint.y + Math.sin(angleY) * hypot};
+
+    const oppositeLeg = getRandomIntFromRange(height.min, height.max);
+    const adjacentLeg = Math.tan(Math.PI / 2 - Math.abs(rotationFromDirection[direction])) * oppositeLeg;
+    const multiplier = ({[LEFT]: -1, [RIGHT]: 1})[direction];
+
+    const endWidth = getRandomIntFromRange(width.min, width.max);
+    const endPoint = {
+      x: startPoint.x + multiplier * adjacentLeg,
+      y: startPoint.y - oppositeLeg
+    };
     const endPointFirst = {x: endPoint.x + endWidth / 2, y: endPoint.y};
     const endPointSecond = {x: endPoint.x - endWidth / 2, y: endPoint.y};
 
@@ -133,7 +136,6 @@ export default class Level extends System {
     };
     roadChunkChunkComponent.adjacentLeg = adjacentLeg;
     roadChunkChunkComponent.oppositeLeg = oppositeLeg;
-    roadChunkChunkComponent.hypot = hypot;
     roadChunkChunkComponent.direction = direction;
 
     roadChunkEntity.add(roadChunkChunkComponent);
@@ -424,9 +426,11 @@ export default class Level extends System {
     };
     this.optimizationRoadChunks(fullArguments);
     this.checkOnAddRoadChunks(fullArguments);
+
     this.optimizationBonuses(fullArguments);
-    this.optimizationSpikes(fullArguments);
     this.checkOnCollisionWithBonuses(fullArguments);
+
+    this.optimizationSpikes(fullArguments);
     this.checkOnCollisionWithSpikes(fullArguments);
   }
 }

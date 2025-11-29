@@ -11,18 +11,15 @@ export default class Chunk extends Component {
 
   oppositeLeg = 0;
 
-  hypot = 0;
-
   direction = null;
 
-  constructor({eventBus, points = {}, width = {}, adjacentLeg = 0, oppositeLeg = 0, hypot = 0, direction = null}) {
+  constructor({eventBus, points = {}, width = {}, adjacentLeg = 0, oppositeLeg = 0, direction = null}) {
     super({eventBus});
 
     this.points = points;
     this.width = width;
     this.adjacentLeg = adjacentLeg;
     this.oppositeLeg = oppositeLeg;
-    this.hypot = hypot;
     this.direction = direction;
   }
 
@@ -31,7 +28,6 @@ export default class Chunk extends Component {
     this.width = {};
     this.adjacentLeg = 0;
     this.oppositeLeg = 0;
-    this.hypot = 0;
     this.direction = null;
     super.destroy();
   }

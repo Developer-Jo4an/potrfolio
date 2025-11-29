@@ -82,6 +82,7 @@ export default class PIXIController extends BaseController {
     const app = this.app = new global.PIXI.Application();
     await app.init({...PIXI_APP_CONFIG, resizeTo: $container, canvas, context, ...settings});
     await initDevtools({app});
+    globalThis.__PIXI_APP__ = app;
   }
 
   initDecorators() {

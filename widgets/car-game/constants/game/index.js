@@ -1,4 +1,4 @@
-import {LEFT} from "../gameplay";
+import {LEFT} from "../../../../shared/constants/directions/directions";
 
 export const CAR = "car";
 

@@ -4,6 +4,7 @@ import Matrix3Component from "../../../../shared/scene/ecs/base/components/trans
 import {upperFirst} from "lodash";
 import {MAIN_CONTAINER} from "../../constants/entities/mainContainer";
 import {CHARACTER, DEFAULT} from "../../constants/entities/character";
+import {GAME_SIZE} from "../../constants/game";
 
 export default class Camera extends System {
   updateFromCharacter() {
@@ -20,10 +21,11 @@ export default class Camera extends System {
 
     const characterViewGlobalPosition = {
       x: mainContainerMatrix3Component.x + characterMatrix3Component.x,
-      y: mainContainerMatrix3Component.y + characterMatrix3Component.y,
+      y: mainContainerMatrix3Component.y + characterMatrix3Component.y
     };
 
     mainContainerMatrix3Component.y += Math.max(0, trackingBoundary - characterViewGlobalPosition.y);
+    mainContainerMatrix3Component.x = GAME_SIZE.width / 2 - characterMatrix3Component.x;
   }
 
   update() {

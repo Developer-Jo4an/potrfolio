@@ -12,11 +12,10 @@ export const mainSceneSettings = {
     },
     "speed": 5,
     "velocity": 0.015,
-    "moduleAngle": 0.785,
     "zIndex": 2,
     "rotationFromDirection": {
-      "left": -0.785,
-      "right": 0.785
+      "left": -0.785, // [-Math.PI/2, 0]
+      "right": 0.785 //  [0, Math.PI/2]
     },
     "directionMultiplier": {
       "left": {
@@ -42,29 +41,19 @@ export const mainSceneSettings = {
       "min": 180,
       "max": 260
     },
+    "height": {
+      "min": 150,
+      "max": 250
+    },
     "tileScale": [0.4, 0.4],
     "sparePoint": {
       "x": 180,
       "y": 800
     },
-    "hypotMultipliers": {
-      "min": 0.3,
-      "max": 1
-    },
     "anchor": [
       0.5,
       1
-    ],
-    "addedAngle": {
-      "left": {
-        "x": -1.57,
-        "y": 0
-      },
-      "right": {
-        "x": 0,
-        "y": -1.57
-      }
-    }
+    ]
   },
   "bonus": {
     "chance": 1,

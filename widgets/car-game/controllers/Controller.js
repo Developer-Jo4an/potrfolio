@@ -17,7 +17,6 @@ import eventSubscription from "../../../shared/lib/events/eventListener";
 import {GAME_SIZE, GAME_SPACE} from "../constants/game";
 import {NOT_AVAILABLE_ENTITIES_TYPES_FOR_RESET} from "../constants/reset";
 import {performanceAnalysis} from "../../../shared/scene/performance/Performance";
-import {PLAYING} from "../constants/stateMachine";
 import {UPDATE_DECORATOR_FIELD} from "../../../shared/scene/constants/decorators/names";
 import {UPDATED} from "../../../shared/scene/constants/events/names";
 import {RESIZE} from "../../../shared/constants/events/eventsNames";
@@ -85,8 +84,8 @@ export default class Controller extends PIXIController {
   }
 
   updateEngine({deltaMS, deltaTime}) {
-    const {state, engine} = this;
-    if (state === PLAYING)
+    const {storage: {states}, state, engine} = this;
+    if (states[state]?.isAvailableUpdate)
       engine.update({deltaMS, deltaTime});
   }
 
