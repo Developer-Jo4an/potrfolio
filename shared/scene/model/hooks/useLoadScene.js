@@ -45,8 +45,10 @@ export default function useLoadScene(
 
       afterClear = await afterInit?.(wrapper);
 
-      if (isUnmount)
+      if (isUnmount) {
         afterClear?.();
+        afterClear = null;
+      }
     })();
 
     return () => {

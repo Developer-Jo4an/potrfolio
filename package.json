@@ -27,8 +27,10 @@
     "react-icons": "^5.5.0",
     "react-swipeable": "^7.0.2",
     "react-typed": "^2.0.12",
+    "sat": "^0.9.0",
     "stats.js": "^0.17.0",
     "three": "^0.180.0",
+    "uuid": "^13.0.0",
     "zustand": "^5.0.6"
   },
   "devDependencies": {

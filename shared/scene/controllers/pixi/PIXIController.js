@@ -4,7 +4,7 @@ import Resize from "../../decorators/resize/Resize";
 import Performance from "../../decorators/performance/Performance";
 import PIXIUpdate from "../../decorators/pixi/pixi-update/PIXIUpdate";
 import {getIsDebug} from "../../../lib/debug/debug";
-import {copy} from "../../../lib/copy/copy";
+import {cloneDeep} from "lodash";
 import {pixiLoader} from "../../loaders/pixi/PixiLoader";
 import global from "../../../constants/global/global";
 import {PIXI_APP_CONFIG} from "../../config/pixi";
@@ -25,10 +25,6 @@ export default class PIXIController extends BaseController {
   ].filter(Boolean);
 
   decorators = {};
-
-  constructor(data) {
-    super(data);
-  }
 
   static get canvas() {
     return this._canvas ??= document.createElement("canvas");
@@ -72,7 +68,7 @@ export default class PIXIController extends BaseController {
     const {preload, storage} = this;
 
     if (preload) {
-      storage.preload = copy(preload);
+      storage.preload = cloneDeep(preload);
       await pixiLoader.init();
       await pixiLoader.loadAssets(storage.preload);
     }
@@ -84,6 +80,7 @@ export default class PIXIController extends BaseController {
 
     const app = this.app = new global.PIXI.Application();
     await app.init({...PIXI_APP_CONFIG, resizeTo: $container, canvas, context, ...settings});
+    globalThis.__PIXI_APP__ = app;
   }
 
   initDecorators() {

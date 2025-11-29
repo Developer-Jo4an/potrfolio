@@ -18,10 +18,6 @@ export function velocity(x, y) {
   return Math.sqrt(x ** 2 + y ** 2);
 }
 
-export function hypot(a, b) {
-  return Math.sqrt(a ** 2 + b ** 2);
-}
-
 export function findClosestNumber(target, ...rest) {
   if (rest.length === 0)
     return target;

@@ -80,8 +80,6 @@ export default class Controller extends PIXIController {
       this.isInitialized = true;
     }
 
-    globalThis.__PIXI_APP__ = app;
-
     this.startUpdate();
   }
 

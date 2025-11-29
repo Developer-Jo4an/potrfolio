@@ -1,4 +1,4 @@
-import {copy} from "../../../lib/copy/copy";
+import {cloneDeep} from "lodash";
 
 export default class BaseController {
 
@@ -26,6 +26,6 @@ export default class BaseController {
   initMainSceneSettings() {
     const {storage, mainSceneSettings} = this;
     if (mainSceneSettings)
-      storage.mainSceneSettings = copy(mainSceneSettings);
+      storage.mainSceneSettings = cloneDeep(mainSceneSettings);
   }
 }

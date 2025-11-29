@@ -712,9 +712,9 @@ picomatch@^2.3.1:
   integrity sha512-JU3teHTNjmE2VCGFzuY8EXzCDVwEqB2a8fsIvwaStHhAWJEeVd1o1QD80CU6+ZdEXXSLbSsuLwJjkCBWqRQUVA==
 
 pixi.js@^8.11.0:
-  version "8.13.2"
-  resolved "https://registry.yarnpkg.com/pixi.js/-/pixi.js-8.13.2.tgz#0f463737913806953a735fcf8d060645eba83862"
-  integrity sha512-9KVGZ4a99TA5SwUEWs9m5gliX6XUCS1aGc/DOPsXxpqLMDRa+FhzpT5ao9z1UwLYJkSvt3rcQs+aZXECBHSSHg==
+  version "8.14.3"
+  resolved "https://registry.yarnpkg.com/pixi.js/-/pixi.js-8.14.3.tgz#8f40cdad541f4d9eae72a792b784a3c1b1a75d0d"
+  integrity sha512-6xGYARV8D9E/fO1c2NmYn+k2dQ5oZldVm5tNlLQJ8obTlOQXdL5QpMc217qTpRyHVDFaw5eoFCLF1gr6p5ZcjQ==
   dependencies:
     "@pixi/colord" "^2.9.6"
     "@types/css-font-loading-module" "^0.0.12"
@@ -794,6 +794,11 @@ sass@1.93:
     source-map-js ">=0.6.2 <2.0.0"
   optionalDependencies:
     "@parcel/watcher" "^2.4.1"
+
+sat@^0.9.0:
+  version "0.9.0"
+  resolved "https://registry.yarnpkg.com/sat/-/sat-0.9.0.tgz#02091260513c8f2482da7db9377ddfeca80f5982"
+  integrity sha512-mxdv5RZJO4tdMnUURGU3gAMcnDUEwcNJwE+lPO0/V+rBeDvFLH3wEZEOR0fH7cTN0zQaNxBEbHnyQL9DzupwQQ==
 
 scheduler@^0.26.0:
   version "0.26.0"
@@ -887,6 +892,11 @@ typed.js@^2.1.0:
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/typed.js/-/typed.js-2.1.0.tgz#b97a06111a5f57d6a59acfdd36d4f9b891ee13b4"
   integrity sha512-bDuXEf7YcaKN4g08NMTUM6G90XU25CK3bh6U0THC/Mod/QPKlEt9g/EjvbYB8x2Qwr2p6J6I3NrsoYaVnY6wsQ==
+
+uuid@^13.0.0:
+  version "13.0.0"
+  resolved "https://registry.yarnpkg.com/uuid/-/uuid-13.0.0.tgz#263dc341b19b4d755eb8fe36b78d95a6b65707e8"
+  integrity sha512-XQegIaBTVUjSHliKqcnFqYypAd4S+WCYt5NIeRs6w/UAry7z8Y9j5ZwRRL4kzq9U3sD6v+85er9FvkEaBpji2w==
 
 zustand@^5.0.6:
   version "5.0.6"

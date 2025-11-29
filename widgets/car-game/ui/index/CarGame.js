@@ -1,0 +1,61 @@
+import {useEffect, useMemo, useRef} from "react";
+import useLoadScene from "../../../../shared/scene/model/hooks/useLoadScene";
+import eventSubscription from "../../../../shared/lib/events/eventListener";
+import useStateControls from "../../../../shared/scene/model/hooks/useStateControls";
+import useCarStore from "../../model/state-machine/carStore";
+import {types} from "../../constants/entities";
+import {mainSceneSettings} from "../../constants/mainSceneSettings";
+import {preload} from "../../constants/preload";
+import {CAR_STATE_MACHINE, IGNORE_NEXT_STATES, LOSE} from "../../constants/stateMachine";
+import {BONUSES_COLLISION, SPIKES_COLLISION} from "../../constants/events";
+import imports from "../../../../shared/scene/lib/import";
+import styles from "./CarGame.module.scss";
+
+export default function CarGame() {
+  const {setWrapper, wrapper} = useCarStore();
+  const containerRef = useRef();
+
+  useLoadScene({
+    libraries: [imports.pixi, imports.sat],
+    loadWrapper: () => import("../../controllers/Wrapper"),
+    beforeInit(wrapper) {
+      wrapper.controller.storage.states = CAR_STATE_MACHINE;
+      wrapper.controller.storage.types = types;
+    },
+    initProps: {stateMachine: CAR_STATE_MACHINE, mainSceneSettings, preload},
+    afterInit: setWrapper,
+    containerRef
+  });
+
+  useStateControls(wrapper, CAR_STATE_MACHINE, IGNORE_NEXT_STATES, useMemo(() => {
+    if (!wrapper) return {};
+    return {
+      async [LOSE](promise, setState) {
+        await promise;
+        await wrapper.reset();
+        setState();
+      }
+    };
+  }, [wrapper]));
+
+  useEffect(() => {
+    if (wrapper)
+      return eventSubscription({
+        target: wrapper.eventBus,
+        callbacksBus: [
+          {
+            event: BONUSES_COLLISION, callback: ({count}) => {
+            }
+          },
+          {
+            event: SPIKES_COLLISION, callback: ({count}) => {
+            }
+          }
+        ]
+      });
+  }, [wrapper]);
+
+  return (
+    <div className={styles.carGame} ref={containerRef}/>
+  );
+}

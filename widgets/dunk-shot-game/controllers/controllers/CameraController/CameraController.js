@@ -1,4 +1,4 @@
-import BaseController from "../BaseController/BaseController";
+ import BaseController from "../BaseController/BaseController";
 import {isInsideRectangle} from "../../../../../shared/lib/matrix/matrix";
 import {clamp} from "lodash";
 import {dunkShotFactory} from "../../factory/DunkShotFactory";

@@ -7,10 +7,6 @@ export default class PixiWrapper extends BaseWrapper {
     return this._instance ??= new PixiWrapper();
   }
 
-  constructor(data) {
-    super(data);
-  }
-
   appendContainer($container) {
     this.controller.appendContainer($container);
   }

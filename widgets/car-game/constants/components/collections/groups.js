@@ -1,0 +1,1 @@
+export const SIDE_EFFECTS = "side-effects";

@@ -15,9 +15,9 @@
     "description": "Mario - игра созданная по референсу оригинального Mario с помощью 2d фреймворка phaser"
   },
   {
-    "id": "match3",
-    "title": "Три в ряд",
-    "description": "Три в ряд - ну что тут сказать, просто три в ряд, pixi.js"
+    "id": "car",
+    "title": "Машинка",
+    "description": "Машинка - что-то типо geometry dash, ecs, pixi.js, sat.js"
   },
   {
     "id": "fruits",

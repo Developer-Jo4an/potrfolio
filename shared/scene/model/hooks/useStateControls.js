@@ -1,0 +1,39 @@
+import {useEffect} from "react";
+import eventSubscription from "../../../lib/events/eventListener";
+import getDefaultState from "../../lib/state/getDefaultState";
+import {STATE_CHANGED} from "../../constants/events/names";
+
+export default function useStateControls(wrapper, stateMachine, ignoreNextStates, reducers = {}) {
+  useEffect(() => {
+    if (!wrapper) return;
+
+    const {eventBus, controller} = wrapper;
+
+    const clear = eventSubscription({
+      target: eventBus,
+      callbacksBus: [{
+        event: STATE_CHANGED,
+        async callback({state}) {
+          const changeStatePromise = controller[`${state}Select`]?.();
+
+          const nextState = stateMachine[state].nextState;
+
+          const onStateChange = reducers[state];
+          await onStateChange?.(
+            changeStatePromise,
+            (newState = nextState) => controller.state = newState
+          );
+
+          await changeStatePromise;
+
+          if (!ignoreNextStates.includes(state))
+            controller.state = nextState;
+        }
+      }]
+    });
+
+    controller.state = getDefaultState(stateMachine);
+
+    return clear;
+  }, [wrapper, reducers]);
+}

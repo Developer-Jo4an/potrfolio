@@ -22,7 +22,7 @@ export default function useLoadDunkShotScene() {
     loadWrapper: () => import("../../controllers/Wrapper"),
     beforeInit: useBeforeInit(),
     initProps: {stateMachine: DUNK_SHOT_STATE_MACHINE, mainSceneSettings, preload},
-    afterInit: wrapper => setWrapper(wrapper),
+    afterInit: setWrapper,
     containerRef
   });
   useStateController(wrapper, IGNORE_NEXT_STATES, DUNK_SHOT_STATE_MACHINE);

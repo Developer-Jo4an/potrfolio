@@ -21,7 +21,6 @@ const {useStore: useDunkShotStore, selectors} = createStore({
     // Игровые экшены
     setDunkShotState({state}, newState) {
       const {gameData} = state;
-
       gameData.state = newState;
     },
     setDunkShotProgress({state, globalStore}, {action, data}) {

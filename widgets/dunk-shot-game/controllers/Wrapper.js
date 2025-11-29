@@ -8,10 +8,6 @@ export default class Wrapper extends PixiWrapper {
     return this._instance ??= new Wrapper();
   }
 
-  constructor(data) {
-    super(data);
-  }
-
   registerController(data) {
     const {eventBus} = this;
 

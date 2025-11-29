@@ -92,7 +92,7 @@ export default class Factory {
 
   clear() {
     Object.entries(this.storage)
-    .forEach(([type, storage]) => {
+    .forEach(([, storage]) => {
       storage.clear();
       delete this.storage;
     });
