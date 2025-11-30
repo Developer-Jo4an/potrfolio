@@ -14,6 +14,7 @@ import {ROAD_CHUNK} from "./roadChunk";
 import {BONUS} from "./bonus";
 import {SPIKE} from "./spike";
 import {CAR_STATE_MACHINE} from "../stateMachine";
+import {ROAD_CHUNKS_CONTAINER} from "./roadChunksContainer";
 
 export const types = {
   [GAME]: {
@@ -32,6 +33,13 @@ export const types = {
     ]
   },
   [MAIN_CONTAINER]: {
+    components: [
+      {Class: PixiComponent},
+      {Class: Matrix3Component},
+      {Class: Collection, props: {group: SIDE_EFFECTS}}
+    ]
+  },
+  [ROAD_CHUNKS_CONTAINER]: {
     components: [
       {Class: PixiComponent},
       {Class: Matrix3Component},

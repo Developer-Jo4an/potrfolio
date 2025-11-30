@@ -18,10 +18,12 @@ import {BONUS} from "../../constants/entities/bonus";
 import {SPIKE} from "../../constants/entities/spike";
 import {LEFT, RIGHT} from "../../../../shared/constants/directions/directions";
 import global from "../../../../shared/constants/global/global";
+import {ROAD_CHUNKS_CONTAINER} from "../../constants/entities/roadChunksContainer";
 
 export default class Level extends System {
   initializationLevelSelect() {
     this.initMainContainer();
+    this.initRoadChunksContainer();
     this.initCharacter();
     this.initMapEntities();
   }
@@ -33,6 +35,17 @@ export default class Level extends System {
     const mainContainerView = this.getAsset(mainContainerEntity, MAIN_CONTAINER);
     mainContainerPixiComponent.pixiObject = mainContainerView;
     stage.addChild(mainContainerView);
+  }
+
+  initRoadChunksContainer() {
+    const {eventBus} = this;
+    const roadChunksContainerEntity = new Entity({eventBus, type: ROAD_CHUNKS_CONTAINER}).init();
+    const roadChunksContainerPixiComponent = roadChunksContainerEntity.get(PixiComponent);
+    const roadChunksContainerView = this.getAsset(roadChunksContainerEntity, ROAD_CHUNKS_CONTAINER);
+    roadChunksContainerPixiComponent.pixiObject = roadChunksContainerView;
+    const mainContainerEntity = this.getFirstEntityByType(MAIN_CONTAINER);
+    const mainContainerPixiComponent = mainContainerEntity.get(PixiComponent);
+    mainContainerPixiComponent.pixiObject.addChild(roadChunksContainerView);
   }
 
   initCharacter() {
@@ -139,12 +152,9 @@ export default class Level extends System {
     roadChunkEntity.add(roadChunkChunkComponent);
   }
 
-  initRoadChunkPixiComponent({roadChunkEntity}) {
-    const mainContainerEntity = this.getFirstEntityByType(MAIN_CONTAINER);
-    const mainContainerPixiComponent = mainContainerEntity.get(PixiComponent);
+  initRoadChunkPixiComponent({roadChunkEntity, roadChunksContainerEntity}) {
     const roadChunkChunkComponent = roadChunkEntity.get(Chunk);
     const {points: {startPointFirst, startPointSecond, endPointFirst, endPointSecond}} = roadChunkChunkComponent;
-
     const roadChunkPixiComponent = roadChunkEntity.get(PixiComponent);
     const roadChunkView = roadChunkPixiComponent.pixiObject = this.getAsset(roadChunkEntity, ROAD_CHUNK);
     [startPointFirst, startPointSecond, endPointFirst, endPointSecond].forEach(({x, y}, index, points) => {
@@ -154,8 +164,9 @@ export default class Level extends System {
     });
     roadChunkView.mask.closePath();
     roadChunkView.mask.fill(0xffffff);
-    mainContainerPixiComponent.pixiObject.addChild(roadChunkView);
-    mainContainerPixiComponent.pixiObject.addChildAt(roadChunkView.mask, 0);
+    const roadChunksContainerPixiComponent = roadChunksContainerEntity.get(PixiComponent);
+    roadChunksContainerPixiComponent.pixiObject.addChild(roadChunkView);
+    roadChunksContainerPixiComponent.pixiObject.addChildAt(roadChunkView.mask, 0);
   }
 
   initRoadChunkSatComponent({roadChunkEntity}) {
@@ -293,6 +304,7 @@ export default class Level extends System {
     const {eventBus, storage: {mainSceneSettings: {roadChunks: {generate: {count}}}}} = this;
 
     const mainContainerEntity = this.getFirstEntityByType(MAIN_CONTAINER);
+    const roadChunksContainerEntity = this.getFirstEntityByType(ROAD_CHUNKS_CONTAINER);
     const roadChunkEntitiesLength = (this.getEntitiesByType(ROAD_CHUNK)?.list ?? [])?.length;
     for (let i = roadChunkEntitiesLength; i < roadChunkEntitiesLength + count; i++) {
       // Предыдущий чанк
@@ -302,7 +314,7 @@ export default class Level extends System {
       const prevChunkComponent = prevRoadChunkEntity?.get(Chunk);
       // Инициализация нового чанка
       const roadChunkEntity = new Entity({eventBus, type: ROAD_CHUNK}).init();
-      const props = {roadChunkEntity, prevChunkComponent, mainContainerEntity};
+      const props = {roadChunkEntity, prevChunkComponent, roadChunksContainerEntity, mainContainerEntity};
       this.initRoadChunkChunkComponent(props);
       this.initRoadChunkPixiComponent(props);
       this.initRoadChunkSatComponent(props);

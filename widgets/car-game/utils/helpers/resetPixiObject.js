@@ -7,6 +7,7 @@ export default function resetPixiObject(object) {
   object.rotation = 0;
   object.pivot.set(0);
   object.zIndex = 0;
+  object.isRenderGroup = false;
   object.removeChildren();
   object.anchor && object.anchor.set(0);
   object.tilePosition && object.tilePosition.set(0);

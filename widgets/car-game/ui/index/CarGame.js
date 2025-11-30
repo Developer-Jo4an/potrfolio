@@ -32,9 +32,9 @@ export default function CarGame() {
     if (!wrapper) return {};
     return {
       async [LOSE](promise, setState) {
-        await promise;
-        await wrapper.reset();
-        setState();
+        // await promise;
+        // await wrapper.reset();
+        // setState();
       }
     };
   }, [wrapper]));

@@ -31,6 +31,9 @@ export const mainSceneSettings = {
   "camera": {
     "trackingBoundary": 600
   },
+  "roadChunksContainer": {
+    "isRenderGroup": true
+  },
   "roadChunks": {
     "generate": {
       "count": 6,

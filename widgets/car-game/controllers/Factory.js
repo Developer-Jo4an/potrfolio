@@ -9,6 +9,7 @@ import {BONUS} from "../constants/entities/bonus";
 import {SPIKE} from "../constants/entities/spike";
 import {assetsManager} from "../../../shared/scene/assets/AssetsManager";
 import {PIXI_SPACE, TEXTURE} from "../../../shared/scene/constants/loaders/assetsTypes";
+import {ROAD_CHUNKS_CONTAINER} from "../constants/entities/roadChunksContainer";
 
 export default class CarFactory extends Factory {
   static METHODS = {
@@ -87,6 +88,27 @@ export default class CarFactory extends Factory {
     const mainContainer = new global.PIXI.Container();
     mainContainer.label = MAIN_CONTAINER;
     return mainContainer;
+  }
+
+  /**
+   * roadChunksContainer
+   */
+  [`reset${upperFirst(ROAD_CHUNKS_CONTAINER)}`](roadChunksContainer) {
+    resetPixiObject(roadChunksContainer);
+  }
+
+  [`prepare${upperFirst(ROAD_CHUNKS_CONTAINER)}`](roadChunksContainer) {
+    const {defaultProperties: {storage: {mainSceneSettings: {roadChunksContainer: {isRenderGroup}}}}} = this;
+    roadChunksContainer.label = ROAD_CHUNKS_CONTAINER;
+    roadChunksContainer.isRenderGroup = isRenderGroup;
+  }
+
+  [`create${upperFirst(ROAD_CHUNKS_CONTAINER)}`]() {
+    const {defaultProperties: {storage: {mainSceneSettings: {roadChunksContainer: {isRenderGroup}}}}} = this;
+    const roadChunksContainer = new global.PIXI.Container();
+    roadChunksContainer.label = ROAD_CHUNKS_CONTAINER;
+    roadChunksContainer.isRenderGroup = isRenderGroup;
+    return roadChunksContainer;
   }
 
   /**
