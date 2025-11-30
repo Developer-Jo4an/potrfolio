@@ -5,6 +5,7 @@ import Matrix3Component from "../../../../shared/scene/ecs/base/components/trans
 import CollisionComponent from "../../../../shared/scene/ecs/base/components/collision/CollisionComponent";
 import Entity from "../../../../shared/scene/ecs/core/Entity";
 import Chunk from "../components/Chunk";
+import Rectangle from "../components/Rectangle";
 import {cloneDeep} from "lodash";
 import getIsInsideRectangle from "../../utils/helpers/getIsInsideRectangle";
 import getRandomPointInQuadrilateralBilinear from "../../utils/helpers/getRandomPointInQuadrilateralBilinear";
@@ -17,14 +18,22 @@ import {GAME_SIZE} from "../../constants/game";
 import {CHARACTER_WITH_BONUSES, CHARACTER_WITH_ROAD_CHUNK, CHARACTER_WITH_SPIKES} from "../../constants/collision";
 import {BONUS} from "../../constants/entities/bonus";
 import {SPIKE} from "../../constants/entities/spike";
-import global from "../../../../shared/constants/global/global";
+import {GAME} from "../../constants/entities/game";
 import {LEFT, RIGHT} from "../../../../shared/constants/directions/directions";
+import global from "../../../../shared/constants/global/global";
 
 export default class Level extends System {
   initializationLevelSelect() {
+    this.initGame();
     this.initMainContainer();
     this.initCharacter();
     this.initRoadChunks();
+  }
+
+  initGame() {
+    const gameEntity = this.getFirstEntityByType(GAME);
+    const gameRectangleComponent = gameEntity.get(Rectangle);
+    gameRectangleComponent.rectangle = new global.PIXI.Rectangle(0, 0, GAME_SIZE.width, GAME_SIZE.height);
   }
 
   initMainContainer() {
@@ -137,8 +146,19 @@ export default class Level extends System {
     roadChunkChunkComponent.adjacentLeg = adjacentLeg;
     roadChunkChunkComponent.oppositeLeg = oppositeLeg;
     roadChunkChunkComponent.direction = direction;
-
     roadChunkEntity.add(roadChunkChunkComponent);
+  }
+
+  initRoadChunkRectangleComponent({roadChunkEntity, mainContainerEntity}) {
+    const roadChunkChunkComponent = roadChunkEntity.get(Chunk);
+    const mainContainerMatrix3Component = mainContainerEntity.get(Matrix3Component);
+    const {points: {startPointFirst, startPointSecond, endPointFirst, endPointSecond}} = roadChunkChunkComponent;
+    const polygonPoints = [startPointFirst, startPointSecond, endPointFirst, endPointSecond].reduce((acc, {x, y}) => {
+      acc.push(x + mainContainerMatrix3Component.x, y + mainContainerMatrix3Component.y);
+      return acc;
+    }, []);
+    const roadChunkRectangleComponent = roadChunkEntity.get(Rectangle);
+    roadChunkRectangleComponent.rectangle = new global.PIXI.Polygon(polygonPoints).getBounds();
   }
 
   initRoadChunkPixiComponent({roadChunkEntity}) {
@@ -157,7 +177,7 @@ export default class Level extends System {
     roadChunkView.mask.closePath();
     roadChunkView.mask.fill(0xffffff);
     mainContainerPixiComponent.pixiObject.addChild(roadChunkView);
-    mainContainerPixiComponent.pixiObject.addChild(roadChunkView.mask);
+    mainContainerPixiComponent.pixiObject.addChildAt(roadChunkView.mask, 0);
   }
 
   initRoadChunkSatComponent({roadChunkEntity}) {
@@ -177,26 +197,42 @@ export default class Level extends System {
     );
   }
 
-  initRoadChunkMatrix3Component({roadChunkEntity, roadChunkEntities}) {
-    const roadChunkMatrix3Component = roadChunkEntity.get(Matrix3Component);
-    const roadChunkView = roadChunkEntity.get(PixiComponent).pixiObject;
-    const {points: {start}} = roadChunkEntity.get(Chunk);
+  initRoadChunkMatrix3Component({roadChunkEntity}) {
+    const {
+      storage: {
+        mainSceneSettings: {
+          roadChunks: {height, width, tileScale},
+          character: {rotationFromDirection}
+        }
+      }
+    } = this;
 
-    roadChunkMatrix3Component.scaleX = roadChunkMatrix3Component.scaleY = Math.max(
-      GAME_SIZE.width / roadChunkView.width,
-      GAME_SIZE.height / roadChunkView.height
+    const roadChunkMatrix3Component = roadChunkEntity.get(Matrix3Component);
+    const roadChunkChunkComponent = roadChunkEntity.get(Chunk);
+    const roadChunkPixiComponent = roadChunkEntity.get(PixiComponent);
+
+    const angle = Math.abs(rotationFromDirection[roadChunkChunkComponent.direction]);
+    const maxHeight = height.max;
+    const maxWidth = (maxHeight * Math.tan(angle) + width.max / 2) * 2;
+
+    const spriteScale = Math.max(
+      maxHeight / roadChunkPixiComponent.pixiObject.height,
+      maxWidth / roadChunkPixiComponent.pixiObject.width
     );
-    roadChunkMatrix3Component.x = GAME_SIZE.width / 2;
-    roadChunkMatrix3Component.y = start.y;
-    const tileOffset = {
-      x: 0, //todo: ошибка, когда генерится новая порция чанков
-      y: roadChunkEntities.reduce((acc, roadChunkEntity) => {
-        const roadChunkMatrix3Component = roadChunkEntity.get(Matrix3Component);
-        const {points: {start, end}} = roadChunkEntity.get(Chunk);
-        return acc + (start.y - end.y) / roadChunkMatrix3Component.scaleY;
-      }, 0)
-    };
-    roadChunkView.tilePosition.set(tileOffset.x, tileOffset.y);
+    roadChunkMatrix3Component.scaleX = roadChunkMatrix3Component.scaleY = spriteScale;
+
+    roadChunkMatrix3Component.x = roadChunkChunkComponent.points.start.x;
+    roadChunkMatrix3Component.y = roadChunkChunkComponent.points.start.y;
+
+    roadChunkPixiComponent.pixiObject.tilePosition.set(
+      -roadChunkMatrix3Component.x / roadChunkMatrix3Component.scaleX,
+      -roadChunkMatrix3Component.y / roadChunkMatrix3Component.scaleY
+    );
+
+    roadChunkPixiComponent.pixiObject.tileScale.set(
+      tileScale.x / spriteScale,
+      tileScale.y / spriteScale
+    );
   }
 
   initBonus(roadChunkEntity) {
@@ -278,6 +314,7 @@ export default class Level extends System {
   createRoadChunks() {
     const {eventBus, storage: {mainSceneSettings: {roadChunks: {generate: {count}}}}} = this;
 
+    const mainContainerEntity = this.getFirstEntityByType(MAIN_CONTAINER);
     const roadChunkEntitiesLength = (this.getEntitiesByType(ROAD_CHUNK)?.list ?? [])?.length;
     for (let i = roadChunkEntitiesLength; i < roadChunkEntitiesLength + count; i++) {
       // Предыдущий чанк
@@ -287,8 +324,9 @@ export default class Level extends System {
       const prevChunkComponent = prevRoadChunkEntity?.get(Chunk);
       // Инициализация нового чанка
       const roadChunkEntity = new Entity({eventBus, type: ROAD_CHUNK}).init();
-      const props = {roadChunkEntity, roadChunkEntities, prevChunkComponent};
+      const props = {roadChunkEntity, prevChunkComponent, mainContainerEntity};
       this.initRoadChunkChunkComponent(props);
+      this.initRoadChunkRectangleComponent(props);
       this.initRoadChunkPixiComponent(props);
       this.initRoadChunkSatComponent(props);
       this.initRoadChunkMatrix3Component(props);
@@ -309,31 +347,36 @@ export default class Level extends System {
     isCanUpdate && this.createRoadChunks();
   }
 
-  optimizationRoadChunks({characterEntity, roadChunkEntities, mainContainerEntity}) {
+  optimizationRoadChunks({gameEntity, characterEntity, mainContainerEntity, roadChunkEntities}) {
     const {storage: {mainSceneSettings: {camera: {trackingBoundary}}}} = this;
-    const mainContainerMatrix3Component = mainContainerEntity.get(Matrix3Component);
+    const gameRectangleComponent = gameEntity.get(Rectangle);
     const characterMatrix3Component = characterEntity.get(Matrix3Component);
+    const mainContainerMatrix3Component = mainContainerEntity.get(Matrix3Component);
+
     [...roadChunkEntities].forEach(roadChunkEntity => {
       const roadChunkPixiComponent = roadChunkEntity.get(PixiComponent);
       const roadChunkMatrix3Component = roadChunkEntity.get(Matrix3Component);
-      const {
-        points: {
-          start,
-          end,
-          startPointFirst,
-          startPointSecond,
-          endPointFirst,
-          endPointSecond
-        }
-      } = roadChunkEntity.get(Chunk);
-      const allPoints = [startPointFirst, startPointSecond, endPointFirst, endPointSecond];
-      const isInsideViewport = allPoints.some(({x, y}) => {
-        const globalX = mainContainerMatrix3Component.x + x;
-        const globalY = mainContainerMatrix3Component.y + y;
-        return getIsInsideRectangle({x: globalX, y: globalY}, GAME_SIZE);
-      });
+      const roadChunkRectangleComponent = roadChunkEntity.get(Rectangle);
+      const {points: {start, end}} = roadChunkEntity.get(Chunk);
+
+      const prevX = roadChunkRectangleComponent.rectangle.x;
+      const prevY = roadChunkRectangleComponent.rectangle.y;
+      roadChunkRectangleComponent.rectangle.set(
+        prevX + mainContainerMatrix3Component.x,
+        prevY + mainContainerMatrix3Component.y,
+        roadChunkRectangleComponent.rectangle.width,
+        roadChunkRectangleComponent.rectangle.height
+      );
+      const isInsideViewport = gameRectangleComponent.rectangle.intersects(roadChunkRectangleComponent.rectangle);
       roadChunkPixiComponent.pixiObject.visible = isInsideViewport;
       roadChunkPixiComponent.pixiObject.mask.visible = isInsideViewport;
+      roadChunkRectangleComponent.rectangle.set(
+        prevX,
+        prevY,
+        roadChunkRectangleComponent.rectangle.width,
+        roadChunkRectangleComponent.rectangle.height
+      );
+
       const positionAfterWhichRemove = characterMatrix3Component.y + GAME_SIZE.height - trackingBoundary;
       const roadChunkHeight = Math.abs(end.y - start.y);
       const totalPositionAfterWhichRemove = positionAfterWhichRemove + roadChunkHeight;
@@ -411,12 +454,14 @@ export default class Level extends System {
   }
 
   update() {
+    const gameEntity = this.getFirstEntityByType(GAME);
     const characterEntity = this.getFirstEntityByType(CHARACTER);
     const mainContainerEntity = this.getFirstEntityByType(MAIN_CONTAINER);
     const roadChunkEntities = this.getEntitiesByType(ROAD_CHUNK).list;
     const bonusEntities = this.getEntitiesByType(BONUS).list;
     const spikeEntities = this.getEntitiesByType(SPIKE).list;
     const fullArguments = {
+      gameEntity,
       characterEntity,
       bonusEntities,
       spikeEntities,
@@ -424,6 +469,7 @@ export default class Level extends System {
       roadChunkEntities,
       arguments
     };
+
     this.optimizationRoadChunks(fullArguments);
     this.checkOnAddRoadChunks(fullArguments);
 

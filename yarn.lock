@@ -311,9 +311,9 @@
   integrity sha512-k/9fOUGO39yd2sCjrbAJvGDEQvRwRnQIZlBz43roGwUZo5SHAmyVvSFyaVVZkicRVCaDXPKlbxrUcBuJoSWunQ==
 
 "@webgpu/types@^0.1.40":
-  version "0.1.65"
-  resolved "https://registry.yarnpkg.com/@webgpu/types/-/types-0.1.65.tgz#11386daeb33a8825df2b664d3e9fcea4e9523ec2"
-  integrity sha512-cYrHab4d6wuVvDW5tdsfI6/o6vcLMDe6w2Citd1oS51Xxu2ycLCnVo4fqwujfKWijrZMInTJIKcXxteoy21nVA==
+  version "0.1.66"
+  resolved "https://registry.yarnpkg.com/@webgpu/types/-/types-0.1.66.tgz#afba7a8f32494416643d6077ce0445fc45df4346"
+  integrity sha512-YA2hLrwLpDsRueNDXIMqN9NTzD6bCDkuXbOSe0heS+f8YE8usA6Gbv1prj81pzVHrbaAma7zObnIC+I6/sXJgA==
 
 "@xmldom/xmldom@^0.8.10":
   version "0.8.11"
@@ -716,7 +716,7 @@ picomatch@^2.3.1:
   resolved "https://registry.yarnpkg.com/picomatch/-/picomatch-2.3.1.tgz#3ba3833733646d9d3e4995946c1365a67fb07a42"
   integrity sha512-JU3teHTNjmE2VCGFzuY8EXzCDVwEqB2a8fsIvwaStHhAWJEeVd1o1QD80CU6+ZdEXXSLbSsuLwJjkCBWqRQUVA==
 
-pixi.js@^8.11.0:
+pixi.js@^8.14.3:
   version "8.14.3"
   resolved "https://registry.yarnpkg.com/pixi.js/-/pixi.js-8.14.3.tgz#8f40cdad541f4d9eae72a792b784a3c1b1a75d0d"
   integrity sha512-6xGYARV8D9E/fO1c2NmYn+k2dQ5oZldVm5tNlLQJ8obTlOQXdL5QpMc217qTpRyHVDFaw5eoFCLF1gr6p5ZcjQ==

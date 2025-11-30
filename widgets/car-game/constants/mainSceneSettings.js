@@ -4,8 +4,8 @@ export const mainSceneSettings = {
       0.5,
       0.5
     ],
-    "width": 30,
-    "height": 62,
+    "width": 50,
+    "height": 70.8,
     "startPosition": {
       "x": 180,
       "y": 750
@@ -38,14 +38,17 @@ export const mainSceneSettings = {
       "minCountForGenerate": 8
     },
     "width": {
-      "min": 180,
-      "max": 260
+      "min": 250,
+      "max": 350
     },
     "height": {
-      "min": 150,
-      "max": 250
+      "min": 250,
+      "max": 850
     },
-    "tileScale": [0.4, 0.4],
+    "tileScale": {
+      "x": 0.4,
+      "y": 0.4
+    },
     "sparePoint": {
       "x": 180,
       "y": 800
