@@ -55,6 +55,7 @@ export const types = {
       {Class: PixiComponent},
       {Class: Collection, props: {group: SIDE_EFFECTS}},
       {Class: Matrix3Component},
+      {Class: Rectangle},
       {Class: SatCollider}
     ]
   },

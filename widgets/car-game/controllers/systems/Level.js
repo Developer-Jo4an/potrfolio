@@ -7,7 +7,6 @@ import Entity from "../../../../shared/scene/ecs/core/Entity";
 import Chunk from "../components/Chunk";
 import Rectangle from "../components/Rectangle";
 import {cloneDeep} from "lodash";
-import getIsInsideRectangle from "../../utils/helpers/getIsInsideRectangle";
 import getRandomPointInQuadrilateralBilinear from "../../utils/helpers/getRandomPointInQuadrilateralBilinear";
 import chance from "../../../../shared/lib/random/chance";
 import getRandomIntFromRange from "../../../../shared/lib/random/getRandomIntFromRange";
@@ -335,6 +334,24 @@ export default class Level extends System {
     }
   }
 
+  /**
+   * roadChunk
+   */
+  optimizationRoadChunks({characterEntity, roadChunkEntities}) {
+    const {storage: {mainSceneSettings: {camera: {trackingBoundary}}}} = this;
+    const characterMatrix3Component = characterEntity.get(Matrix3Component);
+
+    [...roadChunkEntities].forEach(roadChunkEntity => {
+      const roadChunkMatrix3Component = roadChunkEntity.get(Matrix3Component);
+      const roadChunkComponent = roadChunkEntity.get(Chunk);
+      const positionAfterWhichRemove = characterMatrix3Component.y + GAME_SIZE.height - trackingBoundary;
+      const roadChunkHeight = roadChunkComponent.points.start.y - roadChunkComponent.points.end.y;
+      const totalPositionAfterWhichRemove = positionAfterWhichRemove + roadChunkHeight;
+      if (totalPositionAfterWhichRemove < roadChunkMatrix3Component.y)
+        roadChunkEntity.destroy();
+    });
+  }
+
   checkOnAddRoadChunks({characterEntity, roadChunkEntities}) {
     const {storage: {mainSceneSettings: {roadChunks: {generate: {minCountForGenerate}}}}} = this;
     const collisionComponents = characterEntity.getList(CollisionComponent);
@@ -347,64 +364,15 @@ export default class Level extends System {
     isCanUpdate && this.createRoadChunks();
   }
 
-  optimizationRoadChunks({gameEntity, characterEntity, mainContainerEntity, roadChunkEntities}) {
-    const {storage: {mainSceneSettings: {camera: {trackingBoundary}}}} = this;
-    const gameRectangleComponent = gameEntity.get(Rectangle);
-    const characterMatrix3Component = characterEntity.get(Matrix3Component);
-    const mainContainerMatrix3Component = mainContainerEntity.get(Matrix3Component);
-
-    [...roadChunkEntities].forEach(roadChunkEntity => {
-      const roadChunkPixiComponent = roadChunkEntity.get(PixiComponent);
-      const roadChunkMatrix3Component = roadChunkEntity.get(Matrix3Component);
-      const roadChunkRectangleComponent = roadChunkEntity.get(Rectangle);
-      const {points: {start, end}} = roadChunkEntity.get(Chunk);
-
-      const prevX = roadChunkRectangleComponent.rectangle.x;
-      const prevY = roadChunkRectangleComponent.rectangle.y;
-      roadChunkRectangleComponent.rectangle.set(
-        prevX + mainContainerMatrix3Component.x,
-        prevY + mainContainerMatrix3Component.y,
-        roadChunkRectangleComponent.rectangle.width,
-        roadChunkRectangleComponent.rectangle.height
-      );
-      const isInsideViewport = gameRectangleComponent.rectangle.intersects(roadChunkRectangleComponent.rectangle);
-      roadChunkPixiComponent.pixiObject.visible = isInsideViewport;
-      roadChunkPixiComponent.pixiObject.mask.visible = isInsideViewport;
-      roadChunkRectangleComponent.rectangle.set(
-        prevX,
-        prevY,
-        roadChunkRectangleComponent.rectangle.width,
-        roadChunkRectangleComponent.rectangle.height
-      );
-
-      const positionAfterWhichRemove = characterMatrix3Component.y + GAME_SIZE.height - trackingBoundary;
-      const roadChunkHeight = Math.abs(end.y - start.y);
-      const totalPositionAfterWhichRemove = positionAfterWhichRemove + roadChunkHeight;
-      if (totalPositionAfterWhichRemove < roadChunkMatrix3Component.y)
-        roadChunkEntity.destroy();
-    });
-  }
-
-  optimizationBonuses({bonusEntities, characterEntity, mainContainerEntity}) {
+  /**
+   * bonus
+   */
+  optimizationBonuses({bonusEntities, characterEntity}) {
     const {storage: {mainSceneSettings: {bonus: {width, height}, camera: {trackingBoundary}}}} = this;
-    const mainContainerMatrix3Component = mainContainerEntity.get(Matrix3Component);
     const characterMatrix3Component = characterEntity.get(Matrix3Component);
     bonusEntities.forEach(bonusEntity => {
-      const bonusPixiComponent = bonusEntity.get(PixiComponent);
       const bonusMatrix3Component = bonusEntity.get(Matrix3Component);
       const hypot = Math.hypot(width, height); //NOTE: чтобы не путать других, решил просто взять гипотенузу
-      const allPoints = [
-        {x: bonusMatrix3Component.x - hypot / 2, y: bonusMatrix3Component.y + hypot / 2},
-        {x: bonusMatrix3Component.x + hypot / 2, y: bonusMatrix3Component.y + hypot / 2},
-        {x: bonusMatrix3Component.x + hypot / 2, y: bonusMatrix3Component.y - hypot / 2},
-        {x: bonusMatrix3Component.x - hypot / 2, y: bonusMatrix3Component.y - hypot / 2}
-      ];
-      const isInsideViewport = allPoints.some(({x, y}) => {
-        const globalX = mainContainerMatrix3Component.x + x;
-        const globalY = mainContainerMatrix3Component.y + y;
-        return getIsInsideRectangle({x: globalX, y: globalY}, GAME_SIZE);
-      });
-      bonusPixiComponent.pixiObject.visible = isInsideViewport;
       const positionAfterWhichRemove = characterMatrix3Component.y + GAME_SIZE.height - trackingBoundary;
       const totalPositionAfterWhichRemove = positionAfterWhichRemove + hypot * 2;
       if (totalPositionAfterWhichRemove < bonusMatrix3Component.y)
@@ -419,38 +387,27 @@ export default class Level extends System {
       characterCollisionWithBonuses.collisionList.forEach(entity => entity.destroy());
   }
 
-  checkOnCollisionWithSpikes({characterEntity}) {
-    const characterCollisionComponents = characterEntity.getList(CollisionComponent);
-    const characterCollisionWithSpikes = characterCollisionComponents.find(({collisionGroup}) => collisionGroup === CHARACTER_WITH_SPIKES);
-    if (characterCollisionWithSpikes)
-      characterCollisionWithSpikes.collisionList.forEach(entity => entity.destroy());
-  }
-
-  optimizationSpikes({spikeEntities, characterEntity, mainContainerEntity}) {
+  /**
+   * spike
+   */
+  optimizationSpikes({spikeEntities, characterEntity}) {
     const {storage: {mainSceneSettings: {spike: {width, height}, camera: {trackingBoundary}}}} = this;
-    const mainContainerMatrix3Component = mainContainerEntity.get(Matrix3Component);
     const characterMatrix3Component = characterEntity.get(Matrix3Component);
     spikeEntities.forEach(spikeEntity => {
-      const spikePixiComponent = spikeEntity.get(PixiComponent);
       const spikeMatrix3Component = spikeEntity.get(Matrix3Component);
       const hypot = Math.hypot(width, height); //NOTE: чтобы не путать других, решил просто взять гипотенузу
-      const allPoints = [
-        {x: spikeMatrix3Component.x - hypot / 2, y: spikeMatrix3Component.y + hypot / 2},
-        {x: spikeMatrix3Component.x + hypot / 2, y: spikeMatrix3Component.y + hypot / 2},
-        {x: spikeMatrix3Component.x + hypot / 2, y: spikeMatrix3Component.y - hypot / 2},
-        {x: spikeMatrix3Component.x - hypot / 2, y: spikeMatrix3Component.y - hypot / 2}
-      ];
-      const isInsideViewport = allPoints.some(({x, y}) => {
-        const globalX = mainContainerMatrix3Component.x + x;
-        const globalY = mainContainerMatrix3Component.y + y;
-        return getIsInsideRectangle({x: globalX, y: globalY}, GAME_SIZE);
-      });
-      spikePixiComponent.pixiObject.visible = isInsideViewport;
       const positionAfterWhichRemove = characterMatrix3Component.y + GAME_SIZE.height - trackingBoundary;
       const totalPositionAfterWhichRemove = positionAfterWhichRemove + hypot * 2;
       if (totalPositionAfterWhichRemove < spikeMatrix3Component.y)
         spikeEntity.destroy();
     });
+  }
+
+  checkOnCollisionWithSpikes({characterEntity}) {
+    const characterCollisionComponents = characterEntity.getList(CollisionComponent);
+    const characterCollisionWithSpikes = characterCollisionComponents.find(({collisionGroup}) => collisionGroup === CHARACTER_WITH_SPIKES);
+    if (characterCollisionWithSpikes)
+      characterCollisionWithSpikes.collisionList.forEach(entity => entity.destroy());
   }
 
   update() {
