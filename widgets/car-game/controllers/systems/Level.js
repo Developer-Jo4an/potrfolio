@@ -337,7 +337,7 @@ export default class Level extends System {
     const roadChunksContainerPixiComponent = roadChunksContainerEntity.get(PixiComponent);
     let isDestroyed = false;
 
-    [...roadChunkEntities].forEach((roadChunkEntity, i) => {
+    [...roadChunkEntities].forEach(roadChunkEntity => {
       const {points: {startPointFirst, startPointSecond, endPointFirst, endPointSecond}} = roadChunkEntity.get(Chunk);
       const {xs, ys} = [startPointFirst, startPointSecond, endPointFirst, endPointSecond].reduce((acc, {x, y}) => {
         const globalPoint = roadChunksContainerPixiComponent.pixiObject.toGlobal({x, y});
