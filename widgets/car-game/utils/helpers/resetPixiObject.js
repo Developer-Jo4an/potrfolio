@@ -16,6 +16,7 @@ export default function resetPixiObject(object) {
   object.texture && (object.texture = null);
   object.label = null;
   object.visible = true;
+  object.renderable = true;
   if (object.mask) {
     object.mask.clear();
     object.mask.parent?.removeChild(object.mask);

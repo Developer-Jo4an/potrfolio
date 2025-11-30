@@ -10,8 +10,8 @@ export const mainSceneSettings = {
       "x": 180,
       "y": 750
     },
-    "speed": 5,
-    "velocity": 0.015,
+    "speed": 10,
+    "velocity": 0.03,
     "zIndex": 2,
     "rotationFromDirection": {
       "left": -0.785, // [-Math.PI/2, 0]
@@ -30,9 +30,6 @@ export const mainSceneSettings = {
   },
   "camera": {
     "trackingBoundary": 600
-  },
-  "roadChunksContainer": {
-    "isRenderGroup": true
   },
   "roadChunks": {
     "generate": {

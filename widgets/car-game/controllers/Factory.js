@@ -98,16 +98,17 @@ export default class CarFactory extends Factory {
   }
 
   [`prepare${upperFirst(ROAD_CHUNKS_CONTAINER)}`](roadChunksContainer) {
-    const {defaultProperties: {storage: {mainSceneSettings: {roadChunksContainer: {isRenderGroup}}}}} = this;
     roadChunksContainer.label = ROAD_CHUNKS_CONTAINER;
-    roadChunksContainer.isRenderGroup = isRenderGroup;
+    roadChunksContainer.mask.label = ROAD_CHUNKS_CONTAINER;
+    roadChunksContainer.addChild(roadChunksContainer.mask);
   }
 
   [`create${upperFirst(ROAD_CHUNKS_CONTAINER)}`]() {
-    const {defaultProperties: {storage: {mainSceneSettings: {roadChunksContainer: {isRenderGroup}}}}} = this;
     const roadChunksContainer = new global.PIXI.Container();
     roadChunksContainer.label = ROAD_CHUNKS_CONTAINER;
-    roadChunksContainer.isRenderGroup = isRenderGroup;
+    const mask = roadChunksContainer.mask = new global.PIXI.Graphics();
+    mask.label = ROAD_CHUNKS_CONTAINER;
+    roadChunksContainer.addChild(mask);
     return roadChunksContainer;
   }
 
@@ -121,7 +122,6 @@ export default class CarFactory extends Factory {
   [`prepare${upperFirst(ROAD_CHUNK)}`](roadChunkSprite) {
     const {defaultProperties: {storage: {mainSceneSettings: {roadChunks: {anchor}}}}} = this;
     roadChunkSprite.label = ROAD_CHUNK;
-    roadChunkSprite.mask.label = ROAD_CHUNK;
     roadChunkSprite.texture = assetsManager.getAssetFromSpace(PIXI_SPACE, TEXTURE, ROAD_CHUNK);
     roadChunkSprite.anchor.set(...anchor);
   }
@@ -131,8 +131,6 @@ export default class CarFactory extends Factory {
     const texture = assetsManager.getAssetFromSpace(PIXI_SPACE, TEXTURE, ROAD_CHUNK);
     const roadChunkSprite = new global.PIXI.TilingSprite(texture);
     roadChunkSprite.label = ROAD_CHUNK;
-    const mask = roadChunkSprite.mask = new global.PIXI.Graphics();
-    mask.label = ROAD_CHUNK;
     roadChunkSprite.anchor.set(...anchor);
     return roadChunkSprite;
   }
