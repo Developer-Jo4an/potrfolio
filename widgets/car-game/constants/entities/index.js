@@ -5,7 +5,6 @@ import Collection from "../../../../shared/scene/ecs/base/components/data/Collec
 import PixiComponent from "../../../../shared/scene/ecs/pixi/components/PixiComponent";
 import Chunk from "../../controllers/components/Chunk";
 import Game from "../../controllers/components/Game";
-import Rectangle from "../../controllers/components/Rectangle";
 import getDefaultState from "../../../../shared/scene/lib/state/getDefaultState";
 import {CHARACTER, states as characterStates} from "./character";
 import {SIDE_EFFECTS} from "../components/collections/groups";
@@ -20,7 +19,6 @@ export const types = {
   [GAME]: {
     components: [
       {Class: State, props: {states: CAR_STATE_MACHINE}},
-      {Class: Rectangle},
       {Class: Game}
     ]
   },
@@ -47,7 +45,6 @@ export const types = {
       {Class: Collection, props: {group: SIDE_EFFECTS}},
       {Class: Matrix3Component},
       {Class: SatCollider},
-      {Class: Rectangle}
     ]
   },
   [BONUS]: {
@@ -55,7 +52,6 @@ export const types = {
       {Class: PixiComponent},
       {Class: Collection, props: {group: SIDE_EFFECTS}},
       {Class: Matrix3Component},
-      {Class: Rectangle},
       {Class: SatCollider}
     ]
   },

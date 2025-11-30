@@ -5,34 +5,25 @@ import Matrix3Component from "../../../../shared/scene/ecs/base/components/trans
 import CollisionComponent from "../../../../shared/scene/ecs/base/components/collision/CollisionComponent";
 import Entity from "../../../../shared/scene/ecs/core/Entity";
 import Chunk from "../components/Chunk";
-import Rectangle from "../components/Rectangle";
 import {cloneDeep} from "lodash";
 import getRandomPointInQuadrilateralBilinear from "../../utils/helpers/getRandomPointInQuadrilateralBilinear";
 import chance from "../../../../shared/lib/random/chance";
 import getRandomIntFromRange from "../../../../shared/lib/random/getRandomIntFromRange";
+import getIsInsideCanvas from "../../utils/helpers/getIsInsideCanvas";
 import {CHARACTER} from "../../constants/entities/character";
 import {MAIN_CONTAINER} from "../../constants/entities/mainContainer";
 import {ROAD_CHUNK} from "../../constants/entities/roadChunk";
-import {GAME_SIZE} from "../../constants/game";
 import {CHARACTER_WITH_BONUSES, CHARACTER_WITH_ROAD_CHUNK, CHARACTER_WITH_SPIKES} from "../../constants/collision";
 import {BONUS} from "../../constants/entities/bonus";
 import {SPIKE} from "../../constants/entities/spike";
-import {GAME} from "../../constants/entities/game";
 import {LEFT, RIGHT} from "../../../../shared/constants/directions/directions";
 import global from "../../../../shared/constants/global/global";
 
 export default class Level extends System {
   initializationLevelSelect() {
-    this.initGame();
     this.initMainContainer();
     this.initCharacter();
-    this.initRoadChunks();
-  }
-
-  initGame() {
-    const gameEntity = this.getFirstEntityByType(GAME);
-    const gameRectangleComponent = gameEntity.get(Rectangle);
-    gameRectangleComponent.rectangle = new global.PIXI.Rectangle(0, 0, GAME_SIZE.width, GAME_SIZE.height);
+    this.initMapEntities();
   }
 
   initMainContainer() {
@@ -97,11 +88,11 @@ export default class Level extends System {
     characterColliderComponent.satObject = characterPolygon;
   }
 
-  initRoadChunks() {
+  initMapEntities() {
     const {storage: {mainSceneSettings: {roadChunks: {generate: {count, minStartCount}}}}} = this;
     const cycles = Math.ceil(minStartCount / count);
     for (let i = 0; i < cycles; i++)
-      this.createRoadChunks();
+      this.createMapEntities();
   }
 
   initRoadChunkChunkComponent({roadChunkEntity, prevChunkComponent}) {
@@ -146,18 +137,6 @@ export default class Level extends System {
     roadChunkChunkComponent.oppositeLeg = oppositeLeg;
     roadChunkChunkComponent.direction = direction;
     roadChunkEntity.add(roadChunkChunkComponent);
-  }
-
-  initRoadChunkRectangleComponent({roadChunkEntity, mainContainerEntity}) {
-    const roadChunkChunkComponent = roadChunkEntity.get(Chunk);
-    const mainContainerMatrix3Component = mainContainerEntity.get(Matrix3Component);
-    const {points: {startPointFirst, startPointSecond, endPointFirst, endPointSecond}} = roadChunkChunkComponent;
-    const polygonPoints = [startPointFirst, startPointSecond, endPointFirst, endPointSecond].reduce((acc, {x, y}) => {
-      acc.push(x + mainContainerMatrix3Component.x, y + mainContainerMatrix3Component.y);
-      return acc;
-    }, []);
-    const roadChunkRectangleComponent = roadChunkEntity.get(Rectangle);
-    roadChunkRectangleComponent.rectangle = new global.PIXI.Polygon(polygonPoints).getBounds();
   }
 
   initRoadChunkPixiComponent({roadChunkEntity}) {
@@ -310,7 +289,7 @@ export default class Level extends System {
     );
   }
 
-  createRoadChunks() {
+  createMapEntities() {
     const {eventBus, storage: {mainSceneSettings: {roadChunks: {generate: {count}}}}} = this;
 
     const mainContainerEntity = this.getFirstEntityByType(MAIN_CONTAINER);
@@ -325,7 +304,6 @@ export default class Level extends System {
       const roadChunkEntity = new Entity({eventBus, type: ROAD_CHUNK}).init();
       const props = {roadChunkEntity, prevChunkComponent, mainContainerEntity};
       this.initRoadChunkChunkComponent(props);
-      this.initRoadChunkRectangleComponent(props);
       this.initRoadChunkPixiComponent(props);
       this.initRoadChunkSatComponent(props);
       this.initRoadChunkMatrix3Component(props);
@@ -334,25 +312,20 @@ export default class Level extends System {
     }
   }
 
-  /**
-   * roadChunk
-   */
-  optimizationRoadChunks({characterEntity, roadChunkEntities}) {
-    const {storage: {mainSceneSettings: {camera: {trackingBoundary}}}} = this;
-    const characterMatrix3Component = characterEntity.get(Matrix3Component);
-
-    [...roadChunkEntities].forEach(roadChunkEntity => {
-      const roadChunkMatrix3Component = roadChunkEntity.get(Matrix3Component);
-      const roadChunkComponent = roadChunkEntity.get(Chunk);
-      const positionAfterWhichRemove = characterMatrix3Component.y + GAME_SIZE.height - trackingBoundary;
-      const roadChunkHeight = roadChunkComponent.points.start.y - roadChunkComponent.points.end.y;
-      const totalPositionAfterWhichRemove = positionAfterWhichRemove + roadChunkHeight;
-      if (totalPositionAfterWhichRemove < roadChunkMatrix3Component.y)
-        roadChunkEntity.destroy();
+  checkOnIsInsideCanvasAndDestroy(entities) {
+    const {storage: {canvas}} = this;
+    entities.forEach(entity => {
+      const pixiComponent = entity.get(PixiComponent);
+      const bounds = pixiComponent.pixiObject.getBounds();
+      const isVisible = getIsInsideCanvas(bounds, canvas);
+      pixiComponent.pixiObject.renderable = isVisible;
+      pixiComponent.pixiObject.mask && (pixiComponent.pixiObject.mask.renderable = isVisible);
+      if (bounds.minY > canvas.offsetHeight)
+        entity.destroy();
     });
   }
 
-  checkOnAddRoadChunks({characterEntity, roadChunkEntities}) {
+  checkOnAddEntities({characterEntity, roadChunkEntities}) {
     const {storage: {mainSceneSettings: {roadChunks: {generate: {minCountForGenerate}}}}} = this;
     const collisionComponents = characterEntity.getList(CollisionComponent);
 
@@ -361,25 +334,12 @@ export default class Level extends System {
     const {collisionList} = collisionComponents.find(({collisionGroup}) => collisionGroup === CHARACTER_WITH_ROAD_CHUNK);
     const indexes = collisionList.map(roadChunkEntity => roadChunkEntities.indexOf(roadChunkEntity));
     const isCanUpdate = indexes.some(index => roadChunkEntities?.length - index < minCountForGenerate);
-    isCanUpdate && this.createRoadChunks();
+    isCanUpdate && this.createMapEntities();
   }
 
   /**
    * bonus
    */
-  optimizationBonuses({bonusEntities, characterEntity}) {
-    const {storage: {mainSceneSettings: {bonus: {width, height}, camera: {trackingBoundary}}}} = this;
-    const characterMatrix3Component = characterEntity.get(Matrix3Component);
-    bonusEntities.forEach(bonusEntity => {
-      const bonusMatrix3Component = bonusEntity.get(Matrix3Component);
-      const hypot = Math.hypot(width, height); //NOTE: чтобы не путать других, решил просто взять гипотенузу
-      const positionAfterWhichRemove = characterMatrix3Component.y + GAME_SIZE.height - trackingBoundary;
-      const totalPositionAfterWhichRemove = positionAfterWhichRemove + hypot * 2;
-      if (totalPositionAfterWhichRemove < bonusMatrix3Component.y)
-        bonusEntity.destroy();
-    });
-  }
-
   checkOnCollisionWithBonuses({characterEntity}) {
     const characterCollisionComponents = characterEntity.getList(CollisionComponent);
     const characterCollisionWithBonuses = characterCollisionComponents.find(({collisionGroup}) => collisionGroup === CHARACTER_WITH_BONUSES);
@@ -390,19 +350,6 @@ export default class Level extends System {
   /**
    * spike
    */
-  optimizationSpikes({spikeEntities, characterEntity}) {
-    const {storage: {mainSceneSettings: {spike: {width, height}, camera: {trackingBoundary}}}} = this;
-    const characterMatrix3Component = characterEntity.get(Matrix3Component);
-    spikeEntities.forEach(spikeEntity => {
-      const spikeMatrix3Component = spikeEntity.get(Matrix3Component);
-      const hypot = Math.hypot(width, height); //NOTE: чтобы не путать других, решил просто взять гипотенузу
-      const positionAfterWhichRemove = characterMatrix3Component.y + GAME_SIZE.height - trackingBoundary;
-      const totalPositionAfterWhichRemove = positionAfterWhichRemove + hypot * 2;
-      if (totalPositionAfterWhichRemove < spikeMatrix3Component.y)
-        spikeEntity.destroy();
-    });
-  }
-
   checkOnCollisionWithSpikes({characterEntity}) {
     const characterCollisionComponents = characterEntity.getList(CollisionComponent);
     const characterCollisionWithSpikes = characterCollisionComponents.find(({collisionGroup}) => collisionGroup === CHARACTER_WITH_SPIKES);
@@ -411,29 +358,20 @@ export default class Level extends System {
   }
 
   update() {
-    const gameEntity = this.getFirstEntityByType(GAME);
     const characterEntity = this.getFirstEntityByType(CHARACTER);
     const mainContainerEntity = this.getFirstEntityByType(MAIN_CONTAINER);
     const roadChunkEntities = this.getEntitiesByType(ROAD_CHUNK).list;
     const bonusEntities = this.getEntitiesByType(BONUS).list;
     const spikeEntities = this.getEntitiesByType(SPIKE).list;
-    const fullArguments = {
-      gameEntity,
-      characterEntity,
-      bonusEntities,
-      spikeEntities,
-      mainContainerEntity,
-      roadChunkEntities,
-      arguments
-    };
 
-    this.optimizationRoadChunks(fullArguments);
-    this.checkOnAddRoadChunks(fullArguments);
+    const fullArguments = {characterEntity, mainContainerEntity, roadChunkEntities, arguments};
 
-    this.optimizationBonuses(fullArguments);
+    this.checkOnAddEntities(fullArguments);
     this.checkOnCollisionWithBonuses(fullArguments);
-
-    this.optimizationSpikes(fullArguments);
     this.checkOnCollisionWithSpikes(fullArguments);
+
+    this.checkOnIsInsideCanvasAndDestroy(bonusEntities);
+    this.checkOnIsInsideCanvasAndDestroy(spikeEntities);
+    this.checkOnIsInsideCanvasAndDestroy(roadChunkEntities);
   }
 }
