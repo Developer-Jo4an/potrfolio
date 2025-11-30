@@ -43,7 +43,7 @@ export const mainSceneSettings = {
     },
     "height": {
       "min": 250,
-      "max": 850
+      "max": 550
     },
     "tileScale": {
       "x": 0.4,
