@@ -38,8 +38,8 @@ export const mainSceneSettings = {
       "minCountForGenerate": 8
     },
     "width": {
-      "min": 250,
-      "max": 350
+      "min": 200,
+      "max": 300
     },
     "height": {
       "min": 250,
