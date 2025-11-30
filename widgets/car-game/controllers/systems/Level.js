@@ -321,7 +321,7 @@ export default class Level extends System {
     const savedEntities = [...entities];
     savedEntities.forEach(entity => {
       const pixiComponent = entity.get(PixiComponent);
-      const bounds = pixiComponent.pixiObject.getBounds();
+      const bounds = pixiComponent.pixiObject.getBounds(true);
       pixiComponent.pixiObject.renderable = getIsInsideCanvas(bounds, canvas);
       if (bounds.minY > canvas.offsetHeight) {
         entity.destroy();
