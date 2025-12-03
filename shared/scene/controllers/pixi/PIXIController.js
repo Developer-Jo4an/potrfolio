@@ -86,10 +86,11 @@ export default class PIXIController extends BaseController {
   }
 
   initDecorators() {
-    const {DECORATORS, decorators} = this;
+    const {DECORATORS, decorators, app, ticker, renderer, eventBus, stage, stateMachine, canvas, $container} = this;
+    const fullData = {app, ticker, renderer, eventBus, stage, stateMachine, canvas, $container};
 
     return Promise.all(DECORATORS.map(({DecoratorClass, decoratorField}) => {
-      const decorator = decorators[decoratorField] = new DecoratorClass(this.getDecoratorData());
+      const decorator = decorators[decoratorField] = new DecoratorClass(fullData);
       return decorator.initDecorator();
     }));
   }
@@ -100,17 +101,11 @@ export default class PIXIController extends BaseController {
     (this.$container = $container).appendChild(canvas);
   }
 
-  getDecoratorData() {
-    const {app, ticker, renderer, eventBus, stage, stateMachine, canvas, $container} = this;
-    return {app, ticker, renderer, eventBus, stage, stateMachine, canvas, $container};
-  }
-
   onResized() {
   }
 
   onUpdated() {
     const {decorators} = this;
-
     if (decorators[PERFORMANCE_DECORATOR_FIELD])
       decorators[PERFORMANCE_DECORATOR_FIELD].update();
   }
