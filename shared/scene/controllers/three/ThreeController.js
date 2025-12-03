@@ -3,6 +3,7 @@ import Resize from "../../decorators/resize/Resize";
 import State from "../../decorators/state/State";
 import Performance from "../../decorators/performance/Performance";
 import {getIsDebug} from "../../../lib/debug/debug";
+import {threeLoader} from "../../loaders/three/ThreeLoader";
 import {
   PERFORMANCE_DECORATOR_FIELD,
   RESIZE_DECORATOR_FIELD,

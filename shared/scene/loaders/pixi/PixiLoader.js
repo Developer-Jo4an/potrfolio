@@ -1,21 +1,10 @@
 import BaseLoader from "../base/BaseLoader";
-import {upperFirst} from "lodash/string";
+import {upperFirst} from "lodash";
 import {assetsManager} from "../../assets/AssetsManager";
 import {PIXI_SPACE, TEXTURE} from "../../constants/loaders/assetsTypes";
 import global from "../../../constants/global/global";
 
 export default class PIXILoader extends BaseLoader {
-
-  _isInitialized = false;
-
-  get isInitialized() {
-    return this._isInitialized;
-  }
-
-  set isInitialized(isInitialized) {
-    this._isInitialized = isInitialized;
-  }
-
   async init(dpr) {
     if (this.isInitialized) return;
 
