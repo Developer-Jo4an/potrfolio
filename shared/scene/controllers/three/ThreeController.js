@@ -114,8 +114,8 @@ export default class ThreeController extends BaseController {
   }
 
   initDecorators() {
-    const {DECORATORS, decorators, renderer, eventBus, stage, stateMachine, canvas, $container} = this;
-    const fullData = {renderer, eventBus, stage, stateMachine, canvas, $container};
+    const {DECORATORS, scene, camera, decorators, renderer, eventBus, stage, stateMachine, canvas, $container} = this;
+    const fullData = {renderer, scene, camera, eventBus, stage, stateMachine, canvas, $container};
 
     return Promise.all(DECORATORS.map(({DecoratorClass, decoratorField}) => {
       const decorator = decorators[decoratorField] = new DecoratorClass(fullData);
