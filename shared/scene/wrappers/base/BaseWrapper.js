@@ -9,8 +9,6 @@ export default class BaseWrapper {
 
   eventBus = new EventDispatcher();
 
-  isInitialized = false;
-
   constructor(data) {
     for (const key in data)
       this[key] = data[key];

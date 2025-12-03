@@ -1,5 +1,5 @@
 import BaseDecorator from "../base/BaseDecorator";
-import {getIsDebug} from "../../../lib/debug/debug";
+import getIsDebug from "../../../lib/debug/debug";
 import {STATE_CHANGED} from "../../constants/events/names";
 import {IDLE} from "../../constants/decorators/state/state";
 

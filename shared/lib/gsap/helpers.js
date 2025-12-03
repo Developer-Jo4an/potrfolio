@@ -1,5 +1,5 @@
 import {isFunction} from "lodash";
-import {getIsDebug} from "../debug/debug";
+import getIsDebug from "../debug/debug";
 import gsap from "gsap";
 
 export const gsapTimeout = ({timeout, namespace, id, onComplete, onUpdate, onStart}) => {

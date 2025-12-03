@@ -1,7 +1,7 @@
 import BasePhysicsEntity from "../base/BasePhysicsEntity";
 import {upperFirst} from "lodash";
 import {copy} from "../../../../../shared/lib/copy/copy";
-import {getIsDebug} from "../../../../../shared/lib/debug/debug";
+import getIsDebug from "../../../../../shared/lib/debug/debug";
 import {PIXI_SPACE, TEXTURE} from "../../../../../shared/scene/constants/loaders/assetsTypes";
 import {dunkShotFactory} from "../../factory/DunkShotFactory";
 import {COLLISION_FILTERS} from "../../../constants/collision";

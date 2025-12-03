@@ -3,7 +3,7 @@ import BaseController from "../base/BaseController";
 import Resize from "../../decorators/resize/Resize";
 import Performance from "../../decorators/performance/Performance";
 import PIXIUpdate from "../../decorators/pixi/pixi-update/PIXIUpdate";
-import {getIsDebug} from "../../../lib/debug/debug";
+import getIsDebug from "../../../lib/debug/debug";
 import {cloneDeep} from "lodash";
 import {initDevtools} from "@pixi/devtools";
 import {pixiLoader} from "../../loaders/pixi/PixiLoader";

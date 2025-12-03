@@ -12,7 +12,7 @@ import PixiRenderSystem from "../../../shared/scene/ecs/pixi/PixiRenderSystem";
 import Collector from "../../../shared/scene/ecs/base/systems/Collector";
 import Engine from "../../../shared/scene/ecs/core/Engine";
 import {cloneDeep} from "lodash";
-import {getIsDebug} from "../../../shared/lib/debug/debug";
+import getIsDebug from "../../../shared/lib/debug/debug";
 import eventSubscription from "../../../shared/lib/events/eventListener";
 import {GAME_SIZE, GAME_SPACE} from "../constants/game";
 import {NOT_AVAILABLE_ENTITIES_TYPES_FOR_RESET} from "../constants/reset";

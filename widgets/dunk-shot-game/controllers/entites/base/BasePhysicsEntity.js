@@ -1,6 +1,6 @@
 import BaseEntity from "./BaseEntity";
 import {upperFirst} from "lodash";
-import {getIsDebug} from "../../../../../shared/lib/debug/debug";
+import getIsDebug from "../../../../../shared/lib/debug/debug";
 import global from "../../../../../shared/constants/global/global";
 
 export default class BasePhysicsEntity extends BaseEntity {

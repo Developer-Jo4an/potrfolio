@@ -3,7 +3,7 @@ import FPSMeter, {fpsMeter} from "./fps-meter";
 import ECSPlugin from "./ecs/ECSPlugin";
 import FactoryPlugin from "./scene/FactoryPlugin";
 import EventDispatcher from "../lib/event-dispatcher/EventDispatcher";
-import {getIsDebug} from "../../lib/debug/debug";
+import getIsDebug from "../../lib/debug/debug";
 
 export default class Performance {
 
