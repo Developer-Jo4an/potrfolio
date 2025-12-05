@@ -58,7 +58,7 @@ export default function CarGame() {
 
   return (
     <>
-      <Image className={styles.carGameBackground} src={'widgets/car-game/background.jpg'}/>
+      <Image className={styles.carGameBackground} src={"widgets/car-game/background.jpg"}/>
       <div className={styles.carGame} ref={containerRef}/>
     </>
   );

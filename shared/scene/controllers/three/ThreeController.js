@@ -71,9 +71,10 @@ export default class ThreeController extends BaseController {
 
   initCamera() {
     const {
+      $container: {offsetWidth, offsetHeight},
       cameraSettings: {
         fov = 30,
-        aspect = window.innerWidth / window.innerHeight,
+        aspect = offsetWidth / offsetHeight,
         near = 0.1,
         far = 100
       } = {}
@@ -84,11 +85,12 @@ export default class ThreeController extends BaseController {
 
   initRenderer() {
     const {
+      $container: {offsetWidth, offsetHeight},
       rendererSettings: {
         shadow,
         background,
-        encoding = THREE.sRGBEncoding,
-        toneMapping = THREE.NoToneMapping
+        encoding = global.THREE.sRGBEncoding,
+        toneMapping = global.THREE.NoToneMapping
       } = {}
     } = this;
     const {canvas, context} = ThreeController;
@@ -98,17 +100,19 @@ export default class ThreeController extends BaseController {
 
     if (shadow) {
       renderer.shadowMap.enabled = true;
-      renderer.shadowMap.type = shadow?.type ?? THREE.PCFSoftShadowMap;
+      renderer.shadowMap.type = shadow?.type ?? global.THREE.PCFSoftShadowMap;
     }
 
     if (background?.transparent) {
       const {color, opacity} = background;
       renderer.setClearColor(color, opacity);
-    } else renderer.setClearColor(background?.color ?? "red");
+    } else renderer.setClearColor(background?.color ?? "#cccccc");
 
     renderer.setPixelRatio(Math.max(2, window.devicePixelRatio));
     renderer.outputEncoding = encoding;
     renderer.toneMapping = toneMapping;
+
+    renderer.setSize(offsetWidth, offsetHeight);
 
     return renderer;
   }
@@ -129,33 +133,27 @@ export default class ThreeController extends BaseController {
   }
 
   onResized() {
-    const {scene, renderer, camera, $container} = this;
-    const {offsetWidth, offsetHeight} = $container;
+    const {renderer, camera, $container: {offsetWidth, offsetHeight}} = this;
 
     camera.aspect = offsetWidth / offsetHeight;
     camera.updateProjectionMatrix();
 
-    scene.resize(offsetWidth, offsetHeight);
-
     renderer.setSize(offsetWidth, offsetHeight);
   }
 
-  render(delta) {
+  render(deltaTime) {
     const {scene, camera, renderer} = this;
-    scene.update(delta);
     renderer.render(scene, camera);
   }
 
-  onUpdated() {
-    const {clock, decorators} = this;
+  onUpdated({deltaTime}) {
+    const {decorators} = this;
 
-    const delta = clock.getDelta();
-
-    this.render(delta);
+    this.render(deltaTime);
 
     if (decorators[PERFORMANCE_DECORATOR_FIELD])
       decorators[PERFORMANCE_DECORATOR_FIELD].update();
 
-    return delta;
+    return deltaTime;
   }
 }

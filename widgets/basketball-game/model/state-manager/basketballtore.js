@@ -1,10 +1,10 @@
 import {createStore} from "../../../../shared/model/state-manager/createStore";
-import {CAR} from "../../constants/game";
+import {BASKETBALL} from "../../constants/game";
 
-const {useStore: useCarStore, selectors} = createStore({
-  name: CAR,
+const {useStore: useBasketballStore, selectors} = createStore({
+  name: BASKETBALL,
   state: {
-    wrapper: null,
+    wrapper: null
   },
   syncActions: {
     setWrapper({state}, wrapper) {
@@ -13,4 +13,4 @@ const {useStore: useCarStore, selectors} = createStore({
   }
 });
 
-export default useCarStore;
+export default useBasketballStore;
