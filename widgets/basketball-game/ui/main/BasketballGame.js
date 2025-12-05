@@ -1,6 +1,6 @@
 import {useRef} from "react";
 import useLoadScene from "../../../../shared/scene/model/hooks/useLoadScene";
-import useBasketballStore from "../../model/state-manager/basketballtore";
+import useBasketballStore from "../../model/state-manager/basketballStore";
 import imports from "../../../../shared/scene/lib/import";
 import {types} from "../../../car-game/constants/entities";
 import {BASKETBALL_STATE_MACHINE} from "../../constants/stateMachine";
