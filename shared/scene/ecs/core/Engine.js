@@ -2,7 +2,7 @@ import Entity from "./Entity";
 import Component from "./Component";
 import {v4 as uuidv4} from "uuid";
 import Collection from "../base/structures/Collection";
-import {performanceAnalysis} from "../../performance/Performance";
+import {analysis} from "../../analytics/Analytics";
 
 export default class Engine {
   /**
@@ -32,7 +32,7 @@ export default class Engine {
     this.eventBus = eventBus;
     this.uuid = uuidv4();
 
-    performanceAnalysis.connect("ecs", this);
+    analysis.connect("ecs", this);
     this.addListeners();
   }
 

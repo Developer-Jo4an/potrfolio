@@ -268,7 +268,7 @@ export default class Basket extends BasePhysicsEntity {
 
     bodies.forEach(({position, label}, index) => {
       const debugCircle = debug.circles[index] ??= new global.PIXI.Graphics();
-      groups.front.addChild(debugCircle);
+      groups.front.attach(debugCircle);
       debugCircle.zIndex = 1;
       debugCircle.name = `basketDebug:${order}-${label}`;
 

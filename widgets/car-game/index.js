@@ -1,4 +1,4 @@
-import CarGame from "./ui/index/CarGame";
+import CarGame from "./ui/main/CarGame";
 
 export {
   CarGame

@@ -16,7 +16,7 @@ import getIsDebug from "../../../shared/lib/debug/debug";
 import eventSubscription from "../../../shared/lib/events/eventListener";
 import {GAME_SIZE, GAME_SPACE} from "../constants/game";
 import {NOT_AVAILABLE_ENTITIES_TYPES_FOR_RESET} from "../constants/reset";
-import {performanceAnalysis} from "../../../shared/scene/performance/Performance";
+import {analysis} from "../../../shared/scene/analytics/Analytics";
 import {UPDATE_DECORATOR_FIELD} from "../../../shared/scene/constants/decorators/names";
 import {UPDATED} from "../../../shared/scene/constants/events/names";
 import {RESIZE} from "../../../shared/constants/events/eventsNames";
@@ -127,6 +127,6 @@ export default class Controller extends PIXIController {
       savedList.length = 0;
     }
 
-    getIsDebug() && performanceAnalysis.logStatistics();
+    getIsDebug() && analysis.logStatistics();
   }
 }

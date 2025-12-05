@@ -4,8 +4,14 @@ import InteractionController from "./controllers/InteractionController/Interacti
 import CameraController from "./controllers/CameraController/CameraController";
 import EffectsController from "./controllers/EffectsController/EffectsController";
 import CollisionObserver from "./controllers/CollisionObserver/CollisionObserver";
+import Resize from "../../../shared/scene/decorators/resize/Resize";
+import State from "../../../shared/scene/decorators/state/State";
+import Performance from "../../../shared/scene/decorators/performance/Performance";
+import PIXIMatterUpdate from "../../../shared/scene/decorators/pixi/pixi-matter-update/PIXIMatterUpdate";
+import gsap from "gsap";
 import eventSubscription from "../../../shared/lib/events/eventListener";
 import {addControllerStateHandler} from "../../../shared/scene/lib/state/addControllerStateHandler";
+import getIsDebug from "../../../shared/lib/debug/debug";
 import {RESIZE} from "../../../shared/constants/events/eventsNames";
 import {UPDATED} from "../../../shared/scene/constants/events/names";
 import {DUNK_SHOT_TWEEN, GAME_SIZE} from "../constants";
@@ -22,13 +28,7 @@ import {
   RESIZE_DECORATOR_FIELD,
   STATE_DECORATOR_FIELD, UPDATE_DECORATOR_FIELD
 } from "../../../shared/scene/constants/decorators/names";
-import Resize from "../../../shared/scene/decorators/resize/Resize";
-import State from "../../../shared/scene/decorators/state/State";
-import {getIsDebug} from "../../../shared/lib/debug/debug";
-import Performance from "../../../shared/scene/decorators/performance/Performance";
-import PIXIMatterUpdate from "../../../shared/scene/decorators/pixi/pixi-matter-update/PIXIMatterUpdate";
 import {PAUSED} from "../../../shared/lib/gsap/LocalTimeline";
-import gsap from "gsap";
 
 export default class Controller extends PIXIController {
 

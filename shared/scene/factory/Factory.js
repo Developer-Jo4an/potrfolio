@@ -1,4 +1,5 @@
 import FactoryStorage from "./FactoryStorage";
+import {analysis} from "../analytics/Analytics";
 
 export default class Factory {
 
@@ -7,6 +8,7 @@ export default class Factory {
   defaultProperties = {};
 
   constructor() {
+    analysis.connect("factory", this);
   }
 
   setDefaultProperties(properties) {

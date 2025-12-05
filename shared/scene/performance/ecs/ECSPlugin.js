@@ -1,4 +1,4 @@
-import Plugin from "../Plugin";
+import Plugin from "../../analytics/Plugin";
 
 export default class ECSPlugin extends Plugin {
 
