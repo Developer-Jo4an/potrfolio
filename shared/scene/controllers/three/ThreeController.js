@@ -97,7 +97,8 @@ export default class ThreeController extends BaseController {
         shadow,
         background,
         encoding = global.THREE.sRGBEncoding,
-        toneMapping = global.THREE.NoToneMapping
+        toneMapping = global.THREE.NoToneMapping,
+        dpr = 2
       } = {}
     } = this;
     const {canvas, context} = ThreeController;
@@ -107,7 +108,7 @@ export default class ThreeController extends BaseController {
 
     if (shadow) {
       renderer.shadowMap.enabled = true;
-      renderer.shadowMap.type = shadow?.type ?? global.THREE.PCFShadowMap;
+      renderer.shadowMap.type = shadow?.type ?? global.THREE.PCFSoftShadowMap;
     }
 
     if (background?.transparent) {
@@ -115,7 +116,7 @@ export default class ThreeController extends BaseController {
       renderer.setClearColor(color, opacity);
     } else renderer.setClearColor(background?.color ?? "#cccccc");
 
-    renderer.setPixelRatio(2);
+    renderer.setPixelRatio(dpr);
     renderer.outputEncoding = encoding;
     renderer.toneMapping = toneMapping;
 
