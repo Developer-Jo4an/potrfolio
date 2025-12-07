@@ -1,4 +1,11 @@
 export const mainSceneSettings = {
+  world: {
+    gravity: {
+      x: 0, y: -9.81, z: 0
+    },
+    maxDeltaTime: 0.016
+  },
+
   character: {
     castShadow: true,
     receiveShadow: false,
@@ -9,18 +16,19 @@ export const mainSceneSettings = {
         x: 0,
         y: -Math.PI / 8,
         z: 0
+      },
+      position: {
+        x: 0,
+        y: 0,
+        z: 0
       }
     }
   },
 
   ground: {
     width: 1000,
-    height: 1000,
-    rotation: {
-      x: -Math.PI / 2,
-      y: 0,
-      z: 0
-    },
+    height: 1,
+    depth: 1000,
     opacity: 0.3,
     castShadow: false,
     receiveShadow: true

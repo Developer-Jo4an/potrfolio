@@ -2,10 +2,10 @@
 # yarn lockfile v1
 
 
-"@dimforge/rapier3d@^0.19.0":
-  version "0.19.0"
-  resolved "https://registry.yarnpkg.com/@dimforge/rapier3d/-/rapier3d-0.19.0.tgz#96fe038e38625ffeaac6660aa0ae7231022394e8"
-  integrity sha512-PcXlOa2q2zziG1oGSIca0B++oE+Bxml/2wVmeVmGQyGWnGyZDOljNjE5CKH6QQisqmcjhjvfxoL+TKyg2lvlwQ==
+"@dimforge/rapier3d@^0.19.3":
+  version "0.19.3"
+  resolved "https://registry.yarnpkg.com/@dimforge/rapier3d/-/rapier3d-0.19.3.tgz#eca704398f98e1740f5e5c823654e340d96d1c58"
+  integrity sha512-tkD1tvHTDML0W9s9rUYAsx0btO9LbVTnMBKJWVgOsas5haGFbYY+pzr5hbwYysv/IJmgmMrIFoVWIcsaCUE9ow==
 
 "@emnapi/runtime@^1.4.4":
   version "1.4.5"

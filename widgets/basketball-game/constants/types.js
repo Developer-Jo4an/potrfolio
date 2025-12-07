@@ -2,6 +2,7 @@ import State from "../../../shared/scene/ecs/base/components/state/State";
 import Game from "../../car-game/controllers/components/Game";
 import ThreeComponent from "../../../shared/scene/ecs/three/components/ThreeComponent";
 import Collection from "../../../shared/scene/ecs/base/components/data/Collection";
+import Body from "../../../shared/scene/ecs/rapier/components/Body";
 import getDefaultState from "../../../shared/scene/lib/state/getDefaultState";
 import {BASKETBALL_STATE_MACHINE} from "./stateMachine";
 import {GAME} from "../../car-game/constants/entities/game";
@@ -19,12 +20,14 @@ export const types = {
     components: [
       {Class: State, props: {states: characterStates, state: getDefaultState(characterStates)}},
       {Class: ThreeComponent},
+      {Class: Body},
       {Class: Collection}
     ]
   },
   [GROUND]: {
     components: [
       {Class: ThreeComponent},
+      {Class: Body},
       {Class: Collection}
     ]
   }

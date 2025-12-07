@@ -2,7 +2,7 @@ import System from "../../../../shared/scene/ecs/core/System";
 import CollisionComponent from "../../../../shared/scene/ecs/base/components/collision/CollisionComponent";
 import Matrix3Component from "../../../../shared/scene/ecs/base/components/transform/Matrix3Component";
 import EventComponent from "../../../../shared/scene/ecs/base/components/EventComponent";
-import SatCollider from "../components/SatCollider";
+import Collider from "../../../../shared/scene/ecs/sat/components/Collider";
 import global from "../../../../shared/constants/global/global";
 import {CHARACTER} from "../../constants/entities/character";
 import {ROAD_CHUNK} from "../../constants/entities/roadChunk";
@@ -21,9 +21,9 @@ export default class Collision extends System {
   }
 
   updateCharacterCollider({characterEntity}) {
-    const characterSatColliderComponent = characterEntity.get(SatCollider);
+    const characterSatColliderComponent = characterEntity.get(Collider);
     const characterMatrix3Component = characterEntity.get(Matrix3Component);
-    const characterPolygon = characterSatColliderComponent.satObject;
+    const characterPolygon = characterSatColliderComponent.object;
     characterPolygon.pos.x = characterMatrix3Component.x;
     characterPolygon.pos.y = characterMatrix3Component.y;
     characterPolygon.setAngle(characterMatrix3Component.rotation);
@@ -42,14 +42,14 @@ export default class Collision extends System {
 
   getCollisionEntities(characterPolygon, entities) {
     return entities.filter(entity => {
-      const roadChunkPolygon = entity.get(SatCollider).satObject;
+      const roadChunkPolygon = entity.get(Collider).object;
       return global.SAT.testPolygonPolygon(characterPolygon, roadChunkPolygon);
     });
   }
 
   checkCharacterCollision({characterEntity, roadChunkEntities, bonusEntities, spikeEntities}) {
     const {eventBus, storage: {decorators}} = this;
-    const characterPolygon = characterEntity.get(SatCollider).satObject;
+    const characterPolygon = characterEntity.get(Collider).object;
 
     const collidedRoads = this.getCollisionEntities(characterPolygon, roadChunkEntities);
     if (!collidedRoads?.length) {

@@ -5,14 +5,16 @@ import BasketballFactory from "./BasketballFactory";
 import Collector from "../../../shared/scene/ecs/base/systems/Collector";
 import Game from "./systems/Game";
 import Level from "./systems/Level";
+import Camera from "./systems/Camera";
+import Light from "./systems/Light";
+import DebugRenderer from "../../../shared/scene/debug/rapier/DebugRenderer";
 import getIsDebug from "../../../shared/lib/debug/debug";
 import eventSubscription from "../../../shared/lib/events/eventListener";
 import {analysis} from "../../../shared/scene/analytics/Analytics";
 import {UPDATED} from "../../../shared/scene/constants/events/names";
 import {RESIZE} from "../../../shared/constants/events/eventsNames";
 import {UPDATE_DECORATOR_FIELD} from "../../../shared/scene/constants/decorators/names";
-import Camera from "./systems/Camera";
-import Light from "./systems/Light";
+import global from "../../../shared/constants/global/global";
 
 export default class Controller extends ThreeController {
   constructor() {
@@ -42,13 +44,16 @@ export default class Controller extends ThreeController {
   initializationSelect() {
     if (this.isInitialized) return;
     this.initEngine();
+    this.initWorld();
+    getIsDebug() && this.initDebug();
     this.isInitialized = true;
   }
 
   playingSelect() {
-    const {decorators} = this;
+    const {decorators, storage} = this;
     const updateDecorator = decorators[UPDATE_DECORATOR_FIELD];
     updateDecorator.startUpdate();
+    getIsDebug() && (storage.debugRenderer.active = true);
   }
 
   initEngine() {
@@ -71,18 +76,38 @@ export default class Controller extends ThreeController {
     .addSystem(new Game({eventBus, storage}));
   }
 
+  initWorld() {
+    const {storage, storage: {mainSceneSettings: {world: {gravity}}}} = this;
+    storage.world = new global.RAPIER3D.World(gravity);
+  }
+
+  initDebug() {
+    const {storage} = this;
+    storage.debugRenderer = new DebugRenderer({storage});
+  }
+
   updateEngine({deltaTime}) {
     const {storage: {states}, state, engine} = this;
     if (states[state]?.isAvailableUpdate)
       engine.update({deltaTime});
   }
 
+  updateWorld({deltaTime}) {
+    const {storage: {world, mainSceneSettings: {world: {maxDeltaTime}}}} = this;
+    world.timestep = Math.min(maxDeltaTime, deltaTime);
+    world.step();
+  }
+
   onUpdated() {
     super.onUpdated(...arguments);
     this.updateEngine(...arguments);
+    this.updateWorld(...arguments);
   }
 
   reset() {
+    const {storage: {debugRenderer}} = this;
+
+    getIsDebug() && (debugRenderer.active = false);
     getIsDebug() && analysis.logStatistics();
   }
 }

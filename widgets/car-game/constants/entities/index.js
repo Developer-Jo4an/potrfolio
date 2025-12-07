@@ -1,4 +1,4 @@
-import SatCollider from "../../controllers/components/SatCollider";
+import Collider from "../../../../shared/scene/ecs/sat/components/Collider";
 import State from "../../../../shared/scene/ecs/base/components/state/State";
 import Matrix3Component from "../../../../shared/scene/ecs/base/components/transform/Matrix3Component";
 import Collection from "../../../../shared/scene/ecs/base/components/data/Collection";
@@ -28,7 +28,7 @@ export const types = {
       {Class: Matrix3Component},
       {Class: State, props: {states: characterStates, state: getDefaultState(characterStates)}},
       {Class: Collection},
-      {Class: SatCollider}
+      {Class: Collider}
     ]
   },
   [MAIN_CONTAINER]: {
@@ -51,7 +51,7 @@ export const types = {
       {Class: Chunk},
       {Class: Collection},
       {Class: Matrix3Component},
-      {Class: SatCollider}
+      {Class: Collider}
     ]
   },
   [BONUS]: {
@@ -59,7 +59,7 @@ export const types = {
       {Class: PixiComponent},
       {Class: Collection},
       {Class: Matrix3Component},
-      {Class: SatCollider}
+      {Class: Collider}
     ]
   },
   [SPIKE]: {
@@ -67,7 +67,7 @@ export const types = {
       {Class: PixiComponent},
       {Class: Collection},
       {Class: Matrix3Component},
-      {Class: SatCollider}
+      {Class: Collider}
     ]
   }
 };

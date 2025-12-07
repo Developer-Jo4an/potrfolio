@@ -9,7 +9,10 @@ export default class Wrapper extends ThreeWrapper {
 
   registerController(data) {
     const {eventBus} = this;
-    this.controller ??= new Controller({eventBus, rendererSettings: {shadow: true}, ...data});
+    this.controller ??= new Controller({
+      eventBus,
+      rendererSettings: {background: {transparent: true, opacity: 0}, shadow: true}, ...data
+    });
   }
 
   get state() {

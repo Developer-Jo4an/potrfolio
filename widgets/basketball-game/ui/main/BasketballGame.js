@@ -1,6 +1,7 @@
 import {useRef, useMemo} from "react";
 import useLoadScene from "../../../../shared/scene/model/hooks/useLoadScene";
 import useStateControls from "../../../../shared/scene/model/hooks/useStateControls";
+import Background from "../background/Background";
 import useBasketballStore from "../../model/state-manager/basketballStore";
 import imports from "../../../../shared/scene/lib/import";
 import {BASKETBALL_STATE_MACHINE} from "../../constants/stateMachine";
@@ -15,7 +16,7 @@ export default function BasketballGame() {
   const containerRef = useRef();
 
   useLoadScene({
-    libraries: [imports.three],
+    libraries: [imports.three, imports.rapier3d],
     loadWrapper: () => import("../../controllers/Wrapper"),
     beforeInit(wrapper) {
       wrapper.controller.storage.states = BASKETBALL_STATE_MACHINE;
@@ -38,6 +39,9 @@ export default function BasketballGame() {
   }, [wrapper]));
 
   return (
-    <div ref={containerRef} className={styles.basketballGame}/>
+    <div className={styles.basketballGame}>
+      <Background/>
+      <div ref={containerRef} className={styles.basketballContainer}/>
+    </div>
   );
 }

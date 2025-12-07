@@ -1,4 +1,4 @@
-import SatCollider from "../components/SatCollider";
+import Collider from "../../../../shared/scene/ecs/sat/components/Collider";
 import System from "../../../../shared/scene/ecs/core/System";
 import PixiComponent from "../../../../shared/scene/ecs/pixi/components/PixiComponent";
 import Matrix3Component from "../../../../shared/scene/ecs/base/components/transform/Matrix3Component";
@@ -86,7 +86,7 @@ export default class Level extends System {
     characterMatrix3Component.rotation = rotationFromDirection[currentDirection];
 
     // коллайдер
-    const characterColliderComponent = characterEntity.get(SatCollider);
+    const characterColliderComponent = characterEntity.get(Collider);
     const halfWidth = width / 2;
     const halfHeight = height / 2;
     const characterPolygon = new global.SAT.Polygon(
@@ -99,7 +99,7 @@ export default class Level extends System {
       ]
     );
     characterPolygon.setAngle(characterMatrix3Component.rotation);
-    characterColliderComponent.satObject = characterPolygon;
+    characterColliderComponent.object = characterPolygon;
   }
 
   initMapEntities() {
@@ -162,7 +162,7 @@ export default class Level extends System {
 
   initRoadChunkSatComponent({roadChunkEntity}) {
     const roadChunkChunkComponent = roadChunkEntity.get(Chunk);
-    const roadChunkSatColliderComponent = roadChunkEntity.get(SatCollider);
+    const roadChunkSatColliderComponent = roadChunkEntity.get(Collider);
     const {points: {startPointFirst, startPointSecond, endPointFirst, endPointSecond}} = roadChunkChunkComponent;
 
     const roadChunkPolygonPoints = [startPointFirst, startPointSecond, endPointFirst, endPointSecond].map(
@@ -171,7 +171,7 @@ export default class Level extends System {
         return new global.SAT.Vector(nextPoint.x, nextPoint.y);
       }
     );
-    roadChunkSatColliderComponent.satObject = new global.SAT.Polygon(
+    roadChunkSatColliderComponent.object = new global.SAT.Polygon(
       new global.SAT.Vector(0, 0),
       roadChunkPolygonPoints
     );
@@ -240,8 +240,8 @@ export default class Level extends System {
     bonusMatrix3Component.y = spawnPosition.y;
     mainContainerPixiComponent.pixiObject.addChild(bonusPixiComponent.pixiObject);
 
-    const bonusSatColliderComponent = bonusEntity.get(SatCollider);
-    bonusSatColliderComponent.satObject = new global.SAT.Polygon(
+    const bonusSatColliderComponent = bonusEntity.get(Collider);
+    bonusSatColliderComponent.object = new global.SAT.Polygon(
       new global.SAT.Vector(0, 0),
       [
         new global.SAT.Vector(bonusMatrix3Component.x - bonusViewWidthHalf, bonusMatrix3Component.y + bonusViewHeightHalf),
@@ -278,8 +278,8 @@ export default class Level extends System {
     spikeMatrix3Component.x = spawnPosition.x;
     spikeMatrix3Component.y = spawnPosition.y;
     mainContainerPixiComponent.pixiObject.addChild(spikePixiComponent.pixiObject);
-    const spikeSatColliderComponent = spikeEntity.get(SatCollider);
-    spikeSatColliderComponent.satObject = new global.SAT.Polygon(
+    const spikeSatColliderComponent = spikeEntity.get(Collider);
+    spikeSatColliderComponent.object = new global.SAT.Polygon(
       new global.SAT.Vector(0, 0),
       [
         new global.SAT.Vector(spikeMatrix3Component.x - spikeViewWidthHalf, spikeMatrix3Component.y + spikeViewHeightHalf),
