@@ -7,6 +7,5 @@ export default class PixiComponent extends Component {
     super({eventBus});
 
     this.pixiObject = pixiObject;
-    this.onChange();
   }
 }

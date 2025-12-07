@@ -5,9 +5,11 @@ export default class Collection extends Component {
 
   type = "collection";
 
-  constructor(data) {
-    super(data);
+  group = "side-effects";
 
-    this.group = data.group;
+  constructor({eventBus, group}) {
+    super({eventBus});
+
+    group && (this.group = group);
   }
 }

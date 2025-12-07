@@ -7,7 +7,6 @@ import Chunk from "../../controllers/components/Chunk";
 import Game from "../../controllers/components/Game";
 import getDefaultState from "../../../../shared/scene/lib/state/getDefaultState";
 import {CHARACTER, states as characterStates} from "./character";
-import {SIDE_EFFECTS} from "../components/collections/groups";
 import {GAME} from "./game";
 import {MAIN_CONTAINER} from "./mainContainer";
 import {ROAD_CHUNK} from "./roadChunk";
@@ -28,7 +27,7 @@ export const types = {
       {Class: PixiComponent},
       {Class: Matrix3Component},
       {Class: State, props: {states: characterStates, state: getDefaultState(characterStates)}},
-      {Class: Collection, props: {group: SIDE_EFFECTS}},
+      {Class: Collection},
       {Class: SatCollider}
     ]
   },
@@ -36,29 +35,29 @@ export const types = {
     components: [
       {Class: PixiComponent},
       {Class: Matrix3Component},
-      {Class: Collection, props: {group: SIDE_EFFECTS}}
+      {Class: Collection}
     ]
   },
   [ROAD_CHUNKS_CONTAINER]: {
     components: [
       {Class: PixiComponent},
       {Class: Matrix3Component},
-      {Class: Collection, props: {group: SIDE_EFFECTS}}
+      {Class: Collection}
     ]
   },
   [ROAD_CHUNK]: {
     components: [
       {Class: PixiComponent},
       {Class: Chunk},
-      {Class: Collection, props: {group: SIDE_EFFECTS}},
+      {Class: Collection},
       {Class: Matrix3Component},
-      {Class: SatCollider},
+      {Class: SatCollider}
     ]
   },
   [BONUS]: {
     components: [
       {Class: PixiComponent},
-      {Class: Collection, props: {group: SIDE_EFFECTS}},
+      {Class: Collection},
       {Class: Matrix3Component},
       {Class: SatCollider}
     ]
@@ -66,7 +65,7 @@ export const types = {
   [SPIKE]: {
     components: [
       {Class: PixiComponent},
-      {Class: Collection, props: {group: SIDE_EFFECTS}},
+      {Class: Collection},
       {Class: Matrix3Component},
       {Class: SatCollider}
     ]

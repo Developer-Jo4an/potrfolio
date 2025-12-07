@@ -1,15 +1,17 @@
-import {useRef} from "react";
+import {useRef, useMemo} from "react";
 import useLoadScene from "../../../../shared/scene/model/hooks/useLoadScene";
+import useStateControls from "../../../../shared/scene/model/hooks/useStateControls";
 import useBasketballStore from "../../model/state-manager/basketballStore";
 import imports from "../../../../shared/scene/lib/import";
-import {types} from "../../../car-game/constants/entities";
 import {BASKETBALL_STATE_MACHINE} from "../../constants/stateMachine";
 import {mainSceneSettings} from "../../constants/mainSceneSettings";
 import {preload} from "../../constants/preload";
+import {types} from "../../constants/types";
+import {IGNORE_NEXT_STATES, LOSE} from "../../../car-game/constants/stateMachine";
 import styles from "./BasketballGame.module.scss";
 
 export default function BasketballGame() {
-  const {setWrapper, wrapper} = useBasketballStore();
+  const {wrapper, setWrapper} = useBasketballStore();
   const containerRef = useRef();
 
   useLoadScene({
@@ -23,6 +25,17 @@ export default function BasketballGame() {
     afterInit: setWrapper,
     containerRef
   });
+
+  useStateControls(wrapper, BASKETBALL_STATE_MACHINE, IGNORE_NEXT_STATES, useMemo(() => {
+    if (!wrapper) return {};
+    return {
+      async [LOSE](promise, toNextState) {
+        await promise;
+        await wrapper.reset();
+        toNextState();
+      }
+    };
+  }, [wrapper]));
 
   return (
     <div ref={containerRef} className={styles.basketballGame}/>

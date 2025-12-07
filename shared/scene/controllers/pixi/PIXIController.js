@@ -70,7 +70,7 @@ export default class PIXIController extends BaseController {
 
     if (preload) {
       storage.preload = cloneDeep(preload);
-      await pixiLoader.init();
+      await pixiLoader.init(storage.preload);
       await pixiLoader.loadAssets(storage.preload);
     }
   }

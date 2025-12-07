@@ -1,9 +1,22 @@
 import BaseLoader from "../base/BaseLoader";
 import {upperFirst} from "lodash";
+import {GLTF, TEXTURE, THREE_SPACE} from "../../constants/loaders/assetsTypes";
+import global from "../../../constants/global/global";
+import {assetsManager} from "../../assets/AssetsManager";
 
 export default class ThreeLoader extends BaseLoader {
-  async init() {
+
+  static LOADERS = {
+    [TEXTURE]: global.THREE.TextureLoader,
+    [GLTF]: global.THREE.GLTFLoader
+  };
+
+  async init(preload) {
     if (this.isInitialized) return;
+    this.loaders = preload.reduce((acc, {type}) => {
+      acc[type] ??= new ThreeLoader.LOADERS[type]();
+      return acc;
+    }, {});
     this.isInitialized = true;
   }
 
@@ -13,8 +26,26 @@ export default class ThreeLoader extends BaseLoader {
     }));
   }
 
-  loadTexture(name, src) {
+  async loadTexture(name, src) {
+    const {loaders: {[TEXTURE]: textureLoader}} = this;
+    const texture = await textureLoader.loadAsync(src);
+    texture.colorSpace = global.THREE.SRGBColorSpace;
+    texture.anisotropy = 16;
+    texture.flipY = false;
+    assetsManager.setAssetsToSpace(THREE_SPACE, TEXTURE, name, texture);
+  }
 
+  async loadGLTF(name, src) {
+    const {loaders: {[GLTF]: gltfLoader}} = this;
+    await new Promise(res => gltfLoader.load(
+      src,
+      data => {
+        assetsManager.setAssetsToSpace(THREE_SPACE, GLTF, name, data);
+        res();
+      },
+      null,
+      res
+    ));
   }
 }
 

@@ -4,6 +4,7 @@ import State from "../../decorators/state/State";
 import Performance from "../../decorators/performance/Performance";
 import ThreeUpdate from "../../decorators/three/three-update/ThreeUpdate";
 import getIsDebug from "../../../lib/debug/debug";
+import {cloneDeep} from "lodash";
 import {threeLoader} from "../../loaders/three/ThreeLoader";
 import {
   PERFORMANCE_DECORATOR_FIELD,
@@ -50,7 +51,13 @@ export default class ThreeController extends BaseController {
   }
 
   async loadAssets() {
+    const {preload, storage} = this;
 
+    if (preload) {
+      storage.preload = cloneDeep(preload);
+      await threeLoader.init(storage.preload);
+      await threeLoader.loadAssets(storage.preload);
+    }
   }
 
   async initScene() {
@@ -100,7 +107,7 @@ export default class ThreeController extends BaseController {
 
     if (shadow) {
       renderer.shadowMap.enabled = true;
-      renderer.shadowMap.type = shadow?.type ?? global.THREE.PCFSoftShadowMap;
+      renderer.shadowMap.type = shadow?.type ?? global.THREE.PCFShadowMap;
     }
 
     if (background?.transparent) {
@@ -108,7 +115,7 @@ export default class ThreeController extends BaseController {
       renderer.setClearColor(color, opacity);
     } else renderer.setClearColor(background?.color ?? "#cccccc");
 
-    renderer.setPixelRatio(Math.max(2, window.devicePixelRatio));
+    renderer.setPixelRatio(2);
     renderer.outputEncoding = encoding;
     renderer.toneMapping = toneMapping;
 
@@ -141,7 +148,7 @@ export default class ThreeController extends BaseController {
     renderer.setSize(offsetWidth, offsetHeight);
   }
 
-  render(deltaTime) {
+  render() {
     const {scene, camera, renderer} = this;
     renderer.render(scene, camera);
   }
@@ -149,11 +156,9 @@ export default class ThreeController extends BaseController {
   onUpdated({deltaTime}) {
     const {decorators} = this;
 
-    this.render(deltaTime);
+    this.render();
 
     if (decorators[PERFORMANCE_DECORATOR_FIELD])
       decorators[PERFORMANCE_DECORATOR_FIELD].update();
-
-    return deltaTime;
   }
 }
