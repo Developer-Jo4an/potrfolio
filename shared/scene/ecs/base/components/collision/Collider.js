@@ -1,4 +1,4 @@
-import Component from "../../core/Component";
+import Component from "../../../core/Component";
 
 export default class Collider extends Component {
   type = "collider";

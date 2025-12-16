@@ -2,7 +2,7 @@ import System from "../../../../shared/scene/ecs/core/System";
 import CollisionComponent from "../../../../shared/scene/ecs/base/components/collision/CollisionComponent";
 import Matrix3Component from "../../../../shared/scene/ecs/base/components/transform/Matrix3Component";
 import EventComponent from "../../../../shared/scene/ecs/base/components/EventComponent";
-import Collider from "../../../../shared/scene/ecs/sat/components/Collider";
+import Collider from "../../../../shared/scene/ecs/base/components/collision/Collider";
 import global from "../../../../shared/constants/global/global";
 import {CHARACTER} from "../../constants/entities/character";
 import {ROAD_CHUNK} from "../../constants/entities/roadChunk";

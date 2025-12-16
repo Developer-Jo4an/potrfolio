@@ -5,6 +5,7 @@ export default class ThreeComponent extends Component {
 
   constructor({eventBus, threeObject}) {
     super({eventBus});
+
     this.threeObject = threeObject;
   }
 }

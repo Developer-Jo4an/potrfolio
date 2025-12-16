@@ -16,7 +16,7 @@ export default class BasketballFactory extends Factory {
   };
 
   constructor(data) {
-    super();
+    super(...arguments);
     this.defaultProperties = data;
   }
 
@@ -91,6 +91,7 @@ export default class BasketballFactory extends Factory {
     .setTranslation(position.x, position.y, position.z)
     .setRotation(new global.THREE.Quaternion().setFromEuler(rotation));
     const characterBody = world.createRigidBody(characterBodyDesc);
+    characterBody.sleep();
     const characterGeometry = characterView.geometry;
     const characterVertices = Array.from(characterGeometry.attributes.position.array);
     const characterIndexes = Array.from(characterGeometry.index.array);

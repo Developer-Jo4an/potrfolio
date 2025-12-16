@@ -1,4 +1,4 @@
-import Collider from "../../../../shared/scene/ecs/sat/components/Collider";
+import Collider from "../../../../shared/scene/ecs/base/components/collision/Collider";
 import System from "../../../../shared/scene/ecs/core/System";
 import PixiComponent from "../../../../shared/scene/ecs/pixi/components/PixiComponent";
 import Matrix3Component from "../../../../shared/scene/ecs/base/components/transform/Matrix3Component";

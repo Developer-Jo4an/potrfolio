@@ -8,6 +8,7 @@ import Level from "./systems/Level";
 import Camera from "./systems/Camera";
 import Light from "./systems/Light";
 import DebugRenderer from "../../../shared/scene/debug/rapier/DebugRenderer";
+import ThreeRapierRenderSystem from "../../../shared/scene/ecs/three/ThreeRapierRenderSystem";
 import getIsDebug from "../../../shared/lib/debug/debug";
 import eventSubscription from "../../../shared/lib/events/eventListener";
 import {analysis} from "../../../shared/scene/analytics/Analytics";
@@ -57,7 +58,7 @@ export default class Controller extends ThreeController {
   }
 
   initEngine() {
-    const {storage, scene, mainSceneSettings, renderer, camera, canvas, decorators, eventBus} = this;
+    const {storage, scene, renderer, camera, canvas, decorators, eventBus} = this;
 
     const engine = storage.engine = (this.engine = new Engine({eventBus}));
     storage.eventBus = eventBus;
@@ -72,6 +73,7 @@ export default class Controller extends ThreeController {
     .addSystem(new Level({eventBus, storage}))
     .addSystem(new Camera({eventBus, storage}))
     .addSystem(new Light({eventBus, storage}))
+    .addSystem(new ThreeRapierRenderSystem({eventBus, storage}))
     .addSystem(new Collector({eventBus, storage}))
     .addSystem(new Game({eventBus, storage}));
   }

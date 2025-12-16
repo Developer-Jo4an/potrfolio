@@ -1,4 +1,4 @@
-import Collider from "../../../../shared/scene/ecs/sat/components/Collider";
+import Collider from "../../../../shared/scene/ecs/base/components/collision/Collider";
 import State from "../../../../shared/scene/ecs/base/components/state/State";
 import Matrix3Component from "../../../../shared/scene/ecs/base/components/transform/Matrix3Component";
 import Collection from "../../../../shared/scene/ecs/base/components/data/Collection";

@@ -1,7 +1,7 @@
 import {useEffect, useState} from "react";
+import {isFunction} from "lodash";
 import axios from "axios";
 import {FULFILLED, PENDING, REJECTED} from "../../../constants/promise/statuses";
-import {isFunction} from "lodash";
 
 export const useRequestsHandler = (handlers = []) => {
   const [requestStatuses, setRequestStatuses] = useState({});
@@ -41,7 +41,7 @@ export const useRequestsHandler = (handlers = []) => {
 
         setStatus(setRequestStatuses, requestKey, REJECTED);
 
-        return error;
+        return Promise.reject(error);
       }
     );
 
@@ -68,7 +68,7 @@ export const useRequestsHandler = (handlers = []) => {
 
         setStatus(setRequestStatuses, requestKey, REJECTED);
 
-        return error;
+        return Promise.reject(error);
       }
     );
 
