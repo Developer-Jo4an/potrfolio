@@ -12,7 +12,6 @@ import {
   POINTER_UP_OUTSIDE
 } from "../../../../../shared/constants/events/eventsNames";
 import {DUNK_SHOT_STATE_MACHINE} from "../../../constants/stateMachine";
-import global from "../../../../../shared/constants/global/global";
 
 export default class InteractionController extends BaseController {
 
@@ -47,11 +46,11 @@ export default class InteractionController extends BaseController {
   }
 
   init() {
-    const {stage, app} = this;
+    const {stage} = this;
 
-    const interactiveLayer = new global.PIXI.Container();
-    interactiveLayer.name = "interactiveArea";
-    interactiveLayer.hitArea = new global.PIXI.Rectangle(0, 0, Number.MAX_VALUE, Number.MAX_VALUE);
+    const interactiveLayer = new PIXI.Container();
+    interactiveLayer.label = "interactiveArea";
+    interactiveLayer.hitArea = new PIXI.Rectangle(0, 0, Number.MAX_VALUE, Number.MAX_VALUE);
 
     stage.addChild(interactiveLayer);
   }

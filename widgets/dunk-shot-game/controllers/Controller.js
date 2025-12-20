@@ -16,7 +16,6 @@ import {RESIZE} from "../../../shared/constants/events/eventsNames";
 import {UPDATED} from "../../../shared/scene/constants/events/names";
 import {DUNK_SHOT_TWEEN, GAME_SIZE} from "../constants";
 import {DUNK_SHOT_STATE_MACHINE} from "../constants/stateMachine";
-import global from "../../../shared/constants/global/global";
 import {CONTROLLER_RESET, DUNK_SHOT_CONFIG_EVENT, DUNK_SHOT_GAME_DATA_EVENT} from "../constants/events";
 import {dunkShotFactory} from "./factory/DunkShotFactory";
 import {dunkShotAnimationPlayer} from "./animations/DunkShotAnimationPlayer";
@@ -134,7 +133,7 @@ export default class Controller extends PIXIController {
   }
 
   initWorld() {
-    const engine = this.engine = global.Matter.Engine.create();
+    const engine = this.engine = Matter.Engine.create();
     const world = this.world = engine.world;
   }
 
@@ -168,8 +167,8 @@ export default class Controller extends PIXIController {
     const {stage, groups, storage: {mainSceneSettings: {layers}}} = this;
 
     layers.forEach(({id}) => {
-      const layer = groups[id] = new global.PIXI.RenderLayer({sortableChildren: true});
-      layer.name = `${id}Layer`;
+      const layer = groups[id] = new PIXI.RenderLayer({sortableChildren: true});
+      layer.label = `${id}Layer`;
       stage.addChild(layer);
     });
   }
@@ -219,7 +218,7 @@ export default class Controller extends PIXIController {
     if (!stateMachine[state]?.isAvailableUpdate) return;
 
     controllers.forEach(controller => controller?.update?.(deltaMS, deltaTime));
-    global.Matter.Engine.update(engine, deltaMS);
+    Matter.Engine.update(engine, deltaMS);
   }
 
   async reset() {

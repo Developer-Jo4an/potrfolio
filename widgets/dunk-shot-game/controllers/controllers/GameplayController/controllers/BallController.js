@@ -9,7 +9,6 @@ import {PROGRESS_RESET, SPIKE_COLLISION} from "../../../../constants/events";
 import {DAMAGE, FREE, INSIDE_BASKET, TO_UP} from "../../../../constants/statuses";
 import {HALF_PI} from "../../../../../../shared/constants/trigonometry/trigonometry";
 import {FIVE, QUARTER, THIRD, TWO_AND_HALF, ZERO_FIFTEEN} from "../../../../../../shared/constants/numbers/numbers";
-import global from "../../../../../../shared/constants/global/global";
 import {STATE_DECORATOR_FIELD} from "../../../../../../shared/scene/constants/decorators/names";
 import {FELL, LOSE} from "../../../../constants/stateMachine";
 import gsap from "gsap";
@@ -199,11 +198,11 @@ export default class BallController extends BaseGameplayController {
     const formattedAngle = angle + (Math.PI * 3 / 2);
     const speed = power * throwSettings.power.linear;
 
-    global.Matter.Body.applyForce(ball.body, ball.position, {
+    Matter.Body.applyForce(ball.body, ball.position, {
       x: Math.cos(formattedAngle) * speed,
       y: Math.sin(formattedAngle) * speed
     });
-    global.Matter.Body.setAngularVelocity(
+    Matter.Body.setAngularVelocity(
       ball.body,
       (angle > 0 ? -1 : 1) * (power * throwSettings.power.angular)
     );

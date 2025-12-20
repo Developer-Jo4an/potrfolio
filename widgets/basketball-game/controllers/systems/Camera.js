@@ -1,5 +1,4 @@
 import System from "../../../../shared/scene/ecs/core/System";
-import global from "../../../../shared/constants/global/global";
 
 export default class Camera extends System {
   initializationLevelSelect() {

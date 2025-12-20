@@ -11,7 +11,6 @@ import {
   RESIZE_DECORATOR_FIELD,
   STATE_DECORATOR_FIELD, UPDATE_DECORATOR_FIELD
 } from "../../constants/decorators/names";
-import global from "../../../constants/global/global";
 import {THREE_WEBGL_RENDERER_CONFIG} from "../../config/three";
 
 export default class ThreeController extends BaseController {
@@ -73,7 +72,7 @@ export default class ThreeController extends BaseController {
       } = {}
     } = this;
 
-    return this.scene = new global.THREE.Scene({fog});
+    return this.scene = new THREE.Scene({fog});
   }
 
   initCamera() {
@@ -87,7 +86,7 @@ export default class ThreeController extends BaseController {
       } = {}
     } = this;
 
-    return this.camera = new global.THREE.PerspectiveCamera(fov, aspect, near, far);
+    return this.camera = new THREE.PerspectiveCamera(fov, aspect, near, far);
   }
 
   initRenderer() {
@@ -96,19 +95,19 @@ export default class ThreeController extends BaseController {
       rendererSettings: {
         shadow,
         background,
-        encoding = global.THREE.sRGBEncoding,
-        toneMapping = global.THREE.NoToneMapping,
+        encoding = THREE.sRGBEncoding,
+        toneMapping = THREE.NoToneMapping,
         dpr = 2
       } = {}
     } = this;
     const {canvas, context} = ThreeController;
-    const renderer = this.renderer = new global.THREE.WebGLRenderer({...THREE_WEBGL_RENDERER_CONFIG, canvas, context});
+    const renderer = this.renderer = new THREE.WebGLRenderer({...THREE_WEBGL_RENDERER_CONFIG, canvas, context});
 
     renderer.debug.checkShaderErrors = getIsDebug();
 
     if (shadow) {
       renderer.shadowMap.enabled = true;
-      renderer.shadowMap.type = shadow?.type ?? global.THREE.PCFSoftShadowMap;
+      renderer.shadowMap.type = shadow?.type ?? THREE.PCFSoftShadowMap;
     }
 
     if (background?.transparent) {

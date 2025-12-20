@@ -3,7 +3,6 @@ import {cubicInterpolation} from "../../lib/cubicInterpolation";
 import eventSubscription from "../../../../lib/events/eventListener";
 import getEventPosition from "../../../../lib/events/eventPosition";
 import {MOVE} from "../../../../constants/events/eventsNames";
-import global from "../../../../constants/global/global";
 
 export default class MouseTrailController extends BaseMouseTrailController {
 
@@ -53,10 +52,10 @@ export default class MouseTrailController extends BaseMouseTrailController {
               cashedPoint.x = mousePosition.x;
               cashedPoint.y = mousePosition.y;
             } else
-              points.push(new global.PIXI.Point(mousePosition.x, mousePosition.y));
+              points.push(new PIXI.Point(mousePosition.x, mousePosition.y));
           }
 
-          const rope = this.rope ??= new global.PIXI.MeshRope({texture: trailTexture, points});
+          const rope = this.rope ??= new PIXI.MeshRope({texture: trailTexture, points});
           rope.blendmode = "add";
           stage.addChild(rope);
 

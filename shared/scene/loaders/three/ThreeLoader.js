@@ -1,14 +1,13 @@
 import BaseLoader from "../base/BaseLoader";
 import {upperFirst} from "lodash";
 import {GLTF, TEXTURE, THREE_SPACE} from "../../constants/loaders/assetsTypes";
-import global from "../../../constants/global/global";
 import {assetsManager} from "../../assets/AssetsManager";
 
 export default class ThreeLoader extends BaseLoader {
 
   static LOADERS = {
-    [TEXTURE]: global.THREE.TextureLoader,
-    [GLTF]: global.THREE.GLTFLoader
+    [TEXTURE]: THREE.TextureLoader,
+    [GLTF]: THREE.GLTFLoader
   };
 
   async init(preload) {
@@ -29,7 +28,7 @@ export default class ThreeLoader extends BaseLoader {
   async loadTexture(name, src) {
     const {loaders: {[TEXTURE]: textureLoader}} = this;
     const texture = await textureLoader.loadAsync(src);
-    texture.colorSpace = global.THREE.SRGBColorSpace;
+    texture.colorSpace = THREE.SRGBColorSpace;
     texture.anisotropy = 16;
     texture.flipY = false;
     assetsManager.setAssetsToSpace(THREE_SPACE, TEXTURE, name, texture);

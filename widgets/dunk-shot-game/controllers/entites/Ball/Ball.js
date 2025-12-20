@@ -5,7 +5,6 @@ import {assetsManager} from "../../../../../shared/scene/assets/AssetsManager";
 import {PIXI_SPACE, TEXTURE} from "../../../../../shared/scene/constants/loaders/assetsTypes";
 import {FREE, TO_DOWN} from "../../../constants/statuses";
 import {COLLISION_FILTERS} from "../../../constants/collision";
-import global from "../../../../../shared/constants/global/global";
 import {BALL_2D} from "../../../config/preload";
 
 export default class Ball extends BasePhysicsEntity {
@@ -44,7 +43,7 @@ export default class Ball extends BasePhysicsEntity {
   initBody() {
     const {storage: {mainSceneSettings: {ball: {radius, physicalSettings}}}} = this;
 
-    const body = this.body = global.Matter.Bodies.circle(
+    const body = this.body = Matter.Bodies.circle(
       0, 0, radius,
       {
         ...copy(physicalSettings),
@@ -56,8 +55,8 @@ export default class Ball extends BasePhysicsEntity {
   initView() {
     const {groups, storage: {mainSceneSettings: {ball}}} = this;
 
-    const view = this.view ??= new global.PIXI.Sprite();
-    view.name = "ball";
+    const view = this.view ??= new PIXI.Sprite();
+    view.label = "ball";
     view.texture = assetsManager.getAssetFromSpace(PIXI_SPACE, TEXTURE, BALL_2D);
     groups.middle.attach(view);
     view.anchor.set(0.5);

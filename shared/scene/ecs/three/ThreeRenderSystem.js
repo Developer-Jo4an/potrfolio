@@ -15,33 +15,34 @@ export default class ThreeRenderSystem extends System {
 
   updateItems() {
     const entities = this.getNecessaryEntities();
+    entities.forEach(entity => this.updateItem(entity));
+  }
 
-    entities.forEach(entity => {
-      const cThree = entity.get(ThreeComponent);
-      const {threeObject} = cThree;
-      const cMatrix4 = entity.get(Matrix4Component);
+  updateItem(entity) {
+    const cThree = entity.get(ThreeComponent);
+    const {threeObject} = cThree;
+    const cMatrix4 = entity.get(Matrix4Component);
 
-      if (!threeObject || !cMatrix4) return;
+    if (!threeObject || !cMatrix4) return;
 
-      if (!threeObject.matrixAutoUpdate && !threeObject.needsDisableAutoUpdate) return;
+    if (!threeObject.matrixAutoUpdate && !threeObject.needsDisableAutoUpdate) return;
 
-      const {position, scale, quaternion} = cMatrix4;
+    const {position, scale, quaternion} = cMatrix4;
 
-      threeObject.position.copy(position);
-      threeObject.quaternion.copy(quaternion);
-      threeObject.scale.copy(scale);
+    threeObject.position.copy(position);
+    threeObject.quaternion.copy(quaternion);
+    threeObject.scale.copy(scale);
 
-      if (threeObject.needsMakeVisible) {
-        threeObject.visible = true;
-        threeObject.needsMakeVisible = false;
-      }
+    if (threeObject.needsMakeVisible) {
+      threeObject.visible = true;
+      threeObject.needsMakeVisible = false;
+    }
 
-      if (threeObject.needsDisableAutoUpdate) {
-        threeObject.matrixAutoUpdate = false;
-        threeObject.updateMatrix();
-        threeObject.needsDisableAutoUpdate = false;
-      }
-    });
+    if (threeObject.needsDisableAutoUpdate) {
+      threeObject.matrixAutoUpdate = false;
+      threeObject.updateMatrix();
+      threeObject.needsDisableAutoUpdate = false;
+    }
   }
 
   update() {

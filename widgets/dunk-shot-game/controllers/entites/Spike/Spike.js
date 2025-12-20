@@ -5,7 +5,6 @@ import {PIXI_SPACE, TEXTURE} from "../../../../../shared/scene/constants/loaders
 import {COLLISION_FILTERS} from "../../../constants/collision";
 import {assetsManager} from "../../../../../shared/scene/assets/AssetsManager";
 import {INACTIVE} from "../../../constants/statuses";
-import global from "../../../../../shared/constants/global/global";
 
 export default class Spike extends BasePhysicsEntity {
 
@@ -34,7 +33,7 @@ export default class Spike extends BasePhysicsEntity {
   initBody() {
     const {storage: {mainSceneSettings: {spike: {body: {width, height, physicalSettings}}}}} = this;
 
-    const body = this.body = global.Matter.Bodies.rectangle(
+    const body = this.body = Matter.Bodies.rectangle(
       0, 0, width, height,
       {
         ...copy(physicalSettings),
@@ -46,8 +45,8 @@ export default class Spike extends BasePhysicsEntity {
   initView() {
     const {type, groups, storage: {mainSceneSettings: {spike: {textureTypes, view: {width, height}}}}} = this;
 
-    const view = this.view ??= new global.PIXI.Sprite();
-    view.name = type;
+    const view = this.view ??= new PIXI.Sprite();
+    view.label = type;
     groups.back.attach(view);
     view.texture = assetsManager.getAssetFromSpace(PIXI_SPACE, TEXTURE, textureTypes[type]);
     view.scale.set(1);

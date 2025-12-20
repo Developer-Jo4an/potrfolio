@@ -14,7 +14,7 @@ export default function useDunkShotStar() {
   return (stars, {x: xStart, y: yStart}, to) => {
     const {x: xEnd, y: yEnd} = to.getBoundingClientRect();
 
-    const multiplier = xStart >= window?.innerWidth * HALF ? -1 : 1;
+    const multiplier = xStart >= global?.innerWidth * HALF ? -1 : 1;
     const start = {x: 0, y: 0};
     const middle = {
       x: ((xEnd - xStart) / 2) + (offset.x * multiplier),

@@ -8,7 +8,7 @@ export default function SizeProvider({children}) {
 
   useLayoutEffect(() => {
     const resizeHandler = () => {
-      const {innerWidth: width, innerHeight: height} = window;
+      const {innerWidth: width, innerHeight: height} = global;
       setSize({width, height});
     };
 

@@ -1,5 +1,4 @@
 import BaseEntity from "../base/BaseEntity";
-import global from "../../../../../shared/constants/global/global";
 
 export default class MainContainer extends BaseEntity {
   constructor(data) {
@@ -13,8 +12,8 @@ export default class MainContainer extends BaseEntity {
   }
 
   initView() {
-    const view = this.view ??= new global.PIXI.Container();
-    view.name = "mainContainer";
+    const view = this.view ??= new PIXI.Container();
+    view.label = "mainContainer";
     view.position.set(0, 0);
   }
 

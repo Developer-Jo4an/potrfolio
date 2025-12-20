@@ -1,4 +1,5 @@
 import gsap from "gsap";
+import {isString, isFinite} from "lodash";
 
 export const PLAYING = "playing";
 export const PAUSED = "paused";
@@ -32,7 +33,7 @@ export default class LocalTimeline {
 
     Animation.prototype.save = function (namespace, id) {
       self.add(namespace, this);
-      ["string", "number"].includes(typeof id) && (this.tweenId = id);
+     (isString(id) || isFinite(id)) && (this.tweenId = id);
       return this;
     };
 

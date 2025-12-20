@@ -86,8 +86,8 @@ export default class DunkShotUtils extends GameUtils {
     const position = element.getGlobalPosition();
 
     return {
-      x: ((window.innerWidth - canvas.offsetWidth) / 2) + position.x,
-      y: ((window.innerHeight - canvas.offsetHeight) / 2) + position.y
+      x: ((global.innerWidth - canvas.offsetWidth) / 2) + position.x,
+      y: ((global.innerHeight - canvas.offsetHeight) / 2) + position.y
     };
   }
 

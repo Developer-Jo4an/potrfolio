@@ -6,7 +6,7 @@ export default class EventComponent extends Component {
   data;
 
   constructor(data) {
-    super(data);
+    super(...arguments);
     this.type = data.type;
     this.data = data.data;
   }

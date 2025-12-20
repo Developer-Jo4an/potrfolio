@@ -3,7 +3,6 @@ import CollisionComponent from "../../../../shared/scene/ecs/base/components/col
 import Matrix3Component from "../../../../shared/scene/ecs/base/components/transform/Matrix3Component";
 import EventComponent from "../../../../shared/scene/ecs/base/components/EventComponent";
 import Collider from "../../../../shared/scene/ecs/base/components/collision/Collider";
-import global from "../../../../shared/constants/global/global";
 import {CHARACTER} from "../../constants/entities/character";
 import {ROAD_CHUNK} from "../../constants/entities/roadChunk";
 import {CHARACTER_WITH_BONUSES, CHARACTER_WITH_ROAD_CHUNK, CHARACTER_WITH_SPIKES} from "../../constants/collision";
@@ -43,7 +42,7 @@ export default class Collision extends System {
   getCollisionEntities(characterPolygon, entities) {
     return entities.filter(entity => {
       const roadChunkPolygon = entity.get(Collider).object;
-      return global.SAT.testPolygonPolygon(characterPolygon, roadChunkPolygon);
+      return SAT.testPolygonPolygon(characterPolygon, roadChunkPolygon);
     });
   }
 

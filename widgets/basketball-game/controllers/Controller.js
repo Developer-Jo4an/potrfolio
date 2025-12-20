@@ -9,13 +9,17 @@ import Camera from "./systems/Camera";
 import Light from "./systems/Light";
 import DebugRenderer from "../../../shared/scene/debug/rapier/DebugRenderer";
 import ThreeRapierRenderSystem from "../../../shared/scene/ecs/three/ThreeRapierRenderSystem";
+import Event from "./systems/Event";
+import Interactive from "./systems/Interactive";
+import Character from "./systems/Character";
 import getIsDebug from "../../../shared/lib/debug/debug";
 import eventSubscription from "../../../shared/lib/events/eventListener";
+import {cloneDeep} from "lodash";
 import {analysis} from "../../../shared/scene/analytics/Analytics";
 import {UPDATED} from "../../../shared/scene/constants/events/names";
 import {RESIZE} from "../../../shared/constants/events/eventsNames";
 import {UPDATE_DECORATOR_FIELD} from "../../../shared/scene/constants/decorators/names";
-import global from "../../../shared/constants/global/global";
+import {BASKETBALL, GAME_SPACE} from "../constants/game";
 
 export default class Controller extends ThreeController {
   constructor() {
@@ -67,20 +71,24 @@ export default class Controller extends ThreeController {
     storage.decorators = decorators;
     storage.renderer = renderer;
     storage.canvas = canvas;
+    storage.gameSpace = cloneDeep(GAME_SPACE);
 
     engine
     .addSystem(new Assets({eventBus, storage, factory: new BasketballFactory({eventBus, storage})}))
     .addSystem(new Level({eventBus, storage}))
-    .addSystem(new Camera({eventBus, storage}))
+    .addSystem(new Interactive({eventBus, storage}))
+    .addSystem(new Character({eventBus, storage}))
     .addSystem(new Light({eventBus, storage}))
     .addSystem(new ThreeRapierRenderSystem({eventBus, storage}))
+    .addSystem(new Camera({eventBus, storage}))
+    .addSystem(new Event({eventBus, storage}))
     .addSystem(new Collector({eventBus, storage}))
     .addSystem(new Game({eventBus, storage}));
   }
 
   initWorld() {
     const {storage, storage: {mainSceneSettings: {world: {gravity}}}} = this;
-    storage.world = new global.RAPIER3D.World(gravity);
+    storage.world = new RAPIER3D.World(gravity);
   }
 
   initDebug() {
@@ -107,9 +115,15 @@ export default class Controller extends ThreeController {
   }
 
   reset() {
-    const {storage: {debugRenderer}} = this;
+    const {storage, storage: {debugRenderer}} = this;
 
-    getIsDebug() && (debugRenderer.active = false);
-    getIsDebug() && analysis.logStatistics();
+    storage.gameSpace = cloneDeep(GAME_SPACE);
+
+    gsap.localTimeline.clear(BASKETBALL);
+
+    if (getIsDebug()) {
+      debugRenderer.active = false;
+      analysis.logStatistics();
+    }
   }
 }

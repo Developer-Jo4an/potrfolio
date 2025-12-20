@@ -12,38 +12,66 @@ export default class Level extends System {
   }
 
   initCharacter() {
-    const {eventBus, storage: {scene}} = this;
+    const {
+      eventBus, storage: {
+        scene,
+        mainSceneSettings: {
+          character: {
+            receiveShadow,
+            castShadow,
+            metalness,
+            roughness,
+            startData: {rotation, position}
+          }
+        }
+      }
+    } = this;
 
-    const characterEntity = new Entity({eventBus, type: CHARACTER}).init();
+    const eCharacter = new Entity({eventBus, type: CHARACTER}).init();
 
-    const characterThreeComponent = characterEntity.get(ThreeComponent);
-    const characterView = this.getAsset(characterEntity, CHARACTER);
-    characterThreeComponent.threeObject = characterView;
+    const cThreeComponent = eCharacter.get(ThreeComponent);
+    const characterView = this.getAsset(eCharacter, CHARACTER);
+    characterView.material.metalness = metalness;
+    characterView.material.roughness = roughness;
+    characterView.receiveShadow = receiveShadow;
+    characterView.castShadow = castShadow;
+    cThreeComponent.threeObject = characterView;
     scene.add(characterView);
 
-    const characterBodyComponent = characterEntity.get(Body);
-    characterBodyComponent.object = this.getAsset(characterEntity, CHARACTER_BODY);
+    const cBodyComponent = eCharacter.get(Body);
+    const vertices = Array.from(characterView.geometry.attributes.position.array);
+    const indexes = Array.from(characterView.geometry.index.array);
+    const characterBody = cBodyComponent.object = this.getAsset(eCharacter, CHARACTER_BODY, {
+      vertices,
+      indexes
+    });
+    characterBody.setTranslation(position);
+    characterBody.setRotation(new THREE.Quaternion().setFromEuler(new THREE.Euler(rotation.x, rotation.y, rotation.z)));
+    characterBody.setBodyType(RAPIER3D.RigidBodyType.Fixed);
   }
 
   initGround() {
-    const {eventBus, storage: {scene, mainSceneSettings: {ground}}} = this;
+    const {eventBus, storage: {scene, mainSceneSettings: {ground: {height, castShadow, receiveShadow}}}} = this;
 
-    const characterEntity = this.getFirstEntityByType(CHARACTER);
+    const eGroud = new Entity({eventBus, type: GROUND}).init();
 
-    const characterThreeComponent = characterEntity.get(ThreeComponent);
-    characterThreeComponent.threeObject.geometry.computeBoundingSphere();
-    const {radius: characterViewRadius} = characterThreeComponent.threeObject.geometry.boundingSphere;
-
-    const groundEntity = new Entity({eventBus, type: GROUND}).init();
-
-    const groundThreeComponent = groundEntity.get(ThreeComponent);
-    const groundView = this.getAsset(groundEntity, GROUND);
-    groundThreeComponent.threeObject = groundView;
-    groundView.position.set(0, -ground.height / 2 - characterViewRadius, 0);
+    const cThreeComponent = eGroud.get(ThreeComponent);
+    const groundView = this.getAsset(eGroud, GROUND);
+    groundView.name = GROUND;
+    groundView.receiveShadow = receiveShadow;
+    groundView.castShadow = castShadow;
+    cThreeComponent.threeObject = groundView;
     scene.add(groundView);
 
-    const groundBodyComponent = groundEntity.get(Body);
-    groundBodyComponent.object = this.getAsset(groundEntity, GROUND_BODY);
+    const eCharacter = this.getFirstEntityByType(CHARACTER);
+    const cBodyComponent = eGroud.get(Body);
+    const cCharacterThreeComponent = eCharacter.get(ThreeComponent);
+    cCharacterThreeComponent.threeObject.geometry.computeBoundingSphere();
+    const characterViewRadius = cCharacterThreeComponent.threeObject.geometry.boundingSphere.radius;
+    const vertices = Array.from(groundView.geometry.attributes.position.array);
+    const indexes = Array.from(groundView.geometry.index.array);
+    const groundBody = cBodyComponent.object = this.getAsset(eGroud, GROUND_BODY, {vertices, indexes});
+    groundBody.setTranslation({x: 0, y: -height / 2 - characterViewRadius, z: 0});
   }
 
   update({deltaTime}) {

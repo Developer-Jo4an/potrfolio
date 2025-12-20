@@ -22,6 +22,11 @@ export const mainSceneSettings = {
         y: 0,
         z: 0
       }
+    },
+    movement: {
+      x: [-Infinity, Infinity],
+      y: [0, Infinity],
+      z: [-Infinity, Infinity]
     }
   },
 
@@ -65,5 +70,9 @@ export const mainSceneSettings = {
         height: 2048
       }
     }
+  },
+
+  events: {
+    maxDragMoveCount: 5
   }
 };

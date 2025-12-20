@@ -1,7 +1,6 @@
 import BaseEntity from "./BaseEntity";
 import {upperFirst} from "lodash";
 import getIsDebug from "../../../../../shared/lib/debug/debug";
-import global from "../../../../../shared/constants/global/global";
 
 export default class BasePhysicsEntity extends BaseEntity {
 
@@ -43,7 +42,7 @@ export default class BasePhysicsEntity extends BaseEntity {
 
   set position({x = this.body.position.x, y = this.body.position.y}) {
     const {body} = this;
-    const {Body} = global.Matter;
+    const {Body} = Matter;
     Body.setPosition(body, {x, y});
   }
 
@@ -70,7 +69,7 @@ export default class BasePhysicsEntity extends BaseEntity {
 
   set angle(angle) {
     const {body} = this;
-    const {Body} = global.Matter;
+    const {Body} = Matter;
     Body.setAngle(body, angle ?? body.angle);
   }
 
@@ -90,7 +89,7 @@ export default class BasePhysicsEntity extends BaseEntity {
 
   onActivateGravity() {
     const {body, isGravity} = this;
-    const {Body} = global.Matter;
+    const {Body} = Matter;
 
     Body.setStatic(body, !isGravity);
 
@@ -108,7 +107,7 @@ export default class BasePhysicsEntity extends BaseEntity {
 
   onDeactivateGravity() {
     const {body, isGravity} = this;
-    const {Body} = global.Matter;
+    const {Body} = Matter;
 
     for (const key in BasePhysicsEntity.rememberFields) {
       const array = BasePhysicsEntity.rememberFields[key];
@@ -124,7 +123,7 @@ export default class BasePhysicsEntity extends BaseEntity {
 
   addToWorld() {
     const {world, body} = this;
-    const {World} = global.Matter;
+    const {World} = Matter;
 
     if (!this.body && getIsDebug())
       throw new Error("You can add a Body if you have a Body");
@@ -141,7 +140,7 @@ export default class BasePhysicsEntity extends BaseEntity {
 
   delete() {
     const {body, world} = this;
-    const {World} = global.Matter;
+    const {World} = Matter;
 
     World.remove(world, body);
   }

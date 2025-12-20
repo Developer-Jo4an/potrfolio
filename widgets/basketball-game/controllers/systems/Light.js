@@ -1,5 +1,4 @@
 import System from "../../../../shared/scene/ecs/core/System";
-import global from "../../../../shared/constants/global/global";
 
 export default class Light extends System {
   initializationLevelSelect() {
@@ -10,13 +9,13 @@ export default class Light extends System {
       }
     } = this;
 
-    const ambient = new global.THREE.AmbientLight(ambientSettings.color, ambientSettings.intensity);
+    const ambient = new THREE.AmbientLight(ambientSettings.color, ambientSettings.intensity);
     scene.add(ambient);
 
-    const directional = new global.THREE.DirectionalLight(directionalSettings.color, directionalSettings.intensity);
+    const directional = new THREE.DirectionalLight(directionalSettings.color, directionalSettings.intensity);
     directional.position.copy(directionalSettings.position);
     directional.castShadow = directionalSettings.castShadow;
-    const target = directional.target = new global.THREE.Object3D();
+    const target = directional.target = new THREE.Object3D();
     target.position.copy(directionalSettings.target.position);
     const {camera: directionalCamera, mapSize} = directional.shadow;
     directionalCamera.left = directionalSettings.rectangle.left;

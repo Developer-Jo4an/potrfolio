@@ -3,7 +3,6 @@ import {createArrayWithMap} from "../../../../../shared/lib/array/createArrayWit
 import {dunkShotFactory} from "../../factory/DunkShotFactory";
 import {assetsManager} from "../../../../../shared/scene/assets/AssetsManager";
 import {PIXI_SPACE, TEXTURE} from "../../../../../shared/scene/constants/loaders/assetsTypes";
-import global from "../../../../../shared/constants/global/global";
 import {AIM} from "../../../config/preload";
 
 export default class Aim extends BaseEntity {
@@ -22,8 +21,8 @@ export default class Aim extends BaseEntity {
     const {groups, storage: {mainSceneSettings: {aim: {points: {count, size}}}}} = this;
 
     const views = this.views ??= createArrayWithMap(count, (_, i, {length}) => {
-      const view = new global.PIXI.Sprite();
-      view.name = `aim:${i}`;
+      const view = new PIXI.Sprite();
+      view.label = `aim:${i}`;
       view.texture = assetsManager.getAssetFromSpace(PIXI_SPACE, TEXTURE, AIM);
       view.scale.set(1);
       groups.front.attach(view);

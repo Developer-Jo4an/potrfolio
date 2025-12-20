@@ -3,12 +3,14 @@ import useLoadScene from "../../../../shared/scene/model/hooks/useLoadScene";
 import useStateControls from "../../../../shared/scene/model/hooks/useStateControls";
 import Background from "../background/Background";
 import useBasketballStore from "../../model/state-manager/basketballStore";
+import gsap from "gsap";
 import imports from "../../../../shared/scene/lib/import";
 import {BASKETBALL_STATE_MACHINE} from "../../constants/stateMachine";
 import {mainSceneSettings} from "../../constants/mainSceneSettings";
 import {preload} from "../../constants/preload";
 import {types} from "../../constants/types";
 import {IGNORE_NEXT_STATES, LOSE} from "../../../car-game/constants/stateMachine";
+import {BASKETBALL} from "../../constants/game";
 import styles from "./BasketballGame.module.scss";
 
 export default function BasketballGame() {
@@ -19,6 +21,7 @@ export default function BasketballGame() {
     libraries: [imports.three, imports.rapier3d],
     loadWrapper: () => import("../../controllers/Wrapper"),
     beforeInit(wrapper) {
+      gsap.localTimeline.createSpace(BASKETBALL);
       wrapper.controller.storage.states = BASKETBALL_STATE_MACHINE;
       wrapper.controller.storage.types = types;
     },

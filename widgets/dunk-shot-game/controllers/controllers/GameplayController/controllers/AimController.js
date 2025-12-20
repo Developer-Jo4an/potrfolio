@@ -3,7 +3,6 @@ import {createArrayWithMap} from "../../../../../../shared/lib/array/createArray
 import {dunkShotFactory} from "../../../factory/DunkShotFactory";
 import {INSIDE_BASKET} from "../../../../constants/statuses";
 import {LEFT, RIGHT} from "../../../../../../shared/constants/directions/directions";
-import global from "../../../../../../shared/constants/global/global";
 
 export default class AimController extends BaseGameplayController {
 
@@ -27,7 +26,7 @@ export default class AimController extends BaseGameplayController {
   }
 
   initShadowWorld() {
-    const shadowEngine = this.shadowEngine = global.Matter.Engine.create();
+    const shadowEngine = this.shadowEngine = Matter.Engine.create();
     const shadowWorld = this.shadowWorld = shadowEngine.world;
   }
 
@@ -60,11 +59,11 @@ export default class AimController extends BaseGameplayController {
     const formattedAngle = angle + (Math.PI * 3 / 2);
     const speed = power * throwSettings.power.linear;
 
-    global.Matter.Body.applyForce(shadowBall.body, shadowBall.position, {
+    Matter.Body.applyForce(shadowBall.body, shadowBall.position, {
       x: Math.cos(formattedAngle) * speed,
       y: Math.sin(formattedAngle) * speed
     });
-    global.Matter.Body.setAngularVelocity(
+    Matter.Body.setAngularVelocity(
       shadowBall.body,
       (angle > 0 ? -1 : 1) * (power * throwSettings.power.angular)
     );
@@ -88,7 +87,7 @@ export default class AimController extends BaseGameplayController {
     this.throwShadowBall(angle, power);
 
     const positions = createArrayWithMap(updateCount, () => {
-      global.Matter.Engine.update(shadowEngine);
+      Matter.Engine.update(shadowEngine);
       return {x: shadowBall.position.x, y: shadowBall.position.y};
     });
 

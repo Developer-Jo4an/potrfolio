@@ -1,7 +1,6 @@
 import Factory from "../../../shared/scene/factory/Factory";
 import {upperFirst} from "lodash";
 import resetPixiObject from "../utils/helpers/resetPixiObject";
-import global from "../../../shared/constants/global/global";
 import {CHARACTER} from "../constants/entities/character";
 import {MAIN_CONTAINER} from "../constants/entities/mainContainer";
 import {ROAD_CHUNK} from "../constants/entities/roadChunk";
@@ -66,7 +65,7 @@ export default class CarFactory extends Factory {
   [`create${upperFirst(CHARACTER)}`]() {
     const {defaultProperties: {storage: {mainSceneSettings: {character: {anchor, zIndex}}}}} = this;
     const texture = assetsManager.getAssetFromSpace(PIXI_SPACE, TEXTURE, CHARACTER);
-    const characterSprite = new global.PIXI.Sprite(texture);
+    const characterSprite = new PIXI.Sprite(texture);
     characterSprite.label = CHARACTER;
     characterSprite.anchor.set(...anchor);
     characterSprite.zIndex = zIndex;
@@ -85,7 +84,7 @@ export default class CarFactory extends Factory {
   }
 
   [`create${upperFirst(MAIN_CONTAINER)}`]() {
-    const mainContainer = new global.PIXI.Container();
+    const mainContainer = new PIXI.Container();
     mainContainer.label = MAIN_CONTAINER;
     return mainContainer;
   }
@@ -104,9 +103,9 @@ export default class CarFactory extends Factory {
   }
 
   [`create${upperFirst(ROAD_CHUNKS_CONTAINER)}`]() {
-    const roadChunksContainer = new global.PIXI.Container();
+    const roadChunksContainer = new PIXI.Container();
     roadChunksContainer.label = ROAD_CHUNKS_CONTAINER;
-    const mask = roadChunksContainer.mask = new global.PIXI.Graphics();
+    const mask = roadChunksContainer.mask = new PIXI.Graphics();
     mask.label = ROAD_CHUNKS_CONTAINER;
     roadChunksContainer.addChild(mask);
     return roadChunksContainer;
@@ -129,7 +128,7 @@ export default class CarFactory extends Factory {
   [`create${upperFirst(ROAD_CHUNK)}`]() {
     const {defaultProperties: {storage: {mainSceneSettings: {roadChunks: {anchor}}}}} = this;
     const texture = assetsManager.getAssetFromSpace(PIXI_SPACE, TEXTURE, ROAD_CHUNK);
-    const roadChunkSprite = new global.PIXI.TilingSprite(texture);
+    const roadChunkSprite = new PIXI.TilingSprite(texture);
     roadChunkSprite.label = ROAD_CHUNK;
     roadChunkSprite.anchor.set(...anchor);
     return roadChunkSprite;
@@ -152,7 +151,7 @@ export default class CarFactory extends Factory {
   [`create${upperFirst(BONUS)}`]() {
     const {defaultProperties: {storage: {mainSceneSettings: {bonus: {zIndex, anchor}}}}} = this;
     const texture = assetsManager.getAssetFromSpace(PIXI_SPACE, TEXTURE, BONUS);
-    const bonusSprite = new global.PIXI.Sprite(texture);
+    const bonusSprite = new PIXI.Sprite(texture);
     bonusSprite.label = BONUS;
     bonusSprite.zIndex = zIndex;
     bonusSprite.anchor.set(...anchor);
@@ -176,7 +175,7 @@ export default class CarFactory extends Factory {
   [`create${upperFirst(SPIKE)}`]() {
     const {defaultProperties: {storage: {mainSceneSettings: {spike: {zIndex, anchor}}}}} = this;
     const texture = assetsManager.getAssetFromSpace(PIXI_SPACE, TEXTURE, SPIKE);
-    const spikeSprite = new global.PIXI.Sprite(texture);
+    const spikeSprite = new PIXI.Sprite(texture);
     spikeSprite.label = SPIKE;
     spikeSprite.zIndex = zIndex;
     spikeSprite.anchor.set(...anchor);

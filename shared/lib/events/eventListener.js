@@ -14,7 +14,7 @@ export const ON_OFF_MODE = {
 
 export default function eventSubscription(
   {
-    target = window,
+    target = global,
     callbacksBus = [],
     postfix = STANDARD_MODE.postfix,
     actionAdd = STANDARD_MODE.actionAdd,

@@ -17,7 +17,6 @@ import {CHARACTER_WITH_BONUSES, CHARACTER_WITH_ROAD_CHUNK, CHARACTER_WITH_SPIKES
 import {BONUS} from "../../constants/entities/bonus";
 import {SPIKE} from "../../constants/entities/spike";
 import {LEFT, RIGHT} from "../../../../shared/constants/directions/directions";
-import global from "../../../../shared/constants/global/global";
 import {ROAD_CHUNKS_CONTAINER} from "../../constants/entities/roadChunksContainer";
 
 export default class Level extends System {
@@ -89,13 +88,13 @@ export default class Level extends System {
     const characterColliderComponent = characterEntity.get(Collider);
     const halfWidth = width / 2;
     const halfHeight = height / 2;
-    const characterPolygon = new global.SAT.Polygon(
-      new global.SAT.Vector(characterMatrix3Component.x, characterMatrix3Component.y),
+    const characterPolygon = new SAT.Polygon(
+      new SAT.Vector(characterMatrix3Component.x, characterMatrix3Component.y),
       [
-        new global.SAT.Vector(-halfWidth, halfHeight),
-        new global.SAT.Vector(halfWidth, halfHeight),
-        new global.SAT.Vector(halfWidth, -halfHeight),
-        new global.SAT.Vector(-halfWidth, -halfHeight)
+        new SAT.Vector(-halfWidth, halfHeight),
+        new SAT.Vector(halfWidth, halfHeight),
+        new SAT.Vector(halfWidth, -halfHeight),
+        new SAT.Vector(-halfWidth, -halfHeight)
       ]
     );
     characterPolygon.setAngle(characterMatrix3Component.rotation);
@@ -168,11 +167,11 @@ export default class Level extends System {
     const roadChunkPolygonPoints = [startPointFirst, startPointSecond, endPointFirst, endPointSecond].map(
       ({x, y}, index, points) => {
         const nextPoint = points[index + 1] ?? points[0];
-        return new global.SAT.Vector(nextPoint.x, nextPoint.y);
+        return new SAT.Vector(nextPoint.x, nextPoint.y);
       }
     );
-    roadChunkSatColliderComponent.object = new global.SAT.Polygon(
-      new global.SAT.Vector(0, 0),
+    roadChunkSatColliderComponent.object = new SAT.Polygon(
+      new SAT.Vector(0, 0),
       roadChunkPolygonPoints
     );
   }
@@ -241,13 +240,13 @@ export default class Level extends System {
     mainContainerPixiComponent.pixiObject.addChild(bonusPixiComponent.pixiObject);
 
     const bonusSatColliderComponent = bonusEntity.get(Collider);
-    bonusSatColliderComponent.object = new global.SAT.Polygon(
-      new global.SAT.Vector(0, 0),
+    bonusSatColliderComponent.object = new SAT.Polygon(
+      new SAT.Vector(0, 0),
       [
-        new global.SAT.Vector(bonusMatrix3Component.x - bonusViewWidthHalf, bonusMatrix3Component.y + bonusViewHeightHalf),
-        new global.SAT.Vector(bonusMatrix3Component.x + bonusViewWidthHalf, bonusMatrix3Component.y + bonusViewHeightHalf),
-        new global.SAT.Vector(bonusMatrix3Component.x + bonusViewWidthHalf, bonusMatrix3Component.y - bonusViewHeightHalf),
-        new global.SAT.Vector(bonusMatrix3Component.x - bonusViewWidthHalf, bonusMatrix3Component.y - bonusViewHeightHalf)
+        new SAT.Vector(bonusMatrix3Component.x - bonusViewWidthHalf, bonusMatrix3Component.y + bonusViewHeightHalf),
+        new SAT.Vector(bonusMatrix3Component.x + bonusViewWidthHalf, bonusMatrix3Component.y + bonusViewHeightHalf),
+        new SAT.Vector(bonusMatrix3Component.x + bonusViewWidthHalf, bonusMatrix3Component.y - bonusViewHeightHalf),
+        new SAT.Vector(bonusMatrix3Component.x - bonusViewWidthHalf, bonusMatrix3Component.y - bonusViewHeightHalf)
       ]
     );
   }
@@ -279,13 +278,13 @@ export default class Level extends System {
     spikeMatrix3Component.y = spawnPosition.y;
     mainContainerPixiComponent.pixiObject.addChild(spikePixiComponent.pixiObject);
     const spikeSatColliderComponent = spikeEntity.get(Collider);
-    spikeSatColliderComponent.object = new global.SAT.Polygon(
-      new global.SAT.Vector(0, 0),
+    spikeSatColliderComponent.object = new SAT.Polygon(
+      new SAT.Vector(0, 0),
       [
-        new global.SAT.Vector(spikeMatrix3Component.x - spikeViewWidthHalf, spikeMatrix3Component.y + spikeViewHeightHalf),
-        new global.SAT.Vector(spikeMatrix3Component.x + spikeViewWidthHalf, spikeMatrix3Component.y + spikeViewHeightHalf),
-        new global.SAT.Vector(spikeMatrix3Component.x + spikeViewWidthHalf, spikeMatrix3Component.y - spikeViewHeightHalf),
-        new global.SAT.Vector(spikeMatrix3Component.x - spikeViewWidthHalf, spikeMatrix3Component.y - spikeViewHeightHalf)
+        new SAT.Vector(spikeMatrix3Component.x - spikeViewWidthHalf, spikeMatrix3Component.y + spikeViewHeightHalf),
+        new SAT.Vector(spikeMatrix3Component.x + spikeViewWidthHalf, spikeMatrix3Component.y + spikeViewHeightHalf),
+        new SAT.Vector(spikeMatrix3Component.x + spikeViewWidthHalf, spikeMatrix3Component.y - spikeViewHeightHalf),
+        new SAT.Vector(spikeMatrix3Component.x - spikeViewWidthHalf, spikeMatrix3Component.y - spikeViewHeightHalf)
       ]
     );
   }

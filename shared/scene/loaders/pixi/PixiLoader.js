@@ -2,13 +2,12 @@ import BaseLoader from "../base/BaseLoader";
 import {upperFirst} from "lodash";
 import {assetsManager} from "../../assets/AssetsManager";
 import {PIXI_SPACE, TEXTURE} from "../../constants/loaders/assetsTypes";
-import global from "../../../constants/global/global";
 
 export default class PIXILoader extends BaseLoader {
   async init(dpr) {
     if (this.isInitialized) return;
 
-    await global.PIXI.Assets.init({
+    await PIXI.Assets.init({
       texturePreference: {resolution: dpr, format: ["png"]},
       preferences: {crossOrigin: "anonymous"}
     });
@@ -23,7 +22,7 @@ export default class PIXILoader extends BaseLoader {
   }
 
   async loadTexture(name, src) {
-    const texture = await global.PIXI.Assets.load({alias: name, src});
+    const texture = await PIXI.Assets.load({alias: name, src});
     assetsManager.setAssetsToSpace(PIXI_SPACE, TEXTURE, name, texture);
   }
 }

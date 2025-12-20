@@ -1,7 +1,6 @@
 import eventSubscription from "../../../../lib/events/eventListener";
 import {MOUSE_ENTER, MOVE, TOUCH_START} from "../../../../constants/events/eventsNames";
 import importPIXI from "../../../../scene/lib/import/pixi/import-pixi";
-import global from "../../../../constants/global/global";
 import sceneInitConfig from "../../config/sceneInitConfig";
 import {trailTextureSrc} from "../../constants/assets";
 import getEventPosition from "../../../../lib/events/eventPosition";
@@ -86,15 +85,15 @@ export default class BaseMouseTrailController {
   }
 
   async initApplication() {
-    const app = this.app = new global.PIXI.Application();
-    await app.init({...sceneInitConfig, resizeTo: window});
+    const app = this.app = new PIXI.Application();
+    await app.init({...sceneInitConfig, resizeTo: global});
     app.stage.eventMode = "static";
     app.stage.hitArea = app.screen;
     app.ticker.add(this.update, this);
   }
 
   async loadTrailTexture() {
-    const trailTexture = this.trailTexture = await global.PIXI.Assets.load(trailTextureSrc);
+    const trailTexture = this.trailTexture = await PIXI.Assets.load(trailTextureSrc);
   }
 
   initEvents() {

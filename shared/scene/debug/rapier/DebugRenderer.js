@@ -1,4 +1,3 @@
-import global from "../../../constants/global/global";
 // TODO: переделать в декоратор
 export default class DebugRenderer {
   constructor({storage}) {
@@ -32,9 +31,9 @@ export default class DebugRenderer {
   }
 
   initMesh() {
-    const mesh = new global.THREE.LineSegments(
-      new global.THREE.BufferGeometry(),
-      new global.THREE.LineBasicMaterial({color: 0xffffff, vertexColors: true})
+    const mesh = new THREE.LineSegments(
+      new THREE.BufferGeometry(),
+      new THREE.LineBasicMaterial({color: 0xffffff, vertexColors: true})
     );
 
     mesh.frustumCulled = false;
@@ -48,8 +47,8 @@ export default class DebugRenderer {
     if (!active) return;
 
     const {vertices, colors} = world.debugRender();
-    mesh.geometry.setAttribute("position", new global.THREE.BufferAttribute(vertices, 3));
-    mesh.geometry.setAttribute("color", new global.THREE.BufferAttribute(colors, 4));
+    mesh.geometry.setAttribute("position", new THREE.BufferAttribute(vertices, 3));
+    mesh.geometry.setAttribute("color", new THREE.BufferAttribute(colors, 4));
 
     this.frame = requestAnimationFrame(this.update);
   }

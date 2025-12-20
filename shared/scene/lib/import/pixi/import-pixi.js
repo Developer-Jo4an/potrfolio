@@ -1,4 +1,3 @@
-import global from "../../../../constants/global/global";
 import PixiPlugin from "gsap/PixiPlugin";
 import gsap from "gsap";
 

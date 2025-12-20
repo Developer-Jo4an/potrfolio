@@ -4,4 +4,3 @@ import LocalTimeline from "./LocalTimeline";
 
 gsap.registerPlugin(MotionPathPlugin);
 gsap.localTimeline = new LocalTimeline();
-gsap.localTimeline.register();

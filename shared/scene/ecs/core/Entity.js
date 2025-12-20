@@ -18,7 +18,7 @@ export default class Entity {
     REMOVE: "entity:remove",
     CREATE: "entity:create",
     ENABLE: "entity:enable",
-    DISABLE: "entity:disable",
+    DISABLE: "entity:disable"
   };
 
   /**
@@ -41,7 +41,7 @@ export default class Entity {
 
   /**
    * Список компонентов сущности
-   * @typedef {import('./Component').default} ECSComponent
+   * @typedef {import("./Component").default} ECSComponent
    * @type {Array<ECSComponent>}
    */
   children = [];
@@ -66,7 +66,17 @@ export default class Entity {
    * @returns {ECSComponent}
    */
   getComponentByType(type) {
-    return this.children.find(({type: cType}) => cType === type);
+    const {children} = this;
+    return children.find(({type: cType}) => cType === type);
+  }
+
+  /**
+   * Шорткат создание сущности
+   * @param type
+   * @param data
+   */
+  dispatch(type, data) {
+    this.eventBus.dispatchEvent({type, data});
   }
 
   /**
@@ -74,19 +84,17 @@ export default class Entity {
    */
   init(data) {
     this.onCreate(data);
-
     return this;
   }
 
   /**
-   * Добавледение компонента в сущность
-   * @param children
+   * Добавледение компонента(ов) в сущность
+   * @param newChildren
    */
-  add(...children) {
-    this.children.push(...children);
-    children.forEach(child => {
-      child.entity = this;
-    });
+  add(...newChildren) {
+    const {children} = this;
+    children.push(...newChildren);
+    newChildren.forEach(child => child.entity = this);
     this.onChange();
   }
 
@@ -95,18 +103,13 @@ export default class Entity {
    * @param child
    */
   remove(child) {
-    if (!this.children.includes(child)) return;
-
-    this.children.splice(this.children.indexOf(child), 1);
-    child.entity = null;
-  }
-
-  /**
-   * Полная очистка сущности
-   */
-  destroy() {
-    this.removeAll();
-    this.onRemove();
+    const {children} = this;
+    const index = children.indexOf(child);
+    if (index !== -1) {
+      const [component] = children.splice(index, 1);
+      component.destroy();
+      this.onChange();
+    }
   }
 
   /**
@@ -119,43 +122,63 @@ export default class Entity {
   }
 
   /**
-   * Шорткат создание сущности
-   * @param type
-   * @param data
+   * Удаление всех компонентов, созданных от одно класса(по типу)
    */
-  dispatch(type, data) {
-    this.eventBus.dispatchEvent({type, data});
+  removeSome(Class) {
+    const {children} = this;
+
+    const indexes = [];
+    for (let i = children.length - 1; i >= 0; i--)
+      children[i] instanceof Class && indexes.push(i);
+
+    for (const index of indexes) {
+      const [component] = children.splice(index, 1);
+      component.destroy();
+    }
   }
 
-  /** Коллбек на создание сущности
+  /**
+   * Полная очистка сущности
+   */
+  destroy() {
+    this.removeAll();
+    this.onRemove();
+  }
+
+  /**
+   * Коллбек на создание сущности
    */
   onCreate(data) {
     this.dispatch(Entity.EVENTS.CREATE, {entity: this, ...data});
     this.dispatch(`${Entity.EVENTS.CREATE}-${this.type}`, {entity: this, ...data});
   }
 
-  /** Коллбек на удаление сущности
+  /**
+   *  Коллбек на удаление сущности
    */
   onRemove() {
     this.dispatch(Entity.EVENTS.REMOVE, {entity: this});
     this.dispatch(`${Entity.EVENTS.REMOVE}-${this.type}`, {entity: this});
   }
 
-  /** Коллбек на изменение сущности
+  /**
+   *  Коллбек на изменение сущности
    */
   onChange() {
     this.dispatch(Entity.EVENTS.CHANGE, {entity: this});
     this.dispatch(`${Entity.EVENTS.CHANGE}-${this.type}`, {entity: this});
   }
 
-  /** Деакализация сущности
+  /**
+   *  Деакализация сущности
    */
   disable() {
     this.dispatch(Entity.EVENTS.DISABLE, {entity: this});
     this.dispatch(`${Entity.EVENTS.DISABLE}-${this.type}`, {entity: this});
   }
 
-  /** Активация сущности
+  /**
+   * Активация сущности
    */
   enable() {
     this.dispatch(Entity.EVENTS.ENABLE, {entity: this});
