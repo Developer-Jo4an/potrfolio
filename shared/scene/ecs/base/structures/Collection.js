@@ -28,7 +28,6 @@ export default class Collection {
     const {list} = this;
     if (!list.includes(item)) return;
     list.splice(list.indexOf(item), 1);
-
     if (item.uuid) delete this.map[item.uuid];
   }
 }

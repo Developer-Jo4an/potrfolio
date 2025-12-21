@@ -1,18 +1,16 @@
 import Component from "../../../core/Component";
 
 export default class Collider extends Component {
-  type = "collider";
+  object;
 
-  object = null;
-
-  constructor({eventBus, object}) {
-    super({eventBus});
+  constructor({object}) {
+    super(...arguments);
 
     this.object = object;
   }
 
   destroy() {
-    this.object = null;
     super.destroy();
+    this.object = null;
   }
 }

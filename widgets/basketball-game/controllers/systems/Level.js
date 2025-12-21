@@ -50,10 +50,11 @@ export default class Level extends System {
     characterBody.setTranslation(position);
     characterBody.setRotation(new THREE.Quaternion().setFromEuler(new THREE.Euler(rotation.x, rotation.y, rotation.z)));
     characterBody.setBodyType(RAPIER3D.RigidBodyType.KinematicPositionBased);
-    characterBody.collider.setRestitution(restitution);
-    characterBody.collider.setFriction(friction);
     characterBody.setLinearDamping(linearDamping);
     characterBody.setAngularDamping(angularDamping);
+    characterBody.collider.setRestitution(restitution);
+    characterBody.collider.setFriction(friction);
+    characterBody.collider.setActiveEvents(RAPIER3D.ActiveEvents.COLLISION_EVENTS);
   }
 
   initGround() {
@@ -73,18 +74,18 @@ export default class Level extends System {
     scene.add(groundView);
 
     const eCharacter = this.getFirstEntityByType(CHARACTER);
+    const cCharacterBody = eCharacter.get(Body);
+    const characterBodyRadius = cCharacterBody.object.collider.shape.radius;
     const cBodyComponent = eGroud.get(Body);
-    const cCharacterThreeComponent = eCharacter.get(ThreeComponent);
-    cCharacterThreeComponent.threeObject.geometry.computeBoundingSphere();
-    const characterViewRadius = cCharacterThreeComponent.threeObject.geometry.boundingSphere.radius;
     const vertices = Array.from(groundView.geometry.attributes.position.array);
     const indexes = Array.from(groundView.geometry.index.array);
     const groundBody = cBodyComponent.object = this.getAsset(eGroud, GROUND_BODY, {vertices, indexes});
-    groundBody.setTranslation({x: 0, y: -height / 2 - characterViewRadius, z: 0});
+    groundBody.setTranslation({x: 0, y: -height / 2 - characterBodyRadius, z: 0});
     groundBody.collider.setFriction(friction);
     groundBody.collider.setRestitution(restitution);
     groundBody.collider.setFrictionCombineRule(RAPIER3D.CoefficientCombineRule.Max);
     groundBody.collider.setRestitutionCombineRule(RAPIER3D.CoefficientCombineRule.Max);
+    groundBody.collider.setActiveEvents(RAPIER3D.ActiveEvents.COLLISION_EVENTS);
   }
 
   update({deltaTime}) {

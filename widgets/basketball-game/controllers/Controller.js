@@ -12,6 +12,7 @@ import ThreeRapierRenderSystem from "../../../shared/scene/ecs/three/systems/Thr
 import Event from "./systems/Event";
 import Interactive from "./systems/Interactive";
 import Character from "./systems/Character";
+import Collision from "./systems/Collision";
 import getIsDebug from "../../../shared/lib/debug/debug";
 import eventSubscription from "../../../shared/lib/events/eventListener";
 import {cloneDeep} from "lodash";
@@ -72,11 +73,13 @@ export default class Controller extends ThreeController {
     storage.renderer = renderer;
     storage.canvas = canvas;
     storage.gameSpace = cloneDeep(GAME_SPACE);
+    storage.eventQueue = new RAPIER3D.EventQueue(true);
 
     engine
     .addSystem(new Assets({eventBus, storage, factory: new BasketballFactory({eventBus, storage})}))
     .addSystem(new Level({eventBus, storage}))
     .addSystem(new Interactive({eventBus, storage}))
+    .addSystem(new Collision({eventBus, storage}))
     .addSystem(new Character({eventBus, storage}))
     .addSystem(new Light({eventBus, storage}))
     .addSystem(new ThreeRapierRenderSystem({eventBus, storage}))
@@ -103,9 +106,9 @@ export default class Controller extends ThreeController {
   }
 
   updateWorld({deltaTime}) {
-    const {storage: {world, mainSceneSettings: {world: {maxDeltaTime}}}} = this;
+    const {storage: {world, eventQueue, mainSceneSettings: {world: {maxDeltaTime}}}} = this;
     world.timestep = Math.min(maxDeltaTime, deltaTime);
-    world.step();
+    world.step(eventQueue);
   }
 
   onUpdated() {
@@ -115,11 +118,15 @@ export default class Controller extends ThreeController {
   }
 
   reset() {
-    const {storage, storage: {debugRenderer}} = this;
+    const {storage, storage: {gameSpace, eventQueue, debugRenderer}} = this;
 
-    storage.gameSpace.serviceData.clearFunctions.forEach(func => func());
-    storage.gameSpace.serviceData.clearFunctions.length = 0;
+    gameSpace.serviceData.clearFunctions.forEach(func => func());
+    gameSpace.serviceData.clearFunctions.length = 0;
     storage.gameSpace = cloneDeep(GAME_SPACE);
+
+    eventQueue.free();
+    eventQueue.clear();
+    storage.eventQueue = null;
 
     gsap.localTimeline.clear(BASKETBALL);
 

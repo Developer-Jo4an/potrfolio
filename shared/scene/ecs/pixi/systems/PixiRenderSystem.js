@@ -12,6 +12,7 @@ export default class PixiRenderSystem extends System {
 
       if (!pixiComponent.pixiObject) return;
 
+      // TODO: с помощью метода
       pixiComponent.pixiObject.x = matrix3Component.x;
       pixiComponent.pixiObject.y = matrix3Component.y;
       pixiComponent.pixiObject.rotation = matrix3Component.rotation;

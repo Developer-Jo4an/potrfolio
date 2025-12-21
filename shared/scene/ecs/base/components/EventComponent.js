@@ -12,8 +12,8 @@ export default class EventComponent extends Component {
   }
 
   destroy() {
+    super.destroy();
     this.type = null;
     this.data = null;
-    super.destroy();
   }
 }

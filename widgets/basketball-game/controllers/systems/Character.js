@@ -6,7 +6,7 @@ import {clamp} from "lodash";
 import returnCharacterOnInitialPosition from "../../lib/animations/returnCharacterOnInitialPosition";
 import {createAnimationFrame} from "../../../../shared/lib/browserApi/frames";
 import {CHARACTER} from "../../entities/character";
-import {DRAG_END} from "../../../../shared/constants/events/eventsNames";
+import {DRAG_END, DRAG_MOVE, DRAG_START} from "../../../../shared/constants/events/eventsNames";
 
 export default class Character extends System {
 
@@ -27,7 +27,7 @@ export default class Character extends System {
   }
 
   updateMovement({eCharacter}) {
-    const csEvent = eCharacter.getList(EventComponent);
+    const csEvent = eCharacter.getSome(EventComponent, DRAG_START, DRAG_MOVE, DRAG_END);
 
     if (!csEvent?.length) return;
 
@@ -55,7 +55,7 @@ export default class Character extends System {
       helpers: {throwVector},
       storage: {mainSceneSettings: {character: {movement: {pointsCount, speed: {min}}}}}
     } = this;
-    const csEvent = eCharacter.getList(EventComponent);
+    const csEvent = eCharacter.getSome(EventComponent, DRAG_START, DRAG_MOVE, DRAG_END);
     const slicedPoints = csEvent.slice(-pointsCount).map(({data: {cursor}}) => cursor);
     slicedPoints.splice(1, slicedPoints.length - 2);
     const [start, end] = slicedPoints;
@@ -77,10 +77,11 @@ export default class Character extends System {
       await returnCharacterOnInitialPosition(cBody.object, position);
       gameSpace.returnsBack = false;
     } else {
-      // gameSpace.thrown = true;
+      gameSpace.thrown = true;
       cBody.object.setBodyType(RAPIER3D.RigidBodyType.Dynamic);
       serviceData.clearFunctions.push(createAnimationFrame(() => {
-        cBody.object.applyImpulse({x: 0, y: 0.02, z: -0.03}, true);
+        cBody.object.applyImpulse({x: 0, y: 0.035,  z: -0.05}, true);
+        cBody.object.setAngvel({x: 12, y: 0, z: 0}, true);
       }));
     }
   }

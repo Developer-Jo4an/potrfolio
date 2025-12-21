@@ -11,7 +11,7 @@ export const mainSceneSettings = {
     receiveShadow: false,
     roughness: 0.75,
     metalness: 0.25,
-    restitution: 0.85,
+    restitution: 0.7,
     friction: 0.4,
     linearDamping: 0.3,
     angularDamping: 0.3,

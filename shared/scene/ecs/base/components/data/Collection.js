@@ -7,9 +7,8 @@ export default class Collection extends Component {
 
   group = "side-effects";
 
-  constructor({eventBus, group}) {
-    super({eventBus});
-
-    group && (this.group = group);
+  destroy() {
+    super.destroy();
+    this.list = null;
   }
 }

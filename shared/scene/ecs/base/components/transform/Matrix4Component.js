@@ -5,8 +5,6 @@ import {Quaternion} from "../../../math/Quaternion";
 import {isArray, isObject} from "lodash";
 
 export default class Matrix4Component extends Component {
-  type = "matrix4";
-
   _position = new Vector3(0, 0, 0);
 
   _rotation = new Euler(0, 0, 0);
@@ -14,10 +12,6 @@ export default class Matrix4Component extends Component {
   _quaternion = new Quaternion().setFromEuler(this.rotation);
 
   _scale = new Vector3(1, 1, 1);
-
-  constructor() {
-    super(...arguments);
-  }
 
   // position
   get position() {
@@ -182,5 +176,13 @@ export default class Matrix4Component extends Component {
       const {x, y, z, w} = vector;
       vector.set(value[0] ?? x, value[1] ?? y, value[2] ?? z, value[3] ?? w);
     }
+  }
+
+  destroy() {
+    super.destroy();
+    this._position = null;
+    this._rotation = null;
+    this._quaternion = null;
+    this._scale = null;
   }
 }

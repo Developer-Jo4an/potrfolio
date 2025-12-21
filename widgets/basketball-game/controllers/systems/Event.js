@@ -1,14 +1,14 @@
 import System from "../../../../shared/scene/ecs/core/System";
 import EventComponent from "../../../../shared/scene/ecs/base/components/EventComponent";
 import {CHARACTER} from "../../entities/character";
-import {DRAG_END, DRAG_MOVE} from "../../../../shared/constants/events/eventsNames";
+import {DRAG_END, DRAG_MOVE, DRAG_START} from "../../../../shared/constants/events/eventsNames";
+import {COLLISION_END, COLLISION_START} from "../../constants/events";
 
 export default class Event extends System {
-  updateCharacterEvents() {
+  updateCharacterEvents({eCharacter}) {
     const {storage: {mainSceneSettings: {events: {maxDragMoveCount}}}} = this;
 
-    const eCharacter = this.getFirstEntityByType(CHARACTER);
-    const csEvent = eCharacter.getList(EventComponent);
+    const csEvent = eCharacter.getSome(EventComponent, DRAG_START, DRAG_MOVE, DRAG_END);
 
     if (!csEvent?.length) return;
 
@@ -25,7 +25,15 @@ export default class Event extends System {
     }
   }
 
+  clearCollisionEvents({eCharacter}) {
+    const csEvent = eCharacter.getSome(EventComponent, COLLISION_START, COLLISION_END);
+    csEvent.forEach(cEvent => eCharacter.remove(cEvent));
+  }
+
   update() {
-    this.updateCharacterEvents();
+    const eCharacter = this.getFirstEntityByType(CHARACTER);
+    const fullProps = {eCharacter};
+    this.updateCharacterEvents(fullProps);
+    this.clearCollisionEvents(fullProps);
   }
 }

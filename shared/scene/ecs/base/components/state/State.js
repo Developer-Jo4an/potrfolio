@@ -1,17 +1,15 @@
 import Component from "../../../core/Component";
 
 export default class State extends Component {
-  type = "state";
-
   states = null;
 
   _state = null;
 
-  constructor(data) {
-    super(data);
+  constructor({states, state}) {
+    super(...arguments);
 
-    this.states = data.states;
-    this.state = data.state;
+    this.states = states;
+    this.state = state;
   }
 
   set state(state) {
@@ -25,5 +23,11 @@ export default class State extends Component {
 
   get state() {
     return this._state;
+  }
+
+  destroy() {
+    super.destroy();
+    this.states = null;
+    this._state = null;
   }
 }

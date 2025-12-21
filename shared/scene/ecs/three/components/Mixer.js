@@ -5,11 +5,14 @@ export default class Mixer extends Component {
 
   animations = {};
 
-  type = "mixer";
+  constructor({mixer}) {
+    super(...arguments);
+    this.mixer = mixer;
+  }
 
-  constructor(data) {
-    super(data);
-
-    this.mixer = data.mixer;
+  destroy() {
+    super.destroy();
+    this.mixer = null;
+    this.animations = null;
   }
 }

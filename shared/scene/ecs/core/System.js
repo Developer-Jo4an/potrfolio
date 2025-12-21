@@ -1,5 +1,3 @@
-import Entity from "./Entity";
-import EventComponent from "../base/components/EventComponent";
 import Collection from "../base/components/data/Collection";
 import {v4 as uuidv4} from "uuid";
 import State from "../base/components/state/State";
@@ -24,12 +22,6 @@ export default class System {
    * @private
    */
   _engine;
-
-  /**
-   * Список событий созданных этой системой
-   * @type {Entity[]};
-   */
-  eventEntities = [];
 
   constructor({eventBus, storage}) {
     this.eventBus = eventBus;
@@ -83,7 +75,7 @@ export default class System {
   }
 
   /**
-   * Получение списка  сущностей по типу
+   * Получение списка сущностей по типу
    * @param type
    * @returns {Array<Entity>}
    */
@@ -124,7 +116,7 @@ export default class System {
     return this._engine.allComponents;
   }
 
-  getAllEntitiesByComponentClass(ComponentClass) {
+  getAllComponentsByClass(ComponentClass) {
     return this.allComponents.filter(component => component instanceof ComponentClass);
   }
 
@@ -198,34 +190,10 @@ export default class System {
   configure(settings) {
   }
 
-  dispatchEvent(type, data) {
-    const event = new Entity({eventBus: this.eventBus, type: "ecs-event", data});
-    event.add(new EventComponent({eventBus: this.eventBus, type, data}));
-    this.eventEntities.push(event);
-    event.init();
-
-    this.eventBus.dispatchEvent({type, data});
-    return event;
-  }
-
-  clearEvents() {
-    return this.getEntitiesByType("ecs-event")?.list.forEach(entity => entity.destroy());
-  }
-
-  getEvents(type) {
-    return this.getEntitiesByType("ecs-event")
-    ?.list.map(v => v.get(EventComponent))
-    .filter(v => v.type === type);
-  }
-
   getAsset(entity, name, extraData = {}) {
     const {eventBus} = this;
     const event = {type: "get-asset", data: {name, entity, result: null, ...extraData}};
     eventBus.dispatchEvent(event);
     return event.data.result;
-  }
-
-  isEvent(type) {
-    return this.getEvents(type)?.length > 0;
   }
 }

@@ -62,7 +62,7 @@ export default class Interactive extends System {
     if (!isAvailableInteractive) return;
 
     const eCharacter = this.getFirstEntityByType(CHARACTER);
-    const csEvent = eCharacter.getList(EventComponent);
+    const csEvent = eCharacter.getSome(EventComponent, DRAG_START, DRAG_MOVE, DRAG_END);
     const isHasDragStart = csEvent[0]?.type === DRAG_START;
 
     if (isHasDragStart) {
@@ -76,7 +76,7 @@ export default class Interactive extends System {
     if (!isAvailableInteractive) return;
 
     const eCharacter = this.getFirstEntityByType(CHARACTER);
-    const csEvent = eCharacter.getList(EventComponent);
+    const csEvent = eCharacter.getSome(EventComponent, DRAG_START, DRAG_MOVE, DRAG_END);
     const isHasDragStart = csEvent[0]?.type === DRAG_START;
 
     if (isHasDragStart) {

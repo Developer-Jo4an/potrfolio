@@ -371,8 +371,7 @@ export default class Level extends System {
     const collisionComponents = characterEntity.getList(CollisionComponent);
 
     if (!collisionComponents?.length) return; //NOTE: Только на первом кадре может быть такая ситуёвина, так как система коллизий еще не обновилась
-
-    const {collisionList} = collisionComponents.find(({collisionGroup}) => collisionGroup === CHARACTER_WITH_ROAD_CHUNK);
+    const {collisionList} = collisionComponents.find(({group}) => group === CHARACTER_WITH_ROAD_CHUNK);
     const indexes = collisionList.map(roadChunkEntity => roadChunkEntities.indexOf(roadChunkEntity));
     const isCanUpdate = indexes.some(index => roadChunkEntities?.length - index < minCountForGenerate);
     isCanUpdate && this.createMapEntities();
@@ -384,7 +383,7 @@ export default class Level extends System {
    */
   checkOnCollisionWithBonuses({characterEntity}) {
     const characterCollisionComponents = characterEntity.getList(CollisionComponent);
-    const characterCollisionWithBonuses = characterCollisionComponents.find(({collisionGroup}) => collisionGroup === CHARACTER_WITH_BONUSES);
+    const characterCollisionWithBonuses = characterCollisionComponents.find(({group}) => group === CHARACTER_WITH_BONUSES);
     if (characterCollisionWithBonuses)
       characterCollisionWithBonuses.collisionList.forEach(entity => entity.destroy());
   }
@@ -394,7 +393,7 @@ export default class Level extends System {
    */
   checkOnCollisionWithSpikes({characterEntity}) {
     const characterCollisionComponents = characterEntity.getList(CollisionComponent);
-    const characterCollisionWithSpikes = characterCollisionComponents.find(({collisionGroup}) => collisionGroup === CHARACTER_WITH_SPIKES);
+    const characterCollisionWithSpikes = characterCollisionComponents.find(({group}) => group === CHARACTER_WITH_SPIKES);
     if (characterCollisionWithSpikes)
       characterCollisionWithSpikes.collisionList.forEach(entity => entity.destroy());
   }

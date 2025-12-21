@@ -1,9 +1,5 @@
 import {v4 as uuidv4} from "uuid";
 
-const DEFAULT_TYPE = "unknown";
-const DEFAULT_GROUP = "unknown";
-const DEFAULT_NAME = "empty";
-
 export default class Entity {
   /**
    * CHANGE    - событие для изменения сущности
@@ -25,19 +21,19 @@ export default class Entity {
    * Тип сущности для возможности последующей фильтрации
    * @type {string}
    */
-  type = DEFAULT_TYPE;
+  type = "unknown";
 
   /**
-   * Группы сущности для дополнительной фильтрации
+   * Группа сущности для дополнительной фильтрации
    * @type {string}
    */
-  group = DEFAULT_GROUP;
+  group = "unknown";
 
   /**
    * Имя сущности для дополнительной фильтрации
    * @type {string}
    */
-  name = DEFAULT_NAME;
+  name = "empty";
 
   /**
    * Список компонентов сущности
@@ -52,22 +48,12 @@ export default class Entity {
    */
   eventBus;
 
-  constructor({eventBus, type, group = type, name = group}) {
+  constructor({eventBus, type, group, name}) {
     this.eventBus = eventBus;
     this.type = type ?? this.type;
     this.group = group ?? this.group;
     this.name = name ?? this.name;
     this.uuid = uuidv4();
-  }
-
-  /**
-   * Получение компонента по типу
-   * @param type {string}
-   * @returns {ECSComponent}
-   */
-  getComponentByType(type) {
-    const {children} = this;
-    return children.find(({type: cType}) => cType === type);
   }
 
   /**
@@ -95,7 +81,6 @@ export default class Entity {
     const {children} = this;
     children.push(...newChildren);
     newChildren.forEach(child => child.entity = this);
-    this.onChange();
   }
 
   /**
@@ -108,7 +93,6 @@ export default class Entity {
     if (index !== -1) {
       const [component] = children.splice(index, 1);
       component.destroy();
-      this.onChange();
     }
   }
 
@@ -122,7 +106,7 @@ export default class Entity {
   }
 
   /**
-   * Удаление всех компонентов, созданных от одно класса(по типу)
+   * Удаление всех компонентов, созданных от одно класса(по классу)
    */
   removeSome(Class) {
     const {children} = this;
@@ -143,6 +127,9 @@ export default class Entity {
   destroy() {
     this.removeAll();
     this.onRemove();
+    this.type = "unknown";
+    this.group = "unknown";
+    this.name = "empty";
   }
 
   /**
@@ -162,14 +149,6 @@ export default class Entity {
   }
 
   /**
-   *  Коллбек на изменение сущности
-   */
-  onChange() {
-    this.dispatch(Entity.EVENTS.CHANGE, {entity: this});
-    this.dispatch(`${Entity.EVENTS.CHANGE}-${this.type}`, {entity: this});
-  }
-
-  /**
    *  Деакализация сущности
    */
   disable() {
@@ -185,12 +164,14 @@ export default class Entity {
     this.dispatch(`${Entity.EVENTS.ENABLE}-${this.type}`, {entity: this});
   }
 
+
   isInherits(components) {
     return components.every(component => this.has(component));
   }
 
   has(Class) {
-    return this.children.some(v => v instanceof Class);
+    const {children} = this;
+    return children.some(v => v instanceof Class);
   }
 
   /**
@@ -199,7 +180,8 @@ export default class Entity {
    * @returns {T}
    */
   get(ComponentClass) {
-    return this.children.find(v => v instanceof ComponentClass);
+    const {children} = this;
+    return children.find(v => v instanceof ComponentClass);
   }
 
   /**
@@ -208,6 +190,18 @@ export default class Entity {
    * @returns {Array<T>}
    */
   getList(ComponentClass) {
-    return this.children.filter(v => v instanceof ComponentClass);
+    const {children} = this;
+    return children.filter(v => v instanceof ComponentClass);
+  }
+
+  /**
+   * @template T
+   * @param {function(new:T)} ComponentClass
+   * @param {string} types
+   * @returns {Array<T>}
+   */
+  getSome(ComponentClass, ...types) {
+    const {children} = this;
+    return children.filter(component => component instanceof ComponentClass && types.includes(component.type));
   }
 }

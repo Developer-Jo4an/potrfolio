@@ -57,8 +57,8 @@ export default class Collision extends System {
     } else {
       const characterCollisionComponent = new CollisionComponent({
         eventBus,
+        group: CHARACTER_WITH_ROAD_CHUNK,
         collision: {
-          collisionGroup: CHARACTER_WITH_ROAD_CHUNK,
           collisionList: collidedRoads
         }
       });
@@ -69,8 +69,8 @@ export default class Collision extends System {
     if (!!collidedBonuses?.length) {
       const characterCollisionComponent = new CollisionComponent({
         eventBus,
+        group: CHARACTER_WITH_BONUSES,
         collision: {
-          collisionGroup: CHARACTER_WITH_BONUSES,
           collisionList: collidedBonuses
         }
       });
@@ -83,8 +83,8 @@ export default class Collision extends System {
     if (!!collidedSpikes?.length) {
       const characterCollisionComponent = new CollisionComponent({
         eventBus,
+        group: CHARACTER_WITH_SPIKES,
         collision: {
-          collisionGroup: CHARACTER_WITH_SPIKES,
           collisionList: collidedSpikes
         }
       });

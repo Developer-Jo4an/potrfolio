@@ -101,23 +101,9 @@ export default class Engine {
    */
   addComponentListeners() {
     const {eventBus} = this;
-    eventBus.addEventListener(Component.EVENTS.CHANGE, this.onComponentChanged.bind(this));
     eventBus.addEventListener(Component.EVENTS.ADD, this.onComponentAdded.bind(this));
     eventBus.addEventListener(Component.EVENTS.REMOVE, this.onComponentRemoved.bind(this));
     eventBus.addEventListener(Component.EVENTS.CREATE, this.onComponentCreated.bind(this));
-  }
-
-  /**
-   * Коллбек на изменение компонента
-   * @param component
-   * @param type
-   */
-  onComponentChanged({
-                       data: {
-                         component,
-                         component: {type}
-                       }
-                     }) {
   }
 
   /**
@@ -194,17 +180,8 @@ export default class Engine {
    */
   addEntityListeners() {
     const {eventBus} = this;
-    eventBus.addEventListener(Entity.EVENTS.CHANGE, this.onEntityChanged.bind(this));
     eventBus.addEventListener(Entity.EVENTS.REMOVE, this.onEntityRemoved.bind(this));
     eventBus.addEventListener(Entity.EVENTS.CREATE, this.onEntityCreated.bind(this));
-  }
-
-  /**
-   * Коллбек на изменение сущности
-   * @param entity
-   */
-  onEntityChanged({data: {entity}}) {
-    //TODO: реализовать идею подписки на изменение определенного типа сущностей
   }
 
   /**

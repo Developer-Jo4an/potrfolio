@@ -1,11 +1,16 @@
 import Component from "../../core/Component";
 
 export default class PixiComponent extends Component {
-  type = "pixiComponent";
+  pixiObject;
 
-  constructor({eventBus, pixiObject}) {
-    super({eventBus});
+  constructor({pixiObject}) {
+    super(...arguments);
 
     this.pixiObject = pixiObject;
+  }
+
+  destroy() {
+    super.destroy();
+    this.pixiObject = null;
   }
 }

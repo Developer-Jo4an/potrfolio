@@ -3,15 +3,14 @@ import Component from "../../core/Component";
 import Collection from "../components/data/Collection";
 
 export default class Collector extends System {
-  constructor(data) {
-    super(data);
+  constructor() {
+    super(...arguments);
 
     this.eventBus.addEventListener(Component.EVENTS.REMOVE, this.onRemoveComponent.bind(this));
   }
 
   update(data) {
     super.update(data);
-    this.clearEvents();
   }
 
   onRemoveComponent({data: {component}}) {

@@ -2,17 +2,15 @@ import {v4 as uuidv4} from "uuid";
 
 export default class Component {
   /**
-   * CHANGE - событие на изменение данных компонента
-   * CREATE  - событие на создание компонента
-   * REMOVE   - событие на удаление компонента
-   * ADD    - событие на добавление компонента в сущность
-   * @type {{ADD: string, CREATE: string, REMOVE: string, CHANGE: string}}
+   * CREATE - событие на создание компонента
+   * REMOVE - событие на удаление компонента
+   * ADD - событие на добавление компонента в сущность
+   * @type {{ADD: string, CREATE: string, REMOVE: string}}
    */
   static EVENTS = {
-    CHANGE: "component:change",
     REMOVE: "component:remove",
     ADD: "component:add",
-    CREATE: "component:create",
+    CREATE: "component:create"
   };
 
   /**
@@ -20,6 +18,12 @@ export default class Component {
    * @type {string}
    */
   type = "unknown";
+
+  /**
+   * Группа компонента для дополнительной фильтрации
+   * @type {string}
+   */
+  group = "unknown";
 
   /**
    * Общий для всех элементов одного движка хаб событий
@@ -34,7 +38,9 @@ export default class Component {
    */
   _entity = null;
 
-  constructor({eventBus}) {
+  constructor({eventBus, type, group}) {
+    this.type = type ?? this.type;
+    this.group = group ?? this.group;
     this.eventBus = eventBus;
     this.uuid = uuidv4();
   }
@@ -101,16 +107,10 @@ export default class Component {
     this.dispatch(`${Component.EVENTS.REMOVE}-${this.type}`, {component: this});
   }
 
-  /**
-   * Коллбек при изменении данных компонента
-   */
-  onChange() {
-    this.dispatch(Component.EVENTS.CHANGE, {component: this});
-    this.dispatch(`${Component.EVENTS.CHANGE}-${this.type}`, {component: this});
-  }
-
   destroy() {
     this.entity = null;
     this.eventBus = null;
+    this.type = null;
+    this.group = null;
   }
 }

@@ -1,8 +1,6 @@
 import Component from "../../../../shared/scene/ecs/core/Component";
 
 export default class Chunk extends Component {
-  type = "chunk";
-
   points = {};
 
   width = {};
@@ -13,8 +11,8 @@ export default class Chunk extends Component {
 
   direction = null;
 
-  constructor({eventBus, points = {}, width = {}, adjacentLeg = 0, oppositeLeg = 0, direction = null}) {
-    super({eventBus});
+  constructor({points = {}, width = {}, adjacentLeg = 0, oppositeLeg = 0, direction = null}) {
+    super(...arguments);
 
     this.points = points;
     this.width = width;
@@ -24,11 +22,11 @@ export default class Chunk extends Component {
   }
 
   destroy() {
-    this.points = {};
-    this.width = {};
-    this.adjacentLeg = 0;
-    this.oppositeLeg = 0;
-    this.direction = null;
     super.destroy();
+    this.points = null;
+    this.width = null;
+    this.adjacentLeg = null;
+    this.oppositeLeg = null;
+    this.direction = null;
   }
 }
