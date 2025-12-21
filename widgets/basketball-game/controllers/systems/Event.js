@@ -26,6 +26,7 @@ export default class Event extends System {
   }
 
   clearCollisionEvents({eCharacter}) {
+    // TODO: для всех сущностей
     const csEvent = eCharacter.getSome(EventComponent, COLLISION_START, COLLISION_END);
     csEvent.forEach(cEvent => eCharacter.remove(cEvent));
   }
