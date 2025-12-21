@@ -2,12 +2,14 @@ import System from "../../../../shared/scene/ecs/core/System";
 import EventComponent from "../../../../shared/scene/ecs/base/components/EventComponent";
 import Matrix4Component from "../../../../shared/scene/ecs/base/components/transform/Matrix4Component";
 import Body from "../../../../shared/scene/ecs/rapier/components/Body";
-import {CHARACTER} from "../../entities/character";
 import {clamp} from "lodash";
-import {DRAG_END} from "../../../../shared/constants/events/eventsNames";
 import returnCharacterOnInitialPosition from "../../lib/animations/returnCharacterOnInitialPosition";
+import {createAnimationFrame} from "../../../../shared/lib/browserApi/frames";
+import {CHARACTER} from "../../entities/character";
+import {DRAG_END} from "../../../../shared/constants/events/eventsNames";
 
 export default class Character extends System {
+
   helpers = {
     intersectionPoint: null,
     plane: null,
@@ -17,24 +19,24 @@ export default class Character extends System {
   init() {
     const {helpers} = this;
 
-    helpers.intersectionPoint = new THREE.Vector3(0, 0, 0);
-    helpers.cursor = new THREE.Vector2(0, 0);
+    helpers.intersectionPoint = new THREE.Vector3();
+    helpers.cursor = new THREE.Vector2();
     helpers.plane = new THREE.Plane(new THREE.Vector3(0, 0, 1), 0);
     helpers.raycaster = new THREE.Raycaster();
+    helpers.throwVector = new THREE.Vector2();
   }
 
   updateMovement({eCharacter}) {
-    const {storage: {gameSpace}} = this;
     const csEvent = eCharacter.getList(EventComponent);
 
-    if (!csEvent?.length || gameSpace.returnsBack) return;
+    if (!csEvent?.length) return;
 
     const {data: {cursor: current}} = csEvent[csEvent.length - 1];
     const {storage: {camera}, helpers: {intersectionPoint, plane, cursor, raycaster}} = this;
     raycaster.setFromCamera(cursor.set(current.normalizedX, current.normalizedY), camera);
     raycaster.ray.intersectPlane(plane, intersectionPoint);
 
-    const {storage: {mainSceneSettings: {character: {movement: {x, y, z}}}}} = this;
+    const {storage: {mainSceneSettings: {character: {movement: {clamp: {x, y, z}}}}}} = this;
     const formattedIntersectPoint = {
       x: clamp(intersectionPoint.x, ...x),
       y: clamp(intersectionPoint.y, ...y),
@@ -42,21 +44,45 @@ export default class Character extends System {
     };
     const cBody = eCharacter.get(Body);
     cBody.object.setTranslation(formattedIntersectPoint);
-    const lastEvent = csEvent[csEvent.length - 1];
 
+    const lastEvent = csEvent[csEvent.length - 1];
     if (lastEvent.type === DRAG_END)
       this.throw(eCharacter);
   }
 
   async throw(eCharacter) {
-    const {storage: {gameSpace}} = this;
-    gameSpace.returnsBack = true;
+    const {
+      helpers: {throwVector},
+      storage: {mainSceneSettings: {character: {movement: {pointsCount, speed: {min}}}}}
+    } = this;
+    const csEvent = eCharacter.getList(EventComponent);
+    const slicedPoints = csEvent.slice(-pointsCount).map(({data: {cursor}}) => cursor);
+    slicedPoints.splice(1, slicedPoints.length - 2);
+    const [start, end] = slicedPoints;
+    throwVector.set(end.x - start.x, end.y - start.y);
+    const distance = throwVector.length();
+    const time = end.timestamp - start.timestamp;
+    const speed = distance / time;
 
-    const {storage: {mainSceneSettings: {character: {startData: {position}}}}} = this;
-    const eBody = eCharacter.get(Body);
-    await returnCharacterOnInitialPosition(eBody.object, position);
-
-    gameSpace.returnsBack = false;
+    const {
+      storage: {
+        gameSpace,
+        gameSpace: {serviceData},
+        mainSceneSettings: {character: {startData: {position}}}
+      }
+    } = this;
+    const cBody = eCharacter.get(Body);
+    if (speed <= min) {
+      gameSpace.returnsBack = true;
+      await returnCharacterOnInitialPosition(cBody.object, position);
+      gameSpace.returnsBack = false;
+    } else {
+      // gameSpace.thrown = true;
+      cBody.object.setBodyType(RAPIER3D.RigidBodyType.Dynamic);
+      serviceData.clearFunctions.push(createAnimationFrame(() => {
+        cBody.object.applyImpulse({x: 0, y: 0.02, z: -0.03}, true);
+      }));
+    }
   }
 
   update() {

@@ -7,11 +7,6 @@ import {CHARACTER} from "../../entities/character";
 import {DRAG_END, DRAG_MOVE, DRAG_START, END, MOVE, START} from "../../../../shared/constants/events/eventsNames";
 
 export default class Interactive extends System {
-
-  clearData = {
-    functions: []
-  };
-
   constructor() {
     super(...arguments);
 
@@ -27,7 +22,7 @@ export default class Interactive extends System {
   }
 
   initializationLevelSelect() {
-    const {interactionManager, clearData} = this;
+    const {interactionManager, storage: {gameSpace: {serviceData}}} = this;
 
     const eCharacter = this.getFirstEntityByType(CHARACTER);
     const cThreeComponent = eCharacter.get(ThreeComponent);
@@ -42,24 +37,34 @@ export default class Interactive extends System {
 
     interactionManager.add(cThreeComponent.threeObject);
 
-    clearData.functions.push(() => {
+    serviceData.clearFunctions.push(() => {
       interactionManager.remove(cThreeComponent.threeObject);
       clearEvents();
     });
   }
 
+  get isAvailableInteractive() {
+    const {storage: {gameSpace: {returnsBack, thrown}}} = this;
+    return !returnsBack && !thrown;
+  }
+
   onStart({originalEvent}) {
-    const {storage: {gameSpace}} = this;
-    if (gameSpace.returnsBack) return;
+    const {isAvailableInteractive} = this;
+    if (!isAvailableInteractive) return;
+
     const eCharacter = this.getFirstEntityByType(CHARACTER);
     const cEvent = this.createInteractiveEvent(DRAG_START, originalEvent);
     eCharacter.add(cEvent);
   }
 
   onMove(e) {
+    const {isAvailableInteractive} = this;
+    if (!isAvailableInteractive) return;
+
     const eCharacter = this.getFirstEntityByType(CHARACTER);
     const csEvent = eCharacter.getList(EventComponent);
     const isHasDragStart = csEvent[0]?.type === DRAG_START;
+
     if (isHasDragStart) {
       const cEvent = this.createInteractiveEvent(DRAG_MOVE, e);
       eCharacter.add(cEvent);
@@ -67,9 +72,13 @@ export default class Interactive extends System {
   }
 
   onEnd(e) {
+    const {isAvailableInteractive} = this;
+    if (!isAvailableInteractive) return;
+
     const eCharacter = this.getFirstEntityByType(CHARACTER);
     const csEvent = eCharacter.getList(EventComponent);
     const isHasDragStart = csEvent[0]?.type === DRAG_START;
+
     if (isHasDragStart) {
       const cEvent = this.createInteractiveEvent(DRAG_END, e);
       eCharacter.add(cEvent);
@@ -79,18 +88,12 @@ export default class Interactive extends System {
   createInteractiveEvent(type, event) {
     const {eventBus} = this;
     const cursor = getEventPosition(event);
+    cursor.timestamp = Math.round(performance.now());
     return new EventComponent({eventBus, type, data: {cursor}});
   }
 
   update() {
     const {interactionManager} = this;
     interactionManager.update();
-  }
-
-  reset() {
-    const {clearData} = this;
-
-    clearData.functions.forEach(func => func());
-    clearData.functions.length = 0;
   }
 }

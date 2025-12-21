@@ -8,7 +8,7 @@ import Collision from "./systems/Collision";
 import Event from "./systems/Event";
 import Assets from "../../../shared/scene/ecs/base/systems/Assets";
 import CarFactory from "./Factory";
-import PixiRenderSystem from "../../../shared/scene/ecs/pixi/PixiRenderSystem";
+import PixiRenderSystem from "../../../shared/scene/ecs/pixi/systems/PixiRenderSystem";
 import Collector from "../../../shared/scene/ecs/base/systems/Collector";
 import Engine from "../../../shared/scene/ecs/core/Engine";
 import {cloneDeep} from "lodash";

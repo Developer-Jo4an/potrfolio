@@ -4,6 +4,7 @@ import ThreeComponent from "../../../../shared/scene/ecs/three/components/ThreeC
 import Body from "../../../../shared/scene/ecs/rapier/components/Body";
 import {CHARACTER, CHARACTER_BODY} from "../../entities/character";
 import {GROUND, GROUND_BODY} from "../../entities/ground";
+import {mean} from "lodash";
 
 export default class Level extends System {
   initializationLevelSelect() {
@@ -21,6 +22,10 @@ export default class Level extends System {
             castShadow,
             metalness,
             roughness,
+            angularDamping,
+            linearDamping,
+            friction,
+            restitution,
             startData: {rotation, position}
           }
         }
@@ -39,19 +44,23 @@ export default class Level extends System {
     scene.add(characterView);
 
     const cBodyComponent = eCharacter.get(Body);
-    const vertices = Array.from(characterView.geometry.attributes.position.array);
-    const indexes = Array.from(characterView.geometry.index.array);
-    const characterBody = cBodyComponent.object = this.getAsset(eCharacter, CHARACTER_BODY, {
-      vertices,
-      indexes
-    });
+    const {geometry: {boundingBox: {min, max}}} = characterView;
+    const radius = mean([max.x - min.x, max.y - min.y, max.z - min.z].map(num => Math.abs(num / 2)));
+    const characterBody = cBodyComponent.object = this.getAsset(eCharacter, CHARACTER_BODY, {radius});
     characterBody.setTranslation(position);
     characterBody.setRotation(new THREE.Quaternion().setFromEuler(new THREE.Euler(rotation.x, rotation.y, rotation.z)));
-    characterBody.setBodyType(RAPIER3D.RigidBodyType.Fixed);
+    characterBody.setBodyType(RAPIER3D.RigidBodyType.KinematicPositionBased);
+    characterBody.collider.setRestitution(restitution);
+    characterBody.collider.setFriction(friction);
+    characterBody.setLinearDamping(linearDamping);
+    characterBody.setAngularDamping(angularDamping);
   }
 
   initGround() {
-    const {eventBus, storage: {scene, mainSceneSettings: {ground: {height, castShadow, receiveShadow}}}} = this;
+    const {
+      eventBus,
+      storage: {scene, mainSceneSettings: {ground: {height, castShadow, friction, restitution, receiveShadow}}}
+    } = this;
 
     const eGroud = new Entity({eventBus, type: GROUND}).init();
 
@@ -72,6 +81,10 @@ export default class Level extends System {
     const indexes = Array.from(groundView.geometry.index.array);
     const groundBody = cBodyComponent.object = this.getAsset(eGroud, GROUND_BODY, {vertices, indexes});
     groundBody.setTranslation({x: 0, y: -height / 2 - characterViewRadius, z: 0});
+    groundBody.collider.setFriction(friction);
+    groundBody.collider.setRestitution(restitution);
+    groundBody.collider.setFrictionCombineRule(RAPIER3D.CoefficientCombineRule.Max);
+    groundBody.collider.setRestitutionCombineRule(RAPIER3D.CoefficientCombineRule.Max);
   }
 
   update({deltaTime}) {

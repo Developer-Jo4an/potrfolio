@@ -1,6 +1,6 @@
-import System from "../core/System";
- import PixiComponent from "./components/PixiComponent";
-import Matrix3Component from "../base/components/transform/Matrix3Component";
+import System from "../../core/System";
+ import PixiComponent from "../components/PixiComponent";
+import Matrix3Component from "../../base/components/transform/Matrix3Component";
 
 export default class PixiRenderSystem extends System {
   updateItems() {

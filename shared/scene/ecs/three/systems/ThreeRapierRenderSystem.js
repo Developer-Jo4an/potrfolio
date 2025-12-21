@@ -1,6 +1,6 @@
 import ThreeRenderSystem from "./ThreeRenderSystem";
-import Body from "../rapier/components/Body";
-import Matrix4Component from "../base/components/transform/Matrix4Component";
+import Body from "../../rapier/components/Body";
+import Matrix4Component from "../../base/components/transform/Matrix4Component";
 
 export default class ThreeRapierRenderSystem extends ThreeRenderSystem {
   updateItems() {

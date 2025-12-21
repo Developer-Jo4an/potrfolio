@@ -8,7 +8,7 @@ import Level from "./systems/Level";
 import Camera from "./systems/Camera";
 import Light from "./systems/Light";
 import DebugRenderer from "../../../shared/scene/debug/rapier/DebugRenderer";
-import ThreeRapierRenderSystem from "../../../shared/scene/ecs/three/ThreeRapierRenderSystem";
+import ThreeRapierRenderSystem from "../../../shared/scene/ecs/three/systems/ThreeRapierRenderSystem";
 import Event from "./systems/Event";
 import Interactive from "./systems/Interactive";
 import Character from "./systems/Character";
@@ -117,6 +117,8 @@ export default class Controller extends ThreeController {
   reset() {
     const {storage, storage: {debugRenderer}} = this;
 
+    storage.gameSpace.serviceData.clearFunctions.forEach(func => func());
+    storage.gameSpace.serviceData.clearFunctions.length = 0;
     storage.gameSpace = cloneDeep(GAME_SPACE);
 
     gsap.localTimeline.clear(BASKETBALL);

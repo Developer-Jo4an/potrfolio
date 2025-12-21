@@ -59,12 +59,12 @@ export default class BasketballFactory extends Factory {
     return scene.getObjectByName(CHARACTER_VIEW_NAME);
   }
 
-  [`create${upperFirst(CHARACTER_BODY)}`]({vertices, indexes}) {
+  [`create${upperFirst(CHARACTER_BODY)}`]({radius}) {
     const {defaultProperties: {storage: {world}}} = this;
     const characterBodyDesc = RAPIER3D.RigidBodyDesc.dynamic();
     const characterBody = world.createRigidBody(characterBodyDesc);
-    const characterColliderDesc = RAPIER3D.ColliderDesc.trimesh(vertices, indexes);
-    world.createCollider(characterColliderDesc, characterBody);
+    const characterColliderDesc = RAPIER3D.ColliderDesc.ball(radius);
+    characterBody.collider = world.createCollider(characterColliderDesc, characterBody);
     return characterBody;
   }
 
@@ -85,7 +85,7 @@ export default class BasketballFactory extends Factory {
     const groundBodyDesc = RAPIER3D.RigidBodyDesc.fixed();
     const groundBody = world.createRigidBody(groundBodyDesc);
     const groundColliderDesc = RAPIER3D.ColliderDesc.trimesh(vertices, indexes);
-    world.createCollider(groundColliderDesc, groundBody);
+    groundBody.collider = world.createCollider(groundColliderDesc, groundBody);
     return groundBody;
   }
 }

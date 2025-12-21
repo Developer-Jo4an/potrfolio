@@ -1,7 +1,7 @@
-import System from "../core/System";
-import Mixer from "./components/Mixer";
-import ThreeComponent from "./components/ThreeComponent";
-import Matrix4Component from "../base/components/transform/Matrix4Component";
+import System from "../../core/System";
+import Mixer from "../components/Mixer";
+import ThreeComponent from "../components/ThreeComponent";
+import Matrix4Component from "../../base/components/transform/Matrix4Component";
 
 export default class ThreeRenderSystem extends System {
   updateAnimations({deltaTime}) {
