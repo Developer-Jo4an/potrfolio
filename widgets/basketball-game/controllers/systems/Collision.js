@@ -16,8 +16,8 @@ export default class Collision extends System {
 
     if (entity1 && entity2) {
       const type = isStarted ? COLLISION_START : COLLISION_END;
-      entity1.add(new EventComponent({eventBus, type, data: {with: entity2}}));
-      entity2.add(new EventComponent({eventBus, type, data: {with: entity1}}));
+      entity1.add(new EventComponent({eventBus, type, data: {entity: entity2}}));
+      entity2.add(new EventComponent({eventBus, type, data: {entity: entity1}}));
     } else
       console.warn("some entity not found", entity1, entity2);
   }

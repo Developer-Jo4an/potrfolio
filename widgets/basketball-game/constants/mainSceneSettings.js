@@ -7,14 +7,15 @@ export const mainSceneSettings = {
   },
 
   character: {
+    transparent: true,
     castShadow: true,
     receiveShadow: false,
     roughness: 0.75,
     metalness: 0.25,
     restitution: 0.7,
     friction: 0.4,
-    linearDamping: 0.3,
-    angularDamping: 0.3,
+    linearDamping: 0,
+    angularDamping: 0,
     startData: {
       rotation: {
         x: 0,
@@ -28,14 +29,27 @@ export const mainSceneSettings = {
       }
     },
     movement: {
-      pointsCount: 3,
-      speed: {
-        min: 1
-      },
       clamp: {
         x: [-Infinity, Infinity],
         y: [0, Infinity],
         z: [-Infinity, Infinity]
+      }
+    },
+    throw: {
+      duration: 1,
+      protectedAngle: 15,
+      speed: {
+        min: 2,
+        max: 9,
+        clamp: {
+          min: 2,
+          max: 20
+        }
+      },
+      angvel: {
+        x: 8,
+        y: 0,
+        z: 0
       }
     }
   },
@@ -49,6 +63,13 @@ export const mainSceneSettings = {
     restitution: 0,
     castShadow: false,
     receiveShadow: true
+  },
+
+  ring: {
+    transparent: true,
+    startData: {
+      position: {x: 0, y: 1.2, z: -5}
+    }
   },
 
   camera: {
@@ -82,9 +103,5 @@ export const mainSceneSettings = {
         height: 2048
       }
     }
-  },
-
-  events: {
-    maxDragMoveCount: 5
   }
 };

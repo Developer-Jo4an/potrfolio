@@ -6,32 +6,29 @@ import {GLTF, THREE_SPACE} from "../../../shared/scene/constants/loaders/assetsT
 import {CHARACTER, CHARACTER_BODY, CHARACTER_VIEW_NAME} from "../entities/character";
 import {SCENE_FROM_BLENDER} from "../constants/preload";
 import {GROUND, GROUND_BODY} from "../entities/ground";
+import {RING, RING_BODY, RING_VIEW_NAME} from "../entities/ring";
+
+const METHODS = {
+  create: "create",
+  prepare: "prepare",
+  reset: "reset"
+};
 
 export default class BasketballFactory extends Factory {
-  static METHODS = {
-    create: "create",
-    prepare: "prepare",
-    reset: "reset"
-  };
-
   constructor(data) {
     super(...arguments);
     this.defaultProperties = data;
   }
 
-  static createMethod(key, type) {
-    return `${key}${upperFirst(type)}`;
-  }
-
   getItemByType(type, data) {
-    return this[BasketballFactory.createMethod(BasketballFactory.METHODS.create, type)]?.(data);
+    return this[createMethod(METHODS.create, type)]?.(data);
   }
 
   getItem(type, data) {
     const storage = this.getStorage(type);
     let item = storage.pop();
     if (item)
-      this[BasketballFactory.createMethod(BasketballFactory.METHODS.prepare, type)]?.(item, data);
+      this[createMethod(METHODS.prepare, type)]?.(item, data);
     else
       item = this.createItem(type, data);
     return item;
@@ -40,26 +37,26 @@ export default class BasketballFactory extends Factory {
   pushItem(item) {
     const type = item._storageType ?? "unknown";
     const storage = this.getStorage(type);
-    this[BasketballFactory.createMethod(BasketballFactory.METHODS.reset, type)]?.(item);
+    this[createMethod(METHODS.reset, type)]?.(item);
     storage.push(item);
   }
 
   /**
    * character
    */
-  [`reset${upperFirst(CHARACTER)}`](characterSprite) {
+  [createMethod(METHODS.reset, CHARACTER)](characterSprite) {
   }
 
-  [`prepare${upperFirst(CHARACTER)}`](characterSprite) {
+  [createMethod(METHODS.prepare, CHARACTER)](characterSprite) {
 
   }
 
-  [`create${upperFirst(CHARACTER)}`]() {
+  [createMethod(METHODS.create, CHARACTER)]() {
     const {scene} = assetsManager.getAssetFromSpace(THREE_SPACE, GLTF, SCENE_FROM_BLENDER);
     return scene.getObjectByName(CHARACTER_VIEW_NAME);
   }
 
-  [`create${upperFirst(CHARACTER_BODY)}`]({radius}) {
+  [createMethod(METHODS.create, CHARACTER_BODY)]({radius}) {
     const {defaultProperties: {storage: {world}}} = this;
     const characterBodyDesc = RAPIER3D.RigidBodyDesc.dynamic();
     const characterBody = world.createRigidBody(characterBodyDesc);
@@ -71,7 +68,7 @@ export default class BasketballFactory extends Factory {
   /**
    * ground
    */
-  [`create${upperFirst(GROUND)}`]() {
+  [createMethod(METHODS.create, GROUND)]() {
     const {defaultProperties: {storage: {mainSceneSettings: {ground: {width, height, depth, opacity}}}}} = this;
 
     return new THREE.Mesh(
@@ -80,7 +77,7 @@ export default class BasketballFactory extends Factory {
     );
   }
 
-  [`create${upperFirst(GROUND_BODY)}`]({vertices, indexes}) {
+  [createMethod(METHODS.create, GROUND_BODY)]({vertices, indexes}) {
     const {defaultProperties: {storage: {world}}} = this;
     const groundBodyDesc = RAPIER3D.RigidBodyDesc.fixed();
     const groundBody = world.createRigidBody(groundBodyDesc);
@@ -88,4 +85,25 @@ export default class BasketballFactory extends Factory {
     groundBody.collider = world.createCollider(groundColliderDesc, groundBody);
     return groundBody;
   }
+
+  /**
+   * ring
+   */
+  [createMethod(METHODS.create, RING)]() {
+    const {scene} = assetsManager.getAssetFromSpace(THREE_SPACE, GLTF, SCENE_FROM_BLENDER);
+    return scene.getObjectByName(RING_VIEW_NAME);
+  }
+
+  [createMethod(METHODS.create, RING_BODY)]({vertices, indexes}) {
+    const {defaultProperties: {storage: {world}}} = this;
+    const ringBodyDesc = RAPIER3D.RigidBodyDesc.fixed();
+    const ringBody = world.createRigidBody(ringBodyDesc);
+    const ringColliderDesc = RAPIER3D.ColliderDesc.trimesh(vertices, indexes);
+    ringBody.collider = world.createCollider(ringColliderDesc, ringBody);
+    return ringBody;
+  }
+}
+
+function createMethod(key, type) {
+  return `${key}${upperFirst(type)}`;
 }

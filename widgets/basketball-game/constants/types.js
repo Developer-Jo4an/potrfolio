@@ -4,11 +4,13 @@ import ThreeComponent from "../../../shared/scene/ecs/three/components/ThreeComp
 import Collection from "../../../shared/scene/ecs/base/components/data/Collection";
 import Body from "../../../shared/scene/ecs/rapier/components/Body";
 import Matrix4Component from "../../../shared/scene/ecs/base/components/transform/Matrix4Component";
+import GSAPTween from "../../../shared/scene/ecs/base/components/tween/GSAPTween";
 import getDefaultState from "../../../shared/scene/lib/state/getDefaultState";
 import {BASKETBALL_STATE_MACHINE} from "./stateMachine";
 import {GAME} from "../../car-game/constants/entities/game";
 import {CHARACTER, states as characterStates} from "../entities/character";
 import {GROUND} from "../entities/ground";
+import {RING} from "../entities/ring";
 
 export const types = {
   [GAME]: {
@@ -23,7 +25,8 @@ export const types = {
       {Class: ThreeComponent},
       {Class: Matrix4Component},
       {Class: Body},
-      {Class: Collection}
+      {Class: Collection},
+      {Class: GSAPTween}
     ]
   },
   [GROUND]: {
@@ -32,6 +35,15 @@ export const types = {
       {Class: Matrix4Component},
       {Class: Body},
       {Class: Collection}
+    ]
+  },
+  [RING]: {
+    components: [
+      {Class: ThreeComponent},
+      {Class: Matrix4Component},
+      {Class: Body},
+      {Class: Collection},
+      {Class: GSAPTween}
     ]
   }
 };
