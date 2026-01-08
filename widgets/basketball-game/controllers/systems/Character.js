@@ -128,19 +128,21 @@ export default class Character extends System {
       const x = this.calculateX(props);
       const y = this.calculateY(props);
       const z = this.calculateZ(props);
+      const time = this.calculateTime(x, y, z, target);
       const throwPoint = new THREE.Vector3(x, y, z);
 
-      const {storage: {world, mainSceneSettings: {character: {throw: {angvel, duration: throwDuration}}}}} = this;
+      const {storage: {world, mainSceneSettings: {character: {throw: {angvel}}}}} = this;
       const bodyPosition = cBody.object.translation();
       const mass = cBody.object.mass();
       const vectorBetweenBallAndTarget = throwPoint.clone().sub(bodyPosition);
       const zeroV = new THREE.Vector3(
-        vectorBetweenBallAndTarget.x / throwDuration,
-        (vectorBetweenBallAndTarget.y - 0.5 * world.gravity.y * throwDuration ** 2) / throwDuration,
-        vectorBetweenBallAndTarget.z / throwDuration
+        vectorBetweenBallAndTarget.x / time,
+        (vectorBetweenBallAndTarget.y - 0.5 * world.gravity.y * time ** 2) / time,
+        vectorBetweenBallAndTarget.z / time
       );
       const impulse = zeroV.clone().multiplyScalar(mass);
       cBody.object.setLinvel({x: 0, y: 0, z: 0});
+      cBody.object.setAngvel({x: 0, y: 0, z: 0});
       cBody.object.applyImpulse(impulse);
       cBody.object.setAngvel(angvel);
     }));
@@ -193,6 +195,14 @@ export default class Character extends System {
       const denominator = balancedSpeed < m ? m : l;
       return balancedSpeed / denominator * axisValue;
     }
+  }
+
+  calculateTime(x, y, z, target) {
+    const {storage: {mainSceneSettings: {character: {throw: {duration}}}}} = this;
+    const throwVector = new THREE.Vector3(x, y, z);
+    const targetVector = new THREE.Vector3(target.x, target.y, target.z);
+    const multiplier = throwVector.length() / targetVector.length();
+    return duration * multiplier;
   }
 
   checkCollision({eCharacter}) {
