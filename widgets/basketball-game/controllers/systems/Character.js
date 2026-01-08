@@ -133,13 +133,13 @@ export default class Character extends System {
       const {storage: {world, mainSceneSettings: {character: {throw: {angvel, duration: throwDuration}}}}} = this;
       const bodyPosition = cBody.object.translation();
       const mass = cBody.object.mass();
-      const distanceBetween = throwPoint.clone().sub(bodyPosition);
-      const startSpeed = new THREE.Vector3(
-        distanceBetween.x / throwDuration,
-        (distanceBetween.y - 0.5 * world.gravity.y * throwDuration ** 2) / throwDuration,
-        distanceBetween.z / throwDuration
+      const vectorBetweenBallAndTarget = throwPoint.clone().sub(bodyPosition);
+      const zeroV = new THREE.Vector3(
+        vectorBetweenBallAndTarget.x / throwDuration,
+        (vectorBetweenBallAndTarget.y - 0.5 * world.gravity.y * throwDuration ** 2) / throwDuration,
+        vectorBetweenBallAndTarget.z / throwDuration
       );
-      const impulse = startSpeed.clone().multiplyScalar(mass);
+      const impulse = zeroV.clone().multiplyScalar(mass);
       cBody.object.setLinvel({x: 0, y: 0, z: 0});
       cBody.object.applyImpulse(impulse);
       cBody.object.setAngvel(angvel);
