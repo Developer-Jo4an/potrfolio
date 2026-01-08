@@ -52,19 +52,15 @@ export default class Character extends System {
   }
 
   throw({eCharacter, eRing}) {
-    const {storage: {mainSceneSettings: {character: {throw: {speed: {clamp: {min}}}}}}} = this;
+    const {storage: {mainSceneSettings: {character: {throw: {speed: {s}}}}}} = this;
 
     const throwData = this.calculateThrowData(eCharacter);
     const fullProps = {eCharacter, eRing, ...(throwData ?? {})};
 
-    if (!throwData) {
+    if (!throwData || throwData.speed < s)
       this.returnCharacterToInitialPosition(fullProps);
-      return;
-    }
-
-    throwData.speed < min
-      ? this.returnCharacterToInitialPosition(fullProps)
-      : this.throwBall(fullProps);
+    else
+      this.throwBall(fullProps);
   }
 
   calculateThrowData(eCharacter) {
@@ -126,8 +122,7 @@ export default class Character extends System {
     cBody.object.setBodyType(RAPIER3D.RigidBodyType.Dynamic);
     cBody.object.wakeUp();
 
-    const {serviceData} = gameSpace;
-    serviceData.clearFunctions.push(createAnimationFrame(() => {
+    gameSpace.serviceData.clearFunctions.push(createAnimationFrame(() => {
       const target = eRing.get(Body).object.translation();
       const props = {eCharacter, drag, end, target, speed, distance, duration};
       const x = this.calculateX(props);
@@ -144,7 +139,7 @@ export default class Character extends System {
         (distanceBetween.y - 0.5 * world.gravity.y * throwDuration ** 2) / throwDuration,
         distanceBetween.z / throwDuration
       );
-      const impulse = startSpeed.multiplyScalar(mass);
+      const impulse = startSpeed.clone().multiplyScalar(mass);
       cBody.object.setLinvel({x: 0, y: 0, z: 0});
       cBody.object.applyImpulse(impulse);
       cBody.object.setAngvel(angvel);
@@ -180,19 +175,24 @@ export default class Character extends System {
   }
 
   calculateY({speed, target}) {
-    const {storage: {mainSceneSettings: {character: {throw: {speed: {max, clamp: clampValue}}}}}} = this;
-
-    const formattedSpeed = clamp(speed, clampValue.min, clampValue.max);
-
-    if (formattedSpeed <= max)
-      return target.y;
-
-    const proportion = formattedSpeed / max;
-    return Math.min(proportion * target.y, clampValue.max);
+    return this.calculateVerticalAxis({speed, axisValue: target.y});
   }
 
-  calculateZ({target}) {
-    return target.z;
+  calculateZ({speed, target}) {
+    return this.calculateVerticalAxis({speed, axisValue: target.z});
+  }
+
+  calculateVerticalAxis({speed, axisValue}) {
+    const {storage: {mainSceneSettings: {character: {throw: {speed: {s, m, l, xl}}}}}} = this;
+
+    const balancedSpeed = clamp(speed, s, xl);
+
+    if (balancedSpeed >= m && balancedSpeed <= l)
+      return axisValue;
+    else {
+      const denominator = balancedSpeed < m ? m : l;
+      return balancedSpeed / denominator * axisValue;
+    }
   }
 
   checkCollision({eCharacter}) {

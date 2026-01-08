@@ -37,14 +37,12 @@ export const mainSceneSettings = {
     },
     throw: {
       duration: 1,
-      protectedAngle: 15,
+      protectedAngle: 10,
       speed: {
-        min: 2,
-        max: 9,
-        clamp: {
-          min: 2,
-          max: 20
-        }
+        s: 1.5,
+        m: 4,
+        l: 9,
+        xl: 20
       },
       angvel: {
         x: 8,
