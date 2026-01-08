@@ -7,7 +7,10 @@ export default function getEventPosition(e) {
 
   return {
     x, y,
-    normalizedX, normalizedY
+    normalizedX,
+    normalizedY,
+    fromScreenX: x / global.innerWidth,
+    fromScreenY: y / global.innerHeight
   };
 }
 

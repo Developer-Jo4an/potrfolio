@@ -37,7 +37,6 @@ export const mainSceneSettings = {
     },
     throw: {
       duration: 1,
-      protectedAngle: 10,
       speed: {
         s: 1.5,
         m: 3,
@@ -73,8 +72,12 @@ export const mainSceneSettings = {
       radsProportion: 0.825,
       radialSegments: 32,
       heightSegments: 32,
-      openEnded: true
-    }
+      openEnded: true,
+      thetaStart: -Math.PI / 2,
+      thetaLength: Math.PI
+    },
+    geometryRotation: {x: Math.PI / 2, y: 0, z: 0},
+    tube: 0.015
   },
 
   camera: {

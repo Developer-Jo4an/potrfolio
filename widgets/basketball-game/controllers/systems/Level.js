@@ -68,8 +68,10 @@ export default class Level extends System {
         scene,
         mainSceneSettings: {
           ring: {
-            transparent,
+            tube,
+            geometryRotation,
             grid,
+            transparent,
             startData: {position}
           }
         }
@@ -92,9 +94,9 @@ export default class Level extends System {
     const ringRadius = Math.max(...[X, Y, Z].map(axis => {
       const maxAxis = ringBoundingBox.max[axis];
       const minAxis = ringBoundingBox.min[axis];
-      return Math.abs(maxAxis - minAxis);
+      return Math.abs(maxAxis - minAxis) - (tube * 2);
     })) / 2;
-    const ringViewGeometry = new THREE.TorusGeometry(ringRadius, 0.02);
+    const ringViewGeometry = new THREE.TorusGeometry(ringRadius, tube);
     const ringViewVertices = Array.from(ringViewGeometry.attributes.position.array);
     const ringViewIndexes = Array.from(ringViewGeometry.index.array);
 
@@ -116,7 +118,9 @@ export default class Level extends System {
       grid.height,
       grid.radialSegments,
       grid.heightSegments,
-      grid.openEnded
+      grid.openEnded,
+      grid.thetaStart,
+      grid.thetaLength,
     );
     const gridOffsetMatrix = new THREE.Matrix4();
     gridOffsetMatrix.makeTranslation(0, -grid.height / 2, 0);
@@ -127,9 +131,26 @@ export default class Level extends System {
 
     const cBody = eRing.get(Body);
     const ringBody = cBody.object = this.getAsset(eRing, RING_BODY, {
-      ring: {view: ringView, vertices: ringViewVertices, indexes: ringViewIndexes},
-      shield: {view: shieldView, vertices: shieldViewVertices, indexes: shieldViewIndexes},
-      grid: {view: gridView, vertices: gridViewVertices, indexes: gridViewIndexes}
+      ring: {
+        view: ringView,
+        vertices: ringViewVertices,
+        indexes: ringViewIndexes,
+        extraProps: {
+          rotation: geometryRotation
+        }
+      },
+      shield: {
+        view: shieldView,
+        vertices: shieldViewVertices,
+        indexes: shieldViewIndexes,
+        extraProps: {}
+      },
+      grid: {
+        view: gridView,
+        vertices: gridViewVertices,
+        indexes: gridViewIndexes,
+        extraProps: {}
+      }
     });
 
     ringBody.setTranslation(position);

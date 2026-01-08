@@ -1,22 +1,24 @@
 // TODO: переделать в декоратор
 export default class DebugRenderer {
+
+  _isActive = false;
+
   constructor({storage}) {
     this.storage = storage;
 
     this.update = this.update.bind(this);
   }
 
-  get active() {
-    return this._active ??= false;
+  get isActive() {
+    return this._isActive;
   }
 
-  set active(isActive) {
-    if (isActive === this._active) {
-      console.warn("isActive is equal this._active", `isActive: ${isActive}`);
+  set isActive(isActive) {
+    if (isActive === this._isActive) {
+      console.warn("isActive is equal this._isActive", `isActive: ${isActive}`);
       return;
     } else
-      this._active = isActive;
-
+      this._isActive = isActive;
     const {storage: {scene}, mesh} = this;
     if (isActive) {
       if (!mesh)
@@ -42,9 +44,7 @@ export default class DebugRenderer {
   }
 
   update() {
-    const {mesh, storage: {world}, active} = this;
-
-    if (!active) return;
+    const {mesh, storage: {world}} = this;
 
     const {vertices, colors} = world.debugRender();
     mesh.geometry.setAttribute("position", new THREE.BufferAttribute(vertices, 3));

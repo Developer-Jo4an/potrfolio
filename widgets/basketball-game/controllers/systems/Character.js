@@ -150,7 +150,7 @@ export default class Character extends System {
   }
 
   calculateX({drag, end, target}) {
-    const {storage: {camera, mainSceneSettings: {character: {throw: {protectedAngle}}}}, helpers: {raycaster}} = this;
+    const {storage: {camera}, helpers: {raycaster}} = this;
 
     const [drag2d, end2d] = [drag, end].map(({normalizedX, normalizedY}) => {
       const intersectionPoint = new THREE.Vector3();
@@ -163,18 +163,7 @@ export default class Character extends System {
     const swipeVec = new THREE.Vector2(end2d.x - drag2d.x, end2d.y - drag2d.y);
     const directionBetweenVec = new THREE.Vector2(target.x - drag2d.x, target.z - drag2d.y);
 
-    const angle = THREE.MathUtils.radToDeg(
-      Math.acos(
-        swipeVec.dot(directionBetweenVec)
-        /
-        (swipeVec.length() * directionBetweenVec.length())
-      )
-    );
-
-    if (angle <= protectedAngle)
-      return target.x;
-    else
-      return swipeVec.clone().normalize().multiplyScalar(directionBetweenVec.length()).x;
+    return swipeVec.setLength(directionBetweenVec.length()).x;
   }
 
   calculateY({speed, target}) {

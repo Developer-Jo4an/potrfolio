@@ -13,6 +13,7 @@ import Event from "./systems/Event";
 import Interactive from "./systems/Interactive";
 import Character from "./systems/Character";
 import Collision from "./systems/Collision";
+import CameraFlying from "../../../shared/scene/debug/three/CameraFlying";
 import getIsDebug from "../../../shared/lib/debug/debug";
 import eventSubscription from "../../../shared/lib/events/eventListener";
 import {cloneDeep} from "lodash";
@@ -47,11 +48,12 @@ export default class Controller extends ThreeController {
     });
   }
 
-  initializationSelect() {
+  async initializationSelect() {
     if (this.isInitialized) return;
     this.initEngine();
     this.initWorld();
-    getIsDebug() && this.initDebug();
+    if (getIsDebug())
+      await this.initDebug();
     this.isInitialized = true;
   }
 
@@ -59,7 +61,11 @@ export default class Controller extends ThreeController {
     const {decorators, storage} = this;
     const updateDecorator = decorators[UPDATE_DECORATOR_FIELD];
     updateDecorator.startUpdate();
-    getIsDebug() && (storage.debugRenderer.active = true);
+
+    if (getIsDebug()) {
+      storage.debugRenderer.isActive = true;
+      storage.cameraFlying.isActive = true;
+    }
   }
 
   initEngine() {
@@ -94,9 +100,11 @@ export default class Controller extends ThreeController {
     storage.world = new RAPIER3D.World(gravity);
   }
 
-  initDebug() {
+  async initDebug() {
     const {storage} = this;
-    storage.debugRenderer = new DebugRenderer({storage});
+    const debugRenderer = storage.debugRenderer = new DebugRenderer({storage});
+    const cameraFlying = storage.cameraFlying = new CameraFlying({storage});
+    await cameraFlying.init();
   }
 
   updateEngine({deltaTime}) {
@@ -118,7 +126,7 @@ export default class Controller extends ThreeController {
   }
 
   reset() {
-    const {storage, storage: {gameSpace, eventQueue, debugRenderer}} = this;
+    const {storage, storage: {gameSpace, eventQueue, debugRenderer, cameraFlying}} = this;
 
     gameSpace.serviceData.clearFunctions.forEach(func => func());
     gameSpace.serviceData.clearFunctions.length = 0;
@@ -131,7 +139,8 @@ export default class Controller extends ThreeController {
     gsap.localTimeline.clear(BASKETBALL);
 
     if (getIsDebug()) {
-      debugRenderer.active = false;
+      debugRenderer.isActive = false;
+      cameraFlying.isActive = false;
       analysis.logStatistics();
     }
   }

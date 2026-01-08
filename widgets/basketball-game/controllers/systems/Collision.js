@@ -12,21 +12,25 @@ export default class Collision extends System {
 
   onCollision(colliderId1, colliderId2, isStarted) {
     const {eventBus} = this;
-    const [entity1, entity2] = this.getEntitiesByCollisionId(colliderId1, colliderId2);
+    const [data1, data2] = this.getDataByCollisionId(colliderId1, colliderId2);
 
-    if (entity1 && entity2) {
+    if (data1 && data2) {
       const type = isStarted ? COLLISION_START : COLLISION_END;
-      entity1.add(new EventComponent({eventBus, type, data: {entity: entity2}}));
-      entity2.add(new EventComponent({eventBus, type, data: {entity: entity1}}));
+      data1.entity.add(new EventComponent({eventBus, type, data: data2}));
+      data2.entity.add(new EventComponent({eventBus, type, data: data1}));
     } else
-      console.warn("some entity not found", entity1, entity2);
+      console.warn("some data not found", data1, data2);
   }
 
-  getEntitiesByCollisionId(colliderId1, colliderId2) {
+  getDataByCollisionId(colliderId1, colliderId2) {
     const {storage: {world}} = this;
 
-    const rigidBody1 = world.getCollider(colliderId1).parent();
-    const rigidBody2 = world.getCollider(colliderId2).parent();
+    const collider1 = world.getCollider(colliderId1);
+    const collider2 = world.getCollider(colliderId2);
+    const colliders = [collider1, collider2];
+
+    const rigidBody1 = collider1.parent();
+    const rigidBody2 = collider2.parent();
     const bodies = [rigidBody1, rigidBody2];
 
     const csBody = this.getAllComponentsByClass(Body);
@@ -34,7 +38,11 @@ export default class Collision extends System {
       const {object: body} = cBody;
       const index = bodies.indexOf(body);
       if (index !== -1)
-        acc[index] = cBody.entity;
+        acc[index] = {
+          entity: cBody.entity,
+          collider: colliders[index],
+          body: bodies[index]
+        };
       return acc;
     }, []);
   }

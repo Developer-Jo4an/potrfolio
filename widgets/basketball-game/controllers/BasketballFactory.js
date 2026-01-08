@@ -1,12 +1,18 @@
 import Factory from "../../../shared/scene/factory/Factory";
-import ThreeComponent from "../../../shared/scene/ecs/three/components/ThreeComponent";
 import {upperFirst} from "lodash";
 import {assetsManager} from "../../../shared/scene/assets/AssetsManager";
 import {GLTF, THREE_SPACE} from "../../../shared/scene/constants/loaders/assetsTypes";
 import {CHARACTER, CHARACTER_BODY, CHARACTER_VIEW_NAME} from "../entities/character";
 import {SCENE_FROM_BLENDER} from "../constants/preload";
 import {GROUND, GROUND_BODY} from "../entities/ground";
-import {RING, RING_BODY, RING_GRID_VIEW_NAME, RING_SHIELD_VIEW_NAME, RING_VIEW_NAME} from "../entities/ring";
+import {
+  RING,
+  RING_BODY, RING_GRID,
+  RING_GRID_VIEW_NAME,
+  RING_SHIELD,
+  RING_SHIELD_VIEW_NAME,
+  RING_VIEW_NAME
+} from "../entities/ring";
 
 const METHODS = {
   create: "create",
@@ -61,7 +67,9 @@ export default class BasketballFactory extends Factory {
     const characterBodyDesc = RAPIER3D.RigidBodyDesc.dynamic();
     const characterBody = world.createRigidBody(characterBodyDesc);
     const characterColliderDesc = RAPIER3D.ColliderDesc.ball(radius);
-    characterBody.collider = world.createCollider(characterColliderDesc, characterBody);
+    const characterCollider = world.createCollider(characterColliderDesc, characterBody);
+    characterCollider.userData = {id: CHARACTER};
+    characterBody.collider = characterCollider;
     return characterBody;
   }
 
@@ -82,7 +90,9 @@ export default class BasketballFactory extends Factory {
     const groundBodyDesc = RAPIER3D.RigidBodyDesc.fixed();
     const groundBody = world.createRigidBody(groundBodyDesc);
     const groundColliderDesc = RAPIER3D.ColliderDesc.trimesh(vertices, indexes);
-    groundBody.collider = world.createCollider(groundColliderDesc, groundBody);
+    const groundCollider = world.createCollider(groundColliderDesc, groundBody);
+    groundCollider.userData = {id: GROUND};
+    groundBody.collider = groundCollider;
     return groundBody;
   }
 
@@ -110,13 +120,26 @@ export default class BasketballFactory extends Factory {
     const ringBody = world.createRigidBody(ringBodyDesc);
 
     const ringColliderDesc = RAPIER3D.ColliderDesc.trimesh(ring.vertices, ring.indexes);
+    ringColliderDesc.setRotation(new THREE.Quaternion().setFromEuler(new THREE.Euler(
+      ring.extraProps.rotation.x,
+      ring.extraProps.rotation.y,
+      ring.extraProps.rotation.z
+    )));
+    const ringCollider = world.createCollider(ringColliderDesc, ringBody);
+    ringCollider.userData = {id: RING};
+
     const shieldColliderDesc = RAPIER3D.ColliderDesc.trimesh(shield.vertices, shield.indexes);
+    const shieldCollider = world.createCollider(shieldColliderDesc, ringBody);
+    shieldCollider.userData = {id: RING_SHIELD};
+
     const gridColliderDesc = RAPIER3D.ColliderDesc.trimesh(grid.vertices, grid.indexes);
+    const gridCollider = world.createCollider(gridColliderDesc, ringBody);
+    gridCollider.userData = {id: RING_GRID};
 
     ringBody.collider = {
-      ring: world.createCollider(ringColliderDesc, ringBody),
-      shield: world.createCollider(shieldColliderDesc, ringBody),
-      grid: world.createCollider(gridColliderDesc, ringBody)
+      ring: ringCollider,
+      shield: shieldCollider,
+      grid: gridCollider
     };
 
     return ringBody;
