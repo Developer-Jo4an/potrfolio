@@ -120,7 +120,6 @@ export default class Character extends System {
     const cBody = eCharacter.get(Body);
 
     cBody.object.setBodyType(RAPIER3D.RigidBodyType.Dynamic);
-    cBody.object.wakeUp();
 
     gameSpace.serviceData.clearFunctions.push(createAnimationFrame(() => {
       const target = eRing.get(Body).object.translation();
@@ -141,6 +140,8 @@ export default class Character extends System {
         vectorBetweenBallAndTarget.z / time
       );
       const impulse = zeroV.clone().multiplyScalar(mass);
+
+      cBody.object.wakeUp();
       cBody.object.setLinvel({x: 0, y: 0, z: 0});
       cBody.object.setAngvel({x: 0, y: 0, z: 0});
       cBody.object.applyImpulse(impulse);

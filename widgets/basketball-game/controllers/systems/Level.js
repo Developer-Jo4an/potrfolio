@@ -3,9 +3,11 @@ import Entity from "../../../../shared/scene/ecs/core/Entity";
 import ThreeComponent from "../../../../shared/scene/ecs/three/components/ThreeComponent";
 import Body from "../../../../shared/scene/ecs/rapier/components/Body";
 import {mean} from "lodash";
+import getVerticesWithDeep from "../../utils/getVerticesWithDeep";
 import {CHARACTER, CHARACTER_BODY} from "../../entities/character";
 import {GROUND, GROUND_BODY} from "../../entities/ground";
-import {RING, RING_BODY} from "../../entities/ring";
+import {RING, RING_BODY, RING_GRID_VIEW_NAME, RING_SHIELD_VIEW_NAME, RING_VIEW_NAME} from "../../entities/ring";
+import {X, Y, Z} from "../../../../shared/constants/trigonometry/trigonometry";
 
 export default class Level extends System {
   initializationLevelSelect() {
@@ -67,6 +69,7 @@ export default class Level extends System {
         mainSceneSettings: {
           ring: {
             transparent,
+            grid,
             startData: {position}
           }
         }
@@ -75,16 +78,62 @@ export default class Level extends System {
 
     const eRing = new Entity({eventBus, type: RING}).init();
     const cThreeComponent = eRing.get(ThreeComponent);
-    const ringView = cThreeComponent.threeObject = this.getAsset(eRing, RING);
-    ringView.material.transparent = transparent;
-    scene.add(ringView);
+
+    const ringContainer = cThreeComponent.threeObject = this.getAsset(eRing, RING);
+    ringContainer.traverse(object => {
+      if (object.material)
+        object.material.transparent = transparent;
+    });
+    scene.add(ringContainer);
+
+    const ringView = ringContainer.getObjectByName(RING_VIEW_NAME);
+    const ringBoundingBox = new THREE.Box3();
+    ringBoundingBox.setFromObject(ringView);
+    const ringRadius = Math.max(...[X, Y, Z].map(axis => {
+      const maxAxis = ringBoundingBox.max[axis];
+      const minAxis = ringBoundingBox.min[axis];
+      return Math.abs(maxAxis - minAxis);
+    })) / 2;
+    const ringViewGeometry = new THREE.TorusGeometry(ringRadius, 0.02);
+    const ringViewVertices = Array.from(ringViewGeometry.attributes.position.array);
+    const ringViewIndexes = Array.from(ringViewGeometry.index.array);
+
+    const shieldView = ringContainer.getObjectByName(RING_SHIELD_VIEW_NAME);
+    const {vertices: shieldViewVertices, indexes: shieldViewIndexes} = getVerticesWithDeep(shieldView);
+
+    const gridView = ringContainer.getObjectByName(RING_GRID_VIEW_NAME);
+    const gridBoundingBox = new THREE.Box3();
+    gridBoundingBox.setFromObject(ringView);
+    const gridRadiusTop = Math.max(...[X, Y, Z].map(axis => {
+      const maxAxis = gridBoundingBox.max[axis];
+      const minAxis = gridBoundingBox.min[axis];
+      return Math.abs(maxAxis - minAxis);
+    })) / 2;
+    const radiusBottom = gridRadiusTop * grid.radsProportion;
+    const gridViewGeometry = new THREE.CylinderGeometry(
+      gridRadiusTop,
+      radiusBottom,
+      grid.height,
+      grid.radialSegments,
+      grid.heightSegments,
+      grid.openEnded
+    );
+    const gridOffsetMatrix = new THREE.Matrix4();
+    gridOffsetMatrix.makeTranslation(0, -grid.height / 2, 0);
+    gridViewGeometry.applyMatrix4(gridOffsetMatrix);
+    gridViewGeometry.dispose();
+    const gridViewVertices = Array.from(gridViewGeometry.attributes.position.array);
+    const gridViewIndexes = Array.from(gridViewGeometry.index.array);
 
     const cBody = eRing.get(Body);
-    const vertices = Array.from(ringView.geometry.attributes.position.array);
-    const indexes = Array.from(ringView.geometry.index.array);
-    const groundBody = cBody.object = this.getAsset(eRing, RING_BODY, {vertices, indexes});
-    groundBody.setTranslation(position);
-    groundBody.collider.setActiveEvents(RAPIER3D.ActiveEvents.COLLISION_EVENTS);
+    const ringBody = cBody.object = this.getAsset(eRing, RING_BODY, {
+      ring: {view: ringView, vertices: ringViewVertices, indexes: ringViewIndexes},
+      shield: {view: shieldView, vertices: shieldViewVertices, indexes: shieldViewIndexes},
+      grid: {view: gridView, vertices: gridViewVertices, indexes: gridViewIndexes}
+    });
+
+    ringBody.setTranslation(position);
+    ringBody.collider.ring.setActiveEvents(RAPIER3D.ActiveEvents.COLLISION_EVENTS);
   }
 
   initGround() {

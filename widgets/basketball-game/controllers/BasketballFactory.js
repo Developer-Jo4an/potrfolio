@@ -6,7 +6,7 @@ import {GLTF, THREE_SPACE} from "../../../shared/scene/constants/loaders/assetsT
 import {CHARACTER, CHARACTER_BODY, CHARACTER_VIEW_NAME} from "../entities/character";
 import {SCENE_FROM_BLENDER} from "../constants/preload";
 import {GROUND, GROUND_BODY} from "../entities/ground";
-import {RING, RING_BODY, RING_VIEW_NAME} from "../entities/ring";
+import {RING, RING_BODY, RING_GRID_VIEW_NAME, RING_SHIELD_VIEW_NAME, RING_VIEW_NAME} from "../entities/ring";
 
 const METHODS = {
   create: "create",
@@ -91,15 +91,34 @@ export default class BasketballFactory extends Factory {
    */
   [createMethod(METHODS.create, RING)]() {
     const {scene} = assetsManager.getAssetFromSpace(THREE_SPACE, GLTF, SCENE_FROM_BLENDER);
-    return scene.getObjectByName(RING_VIEW_NAME);
+
+    const ring = scene.getObjectByName(RING_VIEW_NAME);
+    const shield = scene.getObjectByName(RING_SHIELD_VIEW_NAME);
+    const grid = scene.getObjectByName(RING_GRID_VIEW_NAME);
+
+    const ringContainer = new THREE.Group();
+    ringContainer.add(ring);
+    ringContainer.add(shield);
+    ringContainer.add(grid);
+
+    return ringContainer;
   }
 
-  [createMethod(METHODS.create, RING_BODY)]({vertices, indexes}) {
+  [createMethod(METHODS.create, RING_BODY)]({ring, shield, grid}) {
     const {defaultProperties: {storage: {world}}} = this;
     const ringBodyDesc = RAPIER3D.RigidBodyDesc.fixed();
     const ringBody = world.createRigidBody(ringBodyDesc);
-    const ringColliderDesc = RAPIER3D.ColliderDesc.trimesh(vertices, indexes);
-    ringBody.collider = world.createCollider(ringColliderDesc, ringBody);
+
+    const ringColliderDesc = RAPIER3D.ColliderDesc.trimesh(ring.vertices, ring.indexes);
+    const shieldColliderDesc = RAPIER3D.ColliderDesc.trimesh(shield.vertices, shield.indexes);
+    const gridColliderDesc = RAPIER3D.ColliderDesc.trimesh(grid.vertices, grid.indexes);
+
+    ringBody.collider = {
+      ring: world.createCollider(ringColliderDesc, ringBody),
+      shield: world.createCollider(shieldColliderDesc, ringBody),
+      grid: world.createCollider(gridColliderDesc, ringBody)
+    };
+
     return ringBody;
   }
 }

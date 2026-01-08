@@ -40,7 +40,7 @@ export const mainSceneSettings = {
       protectedAngle: 10,
       speed: {
         s: 1.5,
-        m: 4,
+        m: 3,
         l: 9,
         xl: 20
       },
@@ -67,6 +67,13 @@ export const mainSceneSettings = {
     transparent: true,
     startData: {
       position: {x: 0, y: 1.2, z: -5}
+    },
+    grid: {
+      height: 0.075,
+      radsProportion: 0.825,
+      radialSegments: 32,
+      heightSegments: 32,
+      openEnded: true
     }
   },
 
