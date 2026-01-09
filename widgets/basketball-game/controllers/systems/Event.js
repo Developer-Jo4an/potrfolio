@@ -2,7 +2,7 @@ import System from "../../../../shared/scene/ecs/core/System";
 import EventComponent from "../../../../shared/scene/ecs/base/components/EventComponent";
 import {CHARACTER} from "../../entities/character";
 import {DRAG_END, DRAG_MOVE, DRAG_START} from "../../../../shared/constants/events/eventsNames";
-import {COLLISION_END, COLLISION_START} from "../../constants/events";
+import {CLEAR_HIT, COLLISION_END, COLLISION_START} from "../../constants/events";
 import {GROUND} from "../../entities/ground";
 
 export default class Event extends System {
@@ -26,6 +26,13 @@ export default class Event extends System {
     const csCollisionEvent = eCharacter.getSome(EventComponent, COLLISION_START, COLLISION_END);
     if (!!csCollisionEvent?.length)
       csCollisionEvent.forEach(cEvent => eCharacter.remove(cEvent));
+
+    const cClearHitEvent = eCharacter.getSome(EventComponent, CLEAR_HIT);
+    if (!!cClearHitEvent?.length) {
+      const {eventBus} = this;
+      eventBus.dispatchEvent({type: CLEAR_HIT});
+      cClearHitEvent.forEach(cClearHitEvent => eCharacter.remove(cClearHitEvent));
+    }
   }
 
   updateGroundEvents({eGround}) {

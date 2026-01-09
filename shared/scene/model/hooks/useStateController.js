@@ -12,7 +12,7 @@ import {INDEX} from "../../../constants/pages/routes";
 import {OFF, ON} from "../../../constants/helpful/statuses";
 
 export default function useStateController(wrapper, ignoreNextStates, stateMachine) {
-  const {gameData, getGameConfig} = useDunkShotStore();
+  const {getGameConfig} = useDunkShotStore();
   const {add, close} = useModalStore();
   const {redirect} = useAppCallbacks();
 

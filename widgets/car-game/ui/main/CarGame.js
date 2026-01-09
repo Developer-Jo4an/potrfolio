@@ -31,10 +31,10 @@ export default function CarGame() {
   useStateControls(wrapper, CAR_STATE_MACHINE, IGNORE_NEXT_STATES, useMemo(() => {
     if (!wrapper) return {};
     return {
-      async [LOSE](promise, setState) {
+      async [LOSE](promise, toNextState) {
         await promise;
         await wrapper.reset();
-        setState();
+        toNextState();
       }
     };
   }, [wrapper]));

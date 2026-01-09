@@ -1,0 +1,67 @@
+@use "../../../../application/styles/constants" as constants;
+@use "../../../../application/styles/mixins" as mixins;
+
+.boosters {
+  width: 100%;
+  max-width: 450px;
+
+  position: absolute;
+  bottom: 40px;
+  left: 50%;
+
+  transform: translateX(-50%);
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+}
+
+.booster {
+  width: 75px;
+  height: 50px;
+
+  background-color: constants.$ORANGE;
+
+  display: flex;
+  gap: 5px;
+
+  position: relative;
+
+  border-radius: 20px 0 20px 0;
+
+  transition: .3s opacity ease-in-out, .3s transform ease-in-out;
+
+  img {
+    height: 80%
+  }
+
+  @include mixins.button-hover;
+}
+
+.boosterCount {
+  position: absolute;
+  top: 0;
+  right: 0;
+
+  width: 25px;
+  height: 25px;
+
+  font-family: KogniGear, Discovery, sans-serif;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  border-radius: 0 0 0 10px;
+
+  background-color: constants.$TURQUOISE;
+}
+
+.boosterActive {
+  transform: scale(1.2);
+}
+
+.boosterInactive {
+  opacity: 0.5;
+}

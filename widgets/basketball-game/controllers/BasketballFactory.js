@@ -7,11 +7,13 @@ import {SCENE_FROM_BLENDER} from "../constants/preload";
 import {GROUND, GROUND_BODY} from "../entities/ground";
 import {
   RING,
-  RING_BODY, RING_GRID,
+  RING_BODY,
+  RING_GRID,
   RING_GRID_VIEW_NAME,
   RING_SHIELD,
   RING_SHIELD_VIEW_NAME,
-  RING_VIEW_NAME
+  RING_VIEW_NAME,
+  SENSOR
 } from "../entities/ring";
 
 const METHODS = {
@@ -114,7 +116,7 @@ export default class BasketballFactory extends Factory {
     return ringContainer;
   }
 
-  [createMethod(METHODS.create, RING_BODY)]({ring, shield, grid}) {
+  [createMethod(METHODS.create, RING_BODY)]({ring, shield, grid, sensor}) {
     const {defaultProperties: {storage: {world}}} = this;
     const ringBodyDesc = RAPIER3D.RigidBodyDesc.fixed();
     const ringBody = world.createRigidBody(ringBodyDesc);
@@ -128,6 +130,12 @@ export default class BasketballFactory extends Factory {
     const ringCollider = world.createCollider(ringColliderDesc, ringBody);
     ringCollider.userData = {id: RING};
 
+    const sensorColliderDesc = RAPIER3D.ColliderDesc.ball(sensor.radius);
+    sensorColliderDesc.setSensor(true);
+    sensorColliderDesc.setTranslation(...sensor.translation);
+    const sensorCollider = world.createCollider(sensorColliderDesc, ringBody);
+    sensorCollider.userData = {id: SENSOR};
+
     const shieldColliderDesc = RAPIER3D.ColliderDesc.trimesh(shield.vertices, shield.indexes);
     const shieldCollider = world.createCollider(shieldColliderDesc, ringBody);
     shieldCollider.userData = {id: RING_SHIELD};
@@ -139,7 +147,8 @@ export default class BasketballFactory extends Factory {
     ringBody.collider = {
       ring: ringCollider,
       shield: shieldCollider,
-      grid: gridCollider
+      grid: gridCollider,
+      sensor: sensorCollider
     };
 
     return ringBody;

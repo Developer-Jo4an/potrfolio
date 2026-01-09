@@ -70,6 +70,7 @@ export default class Level extends System {
           ring: {
             tube,
             geometryRotation,
+            sensor,
             grid,
             transparent,
             startData: {position}
@@ -120,7 +121,7 @@ export default class Level extends System {
       grid.heightSegments,
       grid.openEnded,
       grid.thetaStart,
-      grid.thetaLength,
+      grid.thetaLength
     );
     const gridOffsetMatrix = new THREE.Matrix4();
     gridOffsetMatrix.makeTranslation(0, -grid.height / 2, 0);
@@ -150,7 +151,8 @@ export default class Level extends System {
         vertices: gridViewVertices,
         indexes: gridViewIndexes,
         extraProps: {}
-      }
+      },
+      sensor
     });
 
     ringBody.setTranslation(position);
@@ -184,7 +186,7 @@ export default class Level extends System {
     groundBody.collider.setFriction(friction);
     groundBody.collider.setRestitution(restitution);
     groundBody.collider.setFrictionCombineRule(RAPIER3D.CoefficientCombineRule.Max);
-    groundBody.collider.setRestitutionCombineRule(RAPIER3D.CoefficientCombineRule.Max);
+    groundBody.collider.setRestitutionCombineRule(RAPIER3D.CoefficientCombineRule.Average);
     groundBody.collider.setActiveEvents(RAPIER3D.ActiveEvents.COLLISION_EVENTS);
   }
 

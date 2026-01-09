@@ -2,6 +2,8 @@ import {useRef, useMemo} from "react";
 import useLoadScene from "../../../../shared/scene/model/hooks/useLoadScene";
 import useStateControls from "../../../../shared/scene/model/hooks/useStateControls";
 import Background from "../background/Background";
+import Effects from "../effects/Effects";
+import Boosters from "../boosters/Boosters";
 import useBasketballStore from "../../model/state-manager/basketballStore";
 import gsap from "gsap";
 import imports from "../../../../shared/scene/lib/import";
@@ -14,7 +16,7 @@ import {BASKETBALL} from "../../constants/game";
 import styles from "./BasketballGame.module.scss";
 
 export default function BasketballGame() {
-  const {wrapper, setWrapper} = useBasketballStore();
+  const {wrapper, setWrapper, setState} = useBasketballStore();
   const containerRef = useRef();
 
   useLoadScene({
@@ -39,12 +41,14 @@ export default function BasketballGame() {
         toNextState();
       }
     };
-  }, [wrapper]));
+  }, [wrapper]), setState);
 
   return (
     <div className={styles.basketballGame}>
       <Background/>
       <div ref={containerRef} className={styles.basketballContainer}/>
+      <Effects/>
+      <Boosters/>
     </div>
   );
 }

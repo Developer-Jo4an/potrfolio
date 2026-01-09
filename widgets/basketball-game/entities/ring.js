@@ -7,3 +7,5 @@ export const RING_SHIELD_VIEW_NAME = "shield";
 
 export const RING_GRID = "ringGrid";
 export const RING_GRID_VIEW_NAME = "grid";
+
+export const SENSOR = "sensor";

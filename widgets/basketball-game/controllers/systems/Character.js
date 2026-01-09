@@ -1,6 +1,5 @@
 import System from "../../../../shared/scene/ecs/core/System";
 import EventComponent from "../../../../shared/scene/ecs/base/components/EventComponent";
-import Matrix4Component from "../../../../shared/scene/ecs/base/components/transform/Matrix4Component";
 import Body from "../../../../shared/scene/ecs/rapier/components/Body";
 import ThreeComponent from "../../../../shared/scene/ecs/three/components/ThreeComponent";
 import GSAPTween from "../../../../shared/scene/ecs/base/components/tween/GSAPTween";
@@ -10,10 +9,10 @@ import returnCharacterToInitialPositionTween from "../../lib/animations/returnCh
 import teleportActorToInitialPositionTween from "../../lib/animations/teleportActorToInitialPositionTween";
 import {CHARACTER} from "../../entities/character";
 import {DRAG_END, DRAG_MOVE, DRAG_START} from "../../../../shared/constants/events/eventsNames";
-import {COLLISION_START} from "../../constants/events";
+import {CLEAR_HIT, COLLISION_START} from "../../constants/events";
 import {GROUND} from "../../entities/ground";
 import {TWEENS} from "../../constants/tweens";
-import {RING} from "../../entities/ring";
+import {RING, RING_BODY, RING_GRID, RING_SHIELD, SENSOR} from "../../entities/ring";
 
 export default class Character extends System {
 
@@ -200,31 +199,48 @@ export default class Character extends System {
     if (!gameSpace.thrown) return;
 
     const collisions = eCharacter.getSome(EventComponent, COLLISION_START);
-    if (!collisions.some(({data: {entity}}) => entity.type === GROUND)) return;
 
-    const cTween = eCharacter.get(GSAPTween);
-    if (cTween.has(TWEENS.teleportOnInitialPosition)) return;
+    const isHasCollisionWithGround = collisions.some(({data: {entity}}) => entity.type === GROUND);
+    if (isHasCollisionWithGround) {
+      const cTween = eCharacter.get(GSAPTween);
+      if (!cTween.has(TWEENS.teleportOnInitialPosition)) {
+        const {storage: {mainSceneSettings: {character: {startData: {position, rotation}}}}} = this;
+        const cThreeComponent = eCharacter.get(ThreeComponent);
+        const cBody = eCharacter.get(Body);
 
-    const {storage: {mainSceneSettings: {character: {startData: {position, rotation}}}}} = this;
-    const cThreeComponent = eCharacter.get(ThreeComponent);
-    const cBody = eCharacter.get(Body);
+        const teleportTween = teleportActorToInitialPositionTween(
+          cThreeComponent.threeObject,
+          () => {
+            cBody.object.setBodyType(RAPIER3D.RigidBodyType.KinematicPositionBased);
+            cBody.object.setLinvel({x: 0, y: 0, z: 0});
+            cBody.object.setAngvel({x: 0, y: 0, z: 0});
+            cBody.object.setTranslation(position);
+            cBody.object.setRotation(new THREE.Quaternion().setFromEuler(new THREE.Euler().setFromVector3(rotation)));
+          }
+        );
+        cTween.add(teleportTween);
+        teleportTween.eventCallback("onComplete", () => {
+          cTween.remove(teleportTween.id);
+        });
 
-    const teleportTween = teleportActorToInitialPositionTween(
-      cThreeComponent.threeObject,
-      () => {
-        cBody.object.setBodyType(RAPIER3D.RigidBodyType.KinematicPositionBased);
-        cBody.object.setLinvel({x: 0, y: 0, z: 0});
-        cBody.object.setAngvel({x: 0, y: 0, z: 0});
-        cBody.object.setTranslation(position);
-        cBody.object.setRotation(new THREE.Quaternion().setFromEuler(new THREE.Euler().setFromVector3(rotation)));
+        gameSpace.thrown = false;
+        gameSpace.isCollisionWithRing = false;
+        gameSpace.isCollisionWithSensor = false;
       }
-    );
-    cTween.add(teleportTween);
-    teleportTween.eventCallback("onComplete", () => {
-      cTween.remove(teleportTween.id);
-    });
+    }
 
-    gameSpace.thrown = false;
+    const isHasCollisionWithRing = collisions.some(({data: {collider}}) => [RING_BODY, RING_SHIELD, RING_GRID].includes(collider.userData.id));
+    if (isHasCollisionWithRing)
+      gameSpace.isCollisionWithRing = true;
+
+    const isHasCollisionWithSensor = collisions.some(({data: {collider}}) => collider.userData.id === SENSOR);
+    if (isHasCollisionWithSensor) {
+      if (!gameSpace.isCollisionWithSensor && !gameSpace.isCollisionWithRing) {
+        const {eventBus} = this;
+        eCharacter.add(new EventComponent({eventBus, type: CLEAR_HIT}));
+      }
+      gameSpace.isCollisionWithSensor = true;
+    }
   }
 
   update() {

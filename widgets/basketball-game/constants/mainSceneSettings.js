@@ -12,7 +12,7 @@ export const mainSceneSettings = {
     receiveShadow: false,
     roughness: 0.75,
     metalness: 0.25,
-    restitution: 0.7,
+    restitution: 0.25,
     friction: 0.4,
     linearDamping: 0,
     angularDamping: 0,
@@ -39,8 +39,8 @@ export const mainSceneSettings = {
       duration: 1,
       speed: {
         s: 1.5,
-        m: 3,
-        l: 9,
+        m: 4.5,
+        l: 5.5,
         xl: 20
       },
       angvel: {
@@ -57,7 +57,7 @@ export const mainSceneSettings = {
     depth: 1000,
     opacity: 0.3,
     friction: 0,
-    restitution: 0,
+    restitution: 1.25,
     castShadow: false,
     receiveShadow: true
   },
@@ -68,13 +68,17 @@ export const mainSceneSettings = {
       position: {x: 0, y: 1.2, z: -5}
     },
     grid: {
-      height: 0.075,
-      radsProportion: 0.825,
+      height: 0.1,
+      radsProportion: 0.75,
       radialSegments: 32,
       heightSegments: 32,
       openEnded: true,
       thetaStart: -Math.PI / 2,
       thetaLength: Math.PI
+    },
+    sensor: {
+      radius: 0.02,
+      translation: [0, -0.15, 0]
     },
     geometryRotation: {x: Math.PI / 2, y: 0, z: 0},
     tube: 0.015
