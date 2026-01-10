@@ -16,12 +16,12 @@ import Collision from "./systems/Collision";
 import CameraFlying from "../../../shared/scene/debug/three/CameraFlying";
 import getIsDebug from "../../../shared/lib/debug/debug";
 import eventSubscription from "../../../shared/lib/events/eventListener";
-import {cloneDeep} from "lodash";
 import {analysis} from "../../../shared/scene/analytics/Analytics";
 import {UPDATED} from "../../../shared/scene/constants/events/names";
 import {RESIZE} from "../../../shared/constants/events/eventsNames";
 import {UPDATE_DECORATOR_FIELD} from "../../../shared/scene/constants/decorators/names";
-import {BASKETBALL, GAME_SPACE} from "../constants/game";
+import {BASKETBALL} from "../constants/game";
+import gameSpaceStore from "../model/storages/gameSpace";
 
 export default class Controller extends ThreeController {
   constructor() {
@@ -78,7 +78,11 @@ export default class Controller extends ThreeController {
     storage.decorators = decorators;
     storage.renderer = renderer;
     storage.canvas = canvas;
-    storage.gameSpace = cloneDeep(GAME_SPACE);
+    storage.gameSpace = {
+      get: gameSpaceStore.getSnapshot,
+      set: gameSpaceStore.set,
+      reset: gameSpaceStore.reset
+    };
     storage.eventQueue = new RAPIER3D.EventQueue(true);
 
     engine
@@ -126,11 +130,12 @@ export default class Controller extends ThreeController {
   }
 
   reset() {
-    const {storage, storage: {gameSpace, eventQueue, debugRenderer, cameraFlying}} = this;
+    const {storage, storage: {gameSpace: {get, reset, set}, eventQueue, debugRenderer, cameraFlying}} = this;
 
+    const gameSpace = get();
     gameSpace.serviceData.clearFunctions.forEach(func => func());
-    gameSpace.serviceData.clearFunctions.length = 0;
-    storage.gameSpace = cloneDeep(GAME_SPACE);
+    set(({serviceData: {clearFunctions}}) => clearFunctions.length = 0);
+    reset();
 
     eventQueue.free();
     eventQueue.clear();

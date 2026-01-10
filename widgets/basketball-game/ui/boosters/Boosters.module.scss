@@ -37,6 +37,10 @@
   }
 
   @include mixins.button-hover;
+
+  &[disabled] {
+    opacity: 0.5;
+  }
 }
 
 .boosterCount {

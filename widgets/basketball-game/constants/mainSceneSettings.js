@@ -1,3 +1,5 @@
+import {CLEAR_HIT} from "./boosters";
+
 export const mainSceneSettings = {
   world: {
     gravity: {
@@ -60,6 +62,12 @@ export const mainSceneSettings = {
     restitution: 1.25,
     castShadow: false,
     receiveShadow: true
+  },
+
+  boosters: {
+    [CLEAR_HIT]: {
+      time: 1
+    }
   },
 
   ring: {

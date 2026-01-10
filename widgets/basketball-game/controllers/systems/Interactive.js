@@ -22,7 +22,7 @@ export default class Interactive extends System {
   }
 
   initializationLevelSelect() {
-    const {interactionManager, storage: {gameSpace: {serviceData}}} = this;
+    const {interactionManager, storage: {gameSpace: {set}}} = this;
 
     const eCharacter = this.getFirstEntityByType(CHARACTER);
     const cThreeComponent = eCharacter.get(ThreeComponent);
@@ -37,20 +37,28 @@ export default class Interactive extends System {
 
     interactionManager.add(cThreeComponent.threeObject);
 
-    serviceData.clearFunctions.push(() => {
-      interactionManager.remove(cThreeComponent.threeObject);
-      clearEvents();
-    });
+    set(
+      ({serviceData: {clearFunctions}}) => {
+        clearFunctions.push(() => {
+          interactionManager.remove(cThreeComponent.threeObject);
+          clearEvents();
+        });
+      }
+    );
   }
 
   get isAvailableInteractive() {
-    const {storage: {gameSpace: {returnsBack, thrown}}} = this;
-    return !returnsBack && !thrown;
+    const {storage: {gameSpace: {get}}} = this;
+    const {characterMovement: {returnsBack, thrown}, activeBooster} = get();
+    return !returnsBack && !thrown && !activeBooster;
   }
 
   onStart({originalEvent}) {
     const {isAvailableInteractive} = this;
     if (!isAvailableInteractive) return;
+
+    const {storage: {gameSpace: {set}}} = this;
+    set(({characterMovement}) => characterMovement.isDrag = true);
 
     const eCharacter = this.getFirstEntityByType(CHARACTER);
     const cEvent = this.createInteractiveEvent(DRAG_START, originalEvent);
@@ -80,6 +88,9 @@ export default class Interactive extends System {
     const isHasDragStart = csEvent[0]?.type === DRAG_START;
 
     if (isHasDragStart) {
+      const {storage: {gameSpace: {set}}} = this;
+      set(({characterMovement}) => characterMovement.isDrag = false);
+
       const cEvent = this.createInteractiveEvent(DRAG_END, e);
       eCharacter.add(cEvent);
     }

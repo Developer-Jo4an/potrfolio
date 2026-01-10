@@ -4,6 +4,6 @@ export default function useBoosters() {
   const {wrapper} = useBasketballStore();
 
   return (type) => {
-    console.log(type);
+    wrapper.activateBooster(type);
   };
 }
