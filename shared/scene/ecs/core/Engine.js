@@ -241,7 +241,7 @@ export default class Engine {
   }
 
   /**
-   * Сборс систем
+   * Сброс систем
    */
   reset() {
     this.systems.list.forEach(system => system.reset());

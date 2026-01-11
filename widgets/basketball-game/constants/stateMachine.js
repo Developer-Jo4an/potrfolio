@@ -19,7 +19,8 @@ export const BASKETBALL_STATE_MACHINE = {
   },
   [PLAYING]: {
     availableStates: [LOSE, WIN, PAUSED],
-    isAvailableUpdate: true
+    isAvailableUpdate: true,
+    isAvailableInteractive: true
   },
   [PAUSED]: {
     availableStates: [PLAYING]
@@ -27,12 +28,12 @@ export const BASKETBALL_STATE_MACHINE = {
   [LOSE]: {
     availableStates: [INITIALIZATION_LEVEL],
     nextState: INITIALIZATION_LEVEL,
-    isEndGame: true
+    isAvailableUpdate: true
   },
   [WIN]: {
     availableStates: [INITIALIZATION_LEVEL],
     nextState: INITIALIZATION_LEVEL,
-    isEndGame: true
+    isAvailableUpdate: true
   }
 };
 

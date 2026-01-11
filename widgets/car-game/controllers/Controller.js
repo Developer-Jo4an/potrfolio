@@ -105,8 +105,9 @@ export default class Controller extends PIXIController {
   }
 
   reset() {
-    const {ticker} = this;
-    ticker.stop();
+    const {decorators} = this;
+    const updateDecorator = decorators[UPDATE_DECORATOR_FIELD];
+    updateDecorator.stopUpdate();
 
     const {storage} = this;
     const {gameSpace: {serviceData: {clearFunctions}}} = storage;

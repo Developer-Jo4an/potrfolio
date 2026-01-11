@@ -20,7 +20,6 @@ export default function DunkShotGame() {
     <>
       <div ref={containerRef} className={styles.dunkShotContainer}>
         <TopMenu
-          className={styles.topMenu}
           ref={topMenuEls}
           lifes={{count: lifes}}
           pause={{events: {onClick: isCanPressPause && onPause}}}

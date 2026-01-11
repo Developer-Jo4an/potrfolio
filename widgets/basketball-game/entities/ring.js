@@ -9,3 +9,7 @@ export const RING_GRID = "ringGrid";
 export const RING_GRID_VIEW_NAME = "grid";
 
 export const SENSOR = "sensor";
+
+export const ANIMATIONS = {
+  grid: "grid"
+};

@@ -6,6 +6,7 @@ export default function Button(
   {
     ref,
     className,
+    style = {},
     isDisabled: disabled = false,
     isDisposable = false,
     timeout = 300,
@@ -17,7 +18,7 @@ export default function Button(
 
   const {onClick: click, otherEvents = {}} = events;
 
-  const {onClick, isDisabled} = useButtonClickControls({
+  const onClick = useButtonClickControls({
     onClick: click,
     timeout,
     isDisposable,
@@ -28,9 +29,10 @@ export default function Button(
   return (
     <button
       ref={ref}
+      style={style}
       className={getTruthClasses(styles.button, className)}
       onClick={onClick}
-      disabled={disabled || isDisabled}
+      disabled={disabled}
       {...otherEvents}
     >
       {children}

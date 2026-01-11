@@ -8,3 +8,5 @@ export const states = {
 };
 
 export const CHARACTER_VIEW_NAME = "ball";
+
+export const TRAIL = "trail";

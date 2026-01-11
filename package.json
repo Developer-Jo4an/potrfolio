@@ -33,6 +33,7 @@
     "stats.js": "^0.17.0",
     "three": "^0.181.2",
     "three.interactive": "1.1.0",
+    "three.quarks": "^0.16.0",
     "uuid": "^13.0.0",
     "zustand": "^5.0.6"
   },

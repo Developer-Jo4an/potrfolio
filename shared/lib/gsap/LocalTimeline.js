@@ -33,7 +33,7 @@ export default class LocalTimeline {
 
     Animation.prototype.save = function (namespace, id) {
       self.add(namespace, this);
-     (isString(id) || isFinite(id)) && (this.tweenId = id);
+      (isString(id) || isFinite(id)) && (this.tweenId = id);
       return this;
     };
 
@@ -58,10 +58,13 @@ export default class LocalTimeline {
     this.spaces[namespace].status = status;
   }
 
-  clear(namespace, toKill = true) {
+  clear(namespace, toKill = true, progress = 0) {
     const tweens = this.getTweensByNamespace(namespace);
 
-    toKill && tweens.forEach(tween => this.killTween(tween));
+    toKill && tweens.forEach(tween => {
+      tween.progress(progress);
+      this.killTween(tween);
+    });
 
     this.spaces[namespace].arr = [];
   }
@@ -69,7 +72,7 @@ export default class LocalTimeline {
   add(namespace, tween) {
     const currentStatus = this.getStatusByNamespace(namespace);
 
-    tween[({playing: "play", paused: "pause"})[currentStatus]]?.();
+    tween[({playing: "resume", paused: "pause"})[currentStatus]]?.();
 
     const tweens = this.getTweensByNamespace(namespace);
 
@@ -89,7 +92,14 @@ export default class LocalTimeline {
   }
 
   delete(namespace, tween, toKill) {
-    const tweens = this.getTweensByNamespace(namespace);
+    let tweens;
+    if (namespace)
+      tweens = this.getTweensByNamespace(namespace);
+    else {
+      const [namespaceId, currentSpace] = Object.entries(this.spaces).find(([, {arr}]) => arr.some(insideSpaceTween => insideSpaceTween === tween));
+      tweens = currentSpace.arr;
+      namespace = namespaceId;
+    }
 
     toKill && this.killTween(tween);
 
@@ -120,7 +130,7 @@ export default class LocalTimeline {
   play(namespace) {
     const tweens = this.getTweensByNamespace(namespace);
 
-    tweens.forEach(tween => tween.play());
+    tweens.forEach(tween => tween.resume());
 
     this.setStatus(namespace, LocalTimeline.statuses.playing);
   }
@@ -132,7 +142,7 @@ export default class LocalTimeline {
     }
 
     if (tween.paused())
-      tween.play();
+      tween.resume();
 
     tween.kill();
     tween.isKilled = true;
@@ -144,9 +154,5 @@ export default class LocalTimeline {
 
   getStatusByNamespace(namespace) {
     return this.spaces[namespace]?.status;
-  }
-
-  getNamespace(namespace) {
-    return this.spaces[namespace];
   }
 }

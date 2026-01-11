@@ -1,5 +1,6 @@
 import gsap from "gsap";
 import {TWEENS} from "../../constants/tweens";
+import {BASKETBALL} from "../../constants/game";
 
 const settings = {
   speed: 3
@@ -22,5 +23,5 @@ export default function returnCharacterToInitialPositionTween(body, target) {
       const {x, y, z} = proxy;
       body.setTranslation({x, y, z});
     }
-  });
+  }).save(BASKETBALL);
 }

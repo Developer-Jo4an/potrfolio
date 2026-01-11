@@ -1,10 +1,12 @@
 import System from "../../../../shared/scene/ecs/core/System";
 import ThreeComponent from "../../../../shared/scene/ecs/three/components/ThreeComponent";
 import EventComponent from "../../../../shared/scene/ecs/base/components/EventComponent";
+import State from "../../../../shared/scene/ecs/base/components/state/State";
 import eventSubscription from "../../../../shared/lib/events/eventListener";
 import getEventPosition from "../../../../shared/lib/events/eventPosition";
 import {CHARACTER} from "../../entities/character";
 import {DRAG_END, DRAG_MOVE, DRAG_START, END, MOVE, START} from "../../../../shared/constants/events/eventsNames";
+import {GAME} from "../../constants/game";
 
 export default class Interactive extends System {
   constructor() {
@@ -48,9 +50,11 @@ export default class Interactive extends System {
   }
 
   get isAvailableInteractive() {
-    const {storage: {gameSpace: {get}}} = this;
+    const {storage: {states, gameSpace: {get}}} = this;
     const {characterMovement: {returnsBack, thrown}, activeBooster} = get();
-    return !returnsBack && !thrown && !activeBooster;
+    const eGame = this.getFirstEntityByType(GAME);
+    const cState = eGame.get(State);
+    return !returnsBack && !thrown && !activeBooster && !!states[cState.state]?.isAvailableInteractive;
   }
 
   onStart({originalEvent}) {

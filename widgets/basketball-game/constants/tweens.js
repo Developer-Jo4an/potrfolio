@@ -1,4 +1,5 @@
 export const TWEENS = {
   returnOnInitialPosition: "returnOnInitialPosition",
-  teleportOnInitialPosition: "teleportOnInitialPosition"
+  teleportOnInitialPosition: "teleportOnInitialPosition",
+  hitMessage: "hitMessage",
 };

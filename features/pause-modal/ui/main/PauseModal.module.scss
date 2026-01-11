@@ -14,6 +14,11 @@
   justify-content: center;
   align-items: center;
   gap: 20px;
+
+  &[data-mod="basketball"] {
+    background: radial-gradient(71.75% 71.75% at 50% 50%, #FFBC05 0%, #FF9933 13.94%, #4F0C0B 100%);
+    padding: 30px;
+  }
 }
 
 .title {
@@ -44,28 +49,65 @@
   width: 90%;
   height: 60px;
 
+  position: relative;
+  z-index: 0;
+
   font-size: 20px;
   font-family: Discovery, KogniGear, sans-serif;
   font-weight: bold;
-  color: constants.$WHITE;
 
   padding: 10px;
-
-  border-radius: 20px 0 20px 0;
 
   transition: .3s transform ease-in-out;
 
   @include mixins.button-hover;
 }
 
-.onButton {
-  background-color: constants.$GREEN;
+.buttonBackground {
+  position: absolute;
+  top: 0;
+  left: 0;
+
+  width: 100%;
+  height: 100%;
+
+  z-index: -1;
 }
 
-.offButton {
-  background-color: constants.$VIOLET;
+.pauseModal[data-mod="default"] {
+  .continueButton {
+    .buttonText {
+      background-color: constants.$GREEN;
+    }
+  }
+
+  .closeButton {
+    .buttonText {
+      background-color: constants.$VIOLET;
+    }
+  }
 }
 
-.dunkShot {
-  background-color: constants.$PINK;
+.pauseModal[data-mod="basketball"] {
+  .continueButton {
+    .buttonText {
+      position: relative;
+      top: 2px;
+      font-family: Satoshi, Discovery, sans-serif;
+      font-weight: normal;
+      font-size: 22px;
+      color: #FFEBD4;
+    }
+  }
+
+  .closeButton {
+    .buttonText {
+      position: relative;
+      top: 2px;
+      font-family: Satoshi, Discovery, sans-serif;
+      font-weight: normal;
+      font-size: 22px;
+      color: #8B2703;
+    }
+  }
 }

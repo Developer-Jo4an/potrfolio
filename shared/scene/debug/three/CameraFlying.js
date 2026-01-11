@@ -109,7 +109,8 @@ export default class CameraFlying {
   }
 
   onStart(e) {
-    e.preventDefault();
+    if (e.cancelable)
+      e.preventDefault();
 
     const {cameraData} = this;
 
@@ -121,7 +122,8 @@ export default class CameraFlying {
   }
 
   onMove(e) {
-    e.preventDefault();
+    if (e.cancelable)
+      e.preventDefault();
 
     const {cameraData} = this;
 
@@ -140,7 +142,8 @@ export default class CameraFlying {
   }
 
   onEnd(e) {
-    e.preventDefault();
+    if (e.cancelable)
+      e.preventDefault();
 
     const {cameraData} = this;
 

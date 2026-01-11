@@ -2,7 +2,8 @@ import System from "../../../../shared/scene/ecs/core/System";
 import EventComponent from "../../../../shared/scene/ecs/base/components/EventComponent";
 import {CHARACTER} from "../../entities/character";
 import {DRAG_END, DRAG_MOVE, DRAG_START} from "../../../../shared/constants/events/eventsNames";
-import {CLEAR_HIT, COLLISION_END, COLLISION_START} from "../../constants/events";
+import {CLEAR_HIT, COLLISION_END, COLLISION_START, LOSE, MISS, THROWN, WIN} from "../../constants/events";
+import {WIN as WIN_STATUS, LOSE as LOSE_STATUS} from "../../constants/stateMachine";
 import {GROUND} from "../../entities/ground";
 
 export default class Event extends System {
@@ -32,6 +33,31 @@ export default class Event extends System {
       const {eventBus} = this;
       eventBus.dispatchEvent({type: CLEAR_HIT});
       cClearHitEvent.forEach(cClearHitEvent => eCharacter.remove(cClearHitEvent));
+    }
+
+    const cMissEvent = eCharacter.getSome(EventComponent, MISS);
+    if (!!cMissEvent?.length) {
+      const {eventBus} = this;
+      eventBus.dispatchEvent({type: MISS});
+      cMissEvent.forEach(cMissEvent => eCharacter.remove(cMissEvent));
+    }
+
+    const cThrown = eCharacter.getSome(EventComponent, THROWN);
+    if (!!cThrown.length)
+      cThrown.forEach(cThrownEvent => eCharacter.remove(cThrownEvent));
+
+    const cWin = eCharacter.getSome(EventComponent, WIN);
+    if (!!cWin?.length) {
+      const {eventBus} = this;
+      eventBus.dispatchEvent({type: WIN, status: WIN_STATUS});
+      cWin.forEach(cWinEvent => eCharacter.remove(cWinEvent));
+    }
+
+    const cLose = eCharacter.getSome(EventComponent, LOSE);
+    if (!!cLose?.length) {
+      const {eventBus} = this;
+      eventBus.dispatchEvent({type: LOSE, status: LOSE_STATUS});
+      cLose.forEach(cLoseEvent => eCharacter.remove(cLoseEvent));
     }
   }
 

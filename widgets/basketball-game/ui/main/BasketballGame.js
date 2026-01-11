@@ -1,54 +1,37 @@
-import {useRef, useMemo} from "react";
-import useLoadScene from "../../../../shared/scene/model/hooks/useLoadScene";
-import useStateControls from "../../../../shared/scene/model/hooks/useStateControls";
+import {useSyncExternalStore} from "react";
+import {Loader} from "../../../../shared/ui/loader";
+import {TopMenu} from "../../../../features/top-menu";
+import Canvas from "../canvas/Canvas";
 import Background from "../background/Background";
 import Effects from "../effects/Effects";
 import Boosters from "../boosters/Boosters";
+import usePause from "../../model/hooks/usePause";
 import useBasketballStore from "../../model/state-manager/basketballStore";
-import gsap from "gsap";
-import imports from "../../../../shared/scene/lib/import";
-import {BASKETBALL_STATE_MACHINE} from "../../constants/stateMachine";
-import {mainSceneSettings} from "../../constants/mainSceneSettings";
-import {preload} from "../../constants/preload";
-import {types} from "../../constants/types";
-import {IGNORE_NEXT_STATES, LOSE} from "../../../car-game/constants/stateMachine";
-import {BASKETBALL} from "../../constants/game";
+import {INITIALIZATION, INITIALIZATION_LEVEL} from "../../constants/stateMachine";
+import gameSpaceStore from "../../model/storages/gameSpace";
+import content from "../../constants/content";
 import styles from "./BasketballGame.module.scss";
 
+const {menu: {score, lifes, sound}} = content;
+
 export default function BasketballGame() {
-  const {wrapper, setWrapper, setState} = useBasketballStore();
-  const containerRef = useRef();
-
-  useLoadScene({
-    libraries: [imports.three, imports.rapier3d],
-    loadWrapper: () => import("../../controllers/Wrapper"),
-    beforeInit(wrapper) {
-      gsap.localTimeline.createSpace(BASKETBALL);
-      wrapper.controller.storage.states = BASKETBALL_STATE_MACHINE;
-      wrapper.controller.storage.types = types;
-    },
-    initProps: {stateMachine: BASKETBALL_STATE_MACHINE, mainSceneSettings, preload},
-    afterInit: setWrapper,
-    containerRef
-  });
-
-  useStateControls(wrapper, BASKETBALL_STATE_MACHINE, IGNORE_NEXT_STATES, useMemo(() => {
-    if (!wrapper) return {};
-    return {
-      async [LOSE](promise, toNextState) {
-        await promise;
-        await wrapper.reset();
-        toNextState();
-      }
-    };
-  }, [wrapper]), setState);
+  const {state} = useBasketballStore();
+  const gameSpace = useSyncExternalStore(gameSpaceStore.subscribe, gameSpaceStore.getSnapshot);
+  const pause = usePause({gameSpace});
 
   return (
     <div className={styles.basketballGame}>
       <Background/>
-      <div ref={containerRef} className={styles.basketballContainer}/>
+      <Canvas/>
+      <TopMenu
+        lifes={{count: gameSpace.gameData.lifes, ...lifes}}
+        score={{count: gameSpace.gameData.score, ...score}}
+        sound={sound}
+        pause={pause}
+      />
       <Effects/>
-      <Boosters/>
+      <Boosters gameSpace={gameSpace}/>
+      <Loader isPending={!state || [INITIALIZATION_LEVEL, INITIALIZATION].includes(state)}/>
     </div>
   );
 }

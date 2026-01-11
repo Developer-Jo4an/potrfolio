@@ -4,17 +4,21 @@ import Body from "../../../../shared/scene/ecs/rapier/components/Body";
 import ThreeComponent from "../../../../shared/scene/ecs/three/components/ThreeComponent";
 import GSAPTween from "../../../../shared/scene/ecs/base/components/tween/GSAPTween";
 import Matrix4Component from "../../../../shared/scene/ecs/base/components/transform/Matrix4Component";
+import State from "../../../../shared/scene/ecs/base/components/state/State";
+import Mixer from "../../../../shared/scene/ecs/three/components/Mixer";
 import {clamp, upperFirst} from "lodash";
 import {createAnimationFrame} from "../../../../shared/lib/browserApi/frames";
-import returnCharacterToInitialPositionTween from "../../lib/animations/returnCharacterToInitialPositionTween";
-import teleportActorToInitialPositionTween from "../../lib/animations/teleportActorToInitialPositionTween";
+import returnCharacterToInitialPositionTween from "../../utils/animations/returnCharacterToInitialPositionTween";
+import teleportActorToInitialPositionTween from "../../utils/animations/teleportActorToInitialPositionTween";
 import {CHARACTER} from "../../entities/character";
 import {DRAG_END, DRAG_MOVE, DRAG_START} from "../../../../shared/constants/events/eventsNames";
-import {CLEAR_HIT, COLLISION_START} from "../../constants/events";
+import {CLEAR_HIT, COLLISION_START, LOSE, MISS, THROWN, WIN} from "../../constants/events";
 import {GROUND} from "../../entities/ground";
 import {TWEENS} from "../../constants/tweens";
-import {RING, RING_BODY, RING_GRID, RING_SHIELD, SENSOR} from "../../entities/ring";
+import {ANIMATIONS, RING, RING_BODY, RING_GRID, RING_SHIELD, SENSOR} from "../../entities/ring";
 import {UUIDS} from "../../constants/systems";
+import {BASKETBALL, GAME} from "../../constants/game";
+import {WIN as WIN_STATE, LOSE as LOSE_STATE} from "../../constants/stateMachine";
 
 export default class Character extends System {
 
@@ -51,19 +55,42 @@ export default class Character extends System {
 
     const lastEvent = csEvent[csEvent.length - 1];
     if (lastEvent.type === DRAG_END)
-      this.throw({eCharacter, eRing});
+      this.tryThrow({eCharacter, eRing, csEvent});
   }
 
-  throw({eCharacter, eRing}) {
+  tryThrow({eCharacter, eRing, csEvent}) {
     const {storage: {mainSceneSettings: {character: {throw: {speed: {s}}}}}} = this;
 
-    const throwData = this.calculateThrowData(eCharacter);
-    const fullProps = {eCharacter, eRing, ...(throwData ?? {})};
+    const startEvent = csEvent[0];
+    const dragEvent = csEvent[csEvent.length - 2];
+    const endEvent = csEvent[csEvent.length - 1];
 
-    if (!throwData || throwData.speed < s)
-      this.returnCharacterToInitialPosition(fullProps);
-    else
-      this.throwBall(fullProps);
+    const isHasAllEvents = (
+      startEvent.type === DRAG_START &&
+      dragEvent?.type === DRAG_MOVE &&
+      endEvent.type === DRAG_END
+    );
+    if (!isHasAllEvents) {
+      this.returnCharacterToInitialPosition({eCharacter});
+      return;
+    }
+
+    const isSwipeToDown = dragEvent.data.cursor.fromScreenY < endEvent.data.cursor.fromScreenY;
+    if (isSwipeToDown) {
+      this.returnCharacterToInitialPosition({eCharacter});
+      return;
+    }
+
+    const throwData = this.calculateThrowData(eCharacter);
+
+    const isCanThrow = throwData && throwData.speed >= s;
+    if (!isCanThrow) {
+      this.returnCharacterToInitialPosition({eCharacter});
+      return;
+    }
+
+    const fullProps = {eCharacter, eRing, ...(throwData ?? {})};
+    this.throwBall(fullProps);
   }
 
   calculateThrowData(eCharacter) {
@@ -109,6 +136,7 @@ export default class Character extends System {
     cTween.add(returnTween);
     await new Promise(res => {
       returnTween.eventCallback("onComplete", () => {
+        returnTween.delete(BASKETBALL);
         cTween.remove(returnTween.id);
         res();
       });
@@ -151,6 +179,8 @@ export default class Character extends System {
       }));
 
       characterMovement.thrown = true;
+      const {eventBus} = this;
+      eCharacter.add(new EventComponent({eventBus, type: THROWN}));
     });
   }
 
@@ -237,6 +267,8 @@ export default class Character extends System {
         const impulse = new THREE.Vector3(xV, yV, zV).multiplyScalar(cBodyCharacter.object.mass());
         clearFunctions.push(createAnimationFrame(() => this.applyPhysicalPropertiesForThrow({impulse, angvel})));
         characterMovement.thrown = true;
+        const {eventBus} = this;
+        eCharacter.add(new EventComponent({eventBus, type: THROWN}));
       }
     );
   }
@@ -256,10 +288,13 @@ export default class Character extends System {
     cBody.object.setAngvel(angvel);
   }
 
-  checkCollision({eCharacter}) {
+  checkCollision({eGame, eCharacter, eRing}) {
     const {storage: {gameSpace: {set, get}}} = this;
+
     const gameSpace = get();
+
     if (!gameSpace.characterMovement.thrown) return;
+
 
     const collisions = eCharacter.getSome(EventComponent, COLLISION_START);
 
@@ -269,10 +304,25 @@ export default class Character extends System {
 
     const isHasCollisionWithSensor = collisions.some(({data: {collider}}) => collider.userData.id === SENSOR);
     if (isHasCollisionWithSensor) {
-      if (!gameSpace.characterMovement.isCollisionWithSensor && !gameSpace.characterMovement.isCollisionWithRing) {
-        const {eventBus} = this;
-        eCharacter.add(new EventComponent({eventBus, type: CLEAR_HIT}));
+      if (!gameSpace.characterMovement.isCollisionWithSensor) {
+        if (!gameSpace.characterMovement.isCollisionWithRing) {
+          const {eventBus} = this;
+          eCharacter.add(new EventComponent({eventBus, type: CLEAR_HIT}));
+        }
+
+        set(({gameData}) => {
+          gameData.score += 1 + Number(!gameSpace.characterMovement.isCollisionWithRing);
+        });
+
+        const cRingMixer = eRing.get(Mixer);
+        const action = cRingMixer.mixer.clipAction(cRingMixer.animations[ANIMATIONS.grid]);
+        cRingMixer.mixer.update(0);
+        cRingMixer.mixer.setTime(0);
+        action.setLoop(THREE.LoopOnce);
+        action.stop();
+        action.play();
       }
+
       set(({characterMovement}) => characterMovement.isCollisionWithSensor = true);
     }
 
@@ -296,22 +346,58 @@ export default class Character extends System {
         );
         cTween.add(teleportTween);
         teleportTween.eventCallback("onComplete", () => {
+          teleportTween.delete(BASKETBALL);
           cTween.remove(teleportTween.id);
           set(({characterMovement, booster}) => {
             booster.active = null;
             characterMovement.thrown = false;
+            gameSpace.characterMovement.isFlewSensor = false;
             characterMovement.isCollisionWithRing = false;
             characterMovement.isCollisionWithSensor = false;
           });
         });
       }
     }
+
+    const cCharacterBody = eCharacter.get(Body);
+    const cRingBody = eRing.get(Body);
+    const characterPosition = cCharacterBody.object.translation();
+    const characterLinvel = cCharacterBody.object.linvel();
+    const ringSensorPosition = cRingBody.object.collider.sensor.translation();
+    if (
+      characterLinvel.y < 0 &&
+      characterPosition.y <= ringSensorPosition.y - cCharacterBody.object.collider.shape.radius &&
+      !gameSpace.characterMovement.isFlewSensor &&
+      !gameSpace.characterMovement.isCollisionWithSensor
+    ) {
+      const {eventBus} = this;
+      eCharacter.add(new EventComponent({eventBus, type: MISS}));
+      gameSpace.characterMovement.isFlewSensor = true;
+      set(({gameData}) => gameData.lifes--);
+    }
+
+    const cState = eGame.get(State);
+
+    const isWin = gameSpace.gameData.score >= gameSpace.gameData.target;
+    if (isWin && cState.state !== WIN_STATE) {
+      const {eventBus} = this;
+      eCharacter.add(new EventComponent({eventBus, type: WIN}));
+      return;
+    }
+
+    const isLose = gameSpace.gameData.lifes <= 0;
+    if (isLose && cState.state !== LOSE_STATE) {
+      const {eventBus} = this;
+      eCharacter.add(new EventComponent({eventBus, type: LOSE}));
+      return;
+    }
   }
 
   update() {
     const eCharacter = this.getFirstEntityByType(CHARACTER);
     const eRing = this.getFirstEntityByType(RING);
-    const fullProps = {eCharacter, eRing};
+    const eGame = this.getFirstEntityByType(GAME);
+    const fullProps = {eGame, eCharacter, eRing};
     this.updateMovement(fullProps);
     this.checkCollision(fullProps);
   }

@@ -2,19 +2,31 @@
 @use "../../../../application/styles/mixins" as mixins;
 
 .pauseButton {
-  width: 60px;
+  width: 70px;
   height: 60px;
 
-  background: linear-gradient(45deg, rgb(231, 41, 66) 30%, rgb(240, 12, 163) 67%);
-
-  border-radius: 20px;
-
-  transition: .3s transform ease-in-out;
+  transition: .3s transform ease-in-out, .3s opacity ease-in-out;
+  position: relative;
 
   svg {
     font-size: 32px;
     color: constants.$WHITE;
   }
 
+  &[disabled] {
+    opacity: 0.5;
+  }
+
   @include mixins.button-hover;
+}
+
+.background {
+  width: 100%;
+  height: 100%;
+
+  position: absolute;
+  top: 4%;
+  left: 0;
+
+  z-index: -1;
 }

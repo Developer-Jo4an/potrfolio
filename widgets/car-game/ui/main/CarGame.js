@@ -2,6 +2,7 @@ import {useEffect, useMemo, useRef} from "react";
 import useLoadScene from "../../../../shared/scene/model/hooks/useLoadScene";
 import eventSubscription from "../../../../shared/lib/events/eventListener";
 import useStateControls from "../../../../shared/scene/model/hooks/useStateControls";
+import useResetScene from "../../../../shared/scene/model/hooks/useResetScene";
 import {Image} from "../../../../shared/ui/image";
 import useCarStore from "../../model/state-machine/carStore";
 import {types} from "../../constants/entities";
@@ -55,6 +56,8 @@ export default function CarGame() {
         ]
       });
   }, [wrapper]);
+
+  useResetScene({wrapper});
 
   return (
     <>

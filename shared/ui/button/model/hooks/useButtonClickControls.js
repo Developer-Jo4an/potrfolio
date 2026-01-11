@@ -17,12 +17,10 @@ export default function useButtonClickControls(
   const callEventFunctions = useCallEventFunctions({eventFunctions});
   const callCallbacks = useCallCallbacks({callbacksData});
 
-  const onClick = e => {
+  return e => {
     if (!checkDisposable() || !checkTimeout()) return;
     callEventFunctions(e);
     callCallbacks();
     isFunction(click) && click(e);
   };
-
-  return {onClick};
 }

@@ -1,20 +1,25 @@
-import useBasketballStore from "../../model/state-manager/basketballStore";
 import {useEffect, useRef, useState} from "react";
+import Image from "../../../../shared/ui/image/ui/main/Image";
 import eventSubscription from "../../../../shared/lib/events/eventListener";
-import clearHitTween from "../../lib/animations/clearHitTween";
-import {CLEAR_HIT} from "../../constants/events";
+import hitTween from "../../utils/animations/hitTween";
+import useBasketballStore from "../../model/state-manager/basketballStore";
+import {CLEAR_HIT, MISS} from "../../constants/events";
+import content from "../../constants/content";
 import styles from "./Effects.module.scss";
+
+const {effects: {clearHit, miss}} = content;
 
 export default function Effects() {
   const {wrapper} = useBasketballStore();
-  const [{isVisibleClearHitEffect}, setVisibleEffects] = useState({isVisibleClearHitEffect: false});
-  const animatedElements = useRef({clearHitEffect: null});
+  const [{isVisibleClearHitEffect, isVisibleMissEffect}, setVisibleEffects] = useState({
+    isVisibleClearHitEffect: false,
+    isVisibleMissEffect: false
+  });
+  const animatedElements = useRef({clearHitEffect: null, missEffect: null});
 
   useEffect(() => {
     if (!wrapper) return;
-
     const {eventBus} = wrapper;
-
     return eventSubscription({
       target: eventBus,
       callbacksBus: [
@@ -23,18 +28,40 @@ export default function Effects() {
           callback() {
             setVisibleEffects(prev => ({...prev, isVisibleClearHitEffect: true}));
           }
+        },
+        {
+          event: MISS,
+          callback() {
+            setVisibleEffects(prev => ({...prev, isVisibleMissEffect: true}));
+          }
         }
       ]
     });
   }, [wrapper]);
 
   useEffect(() => {
-    if (!isVisibleClearHitEffect) return;
+    if (!isVisibleClearHitEffect && !isVisibleMissEffect) return;
 
-    const clearHitElement = animatedElements.current.clearHitEffect;
+    const {clearHitEffect, missEffect} = animatedElements.current;
 
-    return clearHitTween(clearHitElement, () => setVisibleEffects(prev => ({...prev, isVisibleClearHitEffect: false})));
-  }, [isVisibleClearHitEffect]);
+    const animatedData = [
+      isVisibleClearHitEffect && {
+        DOMElement: clearHitEffect,
+        clear: () => setVisibleEffects(prev => ({...prev, isVisibleClearHitEffect: false}))
+      },
+      isVisibleMissEffect && {
+        DOMElement: missEffect,
+        clear: () => setVisibleEffects(prev => ({...prev, isVisibleMissEffect: false}))
+      }
+    ].filter(Boolean);
+
+    const clearFunctions = animatedData.map(({DOMElement, clear}) => {
+      const tween = hitTween(DOMElement, clear);
+      return () => tween.delete();
+    });
+
+    return () => clearFunctions.forEach(func => func());
+  }, [isVisibleClearHitEffect, isVisibleMissEffect]);
 
   return (
     <div className={styles.effects}>
@@ -42,7 +69,18 @@ export default function Effects() {
         <div
           ref={ref => animatedElements.current.clearHitEffect = ref}
           className={styles.clearHitEffect}
-        />
+        >
+          <Image {...clearHit.img}/>
+        </div>
+      }
+
+      {isVisibleMissEffect &&
+        <div
+          ref={ref => animatedElements.current.missEffect = ref}
+          className={styles.missEffect}
+        >
+          <Image {...miss.img}/>
+        </div>
       }
     </div>
   );

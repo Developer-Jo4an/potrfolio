@@ -26,11 +26,18 @@ export default gameSpaceStore;
 
 function getDefaultValue() {
   return {
+    gameData: {
+      balls: 10,
+      score: 0,
+      target: 10,
+      lifes: 3
+    },
     characterMovement: {
       returnsBack: false,
       thrown: false,
       isCollisionWithRing: false,
       isCollisionWithSensor: false,
+      isFlewSensor: false,
       isDrag: false
     },
     booster: {

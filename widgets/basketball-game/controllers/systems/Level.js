@@ -2,12 +2,24 @@ import System from "../../../../shared/scene/ecs/core/System";
 import Entity from "../../../../shared/scene/ecs/core/Entity";
 import ThreeComponent from "../../../../shared/scene/ecs/three/components/ThreeComponent";
 import Body from "../../../../shared/scene/ecs/rapier/components/Body";
+import Mixer from "../../../../shared/scene/ecs/three/components/Mixer";
 import {mean} from "lodash";
 import getVerticesWithDeep from "../../utils/getVerticesWithDeep";
+import add from "../../../../shared/scene/ecs/three/side-effects/add";
 import {CHARACTER, CHARACTER_BODY} from "../../entities/character";
 import {GROUND, GROUND_BODY} from "../../entities/ground";
-import {RING, RING_BODY, RING_GRID_VIEW_NAME, RING_SHIELD_VIEW_NAME, RING_VIEW_NAME} from "../../entities/ring";
+import {
+  ANIMATIONS,
+  RING,
+  RING_BODY,
+  RING_GRID_VIEW_NAME,
+  RING_SHIELD_VIEW_NAME,
+  RING_VIEW_NAME
+} from "../../entities/ring";
 import {X, Y, Z} from "../../../../shared/constants/trigonometry/trigonometry";
+import {assetsManager} from "../../../../shared/scene/assets/AssetsManager";
+import {GLTF, THREE_SPACE} from "../../../../shared/scene/constants/loaders/assetsTypes";
+import {SCENE_FROM_BLENDER} from "../../constants/preload";
 
 export default class Level extends System {
   initializationLevelSelect() {
@@ -25,6 +37,7 @@ export default class Level extends System {
             transparent,
             receiveShadow,
             castShadow,
+            opacity,
             metalness,
             roughness,
             angularDamping,
@@ -44,9 +57,10 @@ export default class Level extends System {
     characterView.material.transparent = transparent;
     characterView.material.metalness = metalness;
     characterView.material.roughness = roughness;
+    characterView.material.opacity = opacity;
     characterView.receiveShadow = receiveShadow;
     characterView.castShadow = castShadow;
-    scene.add(characterView);
+    this.addSideEffect({entity: eCharacter, effect: add, args: [characterView, scene]});
 
     const cBody = eCharacter.get(Body);
     const {geometry: {boundingBox: {min, max}}} = characterView;
@@ -87,7 +101,8 @@ export default class Level extends System {
       if (object.material)
         object.material.transparent = transparent;
     });
-    scene.add(ringContainer);
+    this.addSideEffect({entity: eRing, effect: add, args: [ringContainer, scene]});
+
 
     const ringView = ringContainer.getObjectByName(RING_VIEW_NAME);
     const ringBoundingBox = new THREE.Box3();
@@ -104,7 +119,21 @@ export default class Level extends System {
     const shieldView = ringContainer.getObjectByName(RING_SHIELD_VIEW_NAME);
     const {vertices: shieldViewVertices, indexes: shieldViewIndexes} = getVerticesWithDeep(shieldView);
 
+
     const gridView = ringContainer.getObjectByName(RING_GRID_VIEW_NAME);
+
+    const cGridMixer = eRing.get(Mixer);
+    cGridMixer.mixer = new THREE.AnimationMixer(gridView);
+    const {animations} = assetsManager.getAssetFromSpace(THREE_SPACE, GLTF, SCENE_FROM_BLENDER);
+    cGridMixer.animations = {[ANIMATIONS.grid]: THREE.AnimationClip.findByName(animations, ANIMATIONS.grid)};
+    this.addSideEffect({
+      entity: eRing,
+      effect: () => () => {
+        cGridMixer.mixer.stopAllAction();
+        gridView.children[0].skeleton.pose();
+      }
+    });
+
     const gridBoundingBox = new THREE.Box3();
     gridBoundingBox.setFromObject(ringView);
     const gridRadiusTop = Math.max(...[X, Y, Z].map(axis => {
@@ -129,6 +158,7 @@ export default class Level extends System {
     gridViewGeometry.dispose();
     const gridViewVertices = Array.from(gridViewGeometry.attributes.position.array);
     const gridViewIndexes = Array.from(gridViewGeometry.index.array);
+
 
     const cBody = eRing.get(Body);
     const ringBody = cBody.object = this.getAsset(eRing, RING_BODY, {
@@ -157,6 +187,8 @@ export default class Level extends System {
 
     ringBody.setTranslation(position);
     ringBody.collider.ring.setActiveEvents(RAPIER3D.ActiveEvents.COLLISION_EVENTS);
+    ringBody.collider.grid.setFriction(grid.friction);
+    ringBody.collider.grid.setRestitution(grid.restitution);
   }
 
   initGround() {
@@ -173,7 +205,7 @@ export default class Level extends System {
     groundView.receiveShadow = receiveShadow;
     groundView.castShadow = castShadow;
     cThreeComponent.threeObject = groundView;
-    scene.add(groundView);
+    this.addSideEffect({entity: eGroud, effect: add, args: [groundView, scene]});
 
     const eCharacter = this.getFirstEntityByType(CHARACTER);
     const cCharacterBody = eCharacter.get(Body);

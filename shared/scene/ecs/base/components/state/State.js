@@ -1,6 +1,9 @@
 import Component from "../../../core/Component";
 
 export default class State extends Component {
+
+  type = "state";
+
   states = null;
 
   _state = null;

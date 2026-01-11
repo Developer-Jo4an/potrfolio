@@ -752,6 +752,11 @@ proxy-from-env@^1.1.0:
   resolved "https://registry.yarnpkg.com/proxy-from-env/-/proxy-from-env-1.1.0.tgz#e102f16ca355424865755d2c9e8ea4f24d58c3e2"
   integrity sha512-D+zkORCbA9f1tdWRK0RaCR3GPv50cMxcrz4X8k5LTSUD1Dkw47mKJEZQNunItRTkWwgtaUSo1RVFRIG9ZXiFYg==
 
+quarks.core@^0.16.0:
+  version "0.16.0"
+  resolved "https://registry.yarnpkg.com/quarks.core/-/quarks.core-0.16.0.tgz#05cf028f28bc89df2cb9867f14e97b762e4f4b18"
+  integrity sha512-F46WeRCmv+HJaFvSOurfTbnR9Ri9SbqyiWKFVplmVmMU+2njI9YZ6oKkflZfwWAFTbHbbReL6LSXj248oNFC7w==
+
 react-canvas-confetti@^2.0.7:
   version "2.0.7"
   resolved "https://registry.yarnpkg.com/react-canvas-confetti/-/react-canvas-confetti-2.0.7.tgz#0499e7815b50f6a7731fd01729e07c30faa300f3"
@@ -882,6 +887,13 @@ three.interactive@1.1.0:
   integrity sha512-Yk5JJGNKXaQFs+WILqkVE9pmqoAxJVutImqv4OGctziGpgHv2EeIawuEFJMhDKrec2JOMEE7d4sJwcmO4LxzVw==
   dependencies:
     three "^0.122.0"
+
+three.quarks@^0.16.0:
+  version "0.16.0"
+  resolved "https://registry.yarnpkg.com/three.quarks/-/three.quarks-0.16.0.tgz#c199732df22a84a38db99f2249edb1a1acbe0d72"
+  integrity sha512-j9hDNjTUurbrZltd/XXAw+6SEyQl2uYmNfhRnFkUXEGcqMJoJAfJSDKzIW1GrLljUkAzYK9MIBn53RSyaW1XWQ==
+  dependencies:
+    quarks.core "^0.16.0"
 
 three@^0.122.0:
   version "0.122.0"

@@ -1,20 +1,16 @@
-import {useSyncExternalStore} from "react";
-import {Button} from "../../../../shared/ui/button";
-import {Image} from "../../../../shared/ui/image";
-import cl from "classnames";
+import {BottomMenu} from "../../../../features/bottom-menu";
+import Image from "../../../../shared/ui/image/ui/main/Image";
 import useBoosters from "../../model/hooks/useBoosters";
 import useBasketballStore from "../../model/state-manager/basketballStore";
 import {PLAYING} from "../../constants/stateMachine";
 import content from "../../constants/content";
-import gameSpaceStore from "../../model/storages/gameSpace";
 import styles from "./Boosters.module.scss";
 
 const {boosters} = content;
 
-export default function Boosters() {
+export default function Boosters({gameSpace}) {
   const {state} = useBasketballStore();
   const onClick = useBoosters();
-  const gameSpace = useSyncExternalStore(gameSpaceStore.subscribe, gameSpaceStore.getSnapshot);
 
   const isCanUse = (
     state === PLAYING &&
@@ -26,18 +22,20 @@ export default function Boosters() {
     !gameSpace.booster.active
   );
 
+  const boosterButtons = boosters.map(({type, timeout, background, img}) => ({
+    className: styles.booster,
+    onClick: () => onClick(type),
+    isDisabled: !isCanUse,
+    img: {...img, className: styles[img.className]},
+    child: (
+      <div className={styles[background.className]}>
+        <Image src={background.src}/>
+      </div>
+    ),
+    timeout
+  }));
+
   return (
-    <div className={styles.boosters}>
-      {boosters.map(({type, img, className}) => (
-        <Button
-          key={type}
-          isDisabled={!isCanUse}
-          className={cl(styles.booster, styles[className])}
-          events={{onClick: () => onClick(type)}}
-        >
-          <Image src={img}/>
-        </Button>
-      ))}
-    </div>
+    <BottomMenu buttons={boosterButtons}/>
   );
 }

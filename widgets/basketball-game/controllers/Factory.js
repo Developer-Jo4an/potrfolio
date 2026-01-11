@@ -50,20 +50,16 @@ export default class BasketballFactory extends Factory {
   }
 
   /**
-   * character
+   * character view
    */
-  [createMethod(METHODS.reset, CHARACTER)](characterSprite) {
-  }
-
-  [createMethod(METHODS.prepare, CHARACTER)](characterSprite) {
-
-  }
-
   [createMethod(METHODS.create, CHARACTER)]() {
     const {scene} = assetsManager.getAssetFromSpace(THREE_SPACE, GLTF, SCENE_FROM_BLENDER);
     return scene.getObjectByName(CHARACTER_VIEW_NAME);
   }
 
+  /**
+   * character body
+   */
   [createMethod(METHODS.create, CHARACTER_BODY)]({radius}) {
     const {defaultProperties: {storage: {world}}} = this;
     const characterBodyDesc = RAPIER3D.RigidBodyDesc.dynamic();
@@ -76,7 +72,7 @@ export default class BasketballFactory extends Factory {
   }
 
   /**
-   * ground
+   * ground view
    */
   [createMethod(METHODS.create, GROUND)]() {
     const {defaultProperties: {storage: {mainSceneSettings: {ground: {width, height, depth, opacity}}}}} = this;
@@ -87,6 +83,9 @@ export default class BasketballFactory extends Factory {
     );
   }
 
+  /**
+   * ground body
+   */
   [createMethod(METHODS.create, GROUND_BODY)]({vertices, indexes}) {
     const {defaultProperties: {storage: {world}}} = this;
     const groundBodyDesc = RAPIER3D.RigidBodyDesc.fixed();
@@ -99,7 +98,7 @@ export default class BasketballFactory extends Factory {
   }
 
   /**
-   * ring
+   * ring view
    */
   [createMethod(METHODS.create, RING)]() {
     const {scene} = assetsManager.getAssetFromSpace(THREE_SPACE, GLTF, SCENE_FROM_BLENDER);
@@ -116,6 +115,9 @@ export default class BasketballFactory extends Factory {
     return ringContainer;
   }
 
+  /**
+   * ring body
+   */
   [createMethod(METHODS.create, RING_BODY)]({ring, shield, grid, sensor}) {
     const {defaultProperties: {storage: {world}}} = this;
     const ringBodyDesc = RAPIER3D.RigidBodyDesc.fixed();

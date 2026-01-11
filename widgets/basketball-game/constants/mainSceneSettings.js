@@ -14,6 +14,7 @@ export const mainSceneSettings = {
     receiveShadow: false,
     roughness: 0.75,
     metalness: 0.25,
+    opacity: 1,
     restitution: 0.25,
     friction: 0.4,
     linearDamping: 0,
@@ -76,13 +77,15 @@ export const mainSceneSettings = {
       position: {x: 0, y: 1.2, z: -5}
     },
     grid: {
-      height: 0.1,
-      radsProportion: 0.75,
+      height: 0.175,
+      radsProportion: 0.7,
       radialSegments: 32,
       heightSegments: 32,
       openEnded: true,
-      thetaStart: -Math.PI / 2,
-      thetaLength: Math.PI
+      thetaStart: -Math.PI * 1.5 / 2,
+      thetaLength: Math.PI * 1.5,
+      restitution: 0,
+      friction: 0
     },
     sensor: {
       radius: 0.02,
@@ -111,7 +114,8 @@ export const mainSceneSettings = {
       intensity: 2.5,
       position: {x: 5, y: 7, z: 5},
       target: {
-        position: {x: 0, y: 0, z: 0}
+        position: {x: 0, y: 0, z: 0},
+        name: "directionalLightTarget"
       },
       castShadow: true,
       rectangle: {

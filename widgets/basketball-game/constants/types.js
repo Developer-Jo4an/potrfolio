@@ -1,16 +1,17 @@
 import State from "../../../shared/scene/ecs/base/components/state/State";
-import Game from "../../car-game/controllers/components/Game";
 import ThreeComponent from "../../../shared/scene/ecs/three/components/ThreeComponent";
 import Collection from "../../../shared/scene/ecs/base/components/data/Collection";
 import Body from "../../../shared/scene/ecs/rapier/components/Body";
 import Matrix4Component from "../../../shared/scene/ecs/base/components/transform/Matrix4Component";
 import GSAPTween from "../../../shared/scene/ecs/base/components/tween/GSAPTween";
+import Game from "../controllers/components/Game";
+import Mixer from "../../../shared/scene/ecs/three/components/Mixer";
 import getDefaultState from "../../../shared/scene/lib/state/getDefaultState";
 import {BASKETBALL_STATE_MACHINE} from "./stateMachine";
-import {GAME} from "../../car-game/constants/entities/game";
 import {CHARACTER, states as characterStates} from "../entities/character";
 import {GROUND} from "../entities/ground";
 import {RING} from "../entities/ring";
+import {GAME} from "./game";
 
 export const types = {
   [GAME]: {
@@ -43,7 +44,8 @@ export const types = {
       {Class: Matrix4Component},
       {Class: Body},
       {Class: Collection},
-      {Class: GSAPTween}
+      {Class: GSAPTween},
+      {Class: Mixer}
     ]
   }
 };
