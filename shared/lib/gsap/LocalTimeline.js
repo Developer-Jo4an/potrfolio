@@ -101,6 +101,8 @@ export default class LocalTimeline {
       namespace = namespaceId;
     }
 
+    if (!tweens || !namespace) return;
+
     toKill && this.killTween(tween);
 
     this.spaces[namespace].arr = tweens.filter(insideSpaceTween => insideSpaceTween !== tween);

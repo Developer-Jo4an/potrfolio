@@ -1,4 +1,4 @@
-import {useEffect, useRef, useState} from "react";
+import {useEffect, useImperativeHandle, useRef, useState} from "react";
 import Image from "../../../../shared/ui/image/ui/main/Image";
 import eventSubscription from "../../../../shared/lib/events/eventListener";
 import hitTween from "../../utils/animations/hitTween";
@@ -6,16 +6,20 @@ import useBasketballStore from "../../model/state-manager/basketballStore";
 import {CLEAR_HIT, MISS} from "../../constants/events";
 import content from "../../constants/content";
 import styles from "./Effects.module.scss";
+import {BASKETBALL} from "../../constants/game";
 
 const {effects: {clearHit, miss}} = content;
 
-export default function Effects() {
+export default function Effects({ref}) {
   const {wrapper} = useBasketballStore();
   const [{isVisibleClearHitEffect, isVisibleMissEffect}, setVisibleEffects] = useState({
     isVisibleClearHitEffect: false,
     isVisibleMissEffect: false
   });
   const animatedElements = useRef({clearHitEffect: null, missEffect: null});
+  const effectsFreeSpaceRef = useRef();
+
+  useImperativeHandle(ref, () => effectsFreeSpaceRef.current);
 
   useEffect(() => {
     if (!wrapper) return;
@@ -57,7 +61,7 @@ export default function Effects() {
 
     const clearFunctions = animatedData.map(({DOMElement, clear}) => {
       const tween = hitTween(DOMElement, clear);
-      return () => tween.delete();
+      return () => tween.delete(BASKETBALL);
     });
 
     return () => clearFunctions.forEach(func => func());
@@ -82,6 +86,8 @@ export default function Effects() {
           <Image {...miss.img}/>
         </div>
       }
+
+      <div ref={effectsFreeSpaceRef} className={styles.effectsFreeSpace}/>
     </div>
   );
 }

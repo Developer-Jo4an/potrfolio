@@ -22,6 +22,9 @@ export default function returnCharacterToInitialPositionTween(body, target) {
     onUpdate() {
       const {x, y, z} = proxy;
       body.setTranslation({x, y, z});
+    },
+    onComplete() {
+      this.delete(BASKETBALL);
     }
-  }).save(BASKETBALL);
+  }).save(BASKETBALL, TWEENS.returnOnInitialPosition);
 }

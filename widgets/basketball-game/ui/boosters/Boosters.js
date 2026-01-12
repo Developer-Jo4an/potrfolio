@@ -1,3 +1,4 @@
+import {useImperativeHandle, useRef} from "react";
 import {BottomMenu} from "../../../../features/bottom-menu";
 import Image from "../../../../shared/ui/image/ui/main/Image";
 import useBoosters from "../../model/hooks/useBoosters";
@@ -8,9 +9,12 @@ import styles from "./Boosters.module.scss";
 
 const {boosters} = content;
 
-export default function Boosters({gameSpace}) {
+export default function Boosters({gameSpace, ref}) {
   const {state} = useBasketballStore();
   const onClick = useBoosters();
+  const elementsRef = useRef();
+
+  useImperativeHandle(ref, () => elementsRef.current);
 
   const isCanUse = (
     state === PLAYING &&
@@ -23,8 +27,9 @@ export default function Boosters({gameSpace}) {
   );
 
   const boosterButtons = boosters.map(({type, timeout, background, img}) => ({
+    id: type,
     className: styles.booster,
-    onClick: () => onClick(type),
+    onClick: () => onClick({type, otherProps: {...arguments[0]}}),
     isDisabled: !isCanUse,
     img: {...img, className: styles[img.className]},
     child: (
@@ -36,6 +41,6 @@ export default function Boosters({gameSpace}) {
   }));
 
   return (
-    <BottomMenu buttons={boosterButtons}/>
+    <BottomMenu ref={elementsRef} buttons={boosterButtons}/>
   );
 }

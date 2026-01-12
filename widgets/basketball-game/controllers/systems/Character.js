@@ -10,6 +10,9 @@ import {clamp, upperFirst} from "lodash";
 import {createAnimationFrame} from "../../../../shared/lib/browserApi/frames";
 import returnCharacterToInitialPositionTween from "../../utils/animations/returnCharacterToInitialPositionTween";
 import teleportActorToInitialPositionTween from "../../utils/animations/teleportActorToInitialPositionTween";
+import extraLifeTrailTween from "../../utils/animations/extraLifeTrailTween";
+import extraLifePulseTween from "../../utils/animations/extrLifePulseTween";
+import gsap from "gsap";
 import {CHARACTER} from "../../entities/character";
 import {DRAG_END, DRAG_MOVE, DRAG_START} from "../../../../shared/constants/events/eventsNames";
 import {CLEAR_HIT, COLLISION_START, LOSE, MISS, THROWN, WIN} from "../../constants/events";
@@ -19,6 +22,7 @@ import {ANIMATIONS, RING, RING_BODY, RING_GRID, RING_SHIELD, SENSOR} from "../..
 import {UUIDS} from "../../constants/systems";
 import {BASKETBALL, GAME} from "../../constants/game";
 import {WIN as WIN_STATE, LOSE as LOSE_STATE} from "../../constants/stateMachine";
+import {EXTRA_LIFE} from "../../constants/boosters";
 
 export default class Character extends System {
 
@@ -230,10 +234,38 @@ export default class Character extends System {
     return duration * multiplier;
   }
 
-  activateBooster(type) {
+  activateBooster({type, otherProps}) {
     const {storage: {gameSpace: {set}}} = this;
     set(({booster}) => booster.active = type);
-    this[createActivateMethod(type)]();
+    this[createActivateMethod(type)](otherProps);
+  }
+
+  async [createActivateMethod(EXTRA_LIFE)](
+    {
+      effectFreeSpaceRef: {current: effectFreeSpace},
+      boostersRef: {current: {extraLife}},
+      topMenuElementsRef: {current: {lifesIcon}}
+    }
+  ) {
+    const {storage: {gameSpace: {set}}} = this;
+    set(({booster, gameData}) => {
+      booster.active = null;
+      gameData.lifes++;
+    });
+
+    const isHasPrevTween = [
+      TWEENS.extraLifeTrailTween,
+      TWEENS.extraLifePulseTween
+    ].some(tweenId => gsap.localTimeline.isExist(BASKETBALL, tweenId));
+
+    if (isHasPrevTween) return;
+
+    const extraLifeNode = extraLife.querySelector(`[data-image="menuImage"]`);
+    const extraLideBounding = extraLifeNode.getBoundingClientRect();
+    extraLifeTrailTween(extraLideBounding, effectFreeSpace);
+
+    const lifesIconBounding = lifesIcon.getBoundingClientRect();
+    extraLifePulseTween(lifesIconBounding, effectFreeSpace);
   }
 
   [createActivateMethod(CLEAR_HIT)]() {

@@ -1,4 +1,4 @@
-import {useSyncExternalStore} from "react";
+import {useRef, useSyncExternalStore} from "react";
 import {Loader} from "../../../../shared/ui/loader";
 import {TopMenu} from "../../../../features/top-menu";
 import Canvas from "../canvas/Canvas";
@@ -18,20 +18,32 @@ export default function BasketballGame() {
   const {state} = useBasketballStore();
   const gameSpace = useSyncExternalStore(gameSpaceStore.subscribe, gameSpaceStore.getSnapshot);
   const pause = usePause({gameSpace});
+  const topMenuElementsRef = useRef();
+  const boostersRef = useRef();
+  const effectFreeSpaceRef = useRef();
+
+  const fullProps = {
+    effectFreeSpaceRef,
+    gameSpace,
+    boostersRef,
+    topMenuElementsRef,
+    isPending: !state || [INITIALIZATION_LEVEL, INITIALIZATION].includes(state)
+  };
 
   return (
     <div className={styles.basketballGame}>
-      <Background/>
-      <Canvas/>
+      <Background {...fullProps}/>
+      <Canvas {...fullProps}/>
       <TopMenu
+        ref={topMenuElementsRef}
         lifes={{count: gameSpace.gameData.lifes, ...lifes}}
         score={{count: gameSpace.gameData.score, ...score}}
         sound={sound}
         pause={pause}
       />
-      <Effects/>
-      <Boosters gameSpace={gameSpace}/>
-      <Loader isPending={!state || [INITIALIZATION_LEVEL, INITIALIZATION].includes(state)}/>
+      <Boosters {...fullProps} ref={fullProps.boostersRef}/>
+      <Effects {...fullProps} ref={fullProps.effectFreeSpaceRef}/>
+      <Loader isPending={fullProps.isPending}/>
     </div>
   );
 }

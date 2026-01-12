@@ -1,14 +1,20 @@
+import {useImperativeHandle, useRef} from "react";
 import {Button} from "../../../../shared/ui/button";
 import {Image} from "../../../../shared/ui/image";
 import {isFinite} from "lodash";
 import cl from "classnames";
 import styles from "./BottomMenu.module.scss";
 
-export default function BottomMenu({buttons, children}) {
+export default function BottomMenu({buttons, children, ref}) {
+  const {current: elements} = useRef({});
+
+  useImperativeHandle(ref, () => elements);
+
   return (
     <div className={styles.bottomMenu}>
       {buttons?.map((
         {
+          id,
           className,
           timeout,
           isDisposable,
@@ -22,6 +28,7 @@ export default function BottomMenu({buttons, children}) {
         }, index) => (
         <Button
           key={index}
+          ref={ref => elements[id ?? index] = ref}
           className={cl(
             styles.button,
             className,
@@ -35,8 +42,8 @@ export default function BottomMenu({buttons, children}) {
           isDisposable={isDisposable}
         >
           {child && child}
-          {img && <Image {...img}/>}
-          {Icon && <Icon/>}
+          {img && <Image {...img} data-image={"menuImage"}/>}
+          {Icon && <Icon data-icon={"menuImage"}/>}
           {isFinite(value) && <div className={styles.buttonCount}>{value}</div>}
         </Button>
       ))}

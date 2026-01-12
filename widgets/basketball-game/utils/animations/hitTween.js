@@ -3,7 +3,13 @@ import {TWEENS} from "../../constants/tweens";
 import {BASKETBALL} from "../../constants/game";
 
 export default function hitTween(domNode, onComplete) {
-  const timeline = gsap.timeline({onComplete, id: TWEENS.hitMessage}).save(BASKETBALL);
+  const timeline = gsap.timeline({
+    id: TWEENS.hitMessage,
+    onComplete() {
+      onComplete();
+      this.delete(BASKETBALL);
+    }
+  }).save(BASKETBALL, TWEENS.hitMessage);
 
   timeline
   .to(domNode, {opacity: 1, ease: "sine.inOut", duration: 0.2})
