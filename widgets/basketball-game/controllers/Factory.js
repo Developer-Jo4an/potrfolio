@@ -2,9 +2,9 @@ import Factory from "../../../shared/scene/factory/Factory";
 import {upperFirst} from "lodash";
 import {assetsManager} from "../../../shared/scene/assets/AssetsManager";
 import {GLTF, THREE_SPACE} from "../../../shared/scene/constants/loaders/assetsTypes";
-import {CHARACTER, CHARACTER_BODY, CHARACTER_VIEW_NAME} from "../entities/character";
+import {CHARACTER, CHARACTER_BODY, CHARACTER_VIEW_NAME} from "../constants/character";
 import {SCENE_FROM_BLENDER} from "../constants/preload";
-import {GROUND, GROUND_BODY} from "../entities/ground";
+import {GROUND, GROUND_BODY} from "../constants/ground";
 import {
   RING,
   RING_BODY,
@@ -14,7 +14,8 @@ import {
   RING_SHIELD_VIEW_NAME,
   RING_VIEW_NAME,
   SENSOR
-} from "../entities/ring";
+} from "../constants/ring";
+import {X2VIEW} from "../constants/x2View";
 
 const METHODS = {
   create: "create",
@@ -154,6 +155,15 @@ export default class BasketballFactory extends Factory {
     };
 
     return ringBody;
+  }
+
+  /**
+   * x2View
+   */
+  [createMethod(METHODS.create, X2VIEW)]() {
+    const geometry = new THREE.SphereGeometry(0.02);
+    const material = new THREE.MeshBasicMaterial({color: "red"});
+    return new THREE.Mesh(geometry, material);
   }
 }
 

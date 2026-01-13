@@ -5,6 +5,7 @@ export default class Body extends Component {
 
   constructor({object}) {
     super(...arguments);
+
     this.object = object;
   }
 

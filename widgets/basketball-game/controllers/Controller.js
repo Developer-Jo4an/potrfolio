@@ -112,9 +112,9 @@ export default class Controller extends ThreeController {
     await cameraFlying.init();
   }
 
-  updateEngine({deltaTime}) {
+  updateEngine({deltaTime, deltaMS}) {
     const {engine} = this;
-    engine.update({deltaTime});
+    engine.update({deltaTime, deltaMS});
   }
 
   updateWorld({deltaTime}) {

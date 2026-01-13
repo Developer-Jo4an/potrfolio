@@ -6,8 +6,8 @@ import Mixer from "../../../../shared/scene/ecs/three/components/Mixer";
 import {mean} from "lodash";
 import getVerticesWithDeep from "../../utils/getVerticesWithDeep";
 import add from "../../../../shared/scene/ecs/three/side-effects/add";
-import {CHARACTER, CHARACTER_BODY} from "../../entities/character";
-import {GROUND, GROUND_BODY} from "../../entities/ground";
+import {CHARACTER, CHARACTER_BODY} from "../../constants/character";
+import {GROUND, GROUND_BODY} from "../../constants/ground";
 import {
   ANIMATIONS,
   RING,
@@ -15,7 +15,7 @@ import {
   RING_GRID_VIEW_NAME,
   RING_SHIELD_VIEW_NAME,
   RING_VIEW_NAME
-} from "../../entities/ring";
+} from "../../constants/ring";
 import {X, Y, Z} from "../../../../shared/constants/trigonometry/trigonometry";
 import {assetsManager} from "../../../../shared/scene/assets/AssetsManager";
 import {GLTF, THREE_SPACE} from "../../../../shared/scene/constants/loaders/assetsTypes";
@@ -60,7 +60,7 @@ export default class Level extends System {
     characterView.material.opacity = opacity;
     characterView.receiveShadow = receiveShadow;
     characterView.castShadow = castShadow;
-    this.addSideEffect({entity: eCharacter, effect: add, args: [characterView, scene]});
+    this.addSideEffect({entity: eCharacter, effect: add, args: [scene, characterView]});
 
     const cBody = eCharacter.get(Body);
     const {geometry: {boundingBox: {min, max}}} = characterView;
@@ -101,7 +101,7 @@ export default class Level extends System {
       if (object.material)
         object.material.transparent = transparent;
     });
-    this.addSideEffect({entity: eRing, effect: add, args: [ringContainer, scene]});
+    this.addSideEffect({entity: eRing, effect: add, args: [scene, ringContainer]});
 
 
     const ringView = ringContainer.getObjectByName(RING_VIEW_NAME);
@@ -205,7 +205,7 @@ export default class Level extends System {
     groundView.receiveShadow = receiveShadow;
     groundView.castShadow = castShadow;
     cThreeComponent.threeObject = groundView;
-    this.addSideEffect({entity: eGroud, effect: add, args: [groundView, scene]});
+    this.addSideEffect({entity: eGroud, effect: add, args: [scene, groundView]});
 
     const eCharacter = this.getFirstEntityByType(CHARACTER);
     const cCharacterBody = eCharacter.get(Body);

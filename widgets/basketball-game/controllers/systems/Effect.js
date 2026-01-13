@@ -3,7 +3,7 @@ import Body from "../../../../shared/scene/ecs/rapier/components/Body";
 import EventComponent from "../../../../shared/scene/ecs/base/components/EventComponent";
 import {assetsManager} from "../../../../shared/scene/assets/AssetsManager";
 import {TEXTURE, THREE_SPACE} from "../../../../shared/scene/constants/loaders/assetsTypes";
-import {CHARACTER, TRAIL} from "../../entities/character";
+import {CHARACTER, TRAIL} from "../../constants/character";
 import {THROWN} from "../../constants/events";
 
 export default class Effect extends System {

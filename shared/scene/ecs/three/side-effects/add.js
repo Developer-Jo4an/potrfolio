@@ -1,5 +1,5 @@
 export const ADD = "add";
-export default function add(object, to) {
-  to.add(object);
-  return () => to.remove(object);
+export default function add(parent, ...children) {
+  parent.add(...children);
+  return () => children.forEach(child => parent.remove(child));
 }

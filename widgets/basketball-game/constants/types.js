@@ -6,12 +6,14 @@ import Matrix4Component from "../../../shared/scene/ecs/base/components/transfor
 import GSAPTween from "../../../shared/scene/ecs/base/components/tween/GSAPTween";
 import Game from "../controllers/components/Game";
 import Mixer from "../../../shared/scene/ecs/three/components/Mixer";
+import Orbit from "../controllers/components/Orbit";
 import getDefaultState from "../../../shared/scene/lib/state/getDefaultState";
 import {BASKETBALL_STATE_MACHINE} from "./stateMachine";
-import {CHARACTER, states as characterStates} from "../entities/character";
-import {GROUND} from "../entities/ground";
-import {RING} from "../entities/ring";
+import {CHARACTER, states as characterStates} from "./character";
+import {GROUND} from "./ground";
+import {RING} from "./ring";
 import {GAME} from "./game";
+import {X2VIEW} from "./x2View";
 
 export const types = {
   [GAME]: {
@@ -46,6 +48,14 @@ export const types = {
       {Class: Collection},
       {Class: GSAPTween},
       {Class: Mixer}
+    ]
+  },
+  [X2VIEW]: {
+    components: [
+      {Class: ThreeComponent},
+      {Class: Matrix4Component},
+      {Class: Collection},
+      {Class: Orbit}
     ]
   }
 };

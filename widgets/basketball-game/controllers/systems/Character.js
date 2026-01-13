@@ -6,23 +6,28 @@ import GSAPTween from "../../../../shared/scene/ecs/base/components/tween/GSAPTw
 import Matrix4Component from "../../../../shared/scene/ecs/base/components/transform/Matrix4Component";
 import State from "../../../../shared/scene/ecs/base/components/state/State";
 import Mixer from "../../../../shared/scene/ecs/three/components/Mixer";
-import {clamp, upperFirst} from "lodash";
+import Entity from "../../../../shared/scene/ecs/core/Entity";
+import Orbit from "../components/Orbit";
+import {clamp, random, upperFirst} from "lodash";
 import {createAnimationFrame} from "../../../../shared/lib/browserApi/frames";
 import returnCharacterToInitialPositionTween from "../../utils/animations/returnCharacterToInitialPositionTween";
 import teleportActorToInitialPositionTween from "../../utils/animations/teleportActorToInitialPositionTween";
 import extraLifeTrailTween from "../../utils/animations/extraLifeTrailTween";
 import extraLifePulseTween from "../../utils/animations/extrLifePulseTween";
+import add from "../../../../shared/scene/ecs/three/side-effects/add";
 import gsap from "gsap";
-import {CHARACTER} from "../../entities/character";
+import {CHARACTER} from "../../constants/character";
 import {DRAG_END, DRAG_MOVE, DRAG_START} from "../../../../shared/constants/events/eventsNames";
 import {CLEAR_HIT, COLLISION_START, LOSE, MISS, THROWN, WIN} from "../../constants/events";
-import {GROUND} from "../../entities/ground";
+import {GROUND} from "../../constants/ground";
 import {TWEENS} from "../../constants/tweens";
-import {ANIMATIONS, RING, RING_BODY, RING_GRID, RING_SHIELD, SENSOR} from "../../entities/ring";
+import {ANIMATIONS, RING, RING_BODY, RING_GRID, RING_SHIELD, SENSOR} from "../../constants/ring";
 import {UUIDS} from "../../constants/systems";
 import {BASKETBALL, GAME} from "../../constants/game";
 import {WIN as WIN_STATE, LOSE as LOSE_STATE} from "../../constants/stateMachine";
-import {EXTRA_LIFE} from "../../constants/boosters";
+import {EXTRA_LIFE, X2} from "../../constants/boosters";
+import {X2VIEW} from "../../constants/x2View";
+import {PI2} from "../../../../shared/constants/trigonometry/trigonometry";
 
 export default class Character extends System {
 
@@ -240,6 +245,40 @@ export default class Character extends System {
     this[createActivateMethod(type)](otherProps);
   }
 
+  [createActivateMethod(X2)]() {
+    const {eventBus, storage: {scene, mainSceneSettings: {boosters: {[X2]: {count, velocity, offsetRadius}}}}} = this;
+    const eGame = this.getFirstEntityByType(GAME);
+    const eCharacter = this.getFirstEntityByType(CHARACTER);
+    const eRing = this.getFirstEntityByType(RING);
+
+    Array.from({length: count}).map(() => {
+      const eX2 = new Entity({eventBus, type: X2VIEW}).init();
+
+      const cThreeComponent = eX2.get(ThreeComponent);
+      const x2View = cThreeComponent.threeObject = cThreeComponent.threeObject = this.getAsset(eX2, X2VIEW);
+      this.addSideEffect({entity: eX2, effect: add, args: [scene, x2View]});
+
+      const cOrbit = eX2.get(Orbit);
+      cOrbit.center = eCharacter.get(Matrix4Component).position.clone();
+      cOrbit.radius = eCharacter.get(Body).object.collider.shape.radius + offsetRadius;
+      cOrbit.angle = Math.random() * PI2;
+      cOrbit.angularVelocity = THREE.MathUtils.degToRad(random(velocity.min, velocity.max, true));
+      cOrbit.normal = new THREE.Vector3(
+        random(-1, 1, true),
+        random(-1, 1, true),
+        random(-1, 1, true)
+      );
+      cOrbit.tangent1 = cOrbit.normal.clone().cross(new THREE.Vector3(
+        random(-1, 1, true),
+        random(-1, 1, true),
+        random(-1, 1, true)
+      )).normalize();
+      cOrbit.tangent2 = cOrbit.normal.clone().cross(cOrbit.tangent1).normalize();
+    });
+
+    this.updateX2View({eGame, eCharacter, eRing, deltaTime: 0});
+  }
+
   async [createActivateMethod(EXTRA_LIFE)](
     {
       effectFreeSpaceRef: {current: effectFreeSpace},
@@ -250,6 +289,8 @@ export default class Character extends System {
     const {storage: {gameSpace: {set}}} = this;
     set(({booster, gameData}) => {
       booster.active = null;
+      this.clearBoosterData();
+
       gameData.lifes++;
     });
 
@@ -305,6 +346,41 @@ export default class Character extends System {
     );
   }
 
+  clearBoosterData() {
+    const esX2 = this.getEntitiesByType(X2VIEW)?.list ?? [];
+    if (!!esX2.length) {
+      while (esX2.length)
+        esX2[0].destroy();
+    }
+  }
+
+  updateX2View({eCharacter, deltaTime}) {
+    const {storage: {gameSpace: {get}}} = this;
+    const {booster} = get();
+    if (booster.active !== X2) return;
+
+    const center = eCharacter.get(Matrix4Component).position.clone();
+
+    const esX2 = this.getEntitiesByType(X2VIEW).list;
+
+    esX2.forEach(entity => {
+      const cOrbit = entity.get(Orbit);
+      cOrbit.center = center.clone();
+      cOrbit.angle += cOrbit.angularVelocity * deltaTime;
+
+      const {radius, angle, tangent1, tangent2} = cOrbit;
+
+      const position = {
+        x: center.x + radius * (Math.cos(angle) * tangent1.x + Math.sin(angle) * tangent2.x),
+        y: center.y + radius * (Math.cos(angle) * tangent1.y + Math.sin(angle) * tangent2.y),
+        z: center.z + radius * (Math.cos(angle) * tangent1.z + Math.sin(angle) * tangent2.z)
+      };
+
+      const cMatrix4Component = entity.get(Matrix4Component);
+      cMatrix4Component.position = position;
+    });
+  }
+
   applyPhysicalPropertiesForThrow(
     {
       linvel = {x: 0, y: 0, z: 0},
@@ -326,7 +402,6 @@ export default class Character extends System {
     const gameSpace = get();
 
     if (!gameSpace.characterMovement.thrown) return;
-
 
     const collisions = eCharacter.getSome(EventComponent, COLLISION_START);
 
@@ -359,7 +434,7 @@ export default class Character extends System {
     }
 
     const isHasCollisionWithGround = collisions.some(({data: {entity}}) => entity.type === GROUND);
-    if (isHasCollisionWithGround && (!gameSpace.booster.active || gameSpace.characterMovement.isCollisionWithSensor)) {
+    if (isHasCollisionWithGround && (gameSpace.booster.active !== CLEAR_HIT || gameSpace.characterMovement.isCollisionWithSensor)) {
       const cTween = eCharacter.get(GSAPTween);
       if (!cTween.has(TWEENS.teleportOnInitialPosition)) {
         const {storage: {mainSceneSettings: {character: {startData: {position, rotation}}}}} = this;
@@ -382,8 +457,12 @@ export default class Character extends System {
           cTween.remove(teleportTween.id);
           set(({characterMovement, booster}) => {
             booster.active = null;
+            this.clearBoosterData();
+
             characterMovement.thrown = false;
+
             gameSpace.characterMovement.isFlewSensor = false;
+
             characterMovement.isCollisionWithRing = false;
             characterMovement.isCollisionWithSensor = false;
           });
@@ -429,8 +508,9 @@ export default class Character extends System {
     const eCharacter = this.getFirstEntityByType(CHARACTER);
     const eRing = this.getFirstEntityByType(RING);
     const eGame = this.getFirstEntityByType(GAME);
-    const fullProps = {eGame, eCharacter, eRing};
+    const fullProps = {eGame, eCharacter, eRing, ...arguments[0]};
     this.updateMovement(fullProps);
+    this.updateX2View(fullProps);
     this.checkCollision(fullProps);
   }
 }

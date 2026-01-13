@@ -1,10 +1,10 @@
 import System from "../../../../shared/scene/ecs/core/System";
 import EventComponent from "../../../../shared/scene/ecs/base/components/EventComponent";
-import {CHARACTER} from "../../entities/character";
+import {CHARACTER} from "../../constants/character";
 import {DRAG_END, DRAG_MOVE, DRAG_START} from "../../../../shared/constants/events/eventsNames";
 import {CLEAR_HIT, COLLISION_END, COLLISION_START, LOSE, MISS, THROWN, WIN} from "../../constants/events";
 import {WIN as WIN_STATUS, LOSE as LOSE_STATUS} from "../../constants/stateMachine";
-import {GROUND} from "../../entities/ground";
+import {GROUND} from "../../constants/ground";
 
 export default class Event extends System {
   updateCharacterEvents({eCharacter}) {

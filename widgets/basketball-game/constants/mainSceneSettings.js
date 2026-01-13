@@ -1,4 +1,4 @@
-import {CLEAR_HIT} from "./boosters";
+import {CLEAR_HIT, EXTRA_LIFE, X2} from "./boosters";
 
 export const mainSceneSettings = {
   world: {
@@ -68,6 +68,15 @@ export const mainSceneSettings = {
   boosters: {
     [CLEAR_HIT]: {
       time: 1
+    },
+    [EXTRA_LIFE]: {},
+    [X2]: {
+      count: 10,
+      offsetRadius: 0.05,
+      velocity: {
+        min: 60,
+        max: 120
+      }
     }
   },
 
