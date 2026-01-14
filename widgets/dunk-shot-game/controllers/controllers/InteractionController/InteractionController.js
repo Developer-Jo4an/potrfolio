@@ -1,5 +1,5 @@
 import BaseController from "../BaseController/BaseController";
-import {copy} from "../../../../../shared/lib/copy/copy";
+import {cloneDeep} from "lodash";
 import eventSubscription from "../../../../../shared/lib/events/eventListener";
 import {angle, distance} from "../../../../../shared/lib/matrix/matrix";
 import {
@@ -65,7 +65,7 @@ export default class InteractionController extends BaseController {
     dragData.current = {x: global.x, y: global.y};
     dragData.path.push({x: global.x, y: global.y});
 
-    eventBus.dispatchEvent({type: DRAG_START, dragData: copy(dragData)});
+    eventBus.dispatchEvent({type: DRAG_START, dragData: cloneDeep(dragData)});
   }
 
   onMove({data: {global}}) {
@@ -78,7 +78,7 @@ export default class InteractionController extends BaseController {
     dragData.stretch = distance([dragData.start.x, dragData.start.y], [dragData.current.x, dragData.current.y]);
     dragData.path.push({x: global.x, y: global.y});
 
-    eventBus.dispatchEvent({type: DRAG_MOVE, dragData: copy(dragData)});
+    eventBus.dispatchEvent({type: DRAG_MOVE, dragData: cloneDeep(dragData)});
   }
 
   onEnd() {
@@ -92,7 +92,7 @@ export default class InteractionController extends BaseController {
     dragData.angle = null;
     dragData.path.length = 0;
 
-    eventBus.dispatchEvent({type: DRAG_END, dragData: copy(dragData)});
+    eventBus.dispatchEvent({type: DRAG_END, dragData: cloneDeep(dragData)});
   }
 
   onStateChanged(state) {

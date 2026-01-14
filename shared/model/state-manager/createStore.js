@@ -2,9 +2,8 @@ import {create} from "zustand";
 import {immer} from "zustand/middleware/immer";
 import {subscribeWithSelector} from "zustand/middleware";
 import {useShallow} from "zustand/shallow";
+import {isFunction, isObject, upperFirst} from "lodash";
 import {FULFILLED, PENDING, REJECTED, SETTLED} from "../../constants/promise/statuses";
-import {upperFirst} from "lodash/string";
-import {isFunction, isObject} from "lodash";
 
 class StateManagerStore {
 

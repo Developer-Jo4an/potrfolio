@@ -1,6 +1,5 @@
 import BasePhysicsEntity from "../base/BasePhysicsEntity";
-import {upperFirst} from "lodash";
-import {copy} from "../../../../../shared/lib/copy/copy";
+import {upperFirst, cloneDeep} from "lodash";
 import getIsDebug from "../../../../../shared/lib/debug/debug";
 import {PIXI_SPACE, TEXTURE} from "../../../../../shared/scene/constants/loaders/assetsTypes";
 import {dunkShotFactory} from "../../factory/DunkShotFactory";
@@ -223,17 +222,17 @@ export default class Basket extends BasePhysicsEntity {
 
   onInactive() {
     const {circles} = this;
-    circles.forEach(circle => circle.collisionFilter = copy(COLLISION_FILTERS.INACTIVE));
+    circles.forEach(circle => circle.collisionFilter = cloneDeep(COLLISION_FILTERS.INACTIVE));
   }
 
   onActive() {
     const {circles} = this;
-    circles.forEach(circle => circle.collisionFilter = copy(COLLISION_FILTERS.ACTIVE));
+    circles.forEach(circle => circle.collisionFilter = cloneDeep(COLLISION_FILTERS.ACTIVE));
   }
 
   onNext() {
     const {circles} = this;
-    circles.forEach(circle => circle.collisionFilter = copy(COLLISION_FILTERS.NEXT));
+    circles.forEach(circle => circle.collisionFilter = cloneDeep(COLLISION_FILTERS.NEXT));
   }
 
   onModeChanged() {
@@ -245,13 +244,13 @@ export default class Basket extends BasePhysicsEntity {
   onHidden() {
     const {circles} = this;
 
-    circles.forEach(circle => circle.collisionFilter = copy(COLLISION_FILTERS.INACTIVE));
+    circles.forEach(circle => circle.collisionFilter = cloneDeep(COLLISION_FILTERS.INACTIVE));
   }
 
   onVisible() {
     const {circles} = this;
 
-    circles.forEach(circle => circle.collisionFilter = copy(COLLISION_FILTERS.ACTIVE));
+    circles.forEach(circle => circle.collisionFilter = cloneDeep(COLLISION_FILTERS.ACTIVE));
   }
 
   updateDebug() {

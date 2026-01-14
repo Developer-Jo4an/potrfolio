@@ -1,10 +1,9 @@
 import GameUtils from "../../../../shared/scene/utils/GameUtils";
-import {sample} from "lodash";
-import {copy} from "../../../../shared/lib/copy/copy";
+import {cloneDeep, sample} from "lodash";
+import setNecessaryListeners from "./setNecessaryListeners";
 import {CENTER, LEFT, RIGHT} from "../../../../shared/constants/directions/directions";
 import {GAME_SIZE} from "../../constants";
 import {dunkShotFactory} from "../factory/DunkShotFactory";
-import setNecessaryListeners from "./setNecessaryListeners";
 
 export default class DunkShotUtils extends GameUtils {
   constructor(data) {
@@ -57,7 +56,7 @@ export default class DunkShotUtils extends GameUtils {
     const {baskets} = dunkShotFactory;
     const {positionLabel, row} = spike;
 
-    const availableMovement = copy(movement[positionLabel]);
+    const availableMovement = cloneDeep(movement[positionLabel]);
 
     baskets.forEach(({row: basketRow, positionLabel}) => {
       if (basketRow === row && availableMovement.includes(positionLabel))
@@ -75,7 +74,7 @@ export default class DunkShotUtils extends GameUtils {
         }
     };
 
-    calculateRoadRecurse(positionLabel, copy(availableMovement));
+    calculateRoadRecurse(positionLabel, cloneDeep(availableMovement));
 
     return road.map(place => this.getPositionFromRowPosition(row, place));
   }

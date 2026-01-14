@@ -1,6 +1,5 @@
 import BasePhysicsEntity from "../base/BasePhysicsEntity";
-import {copy} from "../../../../../shared/lib/copy/copy";
-import {isFunction, upperFirst} from "lodash";
+import {isFunction, upperFirst, cloneDeep} from "lodash";
 import {assetsManager} from "../../../../../shared/scene/assets/AssetsManager";
 import {PIXI_SPACE, TEXTURE} from "../../../../../shared/scene/constants/loaders/assetsTypes";
 import {FREE, TO_DOWN} from "../../../constants/statuses";
@@ -46,8 +45,8 @@ export default class Ball extends BasePhysicsEntity {
     const body = this.body = Matter.Bodies.circle(
       0, 0, radius,
       {
-        ...copy(physicalSettings),
-        collisionFilter: copy(COLLISION_FILTERS.BALL)
+        ...cloneDeep(physicalSettings),
+        collisionFilter: cloneDeep(COLLISION_FILTERS.BALL)
       }
     );
   }
@@ -76,21 +75,21 @@ export default class Ball extends BasePhysicsEntity {
     const {body} = this;
 
     this.isGravity = true;
-    body.collisionFilter = copy(COLLISION_FILTERS.BALL);
+    body.collisionFilter = cloneDeep(COLLISION_FILTERS.BALL);
   }
 
   onToDown() {
     const {body} = this;
 
     this.isGravity = true;
-    body.collisionFilter = copy(COLLISION_FILTERS.BALL);
+    body.collisionFilter = cloneDeep(COLLISION_FILTERS.BALL);
   }
 
   onFree() {
     const {body} = this;
 
     this.isGravity = true;
-    body.collisionFilter = copy(COLLISION_FILTERS.BALL);
+    body.collisionFilter = cloneDeep(COLLISION_FILTERS.BALL);
   }
 
   onInsideBasket() {
@@ -98,19 +97,19 @@ export default class Ball extends BasePhysicsEntity {
 
     this.isGravity = false;
     this.savedData.lastAngle = angle;
-    body.collisionFilter = copy(COLLISION_FILTERS.BALL);
+    body.collisionFilter = cloneDeep(COLLISION_FILTERS.BALL);
   }
 
   onDamage() {
     const {body} = this;
 
-    body.collisionFilter = copy(COLLISION_FILTERS.DAMAGE);
+    body.collisionFilter = cloneDeep(COLLISION_FILTERS.DAMAGE);
   }
 
   onProtected() {
     const {body} = this;
 
-    body.collisionFilter = copy(COLLISION_FILTERS.PROTECTED);
+    body.collisionFilter = cloneDeep(COLLISION_FILTERS.PROTECTED);
   }
 
   handleStatus() {

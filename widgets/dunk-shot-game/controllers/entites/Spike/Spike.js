@@ -1,6 +1,5 @@
 import BasePhysicsEntity from "../base/BasePhysicsEntity";
-import {copy} from "../../../../../shared/lib/copy/copy";
-import {upperFirst} from "lodash";
+import {upperFirst, cloneDeep} from "lodash";
 import {PIXI_SPACE, TEXTURE} from "../../../../../shared/scene/constants/loaders/assetsTypes";
 import {COLLISION_FILTERS} from "../../../constants/collision";
 import {assetsManager} from "../../../../../shared/scene/assets/AssetsManager";
@@ -36,8 +35,8 @@ export default class Spike extends BasePhysicsEntity {
     const body = this.body = Matter.Bodies.rectangle(
       0, 0, width, height,
       {
-        ...copy(physicalSettings),
-        collisionFilter: copy(COLLISION_FILTERS.SPIKE)
+        ...cloneDeep(physicalSettings),
+        collisionFilter: cloneDeep(COLLISION_FILTERS.SPIKE)
       }
     );
   }
@@ -67,12 +66,12 @@ export default class Spike extends BasePhysicsEntity {
 
   onActive() {
     const {body} = this;
-    body.collisionFilter = copy(COLLISION_FILTERS.SPIKE);
+    body.collisionFilter = cloneDeep(COLLISION_FILTERS.SPIKE);
   }
 
   onInactive() {
     const {body} = this;
-    body.collisionFilter = copy(COLLISION_FILTERS.INACTIVE);
+    body.collisionFilter = cloneDeep(COLLISION_FILTERS.INACTIVE);
   }
 
   updateMatrix() {

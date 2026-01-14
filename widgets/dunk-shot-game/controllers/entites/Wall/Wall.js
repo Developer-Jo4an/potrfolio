@@ -1,5 +1,5 @@
 import BasePhysicsEntity from "../base/BasePhysicsEntity";
-import {copy} from "../../../../../shared/lib/copy/copy";
+import {cloneDeep} from "lodash";
 import {COLLISION_FILTERS} from "../../../constants/collision";
 
 export class Wall extends BasePhysicsEntity {
@@ -17,7 +17,7 @@ export class Wall extends BasePhysicsEntity {
     const {direction, storage: {mainSceneSettings: {wall: wallSettings}}} = this;
     const params = wallSettings[direction].params;
     const body = this.body = Matter.Bodies.rectangle(...params);
-    body.collisionFilter = copy(COLLISION_FILTERS.WALL);
+    body.collisionFilter = cloneDeep(COLLISION_FILTERS.WALL);
   }
 
   addToSpaces() {

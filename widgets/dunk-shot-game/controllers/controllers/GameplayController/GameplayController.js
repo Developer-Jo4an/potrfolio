@@ -4,7 +4,7 @@ import BaseGameplayController from "./BaseGameplayController";
 import AimController from "./controllers/AimController";
 import BoostersController from "./controllers/BoostersController";
 import {addControllerStateHandler} from "../../../../../shared/scene/lib/state/addControllerStateHandler";
-import {copy} from "../../../../../shared/lib/copy/copy";
+import {cloneDeep} from "lodash";
 import {COLLISION_FILTERS} from "../../../constants/collision";
 import {DUNK_SHOT_TWEEN} from "../../../constants";
 import {DUNK_SHOT_STATE_MACHINE} from "../../../constants/stateMachine";
@@ -71,7 +71,7 @@ export default class GameplayController extends BaseGameplayController {
 
     activeBasket.mode = VISIBLE;
     ball.status = TO_DOWN;
-    ball.body.collisionFilter = copy(COLLISION_FILTERS.PREPARE);
+    ball.body.collisionFilter = cloneDeep(COLLISION_FILTERS.PREPARE);
     ball.angle = 0;
     ball.position = {x: activeBasket.x + fell.showingOffset.x, y: activeBasket.y + fell.showingOffset.y};
     ball.isGravity = false;
