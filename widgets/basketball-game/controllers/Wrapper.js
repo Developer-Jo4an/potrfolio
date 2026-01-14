@@ -27,8 +27,8 @@ export default class Wrapper extends ThreeWrapper {
 
   activateBooster(type) {
     const {controller: {storage: {engine: {systems}}}} = this;
-    const boostersSystem = systems.get(UUIDS.character);
-    boostersSystem.activateBooster(type);
+    const characterSystem = systems.get(UUIDS.character);
+    characterSystem.activateBooster(type);
   }
 
   reset() {

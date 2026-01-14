@@ -55,6 +55,7 @@ export const types = {
       {Class: ThreeComponent},
       {Class: Matrix4Component},
       {Class: Collection},
+      {Class: GSAPTween},
       {Class: Orbit}
     ]
   }

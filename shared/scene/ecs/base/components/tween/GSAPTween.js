@@ -1,28 +1,31 @@
 import Component from "../../../core/Component";
 
 export default class GSAPTween extends Component {
-  tweens = [];
+  tweens = new Map();
 
   has(id) {
     const {tweens} = this;
-    return tweens.some(tween => tween.id === id);
+    return tweens.has(id);
   }
 
   get(id) {
     const {tweens} = this;
-    return tweens.find(tween => tween.id === id);
+    return tweens.get(id);
   }
 
   add(tween) {
     const {tweens} = this;
-    tweens.push(tween);
+    tweens.set(tween.vars.id, tween);
   }
 
   remove(id, toKill = true) {
+    const tween = this.get(id);
+    if (!tween) return;
+
+    toKill && tween.kill();
+
     const {tweens} = this;
-    const index = tweens.findIndex(tween => tween.id === id);
-    const [necessaryTween] = tweens.splice(index, 1);
-    toKill && necessaryTween.kill();
+    tweens.delete(id);
   }
 
   destroy() {

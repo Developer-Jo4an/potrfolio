@@ -14,11 +14,12 @@ import returnCharacterToInitialPositionTween from "../../utils/animations/return
 import teleportActorToInitialPositionTween from "../../utils/animations/teleportActorToInitialPositionTween";
 import extraLifeTrailTween from "../../utils/animations/extraLifeTrailTween";
 import extraLifePulseTween from "../../utils/animations/extrLifePulseTween";
+import x2ViewTween from "../../utils/animations/x2ViewTween";
 import add from "../../../../shared/scene/ecs/three/side-effects/add";
 import gsap from "gsap";
 import {CHARACTER} from "../../constants/character";
 import {DRAG_END, DRAG_MOVE, DRAG_START} from "../../../../shared/constants/events/eventsNames";
-import {CLEAR_HIT, COLLISION_START, LOSE, MISS, THROWN, WIN} from "../../constants/events";
+import {CLEAR_HIT, COLLISION_START, GET_INFO, LOSE, MISS, THROWN, WIN} from "../../constants/events";
 import {GROUND} from "../../constants/ground";
 import {TWEENS} from "../../constants/tweens";
 import {ANIMATIONS, RING, RING_BODY, RING_GRID, RING_SHIELD, SENSOR} from "../../constants/ring";
@@ -146,7 +147,7 @@ export default class Character extends System {
     await new Promise(res => {
       returnTween.eventCallback("onComplete", () => {
         returnTween.delete(BASKETBALL);
-        cTween.remove(returnTween.id);
+        cTween.remove(returnTween.vars.id);
         res();
       });
     });
@@ -239,10 +240,10 @@ export default class Character extends System {
     return duration * multiplier;
   }
 
-  activateBooster({type, otherProps}) {
+  activateBooster(type) {
     const {storage: {gameSpace: {set}}} = this;
     set(({booster}) => booster.active = type);
-    this[createActivateMethod(type)](otherProps);
+    this[createActivateMethod(type)]();
   }
 
   [createActivateMethod(X2)]() {
@@ -279,14 +280,17 @@ export default class Character extends System {
     this.updateX2View({eGame, eCharacter, eRing, deltaTime: 0});
   }
 
-  async [createActivateMethod(EXTRA_LIFE)](
-    {
+  async [createActivateMethod(EXTRA_LIFE)]() {
+    const {storage: {eventBus, gameSpace: {set}}} = this;
+
+    const result = {};
+    eventBus.dispatchEvent({type: GET_INFO, result});
+    const {
       effectFreeSpaceRef: {current: effectFreeSpace},
       boostersRef: {current: {extraLife}},
       topMenuElementsRef: {current: {lifesIcon}}
-    }
-  ) {
-    const {storage: {gameSpace: {set}}} = this;
+    } = result;
+
     set(({booster, gameData}) => {
       booster.active = null;
       this.clearBoosterData();
@@ -346,9 +350,47 @@ export default class Character extends System {
     );
   }
 
+  animateX2View() {
+    const {storage: {eventBus, camera}, helpers: {raycaster}} = this;
+
+    const esX2 = this.getEntitiesByType(X2VIEW)?.list ?? [];
+
+    const result = {};
+    eventBus.dispatchEvent({type: GET_INFO, result});
+    const {topMenuElementsRef: {current: {scoreIcon}}} = result;
+    const bounding = scoreIcon.getBoundingClientRect();
+    const point = new THREE.Vector2(
+      ((bounding.x + bounding.width / 2) / global.innerWidth) * 2 - 1,
+      -((bounding.y + bounding.height / 2) / global.innerHeight) * 2 + 1
+    );
+
+    esX2.forEach(entity => {
+      const cThreeComponent = entity.get(ThreeComponent);
+      const cMatrix4Component = entity.get(Matrix4Component);
+      const cGSAPTween = entity.get(GSAPTween);
+
+      const plane = new THREE.Plane(new THREE.Vector3(0, 0, -1), cMatrix4Component.z);
+      raycaster.setFromCamera(point, camera);
+      const target = new THREE.Vector3();
+      raycaster.ray.intersectPlane(plane, target);
+
+      const tween = x2ViewTween(
+        cThreeComponent.object,
+        cMatrix4Component,
+        camera,
+        target,
+        () => {
+          entity.destroy();
+        }
+      );
+
+      cGSAPTween.add(tween);
+    });
+  }
+
   clearBoosterData() {
     const esX2 = this.getEntitiesByType(X2VIEW)?.list ?? [];
-    if (!!esX2.length) {
+    if (!!esX2.length && !esX2.some(entity => entity.get(GSAPTween).has(TWEENS.x2ViewTween))) {
       while (esX2.length)
         esX2[0].destroy();
     }
@@ -362,6 +404,8 @@ export default class Character extends System {
     const center = eCharacter.get(Matrix4Component).position.clone();
 
     const esX2 = this.getEntitiesByType(X2VIEW).list;
+
+    if (esX2.some(entity => entity.get(GSAPTween).has(TWEENS.x2ViewTween))) return;
 
     esX2.forEach(entity => {
       const cOrbit = entity.get(Orbit);
@@ -396,79 +440,120 @@ export default class Character extends System {
     cBody.object.setAngvel(angvel);
   }
 
+
+  checkCollisionWithRing({eCharacter}) {
+    const {storage: {gameSpace: {set}}} = this;
+
+    const collisions = eCharacter.getSome(EventComponent, COLLISION_START);
+    const isHasCollisionWithRing = collisions.some(({data: {collider}}) => [RING_BODY, RING_SHIELD, RING_GRID].includes(collider.userData.id));
+    if (isHasCollisionWithRing)
+      set(({characterMovement}) => characterMovement.isCollisionWithRing = true);
+  }
+
+  checkCollisionWithSensor({eCharacter, eRing}) {
+    const {storage: {gameSpace: {get, set}}} = this;
+
+    const collisions = eCharacter.getSome(EventComponent, COLLISION_START);
+
+    const isHasCollisionWithSensor = collisions.some(({data: {collider}}) => collider.userData.id === SENSOR);
+    if (!isHasCollisionWithSensor) return;
+
+    const gameSpace = get();
+
+    if (!gameSpace.characterMovement.isCollisionWithSensor) {
+      if (!gameSpace.characterMovement.isCollisionWithRing) {
+        const {eventBus} = this;
+        eCharacter.add(new EventComponent({eventBus, type: CLEAR_HIT}));
+      }
+
+      const isActiveBoosterX2 = gameSpace.booster.active === X2;
+
+      set(({gameData}) => {
+        gameData.score += (1 + Number(!gameSpace.characterMovement.isCollisionWithRing)) * (isActiveBoosterX2 ? 2 : 1);
+      });
+
+      const cRingMixer = eRing.get(Mixer);
+      const action = cRingMixer.mixer.clipAction(cRingMixer.animations[ANIMATIONS.grid]);
+      cRingMixer.mixer.update(0);
+      cRingMixer.mixer.setTime(0);
+      action.setLoop(THREE.LoopOnce);
+      action.stop();
+      action.play();
+
+      if (isActiveBoosterX2)
+        this.animateX2View();
+    }
+
+    set(({characterMovement}) => characterMovement.isCollisionWithSensor = true);
+  }
+
+  checkCollisionWithGround({eCharacter}) {
+    const {storage: {gameSpace: {get, set}}} = this;
+
+    const collisions = eCharacter.getSome(EventComponent, COLLISION_START);
+
+    const isHasCollisionWithGround = collisions.some(({data: {entity}}) => entity.type === GROUND);
+    if (!isHasCollisionWithGround) return;
+
+    const gameSpace = get();
+
+    const isTruthCondition = gameSpace.booster.active !== CLEAR_HIT || gameSpace.characterMovement.isCollisionWithSensor;
+    if (!isTruthCondition) return;
+
+    const cTween = eCharacter.get(GSAPTween);
+    if (cTween.has(TWEENS.teleportOnInitialPosition)) return;
+
+    const {storage: {mainSceneSettings: {character: {startData: {position, rotation}}}}} = this;
+    const cThreeComponent = eCharacter.get(ThreeComponent);
+    const cBody = eCharacter.get(Body);
+
+    const teleportTween = teleportActorToInitialPositionTween(
+      cThreeComponent.threeObject,
+      () => {
+        cBody.object.setBodyType(RAPIER3D.RigidBodyType.KinematicPositionBased);
+        cBody.object.setLinvel({x: 0, y: 0, z: 0});
+        cBody.object.setAngvel({x: 0, y: 0, z: 0});
+        cBody.object.setTranslation(position);
+        cBody.object.setRotation(new THREE.Quaternion().setFromEuler(new THREE.Euler().setFromVector3(rotation)));
+
+        set(({characterMovement, booster}) => {
+          booster.active = null;
+          this.clearBoosterData();
+
+          characterMovement.thrown = false;
+
+          gameSpace.characterMovement.isFlewSensor = false;
+
+          characterMovement.isCollisionWithRing = false;
+          characterMovement.isCollisionWithSensor = false;
+        });
+      },
+      () => {
+        cTween.remove(teleportTween.vars.id);
+      }
+    );
+
+    cTween.add(teleportTween);
+  }
+
   checkCollision({eGame, eCharacter, eRing}) {
-    const {storage: {gameSpace: {set, get}}} = this;
+    const {storage: {gameSpace: {get}}} = this;
 
     const gameSpace = get();
 
     if (!gameSpace.characterMovement.thrown) return;
 
-    const collisions = eCharacter.getSome(EventComponent, COLLISION_START);
+    this.checkCollisionWithRing(...arguments);
+    this.checkCollisionWithSensor(...arguments);
+    this.checkCollisionWithGround(...arguments);
+  }
 
-    const isHasCollisionWithRing = collisions.some(({data: {collider}}) => [RING_BODY, RING_SHIELD, RING_GRID].includes(collider.userData.id));
-    if (isHasCollisionWithRing)
-      set(({characterMovement}) => characterMovement.isCollisionWithRing = true);
+  updateFlight({eCharacter, eRing}) {
+    const {storage: {gameSpace: {get, set}}} = this;
 
-    const isHasCollisionWithSensor = collisions.some(({data: {collider}}) => collider.userData.id === SENSOR);
-    if (isHasCollisionWithSensor) {
-      if (!gameSpace.characterMovement.isCollisionWithSensor) {
-        if (!gameSpace.characterMovement.isCollisionWithRing) {
-          const {eventBus} = this;
-          eCharacter.add(new EventComponent({eventBus, type: CLEAR_HIT}));
-        }
+    const gameSpace = get();
 
-        set(({gameData}) => {
-          gameData.score += 1 + Number(!gameSpace.characterMovement.isCollisionWithRing);
-        });
-
-        const cRingMixer = eRing.get(Mixer);
-        const action = cRingMixer.mixer.clipAction(cRingMixer.animations[ANIMATIONS.grid]);
-        cRingMixer.mixer.update(0);
-        cRingMixer.mixer.setTime(0);
-        action.setLoop(THREE.LoopOnce);
-        action.stop();
-        action.play();
-      }
-
-      set(({characterMovement}) => characterMovement.isCollisionWithSensor = true);
-    }
-
-    const isHasCollisionWithGround = collisions.some(({data: {entity}}) => entity.type === GROUND);
-    if (isHasCollisionWithGround && (gameSpace.booster.active !== CLEAR_HIT || gameSpace.characterMovement.isCollisionWithSensor)) {
-      const cTween = eCharacter.get(GSAPTween);
-      if (!cTween.has(TWEENS.teleportOnInitialPosition)) {
-        const {storage: {mainSceneSettings: {character: {startData: {position, rotation}}}}} = this;
-        const cThreeComponent = eCharacter.get(ThreeComponent);
-        const cBody = eCharacter.get(Body);
-
-        const teleportTween = teleportActorToInitialPositionTween(
-          cThreeComponent.threeObject,
-          () => {
-            cBody.object.setBodyType(RAPIER3D.RigidBodyType.KinematicPositionBased);
-            cBody.object.setLinvel({x: 0, y: 0, z: 0});
-            cBody.object.setAngvel({x: 0, y: 0, z: 0});
-            cBody.object.setTranslation(position);
-            cBody.object.setRotation(new THREE.Quaternion().setFromEuler(new THREE.Euler().setFromVector3(rotation)));
-          }
-        );
-        cTween.add(teleportTween);
-        teleportTween.eventCallback("onComplete", () => {
-          teleportTween.delete(BASKETBALL);
-          cTween.remove(teleportTween.id);
-          set(({characterMovement, booster}) => {
-            booster.active = null;
-            this.clearBoosterData();
-
-            characterMovement.thrown = false;
-
-            gameSpace.characterMovement.isFlewSensor = false;
-
-            characterMovement.isCollisionWithRing = false;
-            characterMovement.isCollisionWithSensor = false;
-          });
-        });
-      }
-    }
+    if (!gameSpace.characterMovement.thrown) return;
 
     const cCharacterBody = eCharacter.get(Body);
     const cRingBody = eRing.get(Body);
@@ -486,6 +571,12 @@ export default class Character extends System {
       gameSpace.characterMovement.isFlewSensor = true;
       set(({gameData}) => gameData.lifes--);
     }
+  }
+
+  checkOnEnd({eCharacter, eGame}) {
+    const {storage: {gameSpace: {get}}} = this;
+
+    const gameSpace = get();
 
     const cState = eGame.get(State);
 
@@ -512,6 +603,8 @@ export default class Character extends System {
     this.updateMovement(fullProps);
     this.updateX2View(fullProps);
     this.checkCollision(fullProps);
+    this.updateFlight(fullProps);
+    this.checkOnEnd(fullProps);
   }
 }
 

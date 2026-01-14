@@ -30,7 +30,7 @@ function getDefaultValue() {
       balls: 10,
       score: 0,
       target: 10,
-      lifes: 3
+      lifes: 3000
     },
     characterMovement: {
       returnsBack: false,

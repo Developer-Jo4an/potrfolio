@@ -6,7 +6,7 @@ import Image from "../../../../shared/ui/image/ui/main/Image";
 import cl from "classnames";
 import styles from "./TopMenu.module.scss";
 
-export default function TopMenu({className, pause, sound, lifes, score, ref}) {
+export default function TopMenu({className, pause, sound, lifes, score, children, ref}) {
   const {current: elements} = useRef({
     pause: null,
     lifes: null,
@@ -69,6 +69,8 @@ export default function TopMenu({className, pause, sound, lifes, score, ref}) {
       </div>
 
       {sound && <SoundButton {...sound} ref={ref => elements.sound = ref}/>}
+
+      {children}
     </div>
   );
 }

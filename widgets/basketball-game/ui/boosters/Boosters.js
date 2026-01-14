@@ -29,7 +29,7 @@ export default function Boosters({gameSpace, ref}) {
   const boosterButtons = boosters.map(({type, timeout, background, img}) => ({
     id: type,
     className: styles.booster,
-    onClick: () => onClick({type, otherProps: {...arguments[0]}}),
+    onClick: () => onClick(type),
     isDisabled: !isCanUse,
     img: {...img, className: styles[img.className]},
     child: (
@@ -41,6 +41,6 @@ export default function Boosters({gameSpace, ref}) {
   }));
 
   return (
-    <BottomMenu ref={elementsRef} buttons={boosterButtons}/>
+    <BottomMenu ref={elementsRef} className={styles.boosters} buttons={boosterButtons}/>
   );
 }

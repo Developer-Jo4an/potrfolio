@@ -13,27 +13,3 @@ export default function getEventPosition(e) {
     fromScreenY: y / global.innerHeight
   };
 }
-
-
-export function getPointerPositionInsideElement(e, elementBounding) {
-  const {x, y} = getEventPosition(e);
-
-  const elementX = x - elementBounding.x;
-  const elementY = y - elementBounding.y;
-
-  const xPercent = +((elementX / elementBounding.width) * 100).toFixed(0);
-  const yPercent = +((elementY / elementBounding.height) * 100).toFixed(0);
-
-  const xPercentString = `${xPercent}%`;
-  const yPercentString = `${yPercent}%`;
-
-  const isInsideArea = [elementX, elementY].every(axis => axis >= 0);
-
-  return {
-    originX: x, originY: y,
-    elementX, elementY,
-    isInsideArea,
-    xPercent, yPercent,
-    xPercentString, yPercentString
-  };
-}

@@ -9,3 +9,5 @@ export const WIN = "win";
 export const LOSE = "lose";
 
 export const THROWN = "thrown";
+
+export const GET_INFO = "getInfo";

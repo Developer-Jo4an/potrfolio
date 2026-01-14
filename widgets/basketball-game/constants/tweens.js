@@ -3,5 +3,6 @@ export const TWEENS = {
   teleportOnInitialPosition: "teleportOnInitialPosition",
   hitMessage: "hitMessage",
   extraLifeTrailTween: "extraLifeTrailTween",
-  extraLifePulseTween: "extraLifePulseTween"
+  extraLifePulseTween: "extraLifePulseTween",
+  x2ViewTween: "x2ViewTween"
 };

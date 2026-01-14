@@ -139,6 +139,7 @@ export default class Controller extends ThreeController {
     const {decorators} = this;
     const updateDecorator = decorators[UPDATE_DECORATOR_FIELD];
     updateDecorator.startUpdate();
+    gsap.localTimeline.play(BASKETBALL);
 
     if (getIsDebug()) {
       const {storage} = this;
@@ -151,6 +152,7 @@ export default class Controller extends ThreeController {
     const {decorators} = this;
     const updateDecorator = decorators[UPDATE_DECORATOR_FIELD];
     updateDecorator.stopUpdate();
+    gsap.localTimeline.pause(BASKETBALL);
 
     if (getIsDebug()) {
       const {storage} = this;

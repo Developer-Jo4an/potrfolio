@@ -1,4 +1,4 @@
-import {useRef, useSyncExternalStore} from "react";
+import {useMemo, useRef, useSyncExternalStore} from "react";
 import {Loader} from "../../../../shared/ui/loader";
 import {TopMenu} from "../../../../features/top-menu";
 import Canvas from "../canvas/Canvas";
@@ -6,6 +6,7 @@ import Background from "../background/Background";
 import Effects from "../effects/Effects";
 import Boosters from "../boosters/Boosters";
 import usePause from "../../model/hooks/usePause";
+import useGetInfo from "../../model/hooks/useGetInfo";
 import useBasketballStore from "../../model/state-manager/basketballStore";
 import {INITIALIZATION, INITIALIZATION_LEVEL} from "../../constants/stateMachine";
 import gameSpaceStore from "../../model/storages/gameSpace";
@@ -22,13 +23,15 @@ export default function BasketballGame() {
   const boostersRef = useRef();
   const effectFreeSpaceRef = useRef();
 
-  const fullProps = {
+  const fullProps = useMemo(() => ({
     effectFreeSpaceRef,
     gameSpace,
     boostersRef,
     topMenuElementsRef,
     isPending: !state || [INITIALIZATION_LEVEL, INITIALIZATION].includes(state)
-  };
+  }), [gameSpace, state]);
+
+  useGetInfo(fullProps);
 
   return (
     <div className={styles.basketballGame}>
