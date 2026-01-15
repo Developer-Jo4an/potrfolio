@@ -1,4 +1,5 @@
 import {CLEAR_HIT, EXTRA_LIFE, X2} from "./boosters";
+import {X2VIEW} from "./x2View";
 
 export const mainSceneSettings = {
   world: {
@@ -42,8 +43,8 @@ export const mainSceneSettings = {
       duration: 1,
       speed: {
         s: 1.5,
-        m: 4.5,
-        l: 5.5,
+        m: 2.5,
+        l: 9.5,
         xl: 20
       },
       angvel: {
@@ -71,6 +72,7 @@ export const mainSceneSettings = {
     },
     [EXTRA_LIFE]: {},
     [X2]: {
+      angularVelocity: 40,
       count: 10,
       offsetRadius: 0.05,
       velocity: {
@@ -136,5 +138,9 @@ export const mainSceneSettings = {
         height: 2048
       }
     }
+  },
+
+  factory: {
+    prepareList: Array.from({length: 10}).fill({type: X2VIEW}),
   }
 };

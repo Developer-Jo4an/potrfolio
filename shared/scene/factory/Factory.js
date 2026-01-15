@@ -92,6 +92,13 @@ export default class Factory {
     }
   }
 
+  prepareItems(data) {
+    data.forEach(({type, data}) => {
+      const item = this.createItem(type, data);
+      this.pushItem(item);
+    });
+  }
+
   clear() {
     Object.entries(this.storage)
     .forEach(([, storage]) => {

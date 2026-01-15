@@ -12,17 +12,17 @@ export default class Assets extends System {
       factory,
       storage: {
         mainSceneSettings: {
-          factory: {prepareList = []} = {},
-        },
-      },
+          factory: {prepareList = []} = {}
+        }
+      }
     } = this;
 
-    prepareList.forEach(({type, count}) => factory.prepareItems(type, count));
+    factory.prepareItems(prepareList);
   }
 
   getAsset(event) {
     const {
-      data: {entity},
+      data: {entity}
     } = event;
     this.addSideEffect({entity, effect: this.getFactoryItem, args: [event], context: this});
   }
@@ -30,7 +30,7 @@ export default class Assets extends System {
   getFactoryItem(event) {
     const {
       data: {name},
-      data,
+      data
     } = event;
     const {factory} = this;
 

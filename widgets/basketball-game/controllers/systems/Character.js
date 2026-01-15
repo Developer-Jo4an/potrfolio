@@ -16,6 +16,7 @@ import extraLifeTrailTween from "../../utils/animations/extraLifeTrailTween";
 import extraLifePulseTween from "../../utils/animations/extrLifePulseTween";
 import x2ViewTween from "../../utils/animations/x2ViewTween";
 import add from "../../../../shared/scene/ecs/three/side-effects/add";
+import resetMatrix from "../../../../shared/scene/ecs/three/side-effects/resetMatrix";
 import gsap from "gsap";
 import {CHARACTER} from "../../constants/character";
 import {DRAG_END, DRAG_MOVE, DRAG_START} from "../../../../shared/constants/events/eventsNames";
@@ -25,7 +26,7 @@ import {TWEENS} from "../../constants/tweens";
 import {ANIMATIONS, RING, RING_BODY, RING_GRID, RING_SHIELD, SENSOR} from "../../constants/ring";
 import {UUIDS} from "../../constants/systems";
 import {BASKETBALL, GAME} from "../../constants/game";
-import {WIN as WIN_STATE, LOSE as LOSE_STATE} from "../../constants/stateMachine";
+import {LOSE as LOSE_STATE, WIN as WIN_STATE} from "../../constants/stateMachine";
 import {EXTRA_LIFE, X2} from "../../constants/boosters";
 import {X2VIEW} from "../../constants/x2View";
 import {PI2} from "../../../../shared/constants/trigonometry/trigonometry";
@@ -208,6 +209,16 @@ export default class Character extends System {
     const swipeVec = new THREE.Vector2(end2d.x - drag2d.x, end2d.y - drag2d.y);
     const directionBetweenVec = new THREE.Vector2(target.x - drag2d.x, target.z - drag2d.y);
 
+    const angle = THREE.MathUtils.radToDeg(
+      Math.acos(
+        swipeVec.dot(directionBetweenVec)
+        /
+        (swipeVec.length() * directionBetweenVec.length())
+      )
+    );
+
+    console.log("throw angle>>", angle);
+
     return swipeVec.setLength(directionBetweenVec.length()).x;
   }
 
@@ -258,6 +269,7 @@ export default class Character extends System {
       const cThreeComponent = eX2.get(ThreeComponent);
       const x2View = cThreeComponent.threeObject = cThreeComponent.threeObject = this.getAsset(eX2, X2VIEW);
       this.addSideEffect({entity: eX2, effect: add, args: [scene, x2View]});
+      this.addSideEffect({entity: eX2, effect: resetMatrix, args: [x2View]});
 
       const cOrbit = eX2.get(Orbit);
       cOrbit.center = eCharacter.get(Matrix4Component).position.clone();
@@ -351,13 +363,19 @@ export default class Character extends System {
   }
 
   animateX2View() {
-    const {storage: {eventBus, camera}, helpers: {raycaster}} = this;
+    const {
+      storage: {mainSceneSettings: {boosters: {[X2]: {angularVelocity}}}, eventBus, camera},
+      helpers: {raycaster}
+    } = this;
 
     const esX2 = this.getEntitiesByType(X2VIEW)?.list ?? [];
 
     const result = {};
     eventBus.dispatchEvent({type: GET_INFO, result});
-    const {topMenuElementsRef: {current: {scoreIcon}}} = result;
+    const {
+      effectFreeSpaceRef: {current: freeSpace},
+      topMenuElementsRef: {current: {scoreIcon}}
+    } = result;
     const bounding = scoreIcon.getBoundingClientRect();
     const point = new THREE.Vector2(
       ((bounding.x + bounding.width / 2) / global.innerWidth) * 2 - 1,
@@ -365,7 +383,6 @@ export default class Character extends System {
     );
 
     esX2.forEach(entity => {
-      const cThreeComponent = entity.get(ThreeComponent);
       const cMatrix4Component = entity.get(Matrix4Component);
       const cGSAPTween = entity.get(GSAPTween);
 
@@ -375,10 +392,11 @@ export default class Character extends System {
       raycaster.ray.intersectPlane(plane, target);
 
       const tween = x2ViewTween(
-        cThreeComponent.object,
         cMatrix4Component,
-        camera,
         target,
+        bounding,
+        freeSpace,
+        angularVelocity,
         () => {
           entity.destroy();
         }
@@ -397,7 +415,7 @@ export default class Character extends System {
   }
 
   updateX2View({eCharacter, deltaTime}) {
-    const {storage: {gameSpace: {get}}} = this;
+    const {storage: {mainSceneSettings: {boosters: {[X2]: {angularVelocity}}}, gameSpace: {get}}} = this;
     const {booster} = get();
     if (booster.active !== X2) return;
 
@@ -408,20 +426,26 @@ export default class Character extends System {
     if (esX2.some(entity => entity.get(GSAPTween).has(TWEENS.x2ViewTween))) return;
 
     esX2.forEach(entity => {
+      const cMatrix4Component = entity.get(Matrix4Component);
+
       const cOrbit = entity.get(Orbit);
       cOrbit.center = center.clone();
       cOrbit.angle += cOrbit.angularVelocity * deltaTime;
 
       const {radius, angle, tangent1, tangent2} = cOrbit;
 
-      const position = {
+      cMatrix4Component.position = {
         x: center.x + radius * (Math.cos(angle) * tangent1.x + Math.sin(angle) * tangent2.x),
         y: center.y + radius * (Math.cos(angle) * tangent1.y + Math.sin(angle) * tangent2.y),
         z: center.z + radius * (Math.cos(angle) * tangent1.z + Math.sin(angle) * tangent2.z)
       };
 
-      const cMatrix4Component = entity.get(Matrix4Component);
-      cMatrix4Component.position = position;
+      const addedAngle = THREE.MathUtils.degToRad(angularVelocity) * deltaTime;
+      cMatrix4Component.rotation = {
+        x: cMatrix4Component.rotation.x + addedAngle,
+        y: cMatrix4Component.rotation.y + addedAngle,
+        z: cMatrix4Component.rotation.z + addedAngle
+      };
     });
   }
 

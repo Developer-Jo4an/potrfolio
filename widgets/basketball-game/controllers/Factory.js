@@ -161,7 +161,7 @@ export default class BasketballFactory extends Factory {
    * x2View
    */
   [createMethod(METHODS.create, X2VIEW)]() {
-    const geometry = new THREE.SphereGeometry(0.02);
+    const geometry = new THREE.BoxGeometry(0.04, 0.04, 0.04);
     const material = new THREE.MeshBasicMaterial({color: "red"});
     return new THREE.Mesh(geometry, material);
   }

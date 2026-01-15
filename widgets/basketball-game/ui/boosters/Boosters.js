@@ -41,6 +41,6 @@ export default function Boosters({gameSpace, ref}) {
   }));
 
   return (
-    <BottomMenu ref={elementsRef} className={styles.boosters} buttons={boosterButtons}/>
+    <BottomMenu ref={elementsRef} buttons={boosterButtons}/>
   );
 }

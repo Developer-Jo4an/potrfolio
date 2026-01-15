@@ -10,20 +10,12 @@ import {INDEX} from "../../../../shared/constants/pages/routes";
 
 const {menu: {pause}} = content;
 
-export default function usePause({gameSpace}) {
+export default function usePause() {
   const {wrapper, state} = useBasketballStore();
   const {add, close} = useModalStore();
   const {redirect} = useAppCallbacks();
 
-  const isCanPressPause = (
-    BASKETBALL_STATE_MACHINE[state]?.availableStates.includes(PAUSED) &&
-    !gameSpace.characterMovement.returnsBack &&
-    !gameSpace.characterMovement.thrown &&
-    !gameSpace.characterMovement.isCollisionWithRing &&
-    !gameSpace.characterMovement.isCollisionWithSensor &&
-    !gameSpace.characterMovement.isDrag &&
-    !gameSpace.booster.active
-  );
+  const isCanPressPause = BASKETBALL_STATE_MACHINE[state]?.availableStates.includes(PAUSED);
 
   const {buttons, ...otherProps} = pause;
 

@@ -18,7 +18,7 @@ const {menu: {score, lifes, sound}} = content;
 export default function BasketballGame() {
   const {state} = useBasketballStore();
   const gameSpace = useSyncExternalStore(gameSpaceStore.subscribe, gameSpaceStore.getSnapshot);
-  const pause = usePause({gameSpace});
+  const pause = usePause();
   const topMenuElementsRef = useRef();
   const boostersRef = useRef();
   const effectFreeSpaceRef = useRef();
