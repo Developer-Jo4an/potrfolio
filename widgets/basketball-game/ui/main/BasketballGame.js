@@ -7,6 +7,7 @@ import Effects from "../effects/Effects";
 import Boosters from "../boosters/Boosters";
 import usePause from "../../model/hooks/usePause";
 import useGetInfo from "../../model/hooks/useGetInfo";
+import useEndGame from "../../model/hooks/useEndGame";
 import useBasketballStore from "../../model/state-manager/basketballStore";
 import {INITIALIZATION, INITIALIZATION_LEVEL} from "../../constants/stateMachine";
 import gameSpaceStore from "../../model/storages/gameSpace";
@@ -17,7 +18,7 @@ const {menu: {score, lifes, sound}} = content;
 
 export default function BasketballGame() {
   const {state} = useBasketballStore();
-  const gameSpace = useSyncExternalStore(gameSpaceStore.subscribe, gameSpaceStore.getSnapshot);
+  const gameSpace = useSyncExternalStore(gameSpaceStore.subscribe, gameSpaceStore.getSnapshot, gameSpaceStore.getServerSnapshot);
   const pause = usePause();
   const topMenuElementsRef = useRef();
   const boostersRef = useRef();
@@ -32,6 +33,7 @@ export default function BasketballGame() {
   }), [gameSpace, state]);
 
   useGetInfo(fullProps);
+  useEndGame();
 
   return (
     <div className={styles.basketballGame}>

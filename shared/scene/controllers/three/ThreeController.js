@@ -95,14 +95,13 @@ export default class ThreeController extends BaseController {
       rendererSettings: {
         shadow,
         background,
-        encoding = THREE.sRGBEncoding,
+        colorSpace = THREE.SRGBColorSpace,
         toneMapping = THREE.NoToneMapping,
         dpr = 2
       } = {}
     } = this;
     const {canvas, context} = ThreeController;
     const renderer = this.renderer = new THREE.WebGLRenderer({...THREE_WEBGL_RENDERER_CONFIG, canvas, context});
-
     renderer.debug.checkShaderErrors = getIsDebug();
 
     if (shadow) {
@@ -116,7 +115,7 @@ export default class ThreeController extends BaseController {
     } else renderer.setClearColor(background?.color ?? "#cccccc");
 
     renderer.setPixelRatio(dpr);
-    renderer.outputEncoding = encoding;
+    renderer.outputColorSpace = colorSpace;
     renderer.toneMapping = toneMapping;
 
     renderer.setSize(offsetWidth, offsetHeight);

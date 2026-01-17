@@ -1,17 +1,15 @@
 import {Image} from "../../../../shared/ui/image";
-import {formatStatValue} from "../../lib/format";
 import styles from "./Stat.module.scss";
-import content from "../../constants/content";
 
-export default function Stat({label, value, image, Icon, imageDirectory}) {
+export default function Stat({label, value, mod, img, Icon}) {
   return (
-    <div className={styles.stat}>
-      <p className={styles.statName}>{`${content.statsNames[label]}:`}</p>
+    <div className={styles.stat} data-mod={mod}>
+      <p className={styles.statName}>{`${label}:`}</p>
       <div className={styles.statInfo}>
-        {image && <Image src={`widgets/${imageDirectory}/stats/${label}.png`} className={styles.statImage}/>}
+        {img && <Image src={img} className={styles.statImage}/>}
         {Icon && <Icon className={styles.statSign}/>}
-        <div className={styles.statValue}>{formatStatValue(label, value)}</div>
+        {value && <div className={styles.statValue}>{value}</div>}
       </div>
     </div>
-  )
+  );
 }

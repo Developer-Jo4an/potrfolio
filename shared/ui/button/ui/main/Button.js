@@ -13,6 +13,7 @@ export default function Button(
     events = {},
     eventFunctions = [],
     callbacksData = {},
+    modalsData = {},
     children
   }) {
 
@@ -23,7 +24,8 @@ export default function Button(
     timeout,
     isDisposable,
     eventFunctions,
-    callbacksData
+    callbacksData,
+    modalsData
   });
 
   return (

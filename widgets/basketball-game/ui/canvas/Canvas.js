@@ -2,7 +2,6 @@ import {useRef} from "react";
 import useLoadScene from "../../../../shared/scene/model/hooks/useLoadScene";
 import useStateControls from "../../../../shared/scene/model/hooks/useStateControls";
 import useResetScene from "../../../../shared/scene/model/hooks/useResetScene";
-import useEndGame from "../../model/hooks/useEndGame";
 import cl from "classnames";
 import useBasketballStore from "../../model/state-manager/basketballStore";
 import {BASKETBALL_STATE_MACHINE, IGNORE_NEXT_STATES, WIN, LOSE} from "../../constants/stateMachine";
@@ -40,7 +39,6 @@ export default function Canvas() {
   );
 
   useResetScene({wrapper});
-  useEndGame();
 
   const isGameEnd = [WIN, LOSE].includes(state);
 

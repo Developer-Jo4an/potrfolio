@@ -1,5 +1,10 @@
+import getDefaultState from "../../../shared/scene/lib/state/getDefaultState";
 import {CLEAR_HIT, EXTRA_LIFE, X2} from "./boosters";
 import {OFF, ON} from "../../../shared/constants/helpful/statuses";
+import {MODAL_NAMES} from "../../../application/providers/modal";
+import {MODS} from "../../../features/game-end-modal";
+import {BASKETBALL_STATE_MACHINE, LOSE, WIN} from "./stateMachine";
+import {INDEX} from "../../../shared/constants/pages/routes";
 
 export default {
   boosters: [
@@ -91,5 +96,70 @@ export default {
         src: "widgets/basketball-game/miss.png"
       }
     }
+  },
+  endModal({status, wrapper, score, story, pureCount, redirect}) {
+    return {
+      type: MODAL_NAMES.gameEndModal,
+      props: {
+        background: {src: "widgets/game-cards/backgrounds/basketball.png"},
+        title: {text: {[WIN]: "Победа", [LOSE]: "Поражение"}[status], status, mod: MODS.velvet},
+        img: {src: `widgets/basketball-game/end-game/${status}.png`},
+        stats: {
+          mod: MODS.velvet,
+          list: [
+            {
+              label: "Количество очко",
+              img: "widgets/basketball-game/stats/star.png",
+              value: `+${score}`
+            },
+            {
+              label: "Заброшенные мячи",
+              img: "widgets/basketball-game/stats/ball.png",
+              value: `${story.reduce((acc, isHit) => acc + +isHit, 0)}/${story.length}`
+            },
+            {
+              label: "Чистые попадания",
+              value: pureCount
+            }
+          ]
+        },
+        buttons: {
+          mod: MODS.velvet,
+          list: [
+            {
+              isDisposable: true,
+              text: {[WIN]: "Продолжить", [LOSE]: "Реванш"}[status],
+              background: {
+                img: {
+                  src: "widgets/basketball-game/end-game/continue.png"
+                }
+              },
+              modalsData: {close: [{id: "active"}]},
+              events: {
+                async onClick() {
+                  await wrapper.reset();
+                  wrapper.state = getDefaultState(BASKETBALL_STATE_MACHINE);
+                }
+              }
+            },
+            {
+              isDisposable: true,
+              text: "Выйти",
+              background: {
+                img: {
+                  src: "widgets/basketball-game/end-game/close.png"
+                }
+              },
+              modalsData: {close: [{id: "active"}]},
+              events: {
+                onClick() {
+                  redirect(INDEX);
+                }
+              }
+            }
+          ]
+        }
+      }
+    };
   }
 };

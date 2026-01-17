@@ -485,15 +485,17 @@ export default class Character extends System {
     const gameSpace = get();
 
     if (!gameSpace.characterMovement.isCollisionWithSensor) {
-      if (!gameSpace.characterMovement.isCollisionWithRing) {
+      const isCollisionWithRing = gameSpace.characterMovement.isCollisionWithRing;
+      if (!isCollisionWithRing) {
         const {eventBus} = this;
         eCharacter.add(new EventComponent({eventBus, type: CLEAR_HIT}));
       }
 
       const isActiveBoosterX2 = gameSpace.booster.active === X2;
-
       set(({gameData}) => {
-        gameData.score += (1 + Number(!gameSpace.characterMovement.isCollisionWithRing)) * (isActiveBoosterX2 ? 2 : 1);
+        gameData.score += (1 + Number(!isCollisionWithRing)) * (isActiveBoosterX2 ? 2 : 1);
+        gameData.story.push(true);
+        !isCollisionWithRing && gameData.pureCount++;
       });
 
       const cRingMixer = eRing.get(Mixer);
@@ -593,7 +595,10 @@ export default class Character extends System {
       const {eventBus} = this;
       eCharacter.add(new EventComponent({eventBus, type: MISS}));
       gameSpace.characterMovement.isFlewSensor = true;
-      set(({gameData}) => gameData.lifes--);
+      set(({gameData}) => {
+        gameData.lifes--;
+        gameData.story.push(false);
+      });
     }
   }
 

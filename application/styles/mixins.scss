@@ -21,3 +21,17 @@
     transform: scale(0.8);
   }
 }
+
+@mixin mod($mod, $selector: null, $attribute: "mod") {
+  $selector-str: ".#{$selector}";
+
+  @if $selector {
+    @at-root #{$selector-str}[data-#{$attribute}=#{$mod}] & {
+      @content;
+    }
+  } @else {
+    &[data-#{$attribute}=#{$mod}] {
+      @content;
+    }
+  }
+}

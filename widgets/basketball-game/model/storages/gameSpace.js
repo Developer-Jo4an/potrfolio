@@ -1,6 +1,6 @@
 import {cloneDeep} from "lodash";
 
-let gameSpace = getDefaultValue();
+export let gameSpace = getDefaultValue();
 
 const listeners = new Set();
 const gameSpaceStore = {
@@ -13,6 +13,9 @@ const gameSpaceStore = {
     gameSpace = getDefaultValue();
   },
   getSnapshot() {
+    return gameSpace;
+  },
+  getServerSnapshot() {
     return gameSpace;
   },
 
@@ -30,7 +33,9 @@ function getDefaultValue() {
       balls: 10,
       score: 0,
       target: 10,
-      lifes: 3000
+      lifes: 3,
+      story: [],
+      pureCount: 0
     },
     characterMovement: {
       returnsBack: false,

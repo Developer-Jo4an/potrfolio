@@ -1,37 +1,19 @@
-import {Glow} from "../../../../shared/ui/glow";
-import {Image} from "../../../../shared/ui/image";
-import {formatStats} from "../../lib/format";
-import Stat from "../stat/Stat";
-import {Button} from "../../../../shared/ui/button";
+import Background from "../background/Background";
+import Title from "../title/Title";
+import Img from "../img/Img";
+import Stats from "../stats/Stats";
+import Buttons from "../buttons/Buttons";
 import cl from "classnames";
-import content from "../../constants/content";
 import styles from "./GameEndModal.module.scss";
 
-export default function GameEndModal({modalProps: {status, imageDirectory, game, stats, actions}}) {
-  const formattedStats = formatStats(stats);
-
+export default function GameEndModal({modalProps: {background, title, img, stats, buttons}}) {
   return (
-    <div className={styles.gameEndModal}>
-      <div className={styles.imageContainer}>
-        <Glow/>
-        <Image src={`widgets/${imageDirectory}/end-game/${status}.png`} className={styles.image}/>
-      </div>
-
-      <p className={styles.title}>{content.title[status]}</p>
-
-      <div className={styles.stats}>
-        {formattedStats.map(({key, image, Icon, value}) => (
-          <Stat key={key} label={key} imageDirectory={imageDirectory} image={image} Icon={Icon} value={value}/>)
-        )}
-      </div>
-
-      <div className={styles.buttons}>
-        {content.buttons.map(({id, text, className}) => (
-          <Button key={id} className={cl(styles.button, styles[className])} events={{onClick: actions[id]}}>
-            {text}
-          </Button>
-        ))}
-      </div>
+    <div className={cl(styles.gameEndModal)}>
+      {background && <Background {...background}/>}
+      {title && <Title {...title}/>}
+      {img && <Img {...img}/>}
+      {stats && <Stats {...stats}/>}
+      {buttons && <Buttons {...buttons}/>}
     </div>
   );
 }
