@@ -5,13 +5,14 @@ import hitTween from "../../utils/animations/hitTween";
 import useBasketballStore from "../../model/state-manager/basketballStore";
 import {CLEAR_HIT, MISS} from "../../constants/events";
 import content from "../../constants/content";
-import styles from "./Effects.module.scss";
 import {BASKETBALL} from "../../constants/game";
+import {PLAYING} from "../../constants/stateMachine";
+import styles from "./Effects.module.scss";
 
 const {effects: {clearHit, miss}} = content;
 
 export default function Effects({ref}) {
-  const {wrapper} = useBasketballStore();
+  const {wrapper, state} = useBasketballStore();
   const [{isVisibleClearHitEffect, isVisibleMissEffect}, setVisibleEffects] = useState({
     isVisibleClearHitEffect: false,
     isVisibleMissEffect: false
@@ -44,6 +45,17 @@ export default function Effects({ref}) {
   }, [wrapper]);
 
   useEffect(() => {
+    if (state !== PLAYING) {
+      setVisibleEffects(prev => {
+        const newData = {};
+        for (const key in prev)
+          newData[key] = false;
+        return newData;
+      });
+
+      return;
+    }
+
     if (!isVisibleClearHitEffect && !isVisibleMissEffect) return;
 
     const {clearHitEffect, missEffect} = animatedElements.current;
@@ -61,11 +73,11 @@ export default function Effects({ref}) {
 
     const clearFunctions = animatedData.map(({DOMElement, clear}) => {
       const tween = hitTween(DOMElement, clear);
-      return () => tween.delete(BASKETBALL);
+      return () => !tween.isKilled && tween.delete(BASKETBALL);
     });
 
     return () => clearFunctions.forEach(func => func());
-  }, [isVisibleClearHitEffect, isVisibleMissEffect]);
+  }, [state, isVisibleClearHitEffect, isVisibleMissEffect]);
 
   return (
     <div className={styles.effects}>

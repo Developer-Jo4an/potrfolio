@@ -41,12 +41,12 @@ export const mainSceneSettings = {
     },
     throw: {
       duration: 1,
-      speed: {
-        s: 1.5,
-        m: 2.5,
-        l: 9.5,
-        xl: 20
-      },
+      dragEventCountForThrow: 3,
+      vectorHelp: 4,
+      speedHelp: 2,
+      minSpeed: 0.75,
+      speedInterpolation: 2,
+      multiplier: [0.6, 1.25],
       angvel: {
         x: 8,
         y: 0,
@@ -100,7 +100,7 @@ export const mainSceneSettings = {
     },
     sensor: {
       radius: 0.02,
-      translation: [0, -0.15, 0]
+      translation: [0, -0.125, 0]
     },
     geometryRotation: {x: Math.PI / 2, y: 0, z: 0},
     tube: 0.015
@@ -141,6 +141,6 @@ export const mainSceneSettings = {
   },
 
   factory: {
-    prepareList: Array.from({length: 10}).fill({type: X2VIEW}),
+    prepareList: Array.from({length: 10}).fill({type: X2VIEW})
   }
 };

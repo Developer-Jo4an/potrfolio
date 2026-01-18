@@ -1,4 +1,4 @@
-import {useMemo, useRef, useSyncExternalStore} from "react";
+import {useMemo, useRef} from "react";
 import {Loader} from "../../../../shared/ui/loader";
 import {TopMenu} from "../../../../features/top-menu";
 import Canvas from "../canvas/Canvas";
@@ -8,6 +8,7 @@ import Boosters from "../boosters/Boosters";
 import usePause from "../../model/hooks/usePause";
 import useGetInfo from "../../model/hooks/useGetInfo";
 import useEndGame from "../../model/hooks/useEndGame";
+import useGameSpaceStore from "../../../../shared/scene/gameSpace/useGameSpaceStore";
 import useBasketballStore from "../../model/state-manager/basketballStore";
 import {INITIALIZATION, INITIALIZATION_LEVEL} from "../../constants/stateMachine";
 import gameSpaceStore from "../../model/storages/gameSpace";
@@ -18,7 +19,7 @@ const {menu: {score, lifes, sound}} = content;
 
 export default function BasketballGame() {
   const {state} = useBasketballStore();
-  const gameSpace = useSyncExternalStore(gameSpaceStore.subscribe, gameSpaceStore.getSnapshot, gameSpaceStore.getServerSnapshot);
+  const gameSpace = useGameSpaceStore(gameSpaceStore);
   const pause = usePause();
   const topMenuElementsRef = useRef();
   const boostersRef = useRef();

@@ -1,3 +1,11 @@
+// devices
+$MOB-PORT: "mobile-portrait";
+$MOB-LAND: "mobile-landscape";
+$DESC-PORT: "desktop-portrait";
+$DESC-LAND: "desktop-landscape";
+$DEVICES-LIST: $MOB-PORT, $MOB-LAND, $DESC-PORT, $DESC-LAND;
+
+// colors
 $WHITE: #FFFFFF;
 $BLACK: #000000;
 $YELLOW: #FCFC43;
@@ -9,4 +17,5 @@ $GREEN: #02E50E;
 $VIOLET: #F60FFF;
 $VELVET: #FFEDE0;
 
+// business constants
 $BASKETBALL_MAIN_COLOR: #E34704;

@@ -15,10 +15,10 @@ import Light from "./systems/Light";
 import Collision from "./systems/Collision";
 import CameraFlying from "../../../shared/scene/debug/three/CameraFlying";
 import Effect from "./systems/Effect";
+import gsap from "gsap";
 import getIsDebug from "../../../shared/lib/debug/debug";
 import eventSubscription from "../../../shared/lib/events/eventListener";
 import gameSpaceStore from "../model/storages/gameSpace";
-import gsap from "gsap";
 import {analysis} from "../../../shared/scene/analytics/Analytics";
 import {UPDATED} from "../../../shared/scene/constants/events/names";
 import {RESIZE} from "../../../shared/constants/events/eventsNames";
@@ -78,11 +78,7 @@ export default class Controller extends ThreeController {
     storage.decorators = decorators;
     storage.renderer = renderer;
     storage.canvas = canvas;
-    storage.gameSpace = {
-      get: gameSpaceStore.getSnapshot,
-      set: gameSpaceStore.set,
-      reset: gameSpaceStore.reset
-    };
+    storage.gameSpace = gameSpaceStore;
     storage.eventQueue = new RAPIER3D.EventQueue(true);
 
     engine

@@ -1,3 +1,5 @@
+@use "@/application/styles/constants" as constants;
+
 @mixin hover {
   @media(hover: hover) {
     &:hover {
@@ -34,4 +36,53 @@
       @content;
     }
   }
+}
+
+@mixin device() {
+  @each $device in constants.$DEVICES-LIST {
+    :global([data-device="#{$device}"]) & {
+      @content($device)
+    }
+  }
+}
+
+@mixin size($width, $height) {
+  @include width($width);
+  @include height($height);
+}
+
+@mixin width($width) {
+  width: #{$width}vw;
+
+  $localWidthS: #{$width}svw;
+  @supports (width: $localWidthS) {
+    & {
+      width: $localWidthS;
+    }
+  };
+
+  $localWidthD: #{$width}dvw;
+  @supports (width: $localWidthD) {
+    & {
+      width: $localWidthD;
+    }
+  };
+}
+
+@mixin height($height) {
+  height: #{$height}vh;
+
+  $localHeightS: #{$height}svh;
+  @supports (height: $localHeightS) {
+    & {
+      height: $localHeightS;
+    }
+  };
+
+  $localHeightD: #{$height}dvh;
+  @supports (height: $localHeightD) {
+    & {
+      height: $localHeightD;
+    }
+  };
 }

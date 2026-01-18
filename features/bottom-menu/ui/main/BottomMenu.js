@@ -5,13 +5,13 @@ import {isFinite} from "lodash";
 import cl from "classnames";
 import styles from "./BottomMenu.module.scss";
 
-export default function BottomMenu({className, buttons, children, ref}) {
+export default function BottomMenu({className, buttons, children, mod, ref}) {
   const {current: elements} = useRef({});
 
   useImperativeHandle(ref, () => elements);
 
   return (
-    <div className={cl(styles.bottomMenu, className)}>
+    <div className={cl(styles.bottomMenu, className)} data-mod={mod}>
       {buttons?.map((
         {
           id,

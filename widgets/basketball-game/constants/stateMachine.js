@@ -27,13 +27,11 @@ export const BASKETBALL_STATE_MACHINE = {
   },
   [LOSE]: {
     availableStates: [INITIALIZATION_LEVEL],
-    nextState: INITIALIZATION_LEVEL,
-    isAvailableUpdate: true
+    nextState: INITIALIZATION_LEVEL
   },
   [WIN]: {
     availableStates: [INITIALIZATION_LEVEL],
-    nextState: INITIALIZATION_LEVEL,
-    isAvailableUpdate: true
+    nextState: INITIALIZATION_LEVEL
   }
 };
 

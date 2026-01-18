@@ -74,7 +74,7 @@ export default class Entity {
   }
 
   /**
-   * Добавледение компонента(ов) в сущность
+   * Добавление компонента(ов) в сущность
    * @param newChildren
    */
   add(...newChildren) {

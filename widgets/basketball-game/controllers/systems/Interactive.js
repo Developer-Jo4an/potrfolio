@@ -4,6 +4,7 @@ import EventComponent from "../../../../shared/scene/ecs/base/components/EventCo
 import State from "../../../../shared/scene/ecs/base/components/state/State";
 import eventSubscription from "../../../../shared/lib/events/eventListener";
 import getEventPosition from "../../../../shared/lib/events/eventPosition";
+import {createAnimationFrame} from "../../../../shared/lib/browserApi/frames";
 import {CHARACTER} from "../../constants/character";
 import {DRAG_END, DRAG_MOVE, DRAG_START, END, MOVE, START} from "../../../../shared/constants/events/eventsNames";
 import {GAME} from "../../constants/game";
@@ -57,54 +58,68 @@ export default class Interactive extends System {
     return !returnsBack && !thrown && !activeBooster && !!states[cState.state]?.isAvailableInteractive;
   }
 
+  get isDrag() {
+    const {storage: {gameSpace: {get}}} = this;
+    const {characterMovement: {isDrag}} = get();
+    return isDrag;
+  }
+
   onStart({originalEvent}) {
-    const {isAvailableInteractive} = this;
-    if (!isAvailableInteractive) return;
+    if (this.isDrag || !this.isAvailableInteractive) return;
 
     const {storage: {gameSpace: {set}}} = this;
     set(({characterMovement}) => characterMovement.isDrag = true);
 
-    const eCharacter = this.getFirstEntityByType(CHARACTER);
-    const cEvent = this.createInteractiveEvent(DRAG_START, originalEvent);
-    eCharacter.add(cEvent);
+    this.addInteractiveEvent(DRAG_START, originalEvent);
   }
 
   onMove(e) {
-    const {isAvailableInteractive} = this;
-    if (!isAvailableInteractive) return;
-
-    const eCharacter = this.getFirstEntityByType(CHARACTER);
-    const csEvent = eCharacter.getSome(EventComponent, DRAG_START, DRAG_MOVE, DRAG_END);
-    const isHasDragStart = csEvent[0]?.type === DRAG_START;
-
-    if (isHasDragStart) {
-      const cEvent = this.createInteractiveEvent(DRAG_MOVE, e);
-      eCharacter.add(cEvent);
-    }
+    if (this.isDrag && this.isAvailableInteractive)
+      this.addInteractiveEvent(DRAG_MOVE, e);
   }
 
   onEnd(e) {
-    const {isAvailableInteractive} = this;
-    if (!isAvailableInteractive) return;
-
-    const eCharacter = this.getFirstEntityByType(CHARACTER);
-    const csEvent = eCharacter.getSome(EventComponent, DRAG_START, DRAG_MOVE, DRAG_END);
-    const isHasDragStart = csEvent[0]?.type === DRAG_START;
-
-    if (isHasDragStart) {
+    if (this.isDrag && this.isAvailableInteractive) {
       const {storage: {gameSpace: {set}}} = this;
       set(({characterMovement}) => characterMovement.isDrag = false);
-
-      const cEvent = this.createInteractiveEvent(DRAG_END, e);
-      eCharacter.add(cEvent);
+      this.addInteractiveEvent(DRAG_END, e);
     }
   }
 
-  createInteractiveEvent(type, event) {
+  addInteractiveEvent(type, event) {
     const {eventBus} = this;
+
+    const eCharacter = this.getFirstEntityByType(CHARACTER);
+
     const cursor = getEventPosition(event);
-    cursor.timestamp = Math.round(performance.now());
-    return new EventComponent({eventBus, type, data: {cursor}});
+    cursor.timestamp = performance.now();
+
+    const newEvent = new EventComponent({eventBus, type, data: {cursor}});
+    eCharacter.add(newEvent);
+
+    this.clearExtraEvents(type);
+  }
+
+  clearExtraEvents(type) {
+    const eCharacter = this.getFirstEntityByType(CHARACTER);
+    if (type === DRAG_MOVE) {
+      const {storage: {mainSceneSettings: {character: {throw: {dragEventCountForThrow}}}}} = this;
+      const csDragEvents = eCharacter.getSome(EventComponent, DRAG_MOVE);
+      if (csDragEvents?.length > dragEventCountForThrow) {
+        const firstEvent = csDragEvents[0];
+        eCharacter.remove(firstEvent);
+      }
+    } else if (type === DRAG_END) {
+      const {storage: {gameSpace: {set}}} = this;
+      const csDragEvents = eCharacter.getSome(EventComponent, DRAG_START, DRAG_MOVE, DRAG_END);
+      set(({serviceData: {clearFunctions}}) => {
+        clearFunctions.push(
+          createAnimationFrame(() => {
+            csDragEvents.forEach(event => eCharacter.remove(event));
+          })
+        );
+      });
+    }
   }
 
   update() {

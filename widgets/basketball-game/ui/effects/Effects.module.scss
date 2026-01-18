@@ -1,3 +1,6 @@
+@use "@/application/styles/mixins" as mixins;
+@use "@/application/styles/constants" as constants;
+
 .effects {
   position: absolute;
   top: 0;
@@ -19,6 +22,12 @@
   opacity: 0;
 
   width: 280px;
+
+  @include mixins.device using($device) {
+    @if $device == constants.$MOB-PORT {
+      width: 220px;
+    }
+  }
 
   img {
     width: 100%;

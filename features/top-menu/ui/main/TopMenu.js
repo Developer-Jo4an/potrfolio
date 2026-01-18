@@ -1,9 +1,9 @@
 import {useImperativeHandle, useRef} from "react";
-import {isFinite} from "lodash";
 import {PauseButton} from "../../../../entities/pause-button";
 import {SoundButton} from "../../../../entities/sound-button";
 import Image from "../../../../shared/ui/image/ui/main/Image";
 import cl from "classnames";
+import {isNil, isObject} from "lodash";
 import styles from "./TopMenu.module.scss";
 
 export default function TopMenu({className, pause, sound, lifes, score, children, ref}) {
@@ -20,22 +20,22 @@ export default function TopMenu({className, pause, sound, lifes, score, children
 
   return (
     <div className={cl(styles.topMenu, className)}>
-      {pause && <PauseButton {...pause} ref={ref => elements.pause = ref}/>}
+      {isObject(pause) && <PauseButton {...pause} ref={ref => elements.pause = ref}/>}
 
       <div className={styles.topNavStats}>
-        {lifes &&
+        {isObject(lifes) &&
           <div ref={ref => elements.lifes = ref} className={cl(styles.lifes, lifes.className)}>
-            {lifes.background &&
+            {isObject(lifes.background) &&
               <div className={cl(styles.lifesBackground, lifes.background.className)}>
                 <Image {...lifes.background.img}/>
               </div>
             }
 
-            {isFinite(lifes.count) &&
+            {!isNil(lifes.count) &&
               <div className={styles.lifesCount}>{lifes.count}</div>
             }
 
-            {lifes.img &&
+            {isObject(lifes.img) &&
               <Image
                 ref={ref => elements.lifesIcon = ref}
                 {...lifes.img}
@@ -45,19 +45,19 @@ export default function TopMenu({className, pause, sound, lifes, score, children
           </div>
         }
 
-        {score &&
+        {isObject(score) &&
           <div ref={ref => elements.score = ref} className={cl(styles.score, score.className)}>
-            {score.background &&
+            {isObject(score.background) &&
               <div className={cl(styles.scoreBackground, score.background.className)}>
                 <Image {...score.background.img}/>
               </div>
             }
 
-            {isFinite(score.count) &&
+            {!isNil(score.count) &&
               <div className={styles.scoreCount}>{score.count}</div>
             }
 
-            {score.img &&
+            {isObject(score.img) &&
               <Image
                 ref={ref => elements.scoreIcon = ref}
                 {...score.img}
@@ -68,7 +68,7 @@ export default function TopMenu({className, pause, sound, lifes, score, children
         }
       </div>
 
-      {sound && <SoundButton {...sound} ref={ref => elements.sound = ref}/>}
+      {isObject(sound) && <SoundButton {...sound} ref={ref => elements.sound = ref}/>}
 
       {children}
     </div>

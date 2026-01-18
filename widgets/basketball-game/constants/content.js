@@ -66,7 +66,7 @@ export default {
           text: "Продолжить",
           className: "continueButton",
           background: {
-            src: "widgets/basketball-game/continue-button.png"
+            src: "widgets/basketball-game/end-game/continue.png"
           }
         },
         {
@@ -74,7 +74,7 @@ export default {
           text: "На главную",
           className: "closeButton",
           background: {
-            src: "widgets/basketball-game/close-button.png"
+            src: "widgets/basketball-game/end-game/close.png"
           }
         }
       ]

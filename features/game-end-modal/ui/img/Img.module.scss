@@ -1,12 +1,24 @@
+@use "@/application/styles/mixins" as mixins;
+@use "@/application/styles/constants" as constants;
+
 .imageContainer {
   position: relative;
-
-  height: 175px;
 
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  align-self: center;
+
+  width: 100%;
+  height: 175px;
+
+  @include mixins.device using($device) {
+    @if ($device == constants.$MOB-PORT) {
+      width: 80%;
+      height: 130px;
+    }
+  }
 }
 
 .image {
@@ -18,5 +30,5 @@
 
   width: 100%;
 
-  object-fit: cover;
+  object-fit: contain;
 }

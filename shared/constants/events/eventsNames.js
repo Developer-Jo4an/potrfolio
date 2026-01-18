@@ -10,6 +10,7 @@ export const TOUCH_END = "touchend";
 export const TOUCH_CANCEL = "touchcancel";
 
 export const RESIZE = "resize";
+export const ORIENTATION_CHANGE = "orientationchange";
 
 export const POINTER_DOWN = "pointerdown";
 export const POINTER_MOVE = "pointermove";

@@ -1,55 +1,32 @@
-import {cloneDeep} from "lodash";
+import GameSpaceStore from "../../../../shared/scene/gameSpace/GameSpaceStore";
+import {CLEAR_HIT, EXTRA_LIFE, X2} from "../../constants/boosters";
 
-export let gameSpace = getDefaultValue();
-
-const listeners = new Set();
-const gameSpaceStore = {
-  set(func) {
-    func(gameSpace);
-    gameSpace = cloneDeep(gameSpace);
-    listeners.forEach(listener => listener());
+const gameSpaceStore = new GameSpaceStore({
+  gameData: {
+    balls: 10,
+    score: 0,
+    target: 15,
+    lifes: 3,
+    story: [],
+    pureCount: 0
   },
-  reset() {
-    gameSpace = getDefaultValue();
+  characterMovement: {
+    returnsBack: false,
+    thrown: false,
+    isCollisionWithRing: false,
+    isCollisionWithSensor: false,
+    isFlewSensor: false,
+    isDrag: false
   },
-  getSnapshot() {
-    return gameSpace;
+  booster: {
+    active: null,
+    [X2]: 3,
+    [EXTRA_LIFE]: 3,
+    [CLEAR_HIT]: 3
   },
-  getServerSnapshot() {
-    return gameSpace;
-  },
-
-  subscribe(listener) {
-    listeners.add(listener);
-    return () => listeners.delete(listener);
+  serviceData: {
+    clearFunctions: []
   }
-};
+});
 
 export default gameSpaceStore;
-
-function getDefaultValue() {
-  return {
-    gameData: {
-      balls: 10,
-      score: 0,
-      target: 10,
-      lifes: 3,
-      story: [],
-      pureCount: 0
-    },
-    characterMovement: {
-      returnsBack: false,
-      thrown: false,
-      isCollisionWithRing: false,
-      isCollisionWithSensor: false,
-      isFlewSensor: false,
-      isDrag: false
-    },
-    booster: {
-      active: null
-    },
-    serviceData: {
-      clearFunctions: []
-    }
-  };
-}

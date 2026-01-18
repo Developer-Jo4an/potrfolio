@@ -4,7 +4,7 @@ import {useAppCallbacks} from "../../../../application/providers/callbacks/ui/ma
 import useBasketballStore from "../state-manager/basketballStore";
 import useModalStore from "../../../../application/providers/modal/model/state-manager/stores/modalStore";
 import {LOSE, WIN} from "../../constants/events";
-import {gameSpace} from "../storages/gameSpace";
+import gameSpaceStore from "../storages/gameSpace";
 import content from "../../constants/content";
 
 const {endModal} = content;
@@ -27,7 +27,7 @@ export default function useEndGame() {
           callback({status}) {
             wrapper.state = status;
 
-            const {gameData: {story, pureCount, score}} = gameSpace;
+            const {gameData: {story, pureCount, score}} = gameSpaceStore.gameSpace;
             const modalData = endModal({wrapper, redirect, score, pureCount, status, story});
             add(modalData);
           }

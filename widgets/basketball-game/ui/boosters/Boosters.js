@@ -4,6 +4,7 @@ import Image from "../../../../shared/ui/image/ui/main/Image";
 import useBoosters from "../../model/hooks/useBoosters";
 import useBasketballStore from "../../model/state-manager/basketballStore";
 import {PLAYING} from "../../constants/stateMachine";
+import {MODES} from "../../../../features/bottom-menu";
 import content from "../../constants/content";
 import styles from "./Boosters.module.scss";
 
@@ -26,21 +27,25 @@ export default function Boosters({gameSpace, ref}) {
     !gameSpace.booster.active
   );
 
-  const boosterButtons = boosters.map(({type, timeout, background, img}) => ({
-    id: type,
-    className: styles.booster,
-    onClick: () => onClick(type),
-    isDisabled: !isCanUse,
-    img: {...img, className: styles[img.className]},
-    child: (
-      <div className={styles[background.className]}>
-        <Image src={background.src}/>
-      </div>
-    ),
-    timeout
-  }));
+  const boosterButtons = boosters.map(({type, timeout, background, img}) => {
+    const count = gameSpace.booster[type];
+    return {
+      id: type,
+      className: styles.booster,
+      onClick: () => onClick(type),
+      isDisabled: !isCanUse || !count,
+      img: {...img, className: styles[img.className]},
+      value: count,
+      child: (
+        <div className={styles[background.className]}>
+          <Image src={background.src}/>
+        </div>
+      ),
+      timeout
+    };
+  });
 
   return (
-    <BottomMenu ref={elementsRef} buttons={boosterButtons}/>
+    <BottomMenu ref={elementsRef} buttons={boosterButtons} mod={MODES.orange}/>
   );
 }

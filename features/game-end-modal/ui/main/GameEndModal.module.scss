@@ -1,10 +1,11 @@
-@use "../../../../application/styles/constants" as constants;
+@use "@/application/styles/constants" as constants;
 
 .gameEndModal {
   position: relative;
 
   width: 90%;
-  max-width: 450px;
+  max-width: 500px;
+  max-height: 90%;
 
   padding: 40px 20px 40px 20px;
 

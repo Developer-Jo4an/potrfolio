@@ -13,6 +13,12 @@ $root: "stat";
   padding-bottom: 5px;
   height: 50px;
 
+  @include mixins.device using($device) {
+    @if ($device == constants.$MOB-PORT) {
+      height: 32px;
+    }
+  }
+
   &:before {
     content: "";
 
@@ -34,6 +40,12 @@ $root: "stat";
 .statName {
   font-size: 18px;
   font-family: Discovery, KogniGear, sans-serif;
+
+  @include mixins.device using($device) {
+    @if ($device == constants.$MOB-PORT) {
+      font-size: 16px;
+    }
+  }
 }
 
 .statInfo {
@@ -49,11 +61,6 @@ $root: "stat";
   height: 60%;
 }
 
-.statSign {
-  fill: constants.$TURQUOISE;
-  height: 24px;
-}
-
 .statValue {
   position: relative;
   top: 3px;
@@ -61,6 +68,12 @@ $root: "stat";
   font-size: 24px;
   font-family: InterBlack, KogniGear, sans-serif;
   font-weight: 900;
+
+  @include mixins.device using($device) {
+    @if ($device == constants.$MOB-PORT) {
+      font-size: 20px;
+    }
+  }
 
   display: flex;
   justify-content: center;

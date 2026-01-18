@@ -48,6 +48,12 @@ $root: "buttons";
   font-family: Satoshi, KogniGear, sans-serif;
   text-transform: uppercase;
 
+  @include mixins.device using($device) {
+    @if ($device == constants.$MOB-PORT) {
+      font-size: 18px;
+    }
+  }
+
   @include mixins.mod("velvet", $root) {
     color: #8B2703;
     @include mixins.mod("i0") {

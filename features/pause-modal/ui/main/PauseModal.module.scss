@@ -15,9 +15,15 @@
   align-items: center;
   gap: 20px;
 
+  @include mixins.device using($device) {
+    @if $device == constants.$MOB-PORT {
+      padding: 20px 10px;
+      gap: 16px;
+    }
+  }
+
   &[data-mod="basketball"] {
     background: radial-gradient(71.75% 71.75% at 50% 50%, #FFBC05 0%, #FF9933 13.94%, #4F0C0B 100%);
-    padding: 30px;
   }
 }
 
@@ -26,6 +32,12 @@
   font-weight: bold;
   font-family: KogniGear, Discovery, sans-serif;
   color: constants.$WHITE;
+
+  @include mixins.device using($device) {
+    @if $device == constants.$MOB-PORT {
+      font-size: 20px;
+    }
+  }
 }
 
 .description {
@@ -33,6 +45,12 @@
   font-family: Discovery, KogniGear, sans-serif;
   color: constants.$WHITE;
   text-align: center;
+
+  @include mixins.device using($device) {
+    @if $device == constants.$MOB-PORT {
+      font-size: 18px;
+    }
+  }
 }
 
 .buttons {
@@ -61,6 +79,23 @@
   transition: .3s transform ease-in-out;
 
   @include mixins.button-hover;
+
+  @include mixins.device using($device) {
+    @if $device == constants.$MOB-PORT {
+      width: 80%;
+      height: 42px;
+    }
+  }
+}
+
+.buttonText {
+  font-size: 20px;
+
+  @include mixins.device using($device) {
+    @if $device == constants.$MOB-PORT {
+      font-size: 16px;
+    }
+  }
 }
 
 .buttonBackground {
@@ -95,7 +130,6 @@
       top: 2px;
       font-family: Satoshi, Discovery, sans-serif;
       font-weight: normal;
-      font-size: 22px;
       color: #FFEBD4;
     }
   }
@@ -106,7 +140,6 @@
       top: 2px;
       font-family: Satoshi, Discovery, sans-serif;
       font-weight: normal;
-      font-size: 22px;
       color: #8B2703;
     }
   }

@@ -17,6 +17,7 @@ import extraLifePulseTween from "../../utils/animations/extrLifePulseTween";
 import x2ViewTween from "../../utils/animations/x2ViewTween";
 import add from "../../../../shared/scene/ecs/three/side-effects/add";
 import resetMatrix from "../../../../shared/scene/ecs/three/side-effects/resetMatrix";
+import getIsDebug from "../../../../shared/lib/debug/debug";
 import gsap from "gsap";
 import {CHARACTER} from "../../constants/character";
 import {DRAG_END, DRAG_MOVE, DRAG_START} from "../../../../shared/constants/events/eventsNames";
@@ -48,7 +49,7 @@ export default class Character extends System {
     const cursor = new THREE.Vector2(current.normalizedX, current.normalizedY);
     const {storage: {camera}, helpers: {raycaster}} = this;
     const cBody = eCharacter.get(Body);
-    const planeForIntersect = new THREE.Plane(new THREE.Vector3(0, 0, 1), cBody.object.translation().z);
+    const planeForIntersect = new THREE.Plane(new THREE.Vector3(0, 0, -1), cBody.object.translation().z);
 
     const intersectionPoint = new THREE.Vector3();
     raycaster.setFromCamera(cursor, camera);
@@ -70,15 +71,16 @@ export default class Character extends System {
   }
 
   tryThrow({eCharacter, eRing, csEvent}) {
-    const {storage: {mainSceneSettings: {character: {throw: {speed: {s}}}}}} = this;
+    const {storage: {mainSceneSettings: {character: {throw: {dragEventCountForThrow, minSpeed}}}}} = this;
 
     const startEvent = csEvent[0];
-    const dragEvent = csEvent[csEvent.length - 2];
+    const dragEvents = csEvent.slice(1, csEvent.length - 1);
     const endEvent = csEvent[csEvent.length - 1];
 
     const isHasAllEvents = (
       startEvent.type === DRAG_START &&
-      dragEvent?.type === DRAG_MOVE &&
+      dragEvents?.length === dragEventCountForThrow &&
+      dragEvents.every(({type}) => type === DRAG_MOVE) &&
       endEvent.type === DRAG_END
     );
     if (!isHasAllEvents) {
@@ -86,7 +88,7 @@ export default class Character extends System {
       return;
     }
 
-    const isSwipeToDown = dragEvent.data.cursor.fromScreenY < endEvent.data.cursor.fromScreenY;
+    const isSwipeToDown = dragEvents[0].data.cursor.fromScreenY < endEvent.data.cursor.fromScreenY;
     if (isSwipeToDown) {
       this.returnCharacterToInitialPosition({eCharacter});
       return;
@@ -94,7 +96,7 @@ export default class Character extends System {
 
     const throwData = this.calculateThrowData(eCharacter);
 
-    const isCanThrow = throwData && throwData.speed >= s;
+    const isCanThrow = throwData && throwData.speed >= minSpeed;
     if (!isCanThrow) {
       this.returnCharacterToInitialPosition({eCharacter});
       return;
@@ -106,22 +108,26 @@ export default class Character extends System {
 
   calculateThrowData(eCharacter) {
     const {helpers: {raycaster}, storage: {camera}} = this;
-    const [,
-      {data: {cursor: drag}},
-      {data: {cursor: end}}
-    ] = eCharacter.getSome(EventComponent, DRAG_START, DRAG_MOVE, DRAG_END);
+
+    const cBody = eCharacter.get(Body);
+    const {z} = cBody.object.translation();
+
+    const dragEvents = eCharacter.getSome(EventComponent, DRAG_START, DRAG_MOVE, DRAG_END);
+
+    const {data: {cursor: drag}} = dragEvents[1];
+    const {data: {cursor: end}} = dragEvents[dragEvents.length - 1];
 
     if (drag.normalizedX === end.normalizedX && drag.normalizedY === end.normalizedY) return;
 
-    const [d3Drag, d3End] = [drag, end].map(({normalizedX, normalizedY}) => {
+    const [drag3d, end3d] = [drag, end].map(cursor => {
       const intersectionPoint = new THREE.Vector3();
-      const planeForIntersect = new THREE.Plane(new THREE.Vector3(0, 0, 1), 0);
-      raycaster.setFromCamera(new THREE.Vector2(normalizedX, normalizedY), camera);
+      const planeForIntersect = new THREE.Plane(new THREE.Vector3(0, 0, 1), z);
+      raycaster.setFromCamera(new THREE.Vector2(cursor.normalizedX, cursor.normalizedY), camera);
       raycaster.ray.intersectPlane(planeForIntersect, intersectionPoint);
-      return intersectionPoint;
+      return cursor.position3d = new THREE.Vector3(intersectionPoint.x, intersectionPoint.y, z);
     });
 
-    const distance = d3Drag.clone().sub(d3End).length();
+    const distance = drag3d.clone().sub(end3d).length();
     const duration = (end.timestamp - drag.timestamp) / 1000;
     const speed = distance / duration;
 
@@ -169,10 +175,7 @@ export default class Character extends System {
       clearFunctions.push(createAnimationFrame(() => {
         const target = eRing.get(Body).object.translation();
         const props = {eCharacter, drag, end, target, speed, distance, duration};
-        const x = this.calculateX(props);
-        const y = this.calculateY(props);
-        const z = this.calculateZ(props);
-        const time = this.calculateTime(x, y, z, target);
+        const {x, y, z, time} = this.calculateBallTarget(props);
         const throwPoint = new THREE.Vector3(x, y, z);
 
         const {storage: {world, mainSceneSettings: {character: {throw: {angvel}}}}} = this;
@@ -195,60 +198,68 @@ export default class Character extends System {
     });
   }
 
-  calculateX({drag, end, target}) {
-    const {storage: {camera}, helpers: {raycaster}} = this;
+  calculateBallTarget({eCharacter, drag, end, target}) {
+    const {
+      storage: {
+        scene,
+        mainSceneSettings: {
+          character: {
+            throw: {
+              duration,
+              vectorHelp,
+              speedHelp,
+              speedInterpolation,
+              multiplier: [min, max]
+            }
+          }
+        },
+        camera
+      },
+      helpers: {raycaster}
+    } = this;
 
-    const [drag2d, end2d] = [drag, end].map(({normalizedX, normalizedY}) => {
-      const intersectionPoint = new THREE.Vector3();
-      const planeForIntersect = new THREE.Plane(new THREE.Vector3(0, 0, 1), 0);
-      raycaster.setFromCamera(new THREE.Vector2(normalizedX, normalizedY), camera);
-      raycaster.ray.intersectPlane(planeForIntersect, intersectionPoint);
-      return new THREE.Vector2(intersectionPoint.x, -intersectionPoint.y);
-    });
+    const cBody = eCharacter.get(Body);
+    const {z} = cBody.object.translation();
 
-    const swipeVec = new THREE.Vector2(end2d.x - drag2d.x, end2d.y - drag2d.y);
-    const directionBetweenVec = new THREE.Vector2(target.x - drag2d.x, target.z - drag2d.y);
+    const [{position3d: drag3d}, {position3d: end3d}] = [drag, end];
 
-    const angle = THREE.MathUtils.radToDeg(
-      Math.acos(
-        swipeVec.dot(directionBetweenVec)
-        /
-        (swipeVec.length() * directionBetweenVec.length())
-      )
-    );
+    const vecBetween = new THREE.Vector3().copy(target).sub(drag3d);
 
-    console.log("throw angle>>", angle);
-
-    return swipeVec.setLength(directionBetweenVec.length()).x;
-  }
-
-  calculateY({speed, target}) {
-    return this.calculateVerticalAxis({speed, axisValue: target.y});
-  }
-
-  calculateZ({speed, target}) {
-    return this.calculateVerticalAxis({speed, axisValue: target.z});
-  }
-
-  calculateVerticalAxis({speed, axisValue}) {
-    const {storage: {mainSceneSettings: {character: {throw: {speed: {s, m, l, xl}}}}}} = this;
-
-    const balancedSpeed = clamp(speed, s, xl);
-
-    if (balancedSpeed >= m && balancedSpeed <= l)
-      return axisValue;
+    const flyVector = new THREE.Vector3(end3d.x - drag3d.x, 0, -(end3d.y - drag3d.y));
+    flyVector.multiplyScalar(target.z / flyVector.z);
+    flyVector.y = target.y - drag3d.y;
+    flyVector.x /= vectorHelp;
+    const idealSpeed = vecBetween.length() / duration;
+    const distance = end3d.distanceTo(drag3d);
+    const timeBetween = (end.timestamp - drag.timestamp) / 1000;
+    const currentSpeed = distance / timeBetween;
+    let multiplier;
+    if (Math.abs(idealSpeed - currentSpeed) <= speedHelp)
+      multiplier = 1;
     else {
-      const denominator = balancedSpeed < m ? m : l;
-      return balancedSpeed / denominator * axisValue;
+      const diff = idealSpeed - currentSpeed;
+      const help = diff / speedInterpolation;
+      multiplier = (currentSpeed + help) / idealSpeed;
     }
-  }
+    multiplier = clamp(multiplier, min, max);
+    flyVector.multiplyScalar(multiplier);
 
-  calculateTime(x, y, z, target) {
-    const {storage: {mainSceneSettings: {character: {throw: {duration}}}}} = this;
-    const throwVector = new THREE.Vector3(x, y, z);
-    const targetVector = new THREE.Vector3(target.x, target.y, target.z);
-    const multiplier = throwVector.length() / targetVector.length();
-    return duration * multiplier;
+    if (getIsDebug()) {
+      ;[vecBetween, flyVector].forEach((vec, i) => {
+        const helper = new THREE.ArrowHelper(
+          vec.clone().normalize(),
+          drag3d,
+          vecBetween.length(),
+          new THREE.Color(Math.random(), Math.random(), Math.random())
+        );
+        this.addSideEffect({entity: eCharacter, effect: add, args: [scene, helper], name: `arrowHelper${i}`});
+      });
+    }
+
+    const {x: totalX, y: totalY, z: totalZ} = flyVector.clone().add(drag3d);
+    const time = duration * multiplier;
+
+    return {x: totalX, y: totalY, z: totalZ, time};
   }
 
   activateBooster(type) {
@@ -476,39 +487,36 @@ export default class Character extends System {
 
   checkCollisionWithSensor({eCharacter, eRing}) {
     const {storage: {gameSpace: {get, set}}} = this;
+    const gameSpace = get();
 
     const collisions = eCharacter.getSome(EventComponent, COLLISION_START);
 
     const isHasCollisionWithSensor = collisions.some(({data: {collider}}) => collider.userData.id === SENSOR);
-    if (!isHasCollisionWithSensor) return;
+    if (!isHasCollisionWithSensor || gameSpace.characterMovement.isCollisionWithSensor) return;
 
-    const gameSpace = get();
-
-    if (!gameSpace.characterMovement.isCollisionWithSensor) {
-      const isCollisionWithRing = gameSpace.characterMovement.isCollisionWithRing;
-      if (!isCollisionWithRing) {
-        const {eventBus} = this;
-        eCharacter.add(new EventComponent({eventBus, type: CLEAR_HIT}));
-      }
-
-      const isActiveBoosterX2 = gameSpace.booster.active === X2;
-      set(({gameData}) => {
-        gameData.score += (1 + Number(!isCollisionWithRing)) * (isActiveBoosterX2 ? 2 : 1);
-        gameData.story.push(true);
-        !isCollisionWithRing && gameData.pureCount++;
-      });
-
-      const cRingMixer = eRing.get(Mixer);
-      const action = cRingMixer.mixer.clipAction(cRingMixer.animations[ANIMATIONS.grid]);
-      cRingMixer.mixer.update(0);
-      cRingMixer.mixer.setTime(0);
-      action.setLoop(THREE.LoopOnce);
-      action.stop();
-      action.play();
-
-      if (isActiveBoosterX2)
-        this.animateX2View();
+    const isCollisionWithRing = gameSpace.characterMovement.isCollisionWithRing;
+    if (!isCollisionWithRing) {
+      const {eventBus} = this;
+      eCharacter.add(new EventComponent({eventBus, type: CLEAR_HIT}));
     }
+
+    const isActiveBoosterX2 = gameSpace.booster.active === X2;
+    set(({gameData}) => {
+      gameData.score += (1 + Number(!isCollisionWithRing)) * (isActiveBoosterX2 ? 2 : 1);
+      gameData.story.push(true);
+      !isCollisionWithRing && gameData.pureCount++;
+    });
+
+    const cRingMixer = eRing.get(Mixer);
+    const action = cRingMixer.mixer.clipAction(cRingMixer.animations[ANIMATIONS.grid]);
+    cRingMixer.mixer.update(0);
+    cRingMixer.mixer.setTime(0);
+    action.setLoop(THREE.LoopOnce);
+    action.stop();
+    action.play();
+
+    if (isActiveBoosterX2)
+      this.animateX2View();
 
     set(({characterMovement}) => characterMovement.isCollisionWithSensor = true);
   }
