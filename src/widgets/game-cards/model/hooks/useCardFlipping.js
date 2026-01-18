@@ -1,9 +1,9 @@
 import useGamesStore from "../state-manager/gamesStore";
 import {useSwipeable} from "react-swipeable";
 import {useEffect} from "react";
-import {CENTER, LEFT, RIGHT} from "../../../../shared/constants/directions/directions";
+import {CENTER, LEFT, RIGHT} from "../../../../shared/constants/src/directions/directions";
 import {cardsAnimationSettings, cardsConfig} from "../../config/cardsConfig";
-import {ACTIVE, INACTIVE} from "../../../../shared/constants/helpful/statuses";
+import {ACTIVE, INACTIVE} from "../../../../shared/constants/src/helpful/statuses";
 import gsap from "gsap";
 
 export function useCardFlipping({gameCards}) {

@@ -5,8 +5,8 @@ import {BASKETBALL_STATE_MACHINE, PAUSED, PLAYING} from "../../constants/stateMa
 import content from "../../constants/content";
 import {MODAL_NAMES} from "../../../../application/providers/modal";
 import {BASKETBALL} from "../../constants/game";
-import {OFF, ON} from "../../../../shared/constants/helpful/statuses";
-import {INDEX} from "../../../../shared/constants/pages/routes";
+import {OFF, ON} from "../../../../shared/constants/src/helpful/statuses";
+import {INDEX} from "../../../../shared/constants/src/pages/routes";
 
 const {menu: {pause}} = content;
 

@@ -1,6 +1,5 @@
 import {useRef} from "react";
 import useKillGsapTweens from "../../../../shared/model/hooks/gsap/useKillGsapTweens";
-import {HALF, SEVEN_TENTHS} from "../../../../shared/constants/numbers/numbers";
 import {starAnimation} from "../../config/animations";
 import gsap from "gsap";
 
@@ -14,7 +13,7 @@ export default function useDunkShotStar() {
   return (stars, {x: xStart, y: yStart}, to) => {
     const {x: xEnd, y: yEnd} = to.getBoundingClientRect();
 
-    const multiplier = xStart >= global?.innerWidth * HALF ? -1 : 1;
+    const multiplier = xStart >= global?.innerWidth * 0.5 ? -1 : 1;
     const start = {x: 0, y: 0};
     const middle = {
       x: ((xEnd - xStart) / 2) + (offset.x * multiplier),
@@ -28,7 +27,7 @@ export default function useDunkShotStar() {
 
     const starTween = tweenRefs.current.star = gsap.timeline({
       onUpdate() {
-        if (this.progress() >= SEVEN_TENTHS && !isPlayedSound) {
+        if (this.progress() >= 0.7 && !isPlayedSound) {
           isPlayedSound = true;
           // SoundPlayer.playSingle("star")
         }

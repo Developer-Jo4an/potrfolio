@@ -6,7 +6,7 @@ import eventSubscription from "../../../../shared/lib/events/eventListener";
 import getEventPosition from "../../../../shared/lib/events/eventPosition";
 import {createAnimationFrame} from "../../../../shared/lib/browserApi/frames";
 import {CHARACTER} from "../../constants/character";
-import {DRAG_END, DRAG_MOVE, DRAG_START, END, MOVE, START} from "../../../../shared/constants/events/eventsNames";
+import {DRAG_END, DRAG_MOVE, DRAG_START, END, MOVE, START} from "../../../../shared/constants/src/events/eventsNames";
 import {GAME} from "../../constants/game";
 
 export default class Interactive extends System {

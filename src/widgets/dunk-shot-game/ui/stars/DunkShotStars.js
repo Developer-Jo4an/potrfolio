@@ -8,7 +8,6 @@ import {FaStar} from "react-icons/fa6";
 import useActiveBoosters from "../../model/hooks/useActiveBoosters";
 import useDunkShotStore from "../../model/state-manager/dunkShotStore";
 import {THROW_HIT} from "../../constants/events";
-import {FIVE} from "../../../../shared/constants/numbers/numbers";
 import {X2} from "../../constants/boosters";
 import styles from "./DunkShotStars.module.scss";
 
@@ -52,8 +51,8 @@ export default function DunkShotStars({topMenuEls, progressBarEls}) {
 
   return (
     <>
-      {createArrayWithMap(FIVE, (_, groupIndex) =>
-        createArrayWithMap(FIVE, (_, starIndex) => (
+      {createArrayWithMap(5, (_, groupIndex) =>
+        createArrayWithMap(5, (_, starIndex) => (
           <div
             key={`${groupIndex}-${starIndex}`}
             ref={ref => {

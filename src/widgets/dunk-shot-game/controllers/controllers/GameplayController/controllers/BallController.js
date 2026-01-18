@@ -4,11 +4,10 @@ import {dunkShotFactory} from "../../../factory/DunkShotFactory";
 import {dunkShotAnimationPlayer} from "../../../animations/DunkShotAnimationPlayer";
 import {dunkShotUtils} from "../../../utils/DunkShotUtils";
 import {DUNK_SHOT_TWEEN, GAME_SIZE} from "../../../../constants";
-import {DRAG_END, DRAG_MOVE, DRAG_START} from "../../../../../../shared/constants/events/eventsNames";
+import {DRAG_END, DRAG_MOVE, DRAG_START} from "../../../../../../shared/constants/src/events/eventsNames";
 import {PROGRESS_RESET, SPIKE_COLLISION} from "../../../../constants/events";
 import {DAMAGE, FREE, INSIDE_BASKET, TO_UP} from "../../../../constants/statuses";
-import {HALF_PI} from "../../../../../../shared/constants/trigonometry/trigonometry";
-import {FIVE, QUARTER, THIRD, TWO_AND_HALF, ZERO_FIFTEEN} from "../../../../../../shared/constants/numbers/numbers";
+import {HALF_PI} from "../../../../../../shared/constants/src/trigonometry/trigonometry";
 import {STATE_DECORATOR_FIELD} from "../../../../../../shared/scene/constants/decorators/names";
 import {FELL, LOSE} from "../../../../constants/stateMachine";
 import gsap from "gsap";
@@ -149,14 +148,14 @@ export default class BallController extends BaseGameplayController {
     const throwBall = gsap.to([view.scale, basketGridBack.scale, basketGridFront.scale], {
       x: i => scaleData[i].x,
       y: i => scaleData[i].y,
-      ease: `back.out(${currentData?.isCanThrow ? TWO_AND_HALF : FIVE})`,
-      duration: currentData?.isCanThrow ? ZERO_FIFTEEN : QUARTER,
+      ease: `back.out(${currentData?.isCanThrow ? 2.5 : 5})`,
+      duration: currentData?.isCanThrow ? 0.15 : 0.25,
       onUpdate: () => {
         if (!currentData?.isCanThrow) return;
 
         const progress = throwBall.progress();
 
-        if (progress < THIRD || isThrow) return;
+        if (progress < 0.3 || isThrow) return;
 
         isThrow = true;
 

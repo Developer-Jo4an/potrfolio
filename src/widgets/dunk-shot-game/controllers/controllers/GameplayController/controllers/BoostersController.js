@@ -6,7 +6,7 @@ import {dunkShotUtils} from "../../../utils/DunkShotUtils";
 import {DUNK_SHOT_TWEEN} from "../../../../constants";
 import {DUNK_SHOT_STATE_MACHINE} from "../../../../constants/stateMachine";
 import {INSIDE_BASKET, PROTECTED} from "../../../../constants/statuses";
-import {LEFT, RIGHT} from "../../../../../../shared/constants/directions/directions";
+import {LEFT, RIGHT} from "../../../../../../shared/constants/src/directions/directions";
 import {BOOSTERS_SET_DISABLED} from "../../../../constants/events";
 import gsap from "gsap";
 

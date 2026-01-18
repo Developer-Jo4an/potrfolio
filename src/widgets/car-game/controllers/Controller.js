@@ -19,7 +19,7 @@ import {NOT_AVAILABLE_ENTITIES_TYPES_FOR_RESET} from "../constants/reset";
 import {analysis} from "../../../shared/scene/analytics/Analytics";
 import {UPDATE_DECORATOR_FIELD} from "../../../shared/scene/constants/decorators/names";
 import {UPDATED} from "../../../shared/scene/constants/events/names";
-import {RESIZE} from "../../../shared/constants/events/eventsNames";
+import {RESIZE} from "../../../shared/constants/src/events/eventsNames";
 
 export default class Controller extends PIXIController {
   constructor() {

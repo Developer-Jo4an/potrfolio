@@ -1,6 +1,6 @@
 import {createStore} from "../../../../shared/model/state-manager/createStore";
 import {getGameList} from "../../api/requests";
-import {LEFT, RIGHT} from "../../../../shared/constants/directions/directions";
+import {LEFT, RIGHT} from "../../../../shared/constants/src/directions/directions";
 
 const {useStore: useGamesStore, selectors} = createStore({
   name: "games",

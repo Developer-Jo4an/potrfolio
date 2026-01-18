@@ -1,4 +1,4 @@
-import {WebGPUCoordinateSystem, WebGLCoordinateSystem} from "../../../constants/gpu-api/coordinateSystems";
+import {WebGPUCoordinateSystem, WebGLCoordinateSystem} from "../../../constants/src/gpu-api/coordinateSystems";
 import {Vector3} from "./Vector3.js";
 
 /**

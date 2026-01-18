@@ -3,7 +3,7 @@ import {isInsideRectangle} from "../../../../../shared/lib/matrix/matrix";
 import {clamp} from "lodash";
 import {dunkShotFactory} from "../../factory/DunkShotFactory";
 import {DUNK_SHOT_STATE_MACHINE} from "../../../constants/stateMachine";
-import {MAX, MIN} from "../../../../../shared/constants/range/range";
+import {MAX, MIN} from "../../../../../shared/constants/src/range/range";
 import {INSIDE_BASKET} from "../../../constants/statuses";
 
 export default class CameraController extends BaseController {

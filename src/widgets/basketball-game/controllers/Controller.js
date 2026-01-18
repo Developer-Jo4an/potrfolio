@@ -21,7 +21,7 @@ import eventSubscription from "../../../shared/lib/events/eventListener";
 import gameSpaceStore from "../model/storages/gameSpace";
 import {analysis} from "../../../shared/scene/analytics/Analytics";
 import {UPDATED} from "../../../shared/scene/constants/events/names";
-import {RESIZE} from "../../../shared/constants/events/eventsNames";
+import {RESIZE} from "../../../shared/constants/src/events/eventsNames";
 import {UPDATE_DECORATOR_FIELD} from "../../../shared/scene/constants/decorators/names";
 import {NOT_AVAILABLE_ENTITIES_TYPES_FOR_RESET} from "../constants/reset";
 import {BASKETBALL} from "../constants/game";

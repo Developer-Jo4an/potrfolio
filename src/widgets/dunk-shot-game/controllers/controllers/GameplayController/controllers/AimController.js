@@ -2,7 +2,7 @@ import BaseGameplayController from "../BaseGameplayController";
 import {createArrayWithMap} from "../../../../../../shared/lib/array/createArrayWithMap";
 import {dunkShotFactory} from "../../../factory/DunkShotFactory";
 import {INSIDE_BASKET} from "../../../../constants/statuses";
-import {LEFT, RIGHT} from "../../../../../../shared/constants/directions/directions";
+import {LEFT, RIGHT} from "../../../../../../shared/constants/src/directions/directions";
 
 export default class AimController extends BaseGameplayController {
 

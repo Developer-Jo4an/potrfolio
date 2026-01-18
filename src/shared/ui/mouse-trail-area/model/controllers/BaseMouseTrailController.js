@@ -1,5 +1,5 @@
 import eventSubscription from "../../../../lib/events/eventListener";
-import {MOUSE_ENTER, MOVE, TOUCH_START} from "../../../../constants/events/eventsNames";
+import {MOUSE_ENTER, MOVE, TOUCH_START} from "../../../../constants/src/events/eventsNames";
 import importPIXI from "../../../../scene/lib/import/pixi/import-pixi";
 import sceneInitConfig from "../../config/sceneInitConfig";
 import {trailTextureSrc} from "../../constants/assets";

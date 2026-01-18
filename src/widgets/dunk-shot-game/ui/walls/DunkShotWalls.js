@@ -1,8 +1,8 @@
 import {useEffect, useRef} from "react";
 import cl from "classnames";
 import eventSubscription from "../../../../shared/lib/events/eventListener";
-import {LEFT, RIGHT} from "../../../../shared/constants/directions/directions";
-import {RESIZE} from "../../../../shared/constants/events/eventsNames";
+import {LEFT, RIGHT} from "../../../../shared/constants/src/directions/directions";
+import {RESIZE} from "../../../../shared/constants/src/events/eventsNames";
 import gsap from "gsap";
 import styles from "./DunkShotWalls.module.scss";
 

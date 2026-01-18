@@ -3,7 +3,7 @@ import {FaVolumeOff} from "react-icons/fa";
 import {AiFillSound} from "react-icons/ai";
 import Image from "../../../../shared/ui/image/ui/main/Image";
 import cl from "classnames";
-import {OFF, ON} from "../../../../shared/constants/helpful/statuses";
+import {OFF, ON} from "../../../../shared/constants/src/helpful/statuses";
 import styles from "./SoundButton.module.scss";
 
 export default function SoundButton({background, ref, className, ...otherProps}) {

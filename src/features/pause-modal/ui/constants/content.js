@@ -1,4 +1,4 @@
-import {OFF, ON} from "../../../../shared/constants/helpful/statuses";
+import {OFF, ON} from "../../../../shared/constants/src/helpful/statuses";
 
 export default {
   title: "Пауза",

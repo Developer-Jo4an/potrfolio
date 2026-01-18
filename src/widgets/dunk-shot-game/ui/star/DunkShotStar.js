@@ -7,7 +7,6 @@ import useDunkShotStar from "../../model/hooks/useDunkShotStar";
 import useActiveBoosters from "../../model/hooks/useActiveBoosters";
 import useDunkShotStore from "../../model/state-manager/dunkShotStore";
 import {THROW_HIT} from "../../constants/events";
-import {FIVE} from "../../../../shared/constants/numbers/numbers";
 import {X2} from "../../constants/boosters";
 import styles from "./DunkShotStar.module.scss";
 
@@ -46,7 +45,7 @@ export default function DunkShotStar({topMenuEls}) {
 
   return (
     <>
-      {createArrayWithMap(FIVE, (_, i) => (
+      {createArrayWithMap(5, (_, i) => (
         <div
           key={i}
           ref={ref => elementRefs.current.stars[i] = ref}

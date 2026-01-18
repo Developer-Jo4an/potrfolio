@@ -2,11 +2,10 @@ import AnimationPlayer from "../../../../shared/scene/animations/AnimationPlayer
 import {clamp} from "lodash";
 import {toRad, distance, findClosestNumber} from "../../../../shared/lib/matrix/matrix";
 import {createProxyObject} from "../../../../shared/lib/proxy/createProxyObject";
-import {EIGHT_TENTHS} from "../../../../shared/constants/numbers/numbers";
 import {dunkShotUtils} from "../utils/DunkShotUtils";
 import {DUNK_SHOT_TWEEN} from "../../constants";
-import {PI2} from "../../../../shared/constants/trigonometry/trigonometry";
-import {LEFT, RIGHT} from "../../../../shared/constants/directions/directions";
+import {PI2} from "../../../../shared/constants/src/trigonometry/trigonometry";
+import {LEFT, RIGHT} from "../../../../shared/constants/src/directions/directions";
 import gsap from "gsap";
 import setNecessaryListeners from "../utils/setNecessaryListeners";
 
@@ -530,7 +529,7 @@ class DunkShotAnimationPlayer extends AnimationPlayer {
       onUpdate() {
         const progress = this.progress();
 
-        if (progress < EIGHT_TENTHS || wings.every(({_factoryUUID}) =>
+        if (progress < 0.8 || wings.every(({_factoryUUID}) =>
           gsap.localTimeline.isExist(DUNK_SHOT_TWEEN, `wingsHide${_factoryUUID}`)
         )) return;
 

@@ -3,7 +3,7 @@ import State from "../../../../shared/scene/ecs/base/components/state/State";
 import Matrix3Component from "../../../../shared/scene/ecs/base/components/transform/Matrix3Component";
 import {upperFirst} from "lodash";
 import {CHARACTER, DEFAULT} from "../../constants/entities/character";
-import {LEFT, RIGHT} from "../../../../shared/constants/directions/directions";
+import {LEFT, RIGHT} from "../../../../shared/constants/src/directions/directions";
 
 export default class Movement extends System {
   updateCharacterMovement() {

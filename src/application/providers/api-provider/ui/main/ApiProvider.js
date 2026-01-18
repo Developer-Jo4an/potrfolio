@@ -1,6 +1,6 @@
 import {createContext, useContext, useEffect} from "react";
 import {usePathname} from "next/navigation";
-import {INDEX} from "../../../../../shared/constants/pages/routes";
+import {INDEX} from "../../../../../shared/constants/src/pages/routes";
 import useGamesStore from "../../../../../widgets/game-cards/model/state-manager/gamesStore";
 
 export default function ApiProvider({children}) {

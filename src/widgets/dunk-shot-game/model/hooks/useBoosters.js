@@ -3,7 +3,7 @@ import eventSubscription from "../../../../shared/lib/events/eventListener";
 import useDunkShotStore from "../state-manager/dunkShotStore";
 import {WINGS, EXTRA_LIFE, X2} from "../../constants/boosters";
 import {BOOSTERS_SET_DISABLED} from "../../constants/events";
-import {APPLY, DISABLED} from "../../../../shared/constants/actions/names";
+import {APPLY, DISABLED} from "../../../../shared/constants/src/actions/names";
 import {WINGS as WINGS_STATE} from "../../constants/stateMachine";
 import content from "../../constants/content";
 

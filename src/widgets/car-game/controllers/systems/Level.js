@@ -16,7 +16,7 @@ import {ROAD_CHUNK} from "../../constants/entities/roadChunk";
 import {CHARACTER_WITH_BONUSES, CHARACTER_WITH_ROAD_CHUNK, CHARACTER_WITH_SPIKES} from "../../constants/collision";
 import {BONUS} from "../../constants/entities/bonus";
 import {SPIKE} from "../../constants/entities/spike";
-import {LEFT, RIGHT} from "../../../../shared/constants/directions/directions";
+import {LEFT, RIGHT} from "../../../../shared/constants/src/directions/directions";
 import {ROAD_CHUNKS_CONTAINER} from "../../constants/entities/roadChunksContainer";
 
 export default class Level extends System {

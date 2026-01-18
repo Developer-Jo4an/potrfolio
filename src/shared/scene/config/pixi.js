@@ -1,4 +1,4 @@
-import {WEBGL} from "../../constants/gpu-api/names";
+import {WEBGL} from "../../constants/src/gpu-api/names";
 
 export const PIXI_APP_CONFIG = {
   preference: WEBGL,

@@ -20,7 +20,7 @@ import resetMatrix from "../../../../shared/scene/ecs/three/side-effects/resetMa
 import getIsDebug from "../../../../shared/lib/debug/debug";
 import gsap from "gsap";
 import {CHARACTER} from "../../constants/character";
-import {DRAG_END, DRAG_MOVE, DRAG_START} from "../../../../shared/constants/events/eventsNames";
+import {DRAG_END, DRAG_MOVE, DRAG_START} from "../../../../shared/constants/src/events/eventsNames";
 import {CLEAR_HIT, COLLISION_START, GET_INFO, LOSE, MISS, THROWN, WIN} from "../../constants/events";
 import {GROUND} from "../../constants/ground";
 import {TWEENS} from "../../constants/tweens";
@@ -30,7 +30,7 @@ import {BASKETBALL, GAME} from "../../constants/game";
 import {LOSE as LOSE_STATE, WIN as WIN_STATE} from "../../constants/stateMachine";
 import {EXTRA_LIFE, X2} from "../../constants/boosters";
 import {X2VIEW} from "../../constants/x2View";
-import {PI2} from "../../../../shared/constants/trigonometry/trigonometry";
+import {PI2} from "../../../../shared/constants/src/trigonometry/trigonometry";
 
 export default class Character extends System {
 

@@ -1,6 +1,6 @@
 import {useEffect} from "react";
 import eventSubscription from "../../../lib/events/eventListener";
-import {RESIZE} from "../../../constants/events/eventsNames";
+import {RESIZE} from "../../../constants/src/events/eventsNames";
 
 export const useResetOnResize = (ref, resetValue) => {
   useEffect(() =>

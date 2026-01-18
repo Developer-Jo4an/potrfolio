@@ -16,7 +16,7 @@ import {
   RING_SHIELD_VIEW_NAME,
   RING_VIEW_NAME
 } from "../../constants/ring";
-import {X, Y, Z} from "../../../../shared/constants/trigonometry/trigonometry";
+import {X, Y, Z} from "../../../../shared/constants/src/trigonometry/trigonometry";
 import {assetsManager} from "../../../../shared/scene/assets/AssetsManager";
 import {GLTF, THREE_SPACE} from "../../../../shared/scene/constants/loaders/assetsTypes";
 import {SCENE_FROM_BLENDER} from "../../constants/preload";

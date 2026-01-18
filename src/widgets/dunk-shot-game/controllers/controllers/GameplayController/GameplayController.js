@@ -11,7 +11,7 @@ import {DUNK_SHOT_STATE_MACHINE} from "../../../constants/stateMachine";
 import {dunkShotFactory} from "../../factory/DunkShotFactory";
 import {VISIBLE} from "../../../constants/modes";
 import {TO_DOWN} from "../../../constants/statuses";
-import {WHITE} from "../../../../../shared/constants/colors/colors";
+import {WHITE} from "../../../../../shared/constants/src/colors/colors";
 import {dunkShotAnimationPlayer} from "../../animations/DunkShotAnimationPlayer";
 import gsap from "gsap";
 

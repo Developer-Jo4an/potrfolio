@@ -1,4 +1,4 @@
-import {DEVELOPMENT} from "../../constants/build/env";
+import {DEVELOPMENT} from "../../constants/src/build/env";
 import getQueryParams from "../search/getQueryParams";
 
 export default function getIsDebug() {

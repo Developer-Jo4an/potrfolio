@@ -4,7 +4,7 @@ import eventSubscription from "../../../../shared/lib/events/eventListener";
 import {CLICK_ON_WINDOW} from "../../constants/events";
 import {GAME} from "../../constants/entities/game";
 import {PLAYING} from "../../constants/stateMachine";
-import {LEFT, RIGHT} from "../../../../shared/constants/directions/directions";
+import {LEFT, RIGHT} from "../../../../shared/constants/src/directions/directions";
 
 export default class Input extends System {
   constructor() {

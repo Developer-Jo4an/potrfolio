@@ -8,8 +8,8 @@ import {STATE_CHANGED} from "../../constants/events/names";
 import {DUNK_SHOT_STATE_MACHINE} from "../../../../widgets/dunk-shot-game/constants/stateMachine";
 import {MODAL_NAMES} from "../../../../application/providers/modal";
 import {DIRECTORY, DUNK_SHOT_GAME} from "../../../../widgets/dunk-shot-game/constants";
-import {INDEX} from "../../../constants/pages/routes";
-import {OFF, ON} from "../../../constants/helpful/statuses";
+import {INDEX} from "../../../constants/src/pages/routes";
+import {OFF, ON} from "../../../constants/src/helpful/statuses";
 
 export default function useStateController(wrapper, ignoreNextStates, stateMachine) {
   const {getGameConfig} = useDunkShotStore();

@@ -1,5 +1,5 @@
 import BaseEntity from "../base/BaseEntity";
-import {LEFT, RIGHT} from "../../../../../shared/constants/directions/directions";
+import {LEFT, RIGHT} from "../../../../../shared/constants/src/directions/directions";
 import {PIXI_SPACE, TEXTURE} from "../../../../../shared/scene/constants/loaders/assetsTypes";
 import {assetsManager} from "../../../../../shared/scene/assets/AssetsManager";
 import {WING} from "../../../config/preload";

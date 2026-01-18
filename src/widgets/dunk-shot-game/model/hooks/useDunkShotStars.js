@@ -3,7 +3,6 @@ import gsap from "gsap";
 import useKillGsapTweens from "../../../../shared/model/hooks/gsap/useKillGsapTweens";
 import {useResetOnResize} from "../../../../shared/model/hooks/optimization/useResetOnResize";
 import {starsAnimation} from "../../config/animations";
-import {THIRD} from "../../../../shared/constants/numbers/numbers";
 
 const {offset, scale, delay, opacity} = starsAnimation;
 
@@ -35,7 +34,7 @@ export const useDunkShotStars = () => {
 
     const startsTween = tweenRefs.current.stars = gsap.timeline({
       onUpdate() {
-        if (this.progress() > THIRD && !isPlayedSound) {
+        if (this.progress() > 0.3 && !isPlayedSound) {
           isPlayedSound = true;
           // SoundPlayer.playSingle("stars");
         }

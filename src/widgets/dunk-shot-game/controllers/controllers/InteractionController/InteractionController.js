@@ -10,7 +10,7 @@ import {
   POINTER_MOVE,
   POINTER_UP,
   POINTER_UP_OUTSIDE
-} from "../../../../../shared/constants/events/eventsNames";
+} from "../../../../../shared/constants/src/events/eventsNames";
 import {DUNK_SHOT_STATE_MACHINE} from "../../../constants/stateMachine";
 
 export default class InteractionController extends BaseController {

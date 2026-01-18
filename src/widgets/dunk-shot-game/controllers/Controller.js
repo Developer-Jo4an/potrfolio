@@ -12,7 +12,7 @@ import gsap from "gsap";
 import eventSubscription from "../../../shared/lib/events/eventListener";
 import {addControllerStateHandler} from "../../../shared/scene/lib/state/addControllerStateHandler";
 import getIsDebug from "../../../shared/lib/debug/debug";
-import {RESIZE} from "../../../shared/constants/events/eventsNames";
+import {RESIZE} from "../../../shared/constants/src/events/eventsNames";
 import {UPDATED} from "../../../shared/scene/constants/events/names";
 import {DUNK_SHOT_TWEEN, GAME_SIZE} from "../constants";
 import {DUNK_SHOT_STATE_MACHINE} from "../constants/stateMachine";
@@ -20,7 +20,7 @@ import {CONTROLLER_RESET, DUNK_SHOT_CONFIG_EVENT, DUNK_SHOT_GAME_DATA_EVENT} fro
 import {dunkShotFactory} from "./factory/DunkShotFactory";
 import {dunkShotAnimationPlayer} from "./animations/DunkShotAnimationPlayer";
 import {dunkShotUtils} from "./utils/DunkShotUtils";
-import {LEFT, RIGHT} from "../../../shared/constants/directions/directions";
+import {LEFT, RIGHT} from "../../../shared/constants/src/directions/directions";
 import {RESET_ITEMS} from "../constants/factoryVariables";
 import {
   PERFORMANCE_DECORATOR_FIELD,

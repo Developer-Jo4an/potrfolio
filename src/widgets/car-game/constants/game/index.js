@@ -1,4 +1,4 @@
-import {LEFT} from "../../../../shared/constants/directions/directions";
+import {LEFT} from "../../../../shared/constants/src/directions/directions";
 
 export const CAR = "car";
 

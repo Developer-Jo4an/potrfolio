@@ -16,7 +16,7 @@ import {
   THROW_PURE_DATA
 } from "../../../../constants/events";
 import {DUNK_SHOT_STATE_MACHINE, PLAYING, PREPARE, WIN} from "../../../../constants/stateMachine";
-import {COMPLETE, START, UPDATE} from "../../../../../../shared/constants/statuses/statuses";
+import {COMPLETE, START, UPDATE} from "../../../../../../shared/constants/src/statuses/statuses";
 import {STATE_DECORATOR_FIELD} from "../../../../../../shared/scene/constants/decorators/names";
 import gsap from "gsap";
 

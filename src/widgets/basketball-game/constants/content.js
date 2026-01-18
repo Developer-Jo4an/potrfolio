@@ -1,10 +1,10 @@
 import getDefaultState from "../../../shared/scene/lib/state/getDefaultState";
 import {CLEAR_HIT, EXTRA_LIFE, X2} from "./boosters";
-import {OFF, ON} from "../../../shared/constants/helpful/statuses";
+import {OFF, ON} from "../../../shared/constants/src/helpful/statuses";
 import {MODAL_NAMES} from "../../../application/providers/modal";
 import {MODS} from "../../../features/game-end-modal";
 import {BASKETBALL_STATE_MACHINE, LOSE, WIN} from "./stateMachine";
-import {INDEX} from "../../../shared/constants/pages/routes";
+import {INDEX} from "../../../shared/constants/src/pages/routes";
 
 export default {
   boosters: [

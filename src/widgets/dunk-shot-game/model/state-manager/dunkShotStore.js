@@ -1,7 +1,7 @@
 import {createStore} from "../../../../shared/model/state-manager/createStore";
 import {getDefaultStats} from "../../constants/defaultStats";
 import {getGameConfig} from "../../api/requests";
-import {ADD, APPLY, DISABLED, RECALCULATE, SET, SUBTRACT} from "../../../../shared/constants/actions/names";
+import {ADD, APPLY, DISABLED, RECALCULATE, SET, SUBTRACT} from "../../../../shared/constants/src/actions/names";
 import {WINGS, EXTRA_LIFE, X2} from "../../constants/boosters";
 import {clamp} from "lodash";
 import {DUNK_SHOT} from "../../constants/stateManager";

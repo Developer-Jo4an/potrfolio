@@ -5,7 +5,7 @@ import useDunkShotStore from "../../model/state-manager/dunkShotStore";
 import eventSubscription from "../../../../shared/lib/events/eventListener";
 import {AnimatePresence, motion} from "framer-motion";
 import {CONTROLLER_RESET, THROW_PURE_DATA} from "../../constants/events";
-import {START} from "../../../../shared/constants/statuses/statuses";
+import {START} from "../../../../shared/constants/src/statuses/statuses";
 import gsap from "gsap";
 import {pureHitAnimation} from "../../config/animations";
 import styles from "./DunkShotPureHit.module.scss";

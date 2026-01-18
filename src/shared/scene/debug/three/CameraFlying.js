@@ -1,6 +1,6 @@
 import eventSubscription from "../../../lib/events/eventListener";
 import getEventPosition from "../../../lib/events/eventPosition";
-import {END, MOVE, START} from "../../../constants/events/eventsNames";
+import {END, MOVE, START} from "../../../constants/src/events/eventsNames";
 
 export default class CameraFlying {
 

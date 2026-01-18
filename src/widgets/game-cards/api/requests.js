@@ -1,5 +1,5 @@
 import {get} from "../../../shared/model/requests/methods";
-import {SUCCESS} from "../../../shared/constants/api/statuses";
+import {SUCCESS} from "../../../shared/constants/src/api/statuses";
 import {GET_GAME_LIST} from "../constants/requests";
 
 const cashedRequests = {};

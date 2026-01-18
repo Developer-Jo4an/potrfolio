@@ -6,7 +6,7 @@ import {
   MARIO as MARIO_ROUTE,
   FRUITS as FRUITS_ROUTE,
   DRIVE as DRIVE_ROUTE
-} from "../../../shared/constants/pages/routes";
+} from "../../../shared/constants/src/pages/routes";
 
 export const ROUTES = {
   [BASKETBALL]: BASKETBALL_ROUTE,

@@ -7,7 +7,7 @@ import {COLLISION_FILTERS} from "../../../constants/collision";
 import {INACTIVE} from "../../../constants/statuses";
 import {VISIBLE} from "../../../constants/modes";
 import {assetsManager} from "../../../../../shared/scene/assets/AssetsManager";
-import {RED, WHITE} from "../../../../../shared/constants/colors/colors";
+import {RED, WHITE} from "../../../../../shared/constants/src/colors/colors";
 import {BASKET_GRID_BACK} from "../../../config/preload";
 
 export default class Basket extends BasePhysicsEntity {
