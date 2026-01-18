@@ -1,4 +1,4 @@
-import {useRequestsHandler} from "../../../../shared/model/hooks/use-requests-handler/useRequestsHandler";
+import {useRequestsHandler} from "../../../../shared/model/src/hooks/useRequestsHandler";
 import {Loader} from "../../../../shared/ui/loader";
 
 export default function RequestsLoader() {

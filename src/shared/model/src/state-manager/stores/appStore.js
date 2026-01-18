@@ -10,4 +10,4 @@ const {useStore: useAppStore, selectors} = createStore({
   helpers: {}
 });
 
-export default useAppStore;
+export {useAppStore};

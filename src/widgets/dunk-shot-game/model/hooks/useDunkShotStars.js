@@ -1,7 +1,7 @@
 import {useRef} from "react";
 import gsap from "gsap";
-import useKillGsapTweens from "../../../../shared/model/hooks/gsap/useKillGsapTweens";
-import {useResetOnResize} from "../../../../shared/model/hooks/optimization/useResetOnResize";
+import useKillGsapTweens from "../../../../shared/model/src/hooks/useKillGsapTweens";
+import {useResetOnResize} from "../../../../shared/model/src/hooks/useResetOnResize";
 import {starsAnimation} from "../../config/animations";
 
 const {offset, scale, delay, opacity} = starsAnimation;

@@ -1,5 +1,5 @@
 import {MODAL} from "../../../constants/names";
-import {createStore} from "../../../../../../shared/model/state-manager/createStore";
+import {createStore} from "../../../../../../shared/model/src/state-manager/createStore";
 import {createId} from "../../../../../../shared/lib/src/patterns/closure/createId";
 import getActiveModals from "../../../lib/getActiveModals";
 

@@ -1,4 +1,4 @@
-import {createStore} from "../../../../shared/model/state-manager/createStore";
+import {createStore} from "../../../../shared/model/src/state-manager/createStore";
 import {getGameList} from "../../api/requests";
 import {LEFT, RIGHT} from "../../../../shared/constants/src/directions/directions";
 

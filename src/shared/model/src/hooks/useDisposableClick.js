@@ -1,6 +1,6 @@
 import {useRef} from "react";
 
-export const useDisposableClick = onClick => {
+export function useDisposableClick(onClick) {
   const isClicked = useRef(false);
 
   return function () {

@@ -1,7 +1,6 @@
-import axios from "axios";
-import {GET, POST} from "../../constants/src/api/methods";
-import {API} from "../../constants/src/api/urls";
 import {isFinite} from "lodash";
+import axios from "axios";
+import {API, GET, POST} from "../../../constants";
 
 export const get = createMethod(GET);
 export const post = createMethod(POST);

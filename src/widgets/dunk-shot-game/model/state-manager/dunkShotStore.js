@@ -1,4 +1,4 @@
-import {createStore} from "../../../../shared/model/state-manager/createStore";
+import {createStore} from "../../../../shared/model/src/state-manager/createStore";
 import {getDefaultStats} from "../../constants/defaultStats";
 import {getGameConfig} from "../../api/requests";
 import {ADD, APPLY, DISABLED, RECALCULATE, SET, SUBTRACT} from "../../../../shared/constants/src/actions/names";

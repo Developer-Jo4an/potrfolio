@@ -1,8 +1,8 @@
 import {useEffect} from "react";
-import eventSubscription from "../../../lib/src/events/eventListener";
-import {RESIZE} from "../../../constants/src/events/eventsNames";
+import {eventSubscription} from "../../../lib";
+import {RESIZE} from "../../../constants";
 
-export const useResetOnResize = (ref, resetValue) => {
+export function useResetOnResize(ref, resetValue) {
   useEffect(() =>
       eventSubscription({
         callbacksBus: [
@@ -10,4 +10,4 @@ export const useResetOnResize = (ref, resetValue) => {
         ]
       })
     , []);
-};
+}

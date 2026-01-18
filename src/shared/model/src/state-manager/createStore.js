@@ -3,7 +3,7 @@ import {immer} from "zustand/middleware/immer";
 import {subscribeWithSelector} from "zustand/middleware";
 import {useShallow} from "zustand/shallow";
 import {isFunction, isObject, upperFirst} from "lodash";
-import {FULFILLED, PENDING, REJECTED, SETTLED} from "../../constants/src/promise/statuses";
+import {FULFILLED, PENDING, REJECTED, SETTLED} from "../../../constants";
 
 class StateManagerStore {
 

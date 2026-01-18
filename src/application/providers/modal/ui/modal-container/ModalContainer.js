@@ -1,6 +1,6 @@
 import {motion} from "framer-motion";
 import cl from "classnames";
-import {useDisposableClick} from "../../../../../shared/model/hooks/use-disposable-click/useDisposableClick";
+import {useDisposableClick} from "../../../../../shared/model/src/hooks/useDisposableClick";
 import useIsCanInteractive from "../../model/hooks/useIsCanInteractive";
 import useModalStore from "../../model/state-manager/stores/modalStore";
 import {modals} from "../../constants/modals";

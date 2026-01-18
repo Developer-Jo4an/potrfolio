@@ -1,4 +1,4 @@
-import {createStore} from "../../../../shared/model/state-manager/createStore";
+import {createStore} from "../../../../shared/model/src/state-manager/createStore";
 import {BASKETBALL} from "../../constants/game";
 
 const {useStore: useBasketballStore, selectors} = createStore({

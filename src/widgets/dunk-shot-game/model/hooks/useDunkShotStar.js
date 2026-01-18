@@ -1,5 +1,5 @@
 import {useRef} from "react";
-import useKillGsapTweens from "../../../../shared/model/hooks/gsap/useKillGsapTweens";
+import useKillGsapTweens from "../../../../shared/model/src/hooks/useKillGsapTweens";
 import {starAnimation} from "../../config/animations";
 import gsap from "gsap";
 

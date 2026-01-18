@@ -1,9 +1,9 @@
 import {useEffect, useState} from "react";
 import {isFunction} from "lodash";
 import axios from "axios";
-import {FULFILLED, PENDING, REJECTED} from "../../../constants/src/promise/statuses";
+import {PENDING, REJECTED, FULFILLED} from "../../../constants";
 
-export const useRequestsHandler = (handlers = []) => {
+export function useRequestsHandler(handlers) {
   const [requestStatuses, setRequestStatuses] = useState({});
 
   const pendingData = (() => {
