@@ -1,0 +1,88 @@
+@use "constants" as constants;
+
+@mixin hover {
+  @media(hover: hover) {
+    &:hover {
+      @content;
+    }
+  }
+
+  @media(hover: none) {
+    &:active {
+      @content;
+    }
+  }
+}
+
+@mixin button-hover {
+  @include hover {
+    transform: scale(1.1);
+  }
+
+  &:active {
+    transform: scale(0.8);
+  }
+}
+
+@mixin mod($mod, $selector: null, $attribute: "mod") {
+  $selector-str: ".#{$selector}";
+
+  @if $selector {
+    @at-root #{$selector-str}[data-#{$attribute}=#{$mod}] & {
+      @content;
+    }
+  } @else {
+    &[data-#{$attribute}=#{$mod}] {
+      @content;
+    }
+  }
+}
+
+@mixin device() {
+  @each $device in constants.$DEVICES-LIST {
+    :global([data-device="#{$device}"]) & {
+      @content($device)
+    }
+  }
+}
+
+@mixin size($width, $height) {
+  @include width($width);
+  @include height($height);
+}
+
+@mixin width($width) {
+  width: #{$width}vw;
+
+  $localWidthS: #{$width}svw;
+  @supports (width: $localWidthS) {
+    & {
+      width: $localWidthS;
+    }
+  };
+
+  $localWidthD: #{$width}dvw;
+  @supports (width: $localWidthD) {
+    & {
+      width: $localWidthD;
+    }
+  };
+}
+
+@mixin height($height) {
+  height: #{$height}vh;
+
+  $localHeightS: #{$height}svh;
+  @supports (height: $localHeightS) {
+    & {
+      height: $localHeightS;
+    }
+  };
+
+  $localHeightD: #{$height}dvh;
+  @supports (height: $localHeightD) {
+    & {
+      height: $localHeightD;
+    }
+  };
+}

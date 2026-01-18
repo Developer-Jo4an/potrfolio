@@ -1,3 +1,1 @@
-import {DunkShot} from "../../app-pages/dunk-shot";
-
-export default DunkShot;
+export {DunkShot as default, metadata} from "../../src/pages/dunk-shot";

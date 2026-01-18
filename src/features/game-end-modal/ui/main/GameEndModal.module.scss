@@ -1,0 +1,19 @@
+@use "../../../../application/styles/constants" as constants;
+
+.gameEndModal {
+  position: relative;
+
+  width: 90%;
+  max-width: 500px;
+  max-height: 90%;
+
+  padding: 40px 20px 40px 20px;
+
+  border-radius: 32px;
+  overflow: hidden;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 30px;
+}

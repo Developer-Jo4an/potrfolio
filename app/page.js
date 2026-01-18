@@ -1,3 +1,3 @@
-import {Adjustable} from "../app-pages/index";
+import {Adjustable} from "../src/pages/index";
 
 export default Adjustable;

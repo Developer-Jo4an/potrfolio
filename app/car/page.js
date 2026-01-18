@@ -1,3 +1,1 @@
-import {Car} from "../../app-pages/car";
-
-export default Car;
+export {Car as default, metadata} from "../../src/pages/car";

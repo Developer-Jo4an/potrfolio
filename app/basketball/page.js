@@ -1,3 +1,1 @@
-import {Basketball} from "../../app-pages/basketball";
-
-export default Basketball
+export { Basketball as default, metadata } from "../../src/pages/basketball";
