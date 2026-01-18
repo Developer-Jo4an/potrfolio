@@ -1,3 +1,1 @@
-import {Adjustable} from "../src/pages/index";
-
-export default Adjustable;
+export {Adjustable as default, adjustableMetadata as metadata} from "../src/pages/index";

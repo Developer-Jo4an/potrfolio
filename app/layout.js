@@ -1,3 +1,1 @@
-import {RootLayout} from "../src/pages/index";
-
-export default RootLayout;
+export {RootLayout as default, layoutMetadata as metadata} from "../src/pages/index";
