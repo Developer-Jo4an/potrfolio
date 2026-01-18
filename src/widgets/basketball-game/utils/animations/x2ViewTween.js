@@ -1,7 +1,7 @@
 import gsap from "gsap";
 import {BASKETBALL} from "../../constants/game";
 import {TWEENS} from "../../constants/tweens";
-import {image} from "../../../../shared/lib/image/url";
+import {image} from "../../../../shared/lib/src/image/url";
 
 const settings = {
   ease: "sine.inOut",

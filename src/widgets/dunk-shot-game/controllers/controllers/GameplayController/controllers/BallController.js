@@ -1,5 +1,5 @@
 import BaseGameplayController from "../BaseGameplayController";
-import eventSubscription from "../../../../../../shared/lib/events/eventListener";
+import eventSubscription from "../../../../../../shared/lib/src/events/eventListener";
 import {dunkShotFactory} from "../../../factory/DunkShotFactory";
 import {dunkShotAnimationPlayer} from "../../../animations/DunkShotAnimationPlayer";
 import {dunkShotUtils} from "../../../utils/DunkShotUtils";

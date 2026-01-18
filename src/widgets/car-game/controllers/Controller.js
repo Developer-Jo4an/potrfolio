@@ -12,8 +12,8 @@ import PixiRenderSystem from "../../../shared/scene/ecs/pixi/systems/PixiRenderS
 import Collector from "../../../shared/scene/ecs/base/systems/Collector";
 import Engine from "../../../shared/scene/ecs/core/Engine";
 import {cloneDeep} from "lodash";
-import getIsDebug from "../../../shared/lib/debug/debug";
-import eventSubscription from "../../../shared/lib/events/eventListener";
+import getIsDebug from "../../../shared/lib/src/debug/debug";
+import eventSubscription from "../../../shared/lib/src/events/eventListener";
 import {GAME_SIZE, GAME_SPACE} from "../constants/game";
 import {NOT_AVAILABLE_ENTITIES_TYPES_FOR_RESET} from "../constants/reset";
 import {analysis} from "../../../shared/scene/analytics/Analytics";

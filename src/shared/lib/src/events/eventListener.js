@@ -12,7 +12,7 @@ export const ON_OFF_MODE = {
   actionRemove: "off"
 };
 
-export default function eventSubscription(
+export function eventSubscription(
   {
     target = global,
     callbacksBus = [],

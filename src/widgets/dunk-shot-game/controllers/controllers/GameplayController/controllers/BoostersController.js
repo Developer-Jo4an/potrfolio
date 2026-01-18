@@ -1,5 +1,5 @@
 import BaseGameplayController from "../BaseGameplayController";
-import {gsapUpdate} from "../../../../../../shared/lib/gsap/helpers";
+import {gsapUpdate} from "../../../../../../shared/lib/src/gsap/helpers";
 import {dunkShotFactory} from "../../../factory/DunkShotFactory";
 import {dunkShotAnimationPlayer} from "../../../animations/DunkShotAnimationPlayer";
 import {dunkShotUtils} from "../../../utils/DunkShotUtils";

@@ -1,6 +1,6 @@
 import AnimationPlayer from "../../../../shared/scene/animations/AnimationPlayer";
 import {clamp} from "lodash";
-import {toRad, distance, findClosestNumber} from "../../../../shared/lib/matrix/matrix";
+import {toRad, distance, findClosestNumber} from "../../../../shared/lib/src/matrix/matrix";
 import {createProxyObject} from "../../../../shared/lib/proxy/createProxyObject";
 import {dunkShotUtils} from "../utils/DunkShotUtils";
 import {DUNK_SHOT_TWEEN} from "../../constants";

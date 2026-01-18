@@ -1,4 +1,4 @@
-import {image} from "../../../../shared/lib/image/url";
+import {image} from "../../../../shared/lib/src/image/url";
 import gsap from "gsap";
 import {TWEENS} from "../../constants/tweens";
 import {BASKETBALL} from "../../constants/game";

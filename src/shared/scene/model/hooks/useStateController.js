@@ -1,5 +1,5 @@
 import {useEffect} from "react";
-import eventSubscription from "../../../lib/events/eventListener";
+import eventSubscription from "../../../lib/src/events/eventListener";
 import getDefaultState from "../../lib/state/getDefaultState";
 import {useAppCallbacks} from "../../../../application/providers/callbacks/ui/main/CallbacksProvider";
 import useDunkShotStore from "../../../../widgets/dunk-shot-game/model/state-manager/dunkShotStore";

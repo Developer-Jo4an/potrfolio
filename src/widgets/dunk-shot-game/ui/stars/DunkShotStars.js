@@ -1,8 +1,8 @@
 import {useEffect, useRef, useState} from "react";
 import {isArray, isFinite} from "lodash";
-import eventSubscription from "../../../../shared/lib/events/eventListener";
+import eventSubscription from "../../../../shared/lib/src/events/eventListener";
 import {useDunkShotStars} from "../../model/hooks/useDunkShotStars";
-import {createArrayWithMap} from "../../../../shared/lib/array/createArrayWithMap";
+import {createArrayWithMap} from "../../../../shared/lib/src/array/createArrayWithMap";
 import {TbStarsFilled} from "react-icons/tb";
 import {FaStar} from "react-icons/fa6";
 import useActiveBoosters from "../../model/hooks/useActiveBoosters";

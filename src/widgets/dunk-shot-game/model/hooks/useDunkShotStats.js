@@ -1,6 +1,6 @@
 import {useEffect} from "react";
 import useDunkShotStore from "../state-manager/dunkShotStore";
-import eventSubscription from "../../../../shared/lib/events/eventListener";
+import eventSubscription from "../../../../shared/lib/src/events/eventListener";
 import {DUNK_SHOT_STATE_MACHINE} from "../../constants/stateMachine";
 import {PROGRESS_RESET, THROW_HIT, THROW_PURE} from "../../constants/events";
 import {STATE_CHANGED} from "../../../../shared/scene/constants/events/names";

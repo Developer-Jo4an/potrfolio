@@ -1,4 +1,4 @@
-export const createProxyObject = (object, ...fields) => {
+export function createProxyObject(object, ...fields) {
   const proxyObject = {};
 
   fields.forEach(field => {
@@ -13,4 +13,4 @@ export const createProxyObject = (object, ...fields) => {
   });
 
   return proxyObject;
-};
+}

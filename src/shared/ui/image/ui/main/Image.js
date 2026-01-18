@@ -1,4 +1,4 @@
-import {image} from "../../../../lib/image/url";
+import {image} from "../../../../lib/src/image/url";
 import cl from "classnames";
 import styles from "./Image.module.scss";
 

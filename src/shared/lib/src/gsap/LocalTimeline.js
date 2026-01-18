@@ -4,7 +4,7 @@ import {isString, isFinite} from "lodash";
 export const PLAYING = "playing";
 export const PAUSED = "paused";
 
-export default class LocalTimeline {
+export class LocalTimeline {
   static statuses = {
     playing: PLAYING,
     paused: PAUSED

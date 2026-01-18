@@ -1,6 +1,6 @@
 import {useEffect, useRef, useState} from "react";
-import {createArrayWithMap} from "../../../../shared/lib/array/createArrayWithMap";
-import eventSubscription from "../../../../shared/lib/events/eventListener";
+import {createArrayWithMap} from "../../../../shared/lib/src/array/createArrayWithMap";
+import eventSubscription from "../../../../shared/lib/src/events/eventListener";
 import {TbStarsFilled} from "react-icons/tb";
 import {FaStar} from "react-icons/fa6";
 import useDunkShotStar from "../../model/hooks/useDunkShotStar";

@@ -1,6 +1,6 @@
 import {MODAL} from "../../../constants/names";
 import {createStore} from "../../../../../../shared/model/state-manager/createStore";
-import {createId} from "../../../../../../shared/lib/patterns/closure/createId";
+import {createId} from "../../../../../../shared/lib/src/patterns/closure/createId";
 import getActiveModals from "../../../lib/getActiveModals";
 
 const getId = createId();

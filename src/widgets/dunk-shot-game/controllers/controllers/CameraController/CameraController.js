@@ -1,5 +1,5 @@
  import BaseController from "../BaseController/BaseController";
-import {isInsideRectangle} from "../../../../../shared/lib/matrix/matrix";
+import {isInsideRectangle} from "../../../../../shared/lib/src/matrix/matrix";
 import {clamp} from "lodash";
 import {dunkShotFactory} from "../../factory/DunkShotFactory";
 import {DUNK_SHOT_STATE_MACHINE} from "../../../constants/stateMachine";

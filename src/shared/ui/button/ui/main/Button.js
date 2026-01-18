@@ -1,5 +1,5 @@
 import styles from "./Button.module.scss";
-import getTruthClasses from "../../../../lib/classes/getTruthClasses";
+import {getTruthClasses} from "../../../../lib/src/classes/getTruthClasses";
 import useButtonClickControls from "../../model/hooks/useButtonClickControls";
 
 export default function Button(

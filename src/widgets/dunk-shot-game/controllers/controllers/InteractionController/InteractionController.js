@@ -1,7 +1,7 @@
 import BaseController from "../BaseController/BaseController";
 import {cloneDeep} from "lodash";
-import eventSubscription from "../../../../../shared/lib/events/eventListener";
-import {angle, distance} from "../../../../../shared/lib/matrix/matrix";
+import eventSubscription from "../../../../../shared/lib/src/events/eventListener";
+import {angle, distance} from "../../../../../shared/lib/src/matrix/matrix";
 import {
   DRAG_END,
   DRAG_MOVE,

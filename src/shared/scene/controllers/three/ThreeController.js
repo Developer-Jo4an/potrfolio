@@ -3,7 +3,7 @@ import Resize from "../../decorators/resize/Resize";
 import State from "../../decorators/state/State";
 import Performance from "../../decorators/performance/Performance";
 import ThreeUpdate from "../../decorators/three/three-update/ThreeUpdate";
-import getIsDebug from "../../../lib/debug/debug";
+import getIsDebug from "../../../lib/src/debug/debug";
 import {cloneDeep} from "lodash";
 import {threeLoader} from "../../loaders/three/ThreeLoader";
 import {

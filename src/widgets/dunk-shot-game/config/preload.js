@@ -1,5 +1,5 @@
 import {TEXTURE} from "../../../shared/scene/constants/loaders/assetsTypes";
-import {assets} from "../../../shared/lib/image/url";
+import {assets} from "../../../shared/lib/src/image/url";
 
 export const BALL_2D = "2dBall";
 export const AIM = "aim";

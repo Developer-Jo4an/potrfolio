@@ -1,5 +1,5 @@
 "use client";
-import "../../../../../shared/lib/gsap/init";
+import "../../../../../shared/lib/src/gsap/init";
 import {ProviderComposer} from "../../../../providers/provider-composer";
 import RequestsLoader from "../../../../../entities/request-loader/ui/main/RequestsLoader";
 

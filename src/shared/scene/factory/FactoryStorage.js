@@ -1,4 +1,4 @@
-import {createId} from "../../lib/patterns/closure/createId";
+import {createId} from "../../lib/src/patterns/closure/createId";
 import {isFunction} from "lodash";
 
 const getId = createId();

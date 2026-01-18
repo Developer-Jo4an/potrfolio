@@ -1,6 +1,6 @@
 import {useEffect} from "react";
 import useBasketballStore from "../state-manager/basketballStore";
-import eventSubscription from "../../../../shared/lib/events/eventListener";
+import eventSubscription from "../../../../shared/lib/src/events/eventListener";
 import {GET_INFO} from "../../constants/events";
 
 export default function useGetInfo(fullProps) {

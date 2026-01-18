@@ -1,4 +1,4 @@
-export default function getEventPosition(e) {
+export function getEventPosition(e) {
   const x = e?.pageX ?? e.touches?.[0]?.clientX ?? e.changedTouches?.[0]?.clientX ?? e.detail?.x ?? 0;
   const y = e?.pageY ?? e.touches?.[0]?.clientY ?? e.changedTouches?.[0]?.clientY ?? e.detail?.y ?? 0;
 

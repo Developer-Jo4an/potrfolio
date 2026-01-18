@@ -1,6 +1,6 @@
 import {useEffect, useImperativeHandle, useRef, useState} from "react";
 import Image from "../../../../shared/ui/image/ui/main/Image";
-import eventSubscription from "../../../../shared/lib/events/eventListener";
+import eventSubscription from "../../../../shared/lib/src/events/eventListener";
 import hitTween from "../../utils/animations/hitTween";
 import useBasketballStore from "../../model/state-manager/basketballStore";
 import {CLEAR_HIT, MISS} from "../../constants/events";

@@ -9,9 +9,9 @@ import State from "../../../shared/scene/decorators/state/State";
 import Performance from "../../../shared/scene/decorators/performance/Performance";
 import PIXIMatterUpdate from "../../../shared/scene/decorators/pixi/pixi-matter-update/PIXIMatterUpdate";
 import gsap from "gsap";
-import eventSubscription from "../../../shared/lib/events/eventListener";
+import eventSubscription from "../../../shared/lib/src/events/eventListener";
 import {addControllerStateHandler} from "../../../shared/scene/lib/state/addControllerStateHandler";
-import getIsDebug from "../../../shared/lib/debug/debug";
+import getIsDebug from "../../../shared/lib/src/debug/debug";
 import {RESIZE} from "../../../shared/constants/src/events/eventsNames";
 import {UPDATED} from "../../../shared/scene/constants/events/names";
 import {DUNK_SHOT_TWEEN, GAME_SIZE} from "../constants";
@@ -27,7 +27,7 @@ import {
   RESIZE_DECORATOR_FIELD,
   STATE_DECORATOR_FIELD, UPDATE_DECORATOR_FIELD
 } from "../../../shared/scene/constants/decorators/names";
-import {PAUSED} from "../../../shared/lib/gsap/LocalTimeline";
+import {PAUSED} from "../../../shared/lib/src/gsap/LocalTimeline";
 
 export default class Controller extends PIXIController {
 

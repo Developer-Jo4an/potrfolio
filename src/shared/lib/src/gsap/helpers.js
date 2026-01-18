@@ -2,7 +2,7 @@ import {isFunction} from "lodash";
 import getIsDebug from "../debug/debug";
 import gsap from "gsap";
 
-export const gsapTimeout = ({timeout, namespace, id, onComplete, onUpdate, onStart}) => {
+export function gsapTimeout({timeout, namespace, id, onComplete, onUpdate, onStart}) {
   if (!namespace || !id || typeof timeout !== "number") {
     console.error(timeout, onComplete, namespace, id);
     if (getIsDebug())
@@ -25,9 +25,9 @@ export const gsapTimeout = ({timeout, namespace, id, onComplete, onUpdate, onSta
     typeof onComplete === "function" && onComplete(timeoutTween);
     res();
   }));
-};
+}
 
-export const gsapUpdate = ({namespace, id, onUpdate, onStart}) => {
+export function gsapUpdate({namespace, id, onUpdate, onStart}) {
   if (!namespace || !id) {
     console.error(namespace, id);
     if (getIsDebug())
@@ -44,4 +44,4 @@ export const gsapUpdate = ({namespace, id, onUpdate, onStart}) => {
       isFunction(onUpdate) && onUpdate(this);
     }
   })?.save?.(namespace, id);
-};
+}

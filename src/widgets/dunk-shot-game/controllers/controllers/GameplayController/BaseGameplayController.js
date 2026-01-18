@@ -1,5 +1,5 @@
 import BaseController from "../BaseController/BaseController";
-import {gsapTimeout} from "../../../../../shared/lib/gsap/helpers";
+import {gsapTimeout} from "../../../../../shared/lib/src/gsap/helpers";
 import {dunkShotFactory} from "../../factory/DunkShotFactory";
 import {dunkShotUtils} from "../../utils/DunkShotUtils";
 import {dunkShotAnimationPlayer} from "../../animations/DunkShotAnimationPlayer";

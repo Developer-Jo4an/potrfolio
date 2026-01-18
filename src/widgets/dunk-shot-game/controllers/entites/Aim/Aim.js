@@ -1,5 +1,5 @@
 import BaseEntity from "../base/BaseEntity";
-import {createArrayWithMap} from "../../../../../shared/lib/array/createArrayWithMap";
+import {createArrayWithMap} from "../../../../../shared/lib/src/array/createArrayWithMap";
 import {dunkShotFactory} from "../../factory/DunkShotFactory";
 import {assetsManager} from "../../../../../shared/scene/assets/AssetsManager";
 import {PIXI_SPACE, TEXTURE} from "../../../../../shared/scene/constants/loaders/assetsTypes";

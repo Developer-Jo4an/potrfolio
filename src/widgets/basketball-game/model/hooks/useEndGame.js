@@ -1,5 +1,5 @@
 import {useEffect} from "react";
-import eventSubscription from "../../../../shared/lib/events/eventListener";
+import eventSubscription from "../../../../shared/lib/src/events/eventListener";
 import {useAppCallbacks} from "../../../../application/providers/callbacks/ui/main/CallbacksProvider";
 import useBasketballStore from "../state-manager/basketballStore";
 import useModalStore from "../../../../application/providers/modal/model/state-manager/stores/modalStore";

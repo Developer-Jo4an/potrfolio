@@ -1,7 +1,7 @@
 import {useEffect, useState} from "react";
 import {AnimatePresence, motion} from "framer-motion";
 import useDunkShotStore from "../../model/state-manager/dunkShotStore";
-import eventSubscription from "../../../../shared/lib/events/eventListener";
+import eventSubscription from "../../../../shared/lib/src/events/eventListener";
 import styles from "./DunkShotTimer.module.scss";
 import {BASKET_TIMER_END, BASKET_TIMER_START, BASKET_TIMER_UPDATE, CONTROLLER_RESET} from "../../constants/events";
 import {timerAnimation} from "../../config/animations";

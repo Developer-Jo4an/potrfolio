@@ -1,5 +1,5 @@
 import {createContext, useContext, useLayoutEffect, useState} from "react";
-import eventSubscription from "../../../../../shared/lib/events/eventListener";
+import eventSubscription from "../../../../../shared/lib/src/events/eventListener";
 import {createDeviceName, LANDSCAPE, MOBILE, onResize} from "../../config/adaptive-settings";
 import {RESIZE} from "../../../../../shared/constants/src/events/eventsNames";
 import styles from "./SizeProvider.module.scss";

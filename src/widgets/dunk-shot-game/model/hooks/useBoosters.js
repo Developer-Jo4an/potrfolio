@@ -1,5 +1,5 @@
 import {useEffect} from "react";
-import eventSubscription from "../../../../shared/lib/events/eventListener";
+import eventSubscription from "../../../../shared/lib/src/events/eventListener";
 import useDunkShotStore from "../state-manager/dunkShotStore";
 import {WINGS, EXTRA_LIFE, X2} from "../../constants/boosters";
 import {BOOSTERS_SET_DISABLED} from "../../constants/events";

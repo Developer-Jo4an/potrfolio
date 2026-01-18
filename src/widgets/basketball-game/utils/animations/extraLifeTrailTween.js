@@ -1,4 +1,4 @@
-import {image} from "../../../../shared/lib/image/url";
+import {image} from "../../../../shared/lib/src/image/url";
 import {random} from "lodash";
 import gsap from "gsap";
 import {TWEENS} from "../../constants/tweens";

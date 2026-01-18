@@ -1,6 +1,6 @@
 import System from "../../../../shared/scene/ecs/core/System";
 import State from "../../../../shared/scene/ecs/base/components/state/State";
-import eventSubscription from "../../../../shared/lib/events/eventListener";
+import eventSubscription from "../../../../shared/lib/src/events/eventListener";
 import {CLICK_ON_WINDOW} from "../../constants/events";
 import {GAME} from "../../constants/entities/game";
 import {PLAYING} from "../../constants/stateMachine";

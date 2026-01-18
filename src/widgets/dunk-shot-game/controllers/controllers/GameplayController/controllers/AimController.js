@@ -1,5 +1,5 @@
 import BaseGameplayController from "../BaseGameplayController";
-import {createArrayWithMap} from "../../../../../../shared/lib/array/createArrayWithMap";
+import {createArrayWithMap} from "../../../../../../shared/lib/src/array/createArrayWithMap";
 import {dunkShotFactory} from "../../../factory/DunkShotFactory";
 import {INSIDE_BASKET} from "../../../../constants/statuses";
 import {LEFT, RIGHT} from "../../../../../../shared/constants/src/directions/directions";

@@ -1,5 +1,5 @@
 import {useEffect} from "react";
-import eventSubscription from "../../../../shared/lib/events/eventListener";
+import eventSubscription from "../../../../shared/lib/src/events/eventListener";
 import getDefaultState from "../../../../shared/scene/lib/state/getDefaultState";
 import useCarStore from "../state-machine/carStore";
 import {STATE_CHANGED} from "../../../../shared/scene/constants/events/names";

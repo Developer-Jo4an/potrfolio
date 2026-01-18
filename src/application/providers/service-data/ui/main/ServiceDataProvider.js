@@ -1,6 +1,6 @@
 import {createContext, useContext, useEffect, useState} from "react";
-import {decode, encode} from "../../../../../shared/lib/encoding/base64";
-import getIsDebug from "../../../../../shared/lib/debug/debug";
+import {decode, encode} from "../../../../../shared/lib/src/encoding/base64";
+import getIsDebug from "../../../../../shared/lib/src/debug/debug";
 import {cloneDeep} from "lodash/lang";
 
 const ServiceDataContext = createContext({});

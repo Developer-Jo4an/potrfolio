@@ -1,4 +1,4 @@
-export default function dataAttrs(data) {
+export function dataAttrs(data) {
   const attrs = {};
   for (const key in data)
     attrs[`data-${key}`] = data[key];

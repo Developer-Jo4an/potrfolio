@@ -1,5 +1,5 @@
 import {TEXTURE} from "../../../shared/scene/constants/loaders/assetsTypes";
-import {assets} from "../../../shared/lib/image/url";
+import {assets} from "../../../shared/lib/src/image/url";
 
 export const CHARACTER = "character";
 export const ROAD_CHUNK = "roadChunk";
