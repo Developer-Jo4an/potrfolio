@@ -1,25 +1,28 @@
-import Collider from "../../../../shared/scene/ecs/base/components/collision/Collider";
-import System from "../../../../shared/scene/ecs/core/System";
-import PixiComponent from "../../../../shared/scene/ecs/pixi/components/PixiComponent";
-import Matrix3Component from "../../../../shared/scene/ecs/base/components/transform/Matrix3Component";
-import CollisionComponent from "../../../../shared/scene/ecs/base/components/collision/CollisionComponent";
-import Entity from "../../../../shared/scene/ecs/core/Entity";
-import Chunk from "../components/Chunk";
 import {cloneDeep} from "lodash";
-import getRandomPointInQuadrilateralBilinear from "../../utils/helpers/getRandomPointInQuadrilateralBilinear";
-import chance from "../../../../shared/lib/random/chance";
-import getRandomIntFromRange from "../../../../shared/lib/random/getRandomIntFromRange";
-import getIsInsideCanvas from "../../utils/helpers/getIsInsideCanvas";
+import {getRandomPointInQuadrilateralBilinear} from "../../utils/helpers/getRandomPointInQuadrilateralBilinear";
+import {getIsInsideCanvas} from "../../utils/helpers/getIsInsideCanvas";
 import {CHARACTER} from "../../constants/entities/character";
 import {MAIN_CONTAINER} from "../../constants/entities/mainContainer";
 import {ROAD_CHUNK} from "../../constants/entities/roadChunk";
 import {CHARACTER_WITH_BONUSES, CHARACTER_WITH_ROAD_CHUNK, CHARACTER_WITH_SPIKES} from "../../constants/collision";
 import {BONUS} from "../../constants/entities/bonus";
 import {SPIKE} from "../../constants/entities/spike";
-import {LEFT, RIGHT} from "../../../../shared/constants/src/directions/directions";
 import {ROAD_CHUNKS_CONTAINER} from "../../constants/entities/roadChunksContainer";
+import {Chunk} from "../components/Chunk";
+import {
+  getRandomIntFromRange,
+  chance,
+  LEFT,
+  RIGHT,
+  Entity,
+  System,
+  CollisionComponent,
+  Matrix3Component,
+  PixiComponent,
+  Collider
+} from "@shared";
 
-export default class Level extends System {
+export class Level extends System {
   initializationLevelSelect() {
     this.initMainContainer();
     this.initRoadChunksContainer();

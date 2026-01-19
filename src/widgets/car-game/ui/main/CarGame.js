@@ -1,19 +1,14 @@
 import {useEffect, useMemo, useRef} from "react";
-import useLoadScene from "../../../../shared/scene/model/hooks/useLoadScene";
-import eventSubscription from "../../../../shared/lib/src/events/eventListener";
-import useStateControls from "../../../../shared/scene/model/hooks/useStateControls";
-import useResetScene from "../../../../shared/scene/model/hooks/useResetScene";
-import {Image} from "../../../../shared/ui/image";
-import useCarStore from "../../model/state-machine/carStore";
+import {useCarStore} from "../../model/state-machine/carStore";
 import {types} from "../../constants/entities";
 import {mainSceneSettings} from "../../constants/mainSceneSettings";
 import {preload} from "../../constants/preload";
 import {CAR_STATE_MACHINE, IGNORE_NEXT_STATES, LOSE} from "../../constants/stateMachine";
 import {BONUSES_COLLISION, SPIKES_COLLISION} from "../../constants/events";
-import imports from "../../../../shared/scene/lib/import";
+import {imports, Image, useResetScene, useStateControls, eventSubscription, useLoadScene} from "@shared";
 import styles from "./CarGame.module.scss";
 
-export default function CarGame() {
+export function CarGame() {
   const {setWrapper, wrapper} = useCarStore();
   const containerRef = useRef();
 

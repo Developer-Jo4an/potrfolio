@@ -3,7 +3,7 @@ import {FaStar} from "react-icons/fa6";
 import {isFinite} from "lodash";
 import styles from "./ProgressBar.module.scss";
 
-export default function ProgressBar({count, progress, ref}) {
+export function ProgressBar({count, progress, ref}) {
   const {current: elements} = useRef({
     scale: null,
     score: null,

@@ -1,16 +1,15 @@
-import useBasketballStore from "../state-manager/basketballStore";
-import useModalStore from "../../../../application/providers/modal/model/state-manager/stores/modalStore";
-import {useAppCallbacks} from "../../../../application/providers/callbacks/ui/main/CallbacksProvider";
-import {BASKETBALL_STATE_MACHINE, PAUSED, PLAYING} from "../../constants/stateMachine";
-import content from "../../constants/content";
-import {MODAL_NAMES} from "../../../../application/providers/modal";
+import {useAppCallbacks} from "@application/providers/callbacks";
+import {useModalStore} from "@application/providers/modal";
+import {MODAL_NAMES} from "@application/providers/modal";
+import {OFF, ON, INDEX} from "@shared";
 import {BASKETBALL} from "../../constants/game";
-import {OFF, ON} from "../../../../shared/constants/src/helpful/statuses";
-import {INDEX} from "../../../../shared/constants/src/pages/routes";
+import content from "../../constants/content";
+import {BASKETBALL_STATE_MACHINE, PAUSED, PLAYING} from "../../constants/stateMachine";
+import {useBasketballStore} from "../state-manager/basketballStore";
 
 const {menu: {pause}} = content;
 
-export default function usePause() {
+export function usePause() {
   const {wrapper, state} = useBasketballStore();
   const {add, close} = useModalStore();
   const {redirect} = useAppCallbacks();

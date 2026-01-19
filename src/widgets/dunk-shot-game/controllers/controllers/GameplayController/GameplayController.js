@@ -1,21 +1,20 @@
-import BallController from "./controllers/BallController";
-import MapEntitiesController from "./controllers/MapEntitiesController";
-import BaseGameplayController from "./BaseGameplayController";
-import AimController from "./controllers/AimController";
-import BoostersController from "./controllers/BoostersController";
-import {addControllerStateHandler} from "../../../../../shared/scene/lib/state/addControllerStateHandler";
+import {BallController} from "./controllers/BallController";
+import {MapEntitiesController} from "./controllers/MapEntitiesController";
+import {BaseGameplayController} from "./BaseGameplayController";
+import {AimController} from "./controllers/AimController";
+import {BoostersController} from "./controllers/BoostersController";
 import {cloneDeep} from "lodash";
+import {WHITE, addControllerStateHandler} from "@shared";
 import {COLLISION_FILTERS} from "../../../constants/collision";
 import {DUNK_SHOT_TWEEN} from "../../../constants";
 import {DUNK_SHOT_STATE_MACHINE} from "../../../constants/stateMachine";
 import {dunkShotFactory} from "../../factory/DunkShotFactory";
 import {VISIBLE} from "../../../constants/modes";
 import {TO_DOWN} from "../../../constants/statuses";
-import {WHITE} from "../../../../../shared/constants/src/colors/colors";
 import {dunkShotAnimationPlayer} from "../../animations/DunkShotAnimationPlayer";
-import gsap from "gsap";
 
-export default class GameplayController extends BaseGameplayController {
+
+export class GameplayController extends BaseGameplayController {
 
   static CONTROLLERS = [
     BallController,

@@ -1,16 +1,16 @@
-import Basket from "../entites/Basket/Basket";
-import Ball from "../entites/Ball/Ball";
-import Finish from "../entites/Finish/Finish";
-import Spike from "../entites/Spike/Spike";
-import MainContainer from "../entites/MainContainer/MainContainer";
+import {Basket} from "../entites/Basket/Basket";
+import {Ball} from "../entites/Ball/Ball";
+import {Finish} from "../entites/Finish/Finish";
+import {Spike} from "../entites/Spike/Spike";
+import {MainContainer} from "../entites/MainContainer/MainContainer";
 import {Wall} from "../entites/Wall/Wall";
-import ShadowBall from "../entites/Ball/ShadowBall";
-import ShadowWall from "../entites/Wall/ShadowWall";
-import Aim from "../entites/Aim/Aim";
-import Wing from "../entites/Wing/Wing";
-import Factory from "../../../../shared/scene/factory/Factory";
+import {ShadowBall} from "../entites/Ball/ShadowBall";
+import {ShadowWall} from "../entites/Wall/ShadowWall";
+import {Aim} from "../entites/Aim/Aim";
+import {Wing} from "../entites/Wing/Wing";
+import {Factory} from "@shared";
 import {upperFirst} from "lodash";
-import setNecessaryListeners from "../utils/setNecessaryListeners";
+import {setNecessaryListeners} from "../utils/setNecessaryListeners";
 import {ACTIVE, INACTIVE, NEXT} from "../../constants/statuses";
 
 class DunkShotFactory extends Factory {

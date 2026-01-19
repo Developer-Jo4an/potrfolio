@@ -1,11 +1,10 @@
 import {useImperativeHandle, useRef} from "react";
-import {Button} from "../../../../shared/ui/button";
-import {Image} from "../../../../shared/ui/image";
+import {Button, Image} from "@shared";
 import {isFinite} from "lodash";
 import cl from "classnames";
 import styles from "./BottomMenu.module.scss";
 
-export default function BottomMenu({className, buttons, children, mod, ref}) {
+export function BottomMenu({className, buttons, children, mod, ref}) {
   const {current: elements} = useRef({});
 
   useImperativeHandle(ref, () => elements);

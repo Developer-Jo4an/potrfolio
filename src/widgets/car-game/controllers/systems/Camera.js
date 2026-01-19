@@ -1,12 +1,11 @@
-import System from "../../../../shared/scene/ecs/core/System";
-import State from "../../../../shared/scene/ecs/base/components/state/State";
-import Matrix3Component from "../../../../shared/scene/ecs/base/components/transform/Matrix3Component";
 import {upperFirst} from "lodash";
 import {MAIN_CONTAINER} from "../../constants/entities/mainContainer";
 import {CHARACTER, DEFAULT} from "../../constants/entities/character";
 import {GAME_SIZE} from "../../constants/game";
+import {Matrix3Component, System} from "@shared";
+import {State} from "@/shared/scene/src/ecs/base/components/state/State"; //TODO: поправить импорт
 
-export default class Camera extends System {
+export class Camera extends System {
   updateFromCharacter() {
     const characterEntity = this.getFirstEntityByType(CHARACTER);
     const characterStateComponent = characterEntity.get(State);

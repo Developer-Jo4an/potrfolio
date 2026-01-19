@@ -1,8 +1,8 @@
-import BaseEntity from "./BaseEntity";
+import {BaseEntity} from "./BaseEntity";
 import {upperFirst} from "lodash";
-import getIsDebug from "../../../../../shared/lib/src/debug/debug";
+import {getIsDebug} from "@shared";
 
-export default class BasePhysicsEntity extends BaseEntity {
+export class BasePhysicsEntity extends BaseEntity {
 
   static rememberFields = {
     setters: ["mass", "inertia"],

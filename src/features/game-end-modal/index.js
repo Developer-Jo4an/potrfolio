@@ -1,7 +1,2 @@
-import GameEndModal from "./ui/main/GameEndModal";
-import {MODS} from "./constants/mods";
-
-export {
-  MODS,
-  GameEndModal
-};
+export {GameEndModal} from "./ui/main/GameEndModal";
+export {MODS} from "./constants/mods";

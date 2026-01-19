@@ -1,16 +1,15 @@
 import {useEffect, useRef, useState} from "react";
-import {createArrayWithMap} from "../../../../shared/lib/src/array/createArrayWithMap";
-import eventSubscription from "../../../../shared/lib/src/events/eventListener";
+import {eventSubscription, createArrayWithMap} from "@shared";
 import {TbStarsFilled} from "react-icons/tb";
 import {FaStar} from "react-icons/fa6";
-import useDunkShotStar from "../../model/hooks/useDunkShotStar";
-import useActiveBoosters from "../../model/hooks/useActiveBoosters";
-import useDunkShotStore from "../../model/state-manager/dunkShotStore";
+import {useDunkShotStar} from "../../model/hooks/useDunkShotStar";
+import {useActiveBoosters} from "../../model/hooks/useActiveBoosters";
+import {useDunkShotStore} from "../../model/state-manager/dunkShotStore";
 import {THROW_HIT} from "../../constants/events";
 import {X2} from "../../constants/boosters";
 import styles from "./DunkShotStar.module.scss";
 
-export default function DunkShotStar({topMenuEls}) {
+export function DunkShotStar({topMenuEls}) {
   const {wrapper} = useDunkShotStore();
   const [StarComponent, setStarComponent] = useState(<FaStar/>);
 

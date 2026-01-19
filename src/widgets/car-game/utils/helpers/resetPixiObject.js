@@ -1,6 +1,6 @@
 import {isNumber} from "lodash";
 
-export default function resetPixiObject(object) {
+export function resetPixiObject(object) {
   object.position.set(0);
   object.scale.set(1);
   object.skew.set(0);

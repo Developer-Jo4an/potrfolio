@@ -1,7 +1,7 @@
-import useBasketballStore from "../state-manager/basketballStore";
-import gameSpaceStore from "../storages/gameSpace";
+import {useBasketballStore} from "../state-manager/basketballStore";
+import {gameSpaceStore} from "../storages/gameSpace";
 
-export default function useBoosters() {
+export function useBoosters() {
   const {wrapper} = useBasketballStore();
 
   return function (type) {

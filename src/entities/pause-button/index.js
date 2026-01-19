@@ -1,5 +1,1 @@
-import PauseButton from "./ui/main/PauseButton";
-
-export {
-  PauseButton
-};
+export {PauseButton} from "./ui/main/PauseButton";

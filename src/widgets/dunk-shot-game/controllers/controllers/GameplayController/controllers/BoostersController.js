@@ -1,16 +1,14 @@
-import BaseGameplayController from "../BaseGameplayController";
-import {gsapUpdate} from "../../../../../../shared/lib/src/gsap/helpers";
+import {BaseGameplayController} from "../BaseGameplayController";
+import {gsapUpdate, LEFT, RIGHT} from "@shared";
 import {dunkShotFactory} from "../../../factory/DunkShotFactory";
 import {dunkShotAnimationPlayer} from "../../../animations/DunkShotAnimationPlayer";
 import {dunkShotUtils} from "../../../utils/DunkShotUtils";
 import {DUNK_SHOT_TWEEN} from "../../../../constants";
 import {DUNK_SHOT_STATE_MACHINE} from "../../../../constants/stateMachine";
 import {INSIDE_BASKET, PROTECTED} from "../../../../constants/statuses";
-import {LEFT, RIGHT} from "../../../../../../shared/constants/src/directions/directions";
 import {BOOSTERS_SET_DISABLED} from "../../../../constants/events";
-import gsap from "gsap";
 
-export default class BoostersController extends BaseGameplayController {
+export class BoostersController extends BaseGameplayController {
   constructor(data) {
     super(data);
   }

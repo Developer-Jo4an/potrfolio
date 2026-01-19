@@ -1,4 +1,4 @@
-import {createStore} from "../../../../shared/model/src/state-manager/createStore";
+import {createStore} from "@shared";
 import {BASKETBALL} from "../../constants/game";
 
 const {useStore: useBasketballStore, selectors} = createStore({
@@ -17,4 +17,4 @@ const {useStore: useBasketballStore, selectors} = createStore({
   }
 });
 
-export default useBasketballStore;
+export {useBasketballStore};

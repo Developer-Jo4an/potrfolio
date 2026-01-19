@@ -1,12 +1,10 @@
 import {useEffect} from "react";
-import useDunkShotStore from "../state-manager/dunkShotStore";
-import eventSubscription from "../../../../shared/lib/src/events/eventListener";
+import {eventSubscription, STATE_CHANGED, ADD, SET, SUBTRACT} from "@shared";
+import {useDunkShotStore} from "../state-manager/dunkShotStore";
 import {DUNK_SHOT_STATE_MACHINE} from "../../constants/stateMachine";
 import {PROGRESS_RESET, THROW_HIT, THROW_PURE} from "../../constants/events";
-import {STATE_CHANGED} from "../../../../shared/scene/constants/events/names";
-import {ADD, SET, SUBTRACT} from "../../../../shared/constants/src/actions/names";
 
-export default function useDunkShotStats() {
+export function useDunkShotStats() {
   const {
     wrapper,
     setDunkShotScore,

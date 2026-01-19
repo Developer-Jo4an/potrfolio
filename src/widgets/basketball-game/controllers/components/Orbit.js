@@ -1,6 +1,6 @@
-import Component from "../../../../shared/scene/ecs/core/Component";
+import {Component} from "@shared";
 
-export default class Orbit extends Component {
+export class Orbit extends Component {
   center;
 
   radius;

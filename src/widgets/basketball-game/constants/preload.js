@@ -1,5 +1,4 @@
-import {GLTF, TEXTURE} from "../../../shared/scene/constants/loaders/assetsTypes";
-import {assets} from "../../../shared/lib/src/image/url";
+import {assets, GLTF, TEXTURE} from "@shared";
 
 export const SCENE_FROM_BLENDER = "Basketball";
 export const BARRIER = "barrier";

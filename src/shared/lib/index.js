@@ -14,7 +14,6 @@ export * from "./src/events/eventPosition";
 export * from "./src/events/eventListener";
 
 export * from "./src/gsap/helpers";
-export * from "./src/gsap/init"; // TODO: подумать
 export * from "./src/gsap/LocalTimeline";
 
 export * from "./src/image/url";
@@ -27,3 +26,5 @@ export * from "./src/proxy/createProxyObject";
 
 export * from "./src/random/chance";
 export * from "./src/random/getRandomIntFromRange";
+
+export * from "./src/styles/dataAttrs";

@@ -1,5 +1,1 @@
-import BasketballGame from "./ui/main/BasketballGame";
-
-export {
-  BasketballGame
-};
+export {BasketballGame} from "./ui/main/BasketballGame";

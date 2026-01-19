@@ -1,6 +1,6 @@
-import BaseController from "../BaseController/BaseController";
+import {BaseController} from "../BaseController/BaseController";
 
-export default class EffectsController extends BaseController {
+export class EffectsController extends BaseController {
   constructor(data) {
     super(data);
   }

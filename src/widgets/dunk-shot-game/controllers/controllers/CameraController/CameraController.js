@@ -1,12 +1,12 @@
- import BaseController from "../BaseController/BaseController";
-import {isInsideRectangle} from "../../../../../shared/lib/src/matrix/matrix";
+import {BaseController} from "../BaseController/BaseController";
+import {isInsideRectangle} from "@shared";
 import {clamp} from "lodash";
 import {dunkShotFactory} from "../../factory/DunkShotFactory";
 import {DUNK_SHOT_STATE_MACHINE} from "../../../constants/stateMachine";
-import {MAX, MIN} from "../../../../../shared/constants/src/range/range";
+import {MAX, MIN} from "@shared";
 import {INSIDE_BASKET} from "../../../constants/statuses";
 
-export default class CameraController extends BaseController {
+export class CameraController extends BaseController {
   constructor(data) {
     super(data);
   }

@@ -1,9 +1,9 @@
 "use client";
-import "../../../../../shared/lib/src/gsap/init";
-import {ProviderComposer} from "../../../../providers/provider-composer";
-import RequestsLoader from "../../../../../entities/request-loader/ui/main/RequestsLoader";
+import {ProviderComposer} from "@/application/providers/provider-composer";
+import {RequestsLoader} from "@entities/request-loader";
+import "@/shared/scene/src/lib/import/gsap/gsap-global";
 
-export default function MainLayout({children}) {
+export function MainLayout({children}) {
   return (
     <ProviderComposer>
       {children}

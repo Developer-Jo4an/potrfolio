@@ -1,10 +1,10 @@
 import {AnimatePresence} from "framer-motion";
 import styles from "./ModalProvider.module.scss";
-import useModalStore from "../../model/state-manager/stores/modalStore";
-import getActiveModals from "../../lib/getActiveModals";
-import ModalContainer from "../modal-container/ModalContainer";
+import {useModalStore} from "../../model/state-manager/stores/modalStore";
+import {getActiveModals} from "../../lib/getActiveModals";
+import {ModalContainer} from "../modal-container/ModalContainer";
 
-export default function ModalProvider({children}) {
+export function ModalProvider({children}) {
   const {modals} = useModalStore();
 
   const activeModals = getActiveModals(modals);

@@ -1,9 +1,8 @@
-import BaseEntity from "../base/BaseEntity";
-import {PIXI_SPACE, TEXTURE} from "../../../../../shared/scene/constants/loaders/assetsTypes";
-import {assetsManager} from "../../../../../shared/scene/assets/AssetsManager";
+import {BaseEntity} from "../base/BaseEntity";
+import {PIXI_SPACE, TEXTURE, assetsManager} from "@shared";
 import {FINISH} from "../../../config/preload";
 
-export default class Finish extends BaseEntity {
+export class Finish extends BaseEntity {
   constructor(data) {
     super(data);
 

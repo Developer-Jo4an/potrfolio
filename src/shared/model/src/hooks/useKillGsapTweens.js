@@ -1,6 +1,5 @@
 import {useEffect} from "react";
 import {isArray, isObject} from "lodash";
-import gsap from "gsap";
 
 export function useKillGsapTweens(tweens) {
   useEffect(() => () => {
@@ -14,4 +13,4 @@ export function useKillGsapTweens(tweens) {
         totalTweens[key]?.kill();
     }
   }, []);
-};
+}

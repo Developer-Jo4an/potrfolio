@@ -1,6 +1,5 @@
 import {isFunction} from "lodash";
-import getIsDebug from "../debug/debug";
-import gsap from "gsap";
+import {getIsDebug} from "../debug/debug";
 
 export function gsapTimeout({timeout, namespace, id, onComplete, onUpdate, onStart}) {
   if (!namespace || !id || typeof timeout !== "number") {

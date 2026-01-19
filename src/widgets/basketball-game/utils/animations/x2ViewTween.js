@@ -1,7 +1,6 @@
-import gsap from "gsap";
 import {BASKETBALL} from "../../constants/game";
 import {TWEENS} from "../../constants/tweens";
-import {image} from "../../../../shared/lib/src/image/url";
+import {image} from "@shared";
 
 const settings = {
   ease: "sine.inOut",
@@ -19,7 +18,7 @@ const settings = {
   delayBetween: 0.2
 };
 
-export default function x2ViewTween(matrix, targetPosition, bounding, parent, angularVelocity, onComplete) {
+export function x2ViewTween(matrix, targetPosition, bounding, parent, angularVelocity, onComplete) {
   const timeline = gsap.timeline({
     id: TWEENS.x2ViewTween,
     onUpdate() {

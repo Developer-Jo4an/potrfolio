@@ -1,4 +1,4 @@
-import GameSpaceStore from "../../../../shared/scene/gameSpace/GameSpaceStore";
+import {GameSpaceStore} from "@shared";
 import {CLEAR_HIT, EXTRA_LIFE, X2} from "../../constants/boosters";
 
 const gameSpaceStore = new GameSpaceStore({
@@ -29,4 +29,4 @@ const gameSpaceStore = new GameSpaceStore({
   }
 });
 
-export default gameSpaceStore;
+export {gameSpaceStore};

@@ -1,4 +1,4 @@
-export default function getActiveModals(modals) {
+export function getActiveModals(modals) {
   return modals.reduce((acc, modalData) => {
     const isVisible = !modalData.isQueue || !acc.some(({isQueue}) => isQueue);
     if (isVisible)

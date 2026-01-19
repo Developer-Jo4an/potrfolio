@@ -1,11 +1,10 @@
-import System from "../../../../shared/scene/ecs/core/System";
-import EventComponent from "../../../../shared/scene/ecs/base/components/EventComponent";
 import {upperFirst} from "lodash";
 import {GAME} from "../../constants/entities/game";
 import {CHARACTER} from "../../constants/entities/character";
 import {BONUSES_COLLISION, SPIKES_COLLISION} from "../../constants/events";
+import {EventComponent, System} from "@shared";
 
-export default class Event extends System {
+export class Event extends System {
   [`on${upperFirst(CHARACTER)}${upperFirst(BONUSES_COLLISION)}`]({event: {data}}) {
     const {eventBus} = this;
     eventBus.dispatchEvent({type: BONUSES_COLLISION, count: data?.length});

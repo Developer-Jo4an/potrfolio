@@ -1,19 +1,21 @@
-import State from "../../../shared/scene/ecs/base/components/state/State";
-import ThreeComponent from "../../../shared/scene/ecs/three/components/ThreeComponent";
-import Collection from "../../../shared/scene/ecs/base/components/data/Collection";
-import Body from "../../../shared/scene/ecs/rapier/components/Body";
-import Matrix4Component from "../../../shared/scene/ecs/base/components/transform/Matrix4Component";
-import GSAPTween from "../../../shared/scene/ecs/base/components/tween/GSAPTween";
-import Game from "../controllers/components/Game";
-import Mixer from "../../../shared/scene/ecs/three/components/Mixer";
-import Orbit from "../controllers/components/Orbit";
-import getDefaultState from "../../../shared/scene/lib/state/getDefaultState";
+import {
+  getDefaultState,
+  Mixer,
+  GSAPTween,
+  Matrix4Component,
+  Body,
+  ThreeComponent
+} from "@shared";
+import {Orbit} from "../controllers/components/Orbit";
+import {Game} from "../controllers/components/Game";
 import {BASKETBALL_STATE_MACHINE} from "./stateMachine";
 import {CHARACTER, states as characterStates} from "./character";
 import {GROUND} from "./ground";
 import {RING} from "./ring";
 import {GAME} from "./game";
 import {X2VIEW} from "./x2View";
+import {State} from "@/shared/scene/src/ecs/base/components/state/State"; //TODO: поправить импорт
+import {Collection} from "@/shared/scene/src/ecs/base/components/data/Collection"; //TODO: поправить импорт
 
 export const types = {
   [GAME]: {

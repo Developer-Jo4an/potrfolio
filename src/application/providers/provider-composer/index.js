@@ -1,5 +1,1 @@
-import ProviderComposer from "./ui/main/ProviderComposer";
-
-export {
-  ProviderComposer
-}
+export {ProviderComposer} from "./ui/main/ProviderComposer";

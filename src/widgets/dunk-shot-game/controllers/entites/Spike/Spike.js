@@ -1,11 +1,10 @@
-import BasePhysicsEntity from "../base/BasePhysicsEntity";
+import {BasePhysicsEntity} from "../base/BasePhysicsEntity";
 import {upperFirst, cloneDeep} from "lodash";
-import {PIXI_SPACE, TEXTURE} from "../../../../../shared/scene/constants/loaders/assetsTypes";
+import {PIXI_SPACE, TEXTURE, assetsManager} from "@shared";
 import {COLLISION_FILTERS} from "../../../constants/collision";
-import {assetsManager} from "../../../../../shared/scene/assets/AssetsManager";
 import {INACTIVE} from "../../../constants/statuses";
 
-export default class Spike extends BasePhysicsEntity {
+export class Spike extends BasePhysicsEntity {
 
   _status = INACTIVE;
 

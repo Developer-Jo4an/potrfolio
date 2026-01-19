@@ -1,9 +1,9 @@
 import {useEffect} from "react";
-import useBasketballStore from "../state-manager/basketballStore";
-import eventSubscription from "../../../../shared/lib/src/events/eventListener";
+import {eventSubscription} from "@shared";
+import {useBasketballStore} from "../state-manager/basketballStore";
 import {GET_INFO} from "../../constants/events";
 
-export default function useGetInfo(fullProps) {
+export function useGetInfo(fullProps) {
   const {wrapper} = useBasketballStore();
 
   useEffect(() => {

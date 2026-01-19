@@ -1,5 +1,1 @@
-import DunkShotGame from "./ui/main/DunkShotGame";
-
-export {
-  DunkShotGame
-};
+export {DunkShotGame} from "./ui/main/DunkShotGame";

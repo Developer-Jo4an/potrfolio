@@ -1,7 +1,5 @@
-import BaseGameplayController from "../BaseGameplayController";
-import eventSubscription from "../../../../../../shared/lib/src/events/eventListener";
-import {velocity} from "../../../../../../shared/lib/src/matrix/matrix";
-import {gsapTimeout} from "../../../../../../shared/lib/src/gsap/helpers";
+import {BaseGameplayController} from "../BaseGameplayController";
+import {eventSubscription, velocity, gsapTimeout, COMPLETE, START, UPDATE, STATE_DECORATOR_FIELD} from "@shared";
 import {dunkShotFactory} from "../../../factory/DunkShotFactory";
 import {dunkShotAnimationPlayer} from "../../../animations/DunkShotAnimationPlayer";
 import {dunkShotUtils} from "../../../utils/DunkShotUtils";
@@ -16,11 +14,8 @@ import {
   THROW_PURE_DATA
 } from "../../../../constants/events";
 import {DUNK_SHOT_STATE_MACHINE, PLAYING, PREPARE, WIN} from "../../../../constants/stateMachine";
-import {COMPLETE, START, UPDATE} from "../../../../../../shared/constants/src/statuses/statuses";
-import {STATE_DECORATOR_FIELD} from "../../../../../../shared/scene/constants/decorators/names";
-import gsap from "gsap";
 
-export default class MapEntitiesController extends BaseGameplayController {
+export class MapEntitiesController extends BaseGameplayController {
   constructor(data) {
     super(data);
 

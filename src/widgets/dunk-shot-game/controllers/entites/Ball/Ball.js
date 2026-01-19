@@ -1,12 +1,11 @@
-import BasePhysicsEntity from "../base/BasePhysicsEntity";
+import {BasePhysicsEntity} from "../base/BasePhysicsEntity";
 import {isFunction, upperFirst, cloneDeep} from "lodash";
-import {assetsManager} from "../../../../../shared/scene/assets/AssetsManager";
-import {PIXI_SPACE, TEXTURE} from "../../../../../shared/scene/constants/loaders/assetsTypes";
+import {assetsManager, PIXI_SPACE, TEXTURE} from "@shared";
 import {FREE, TO_DOWN} from "../../../constants/statuses";
 import {COLLISION_FILTERS} from "../../../constants/collision";
 import {BALL_2D} from "../../../config/preload";
 
-export default class Ball extends BasePhysicsEntity {
+export class Ball extends BasePhysicsEntity {
 
   _status = FREE; // free | toUp | toDown | insideBasket | damage | protected
 

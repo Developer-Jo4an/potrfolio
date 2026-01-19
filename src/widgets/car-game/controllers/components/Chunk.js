@@ -1,6 +1,6 @@
-import Component from "../../../../shared/scene/ecs/core/Component";
+import {Component} from "@shared";
 
-export default class Chunk extends Component {
+export class Chunk extends Component {
   points = {};
 
   width = {};

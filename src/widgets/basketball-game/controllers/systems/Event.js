@@ -1,11 +1,10 @@
-import System from "../../../../shared/scene/ecs/core/System";
-import EventComponent from "../../../../shared/scene/ecs/base/components/EventComponent";
+import {System, EventComponent} from "shared";
 import {CHARACTER} from "../../constants/character";
 import {CLEAR_HIT, COLLISION_END, COLLISION_START, LOSE, MISS, THROWN, WIN} from "../../constants/events";
 import {WIN as WIN_STATUS, LOSE as LOSE_STATUS} from "../../constants/stateMachine";
 import {GROUND} from "../../constants/ground";
 
-export default class Event extends System {
+export class Event extends System {
   updateCharacterEvents({eCharacter}) {
     const csCollisionEvent = eCharacter.getSome(EventComponent, COLLISION_START, COLLISION_END);
     if (!!csCollisionEvent?.length)

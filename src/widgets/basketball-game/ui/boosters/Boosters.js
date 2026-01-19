@@ -1,8 +1,8 @@
 import {useImperativeHandle, useRef} from "react";
+import {Image} from "@shared";
+import {useBoosters} from "../../model/hooks/useBoosters";
 import {BottomMenu} from "../../../../features/bottom-menu";
-import Image from "../../../../shared/ui/image/ui/main/Image";
-import useBoosters from "../../model/hooks/useBoosters";
-import useBasketballStore from "../../model/state-manager/basketballStore";
+import {useBasketballStore} from "../../model/state-manager/basketballStore";
 import {PLAYING} from "../../constants/stateMachine";
 import {MODES} from "../../../../features/bottom-menu";
 import content from "../../constants/content";
@@ -10,7 +10,7 @@ import styles from "./Boosters.module.scss";
 
 const {boosters} = content;
 
-export default function Boosters({gameSpace, ref}) {
+export function Boosters({gameSpace, ref}) {
   const {state} = useBasketballStore();
   const onClick = useBoosters();
   const elementsRef = useRef();

@@ -1,18 +1,14 @@
-import BaseGameplayController from "../BaseGameplayController";
-import eventSubscription from "../../../../../../shared/lib/src/events/eventListener";
+import {BaseGameplayController} from "../BaseGameplayController";
+import {eventSubscription, DRAG_END, DRAG_MOVE, DRAG_START, HALF_PI, STATE_DECORATOR_FIELD} from "@shared";
 import {dunkShotFactory} from "../../../factory/DunkShotFactory";
 import {dunkShotAnimationPlayer} from "../../../animations/DunkShotAnimationPlayer";
 import {dunkShotUtils} from "../../../utils/DunkShotUtils";
 import {DUNK_SHOT_TWEEN, GAME_SIZE} from "../../../../constants";
-import {DRAG_END, DRAG_MOVE, DRAG_START} from "../../../../../../shared/constants/src/events/eventsNames";
 import {PROGRESS_RESET, SPIKE_COLLISION} from "../../../../constants/events";
 import {DAMAGE, FREE, INSIDE_BASKET, TO_UP} from "../../../../constants/statuses";
-import {HALF_PI} from "../../../../../../shared/constants/src/trigonometry/trigonometry";
-import {STATE_DECORATOR_FIELD} from "../../../../../../shared/scene/constants/decorators/names";
 import {FELL, LOSE} from "../../../../constants/stateMachine";
-import gsap from "gsap";
 
-export default class BallController extends BaseGameplayController {
+export class BallController extends BaseGameplayController {
   constructor(data) {
     super(data);
 

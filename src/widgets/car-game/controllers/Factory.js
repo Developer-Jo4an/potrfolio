@@ -1,16 +1,19 @@
-import Factory from "../../../shared/scene/factory/Factory";
 import {upperFirst} from "lodash";
-import resetPixiObject from "../utils/helpers/resetPixiObject";
+import {resetPixiObject} from "../utils/helpers/resetPixiObject";
 import {CHARACTER} from "../constants/entities/character";
 import {MAIN_CONTAINER} from "../constants/entities/mainContainer";
 import {ROAD_CHUNK} from "../constants/entities/roadChunk";
 import {BONUS} from "../constants/entities/bonus";
 import {SPIKE} from "../constants/entities/spike";
-import {assetsManager} from "../../../shared/scene/assets/AssetsManager";
-import {PIXI_SPACE, TEXTURE} from "../../../shared/scene/constants/loaders/assetsTypes";
 import {ROAD_CHUNKS_CONTAINER} from "../constants/entities/roadChunksContainer";
+import {
+  PIXI_SPACE,
+  TEXTURE,
+  assetsManager,
+  Factory
+} from "@shared";
 
-export default class CarFactory extends Factory {
+export class CarFactory extends Factory {
   static METHODS = {
     create: "create",
     prepare: "prepare",

@@ -1,11 +1,10 @@
-import GameUtils from "../../../../shared/scene/utils/GameUtils";
 import {cloneDeep, sample} from "lodash";
-import setNecessaryListeners from "./setNecessaryListeners";
-import {CENTER, LEFT, RIGHT} from "../../../../shared/constants/src/directions/directions";
+import {setNecessaryListeners} from "./setNecessaryListeners";
+import {CENTER, LEFT, RIGHT, GameUtils} from "@shared";
 import {GAME_SIZE} from "../../constants";
 import {dunkShotFactory} from "../factory/DunkShotFactory";
 
-export default class DunkShotUtils extends GameUtils {
+export class DunkShotUtils extends GameUtils {
   constructor(data) {
     super(data);
   }

@@ -1,5 +1,1 @@
-import GameCards from "./ui/main/GameCards";
-
-export {
-  GameCards
-};
+export {GameCards} from "./ui/main/GameCards";

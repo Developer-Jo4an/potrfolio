@@ -1,5 +1,1 @@
-import SoundButton from "./ui/main/SoundButton";
-
-export {
-  SoundButton
-};
+export {SoundButton} from "./ui/main/SoundButton";

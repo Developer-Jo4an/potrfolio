@@ -1,4 +1,4 @@
-import getDefaultState from "../../../shared/scene/lib/state/getDefaultState";
+import {getDefaultState} from "@shared";
 import {DUNK_SHOT_STATE_MACHINE} from "./stateMachine";
 
 export const getDefaultStats = () => ({

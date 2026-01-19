@@ -1,9 +1,8 @@
-import ThreeWrapper from "../../../shared/scene/wrappers/three/ThreeWrapper";
-import Controller from "./Controller";
-import {STATE_DECORATOR_FIELD} from "../../../shared/scene/constants/decorators/names";
+import {Controller} from "./Controller";
 import {UUIDS} from "../constants/systems";
+import {STATE_DECORATOR_FIELD, ThreeWrapper} from "@shared";
 
-export default class Wrapper extends ThreeWrapper {
+export class Wrapper extends ThreeWrapper {
   static get instance() {
     return this._instance ??= new Wrapper();
   }

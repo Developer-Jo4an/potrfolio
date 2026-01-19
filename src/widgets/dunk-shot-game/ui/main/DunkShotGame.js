@@ -1,16 +1,16 @@
 import {useRef} from "react";
-import {TopMenu} from "../../../../features/top-menu";
-import useLoadDunkShotScene from "../../model/hooks/useLoadDunkShotScene";
-import DunkShotWalls from "../walls/DunkShotWalls";
-import DunkShotGameElements from "../game-elements/DunkShotGameElements";
-import ProgressBar from "../../../../features/progress-bar/ui/main/ProgressBar";
-import {Loader} from "../../../../shared/ui/loader";
-import DunkShotBoosters from "../boosters/DunkShotBoosters";
-import useDunkShotStore from "../../model/state-manager/dunkShotStore";
+import {useLoadDunkShotScene} from "../../model/hooks/useLoadDunkShotScene";
+import {DunkShotWalls} from "../walls/DunkShotWalls";
+import {DunkShotGameElements} from "../game-elements/DunkShotGameElements";
+import {ProgressBar} from "@features/progress-bar";
+import {Loader} from "@shared";
+import {DunkShotBoosters} from "../boosters/DunkShotBoosters";
+import {useDunkShotStore} from "../../model/state-manager/dunkShotStore";
 import {DUNK_SHOT_STATE_MACHINE} from "../../constants/stateMachine";
+import {TopMenu} from "../../../../features/top-menu";
 import styles from "./DunkShotGame.module.scss";
 
-export default function DunkShotGame() {
+export function DunkShotGame() {
   const {gameData: {state, lifes, score, progress: {min, current, max} = {}} = {}} = useDunkShotStore();
   const {containerRef, isCanPressPause, onPause} = useLoadDunkShotScene();
   const topMenuEls = useRef();

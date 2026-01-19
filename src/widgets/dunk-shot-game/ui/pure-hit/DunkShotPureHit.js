@@ -1,18 +1,14 @@
-import {useEffect, useRef, useState} from "react";
-import {Confetti} from "../../../../shared/ui/confetti";
-import {Image} from "../../../../shared/ui/image";
-import useDunkShotStore from "../../model/state-manager/dunkShotStore";
-import eventSubscription from "../../../../shared/lib/src/events/eventListener";
 import {AnimatePresence, motion} from "framer-motion";
+import {useEffect, useRef, useState} from "react";
+import {Image, Confetti, eventSubscription, START} from "@shared";
+import {useDunkShotStore} from "../../model/state-manager/dunkShotStore";
 import {CONTROLLER_RESET, THROW_PURE_DATA} from "../../constants/events";
-import {START} from "../../../../shared/constants/src/statuses/statuses";
-import gsap from "gsap";
 import {pureHitAnimation} from "../../config/animations";
 import styles from "./DunkShotPureHit.module.scss";
 
 const {offset, confetti, motion: motionSettings} = pureHitAnimation;
 
-export default function DunkShotPureHit() {
+export function DunkShotPureHit() {
   const {wrapper} = useDunkShotStore();
   const [pureHit, setPureHit] = useState({x: null, y: null, isActive: false});
 

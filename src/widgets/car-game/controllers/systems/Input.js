@@ -1,12 +1,10 @@
-import System from "../../../../shared/scene/ecs/core/System";
-import State from "../../../../shared/scene/ecs/base/components/state/State";
-import eventSubscription from "../../../../shared/lib/src/events/eventListener";
 import {CLICK_ON_WINDOW} from "../../constants/events";
 import {GAME} from "../../constants/entities/game";
 import {PLAYING} from "../../constants/stateMachine";
-import {LEFT, RIGHT} from "../../../../shared/constants/src/directions/directions";
+import {eventSubscription, System, LEFT, RIGHT} from "@shared";
+import {State} from "@/shared/scene/src/ecs/base/components/state/State"; //TODO: поправить импорт
 
-export default class Input extends System {
+export class Input extends System {
   constructor() {
     super(...arguments);
     this.onClick = this.onClick.bind(this);

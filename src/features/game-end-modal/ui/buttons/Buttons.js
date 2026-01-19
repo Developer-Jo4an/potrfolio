@@ -1,10 +1,8 @@
-import {Button} from "../../../../shared/ui/button";
-import Image from "../../../../shared/ui/image/ui/main/Image";
+import {Button, Image, dataAttrs} from "@shared";
 import cl from "classnames";
-import dataAttrs from "../../../../shared/lib/styles/dataAttrs";
 import styles from "./Buttons.module.scss";
 
-export default function Buttons({list, mod}) {
+export function Buttons({list, mod}) {
   return (
     <div className={styles.buttons} {...dataAttrs({mod})}>
       {list.map(({text, background, className, ...otherProps}, index) => (

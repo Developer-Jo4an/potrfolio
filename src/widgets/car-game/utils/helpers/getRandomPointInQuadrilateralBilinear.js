@@ -1,4 +1,4 @@
-export default function getRandomPointInQuadrilateralBilinear(startPointFirst, startPointSecond, endPointFirst, endPointSecond) {
+export function getRandomPointInQuadrilateralBilinear(startPointFirst, startPointSecond, endPointFirst, endPointSecond) {
   const u = Math.random();
   const v = Math.random();
   const bottom = {

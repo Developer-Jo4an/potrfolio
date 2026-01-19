@@ -1,14 +1,14 @@
 import {useEffect, useState} from "react";
 import {AnimatePresence, motion} from "framer-motion";
-import useDunkShotStore from "../../model/state-manager/dunkShotStore";
-import eventSubscription from "../../../../shared/lib/src/events/eventListener";
-import styles from "./DunkShotTimer.module.scss";
+import {eventSubscription} from "@shared";
+import {useDunkShotStore} from "../../model/state-manager/dunkShotStore";
 import {BASKET_TIMER_END, BASKET_TIMER_START, BASKET_TIMER_UPDATE, CONTROLLER_RESET} from "../../constants/events";
 import {timerAnimation} from "../../config/animations";
+import styles from "./DunkShotTimer.module.scss";
 
 const {offset, motion: motionSettings} = timerAnimation;
 
-export default function DunkShotTimer() {
+export function DunkShotTimer() {
   const {wrapper} = useDunkShotStore();
   const [basketTimer, setBasketTimer] = useState({progress: null, position: null, isActive: false});
 

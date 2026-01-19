@@ -1,6 +1,6 @@
-import setNecessaryListeners from "../../utils/setNecessaryListeners";
+import {setNecessaryListeners} from "../../utils/setNecessaryListeners";
 
-export default class BaseController {
+export class BaseController {
   constructor(data) {
     for (const key in data)
       this[key] = data[key];

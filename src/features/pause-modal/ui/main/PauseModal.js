@@ -1,10 +1,9 @@
-import {Button} from "../../../../shared/ui/button";
-import Image from "../../../../shared/ui/image/ui/main/Image";
+import {Button, Image} from "@shared";
 import cl from "classnames";
 import content from "../constants/content";
 import styles from "./PauseModal.module.scss";
 
-export default function PauseModal({modalProps: {buttons = content.buttons, actions, mod = "default"}}) {
+export function PauseModal({modalProps: {buttons = content.buttons, actions, mod = "default"}}) {
   return (
     <div className={styles.pauseModal} data-mod={mod}>
       <p className={styles.title}>{content.title}</p>

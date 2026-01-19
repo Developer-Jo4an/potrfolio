@@ -1,19 +1,17 @@
-import BaseController from "../BaseController/BaseController";
+import {BaseController} from "../BaseController/BaseController";
 import {cloneDeep} from "lodash";
-import eventSubscription from "../../../../../shared/lib/src/events/eventListener";
-import {angle, distance} from "../../../../../shared/lib/src/matrix/matrix";
 import {
-  DRAG_END,
+  angle, distance, eventSubscription, DRAG_END,
   DRAG_MOVE,
   DRAG_START,
   POINTER_DOWN,
   POINTER_MOVE,
   POINTER_UP,
   POINTER_UP_OUTSIDE
-} from "../../../../../shared/constants/src/events/eventsNames";
+} from "@shared";
 import {DUNK_SHOT_STATE_MACHINE} from "../../../constants/stateMachine";
 
-export default class InteractionController extends BaseController {
+export class InteractionController extends BaseController {
 
   dragData = {
     isDragging: false,

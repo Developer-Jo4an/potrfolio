@@ -1,8 +1,7 @@
-import gsap from "gsap";
 import {TWEENS} from "../../constants/tweens";
 import {BASKETBALL} from "../../constants/game";
 
-export default function teleportActorToInitialPositionTween(mesh, afterHide, onComplete) {
+export function teleportActorToInitialPositionTween(mesh, afterHide, onComplete) {
   const timeline = gsap.timeline({
     id: TWEENS.teleportOnInitialPosition,
     onComplete() {

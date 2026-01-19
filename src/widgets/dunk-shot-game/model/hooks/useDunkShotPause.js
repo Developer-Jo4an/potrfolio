@@ -1,13 +1,11 @@
-import useModalStore from "../../../../application/providers/modal/model/state-manager/stores/modalStore";
 import {DUNK_SHOT_STATE_MACHINE, PAUSE, PLAYING} from "../../constants/stateMachine";
-import useDunkShotStore from "../state-manager/dunkShotStore";
-import {MODAL_NAMES} from "../../../../application/providers/modal";
-import {OFF, ON} from "../../../../shared/constants/src/helpful/statuses";
-import {useAppCallbacks} from "../../../../application/providers/callbacks/ui/main/CallbacksProvider";
-import {INDEX} from "../../../../shared/constants/src/pages/routes";
+import {useDunkShotStore} from "../state-manager/dunkShotStore";
+import {MODAL_NAMES, useModalStore} from "@application/providers/modal";
+import {INDEX, OFF, ON} from "@shared";
 import {DUNK_SHOT_GAME} from "../../constants";
+import {useAppCallbacks} from "@application/providers/callbacks";
 
-export default function useDunkShotPause() {
+export function useDunkShotPause() {
   const {gameData: {state}, wrapper} = useDunkShotStore();
   const {add, close} = useModalStore();
   const {redirect} = useAppCallbacks();

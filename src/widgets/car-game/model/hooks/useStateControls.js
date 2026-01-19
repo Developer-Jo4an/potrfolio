@@ -1,11 +1,9 @@
 import {useEffect} from "react";
-import eventSubscription from "../../../../shared/lib/src/events/eventListener";
-import getDefaultState from "../../../../shared/scene/lib/state/getDefaultState";
-import useCarStore from "../state-machine/carStore";
-import {STATE_CHANGED} from "../../../../shared/scene/constants/events/names";
+import {eventSubscription, getDefaultState, STATE_CHANGED} from "@shared";
+import {useCarStore} from "../state-machine/carStore";
 import {CAR_STATE_MACHINE, IGNORE_NEXT_STATES} from "../../constants/stateMachine";
 
-export default function useStateControls() {
+export function useStateControls() {
   const {wrapper} = useCarStore();
 
   useEffect(() => {

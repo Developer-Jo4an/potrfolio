@@ -1,7 +1,7 @@
 import {useEffect} from "react";
-import useGamesStore from "../state-manager/gamesStore";
+import {useGamesStore} from "../state-manager/gamesStore";
 
-export default function useReset() {
+export function useReset() {
   const {reset} = useGamesStore();
   useEffect(() => reset, []);
 }

@@ -1,9 +1,8 @@
-import {createStore} from "../../../../shared/model/src/state-manager/createStore";
+import {createStore, ADD, APPLY, DISABLED, RECALCULATE, SET, SUBTRACT} from "@shared";
 import {getDefaultStats} from "../../constants/defaultStats";
 import {getGameConfig} from "../../api/requests";
-import {ADD, APPLY, DISABLED, RECALCULATE, SET, SUBTRACT} from "../../../../shared/constants/src/actions/names";
-import {WINGS, EXTRA_LIFE, X2} from "../../constants/boosters";
 import {clamp} from "lodash";
+import {WINGS, EXTRA_LIFE, X2} from "../../constants/boosters";
 import {DUNK_SHOT} from "../../constants/stateManager";
 
 const {useStore: useDunkShotStore, selectors} = createStore({
@@ -204,4 +203,4 @@ const {useStore: useDunkShotStore, selectors} = createStore({
   }
 });
 
-export default useDunkShotStore;
+export {useDunkShotStore};

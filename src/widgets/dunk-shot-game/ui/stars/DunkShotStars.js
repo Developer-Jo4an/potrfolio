@@ -1,17 +1,16 @@
 import {useEffect, useRef, useState} from "react";
 import {isArray, isFinite} from "lodash";
-import eventSubscription from "../../../../shared/lib/src/events/eventListener";
+import {eventSubscription, createArrayWithMap} from "@shared";
 import {useDunkShotStars} from "../../model/hooks/useDunkShotStars";
-import {createArrayWithMap} from "../../../../shared/lib/src/array/createArrayWithMap";
 import {TbStarsFilled} from "react-icons/tb";
 import {FaStar} from "react-icons/fa6";
-import useActiveBoosters from "../../model/hooks/useActiveBoosters";
-import useDunkShotStore from "../../model/state-manager/dunkShotStore";
+import {useActiveBoosters} from "../../model/hooks/useActiveBoosters";
+import {useDunkShotStore} from "../../model/state-manager/dunkShotStore";
 import {THROW_HIT} from "../../constants/events";
 import {X2} from "../../constants/boosters";
 import styles from "./DunkShotStars.module.scss";
 
-export default function DunkShotStars({topMenuEls, progressBarEls}) {
+export function DunkShotStars({topMenuEls, progressBarEls}) {
   const {wrapper} = useDunkShotStore();
   const {gameData: {progress: {current, max} = {}} = {}} = useDunkShotStore();
   const [StarComponent, setStarComponent] = useState(<FaStar/>);

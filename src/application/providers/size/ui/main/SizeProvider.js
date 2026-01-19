@@ -1,12 +1,11 @@
 import {createContext, useContext, useLayoutEffect, useState} from "react";
-import eventSubscription from "../../../../../shared/lib/src/events/eventListener";
+import {eventSubscription, RESIZE} from "@shared";
 import {createDeviceName, LANDSCAPE, MOBILE, onResize} from "../../config/adaptive-settings";
-import {RESIZE} from "../../../../../shared/constants/src/events/eventsNames";
 import styles from "./SizeProvider.module.scss";
 
 const SizeContext = createContext({});
 
-export default function SizeProvider({children}) {
+export function SizeProvider({children}) {
   const [{width, height}, setSize] = useState({});
   const [isVisibleBlock, setIsVisibleBlock] = useState(false);
 

@@ -1,0 +1,22 @@
+import {System} from "../../core/System";
+import {Component} from "../../core/Component";
+import {Collection} from "../components/data/Collection";
+
+export class Collector extends System {
+  constructor() {
+    super(...arguments);
+
+    this.eventBus.addEventListener(Component.EVENTS.REMOVE, this.onRemoveComponent.bind(this));
+  }
+
+  update(data) {
+    super.update(data);
+  }
+
+  onRemoveComponent({data: {component}}) {
+    if (!(component instanceof Collection && component?.group === "side-effects")) return;
+
+    component.list.forEach(({cleanFunction}) => cleanFunction?.());
+    component.list.length = 0;
+  }
+}

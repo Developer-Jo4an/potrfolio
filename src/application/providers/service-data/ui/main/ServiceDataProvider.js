@@ -1,11 +1,10 @@
 import {createContext, useContext, useEffect, useState} from "react";
-import {decode, encode} from "../../../../../shared/lib/src/encoding/base64";
-import getIsDebug from "../../../../../shared/lib/src/debug/debug";
-import {cloneDeep} from "lodash/lang";
+import {getIsDebug, decode, encode} from "@shared";
+import {cloneDeep} from "lodash";
 
 const ServiceDataContext = createContext({});
 
-export default function ServiceDataProvider({children, storageSettings = {}}) {
+export function ServiceDataProvider({children, storageSettings = {}}) {
   const [serviceData, setServiceData] = useState();
 
   const actions = {

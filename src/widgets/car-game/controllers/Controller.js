@@ -1,27 +1,30 @@
-import Movement from "./systems/Movement";
-import PIXIController from "../../../shared/scene/controllers/pixi/PIXIController";
-import Level from "./systems/Level";
-import Game from "./systems/Game";
-import Camera from "./systems/Camera";
-import Input from "./systems/Input";
-import Collision from "./systems/Collision";
-import Event from "./systems/Event";
-import Assets from "../../../shared/scene/ecs/base/systems/Assets";
-import CarFactory from "./Factory";
-import PixiRenderSystem from "../../../shared/scene/ecs/pixi/systems/PixiRenderSystem";
-import Collector from "../../../shared/scene/ecs/base/systems/Collector";
-import Engine from "../../../shared/scene/ecs/core/Engine";
+import {Movement} from "./systems/Movement";
+import {Level} from "./systems/Level";
+import {Game} from "./systems/Game";
+import {Camera} from "./systems/Camera";
+import {Input} from "./systems/Input";
+import {Collision} from "./systems/Collision";
+import {Event} from "./systems/Event";
+import {CarFactory} from "./Factory";
 import {cloneDeep} from "lodash";
-import getIsDebug from "../../../shared/lib/src/debug/debug";
-import eventSubscription from "../../../shared/lib/src/events/eventListener";
 import {GAME_SIZE, GAME_SPACE} from "../constants/game";
 import {NOT_AVAILABLE_ENTITIES_TYPES_FOR_RESET} from "../constants/reset";
-import {analysis} from "../../../shared/scene/analytics/Analytics";
-import {UPDATE_DECORATOR_FIELD} from "../../../shared/scene/constants/decorators/names";
-import {UPDATED} from "../../../shared/scene/constants/events/names";
-import {RESIZE} from "../../../shared/constants/src/events/eventsNames";
+import {
+  RESIZE,
+  UPDATED,
+  UPDATE_DECORATOR_FIELD,
+  analysis,
+  eventSubscription,
+  getIsDebug,
+  Engine,
+  Collector,
+  PixiRenderSystem,
+  Assets,
+  PIXIController
+} from "@shared";
 
-export default class Controller extends PIXIController {
+
+export class Controller extends PIXIController {
   constructor() {
     super(...arguments);
 

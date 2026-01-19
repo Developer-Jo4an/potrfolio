@@ -1,7 +1,6 @@
-import {useRequestsHandler} from "../../../../shared/model/src/hooks/useRequestsHandler";
-import {Loader} from "../../../../shared/ui/loader";
+import {Loader, useRequestsHandler} from "@shared";
 
-export default function RequestsLoader() {
+export function RequestsLoader() {
   const {isPendingSome} = useRequestsHandler();
   return <Loader isPending={isPendingSome}/>;
 }

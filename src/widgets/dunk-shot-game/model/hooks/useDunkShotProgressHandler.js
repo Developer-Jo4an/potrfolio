@@ -1,9 +1,9 @@
 import {useEffect} from "react";
-import useDunkShotStore from "../state-manager/dunkShotStore";
 import {isFinite} from "lodash";
-import {SET} from "../../../../shared/constants/src/actions/names";
+import {useDunkShotStore} from "../state-manager/dunkShotStore";
+import {SET} from "@shared";
 
-export default function useDunkShotProgressHandler() {
+export function useDunkShotProgressHandler() {
   const {setDunkShotProgress, gameData: {progress: {current, max} = {}} = {}} = useDunkShotStore();
 
   useEffect(() => {

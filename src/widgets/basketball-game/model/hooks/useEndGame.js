@@ -1,15 +1,15 @@
 import {useEffect} from "react";
-import eventSubscription from "../../../../shared/lib/src/events/eventListener";
-import {useAppCallbacks} from "../../../../application/providers/callbacks/ui/main/CallbacksProvider";
-import useBasketballStore from "../state-manager/basketballStore";
-import useModalStore from "../../../../application/providers/modal/model/state-manager/stores/modalStore";
+import {useAppCallbacks} from "@application/providers/callbacks";
+import {eventSubscription} from "@shared";
+import {useBasketballStore} from "../state-manager/basketballStore";
+import {useModalStore} from "@application/providers/modal";
 import {LOSE, WIN} from "../../constants/events";
-import gameSpaceStore from "../storages/gameSpace";
+import {gameSpaceStore} from "../storages/gameSpace";
 import content from "../../constants/content";
 
 const {endModal} = content;
 
-export default function useEndGame() {
+export function useEndGame() {
   const {wrapper} = useBasketballStore();
   const {add} = useModalStore();
   const {redirect} = useAppCallbacks();

@@ -1,8 +1,3 @@
-import System from "../../../../shared/scene/ecs/core/System";
-import CollisionComponent from "../../../../shared/scene/ecs/base/components/collision/CollisionComponent";
-import Matrix3Component from "../../../../shared/scene/ecs/base/components/transform/Matrix3Component";
-import EventComponent from "../../../../shared/scene/ecs/base/components/EventComponent";
-import Collider from "../../../../shared/scene/ecs/base/components/collision/Collider";
 import {CHARACTER} from "../../constants/entities/character";
 import {ROAD_CHUNK} from "../../constants/entities/roadChunk";
 import {CHARACTER_WITH_BONUSES, CHARACTER_WITH_ROAD_CHUNK, CHARACTER_WITH_SPIKES} from "../../constants/collision";
@@ -11,9 +6,9 @@ import {BONUS} from "../../constants/entities/bonus";
 import {GAME} from "../../constants/entities/game";
 import {SPIKE} from "../../constants/entities/spike";
 import {LOSE} from "../../constants/stateMachine";
-import {STATE_DECORATOR_FIELD} from "../../../../shared/scene/constants/decorators/names";
+import {STATE_DECORATOR_FIELD, EventComponent, Collider, Matrix3Component, CollisionComponent, System} from "@shared";
 
-export default class Collision extends System {
+export class Collision extends System {
   clearCollisionComponents({characterEntity}) {
     const allCollisionComponent = characterEntity.getList(CollisionComponent);
     allCollisionComponent.forEach(collisionComponent => characterEntity.remove(collisionComponent));

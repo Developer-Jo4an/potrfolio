@@ -1,9 +1,7 @@
-import System from "../../../../shared/scene/ecs/core/System";
-import Body from "../../../../shared/scene/ecs/rapier/components/Body";
-import EventComponent from "../../../../shared/scene/ecs/base/components/EventComponent";
+import {EventComponent, Body, System} from "@shared";
 import {COLLISION_END, COLLISION_START} from "../../constants/events";
 
-export default class Collision extends System {
+export class Collision extends System {
   constructor() {
     super(...arguments);
 

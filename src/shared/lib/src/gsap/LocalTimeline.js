@@ -1,4 +1,3 @@
-import gsap from "gsap";
 import {isString, isFinite} from "lodash";
 
 export const PLAYING = "playing";
@@ -12,12 +11,12 @@ export class LocalTimeline {
 
   _spaces = {};
 
-  constructor() {
-    if (LocalTimeline.instance)
-      return LocalTimeline.instance;
-    LocalTimeline.instance = this;
-
-    this.register();
+  static get instance() {
+    if (LocalTimeline._instance)
+      return LocalTimeline._instance;
+    const localTimeline = LocalTimeline._instance = new LocalTimeline();
+    localTimeline.register();
+    return localTimeline;
   }
 
   get spaces() {
@@ -43,18 +42,21 @@ export class LocalTimeline {
     };
   }
 
-  createSpace(namespace) {
+  checkOnSpaceExist(namespace) {
     const {spaces} = this;
 
-    if (spaces[namespace]) return;
-
-    spaces[namespace] = {
-      arr: [],
-      status: LocalTimeline.statuses.playing
-    };
+    if (!spaces[namespace]) {
+      spaces[namespace] = {
+        arr: [],
+        status: LocalTimeline.statuses.playing
+      };
+      console.log(`new gsap space created: ${namespace}`);
+    }
   }
 
   setStatus(namespace, status) {
+    this.checkOnSpaceExist(namespace);
+
     this.spaces[namespace].status = status;
   }
 
@@ -68,6 +70,7 @@ export class LocalTimeline {
 
     this.spaces[namespace].arr = [];
   }
+
 
   add(namespace, tween) {
     const currentStatus = this.getStatusByNamespace(namespace);
@@ -151,10 +154,12 @@ export class LocalTimeline {
   }
 
   getTweensByNamespace(namespace) {
+    this.checkOnSpaceExist(namespace);
     return this.spaces[namespace]?.arr;
   }
 
   getStatusByNamespace(namespace) {
+    this.checkOnSpaceExist(namespace);
     return this.spaces[namespace]?.status;
   }
 }

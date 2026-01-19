@@ -1,7 +1,5 @@
-import Factory from "../../../shared/scene/factory/Factory";
 import {upperFirst} from "lodash";
-import {assetsManager} from "../../../shared/scene/assets/AssetsManager";
-import {GLTF, THREE_SPACE} from "../../../shared/scene/constants/loaders/assetsTypes";
+import {Factory, assetsManager, GLTF, THREE_SPACE} from "@shared";
 import {CHARACTER, CHARACTER_BODY, CHARACTER_VIEW_NAME} from "../constants/character";
 import {SCENE_FROM_BLENDER} from "../constants/preload";
 import {GROUND, GROUND_BODY} from "../constants/ground";
@@ -23,7 +21,7 @@ const METHODS = {
   reset: "reset"
 };
 
-export default class BasketballFactory extends Factory {
+export class BasketballFactory extends Factory {
   constructor(data) {
     super(...arguments);
     this.defaultProperties = data;

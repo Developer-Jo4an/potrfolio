@@ -1,5 +1,1 @@
-import PauseModal from "./ui/main/PauseModal";
-
-export {
-  PauseModal
-};
+export {PauseModal} from "./ui/main/PauseModal";

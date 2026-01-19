@@ -1,6 +1,6 @@
-import BaseEntity from "../base/BaseEntity";
+import {BaseEntity} from "../base/BaseEntity";
 
-export default class MainContainer extends BaseEntity {
+export class MainContainer extends BaseEntity {
   constructor(data) {
     super(data);
 

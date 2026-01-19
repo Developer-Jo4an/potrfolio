@@ -1,7 +1,7 @@
+import {Image} from "@shared";
 import styles from "../cards/GameCardsList.module.scss";
-import {Image} from "../../../../shared/ui/image";
 
-export default function GameCard({ref, gameData}) {
+export function GameCard({ref, gameData}) {
   return (
     <div ref={ref} className={styles.gameCard}>
       <Image

@@ -1,23 +1,22 @@
 import {useMemo, useRef} from "react";
-import {Loader} from "../../../../shared/ui/loader";
+import {Loader, useGameSpaceStore} from "@shared";
+import {Canvas} from "../canvas/Canvas";
+import {Background} from "../background/Background";
+import {Effects} from "../effects/Effects";
+import {Boosters} from "../boosters/Boosters";
+import {usePause} from "../../model/hooks/usePause";
+import {useGetInfo} from "../../model/hooks/useGetInfo";
+import {useEndGame} from "../../model/hooks/useEndGame";
 import {TopMenu} from "../../../../features/top-menu";
-import Canvas from "../canvas/Canvas";
-import Background from "../background/Background";
-import Effects from "../effects/Effects";
-import Boosters from "../boosters/Boosters";
-import usePause from "../../model/hooks/usePause";
-import useGetInfo from "../../model/hooks/useGetInfo";
-import useEndGame from "../../model/hooks/useEndGame";
-import useGameSpaceStore from "../../../../shared/scene/gameSpace/useGameSpaceStore";
-import useBasketballStore from "../../model/state-manager/basketballStore";
+import {useBasketballStore} from "../../model/state-manager/basketballStore";
 import {INITIALIZATION, INITIALIZATION_LEVEL} from "../../constants/stateMachine";
-import gameSpaceStore from "../../model/storages/gameSpace";
+import {gameSpaceStore} from "../../model/storages/gameSpace";
 import content from "../../constants/content";
 import styles from "./BasketballGame.module.scss";
 
 const {menu: {score, lifes, sound}} = content;
 
-export default function BasketballGame() {
+export function BasketballGame() {
   const {state} = useBasketballStore();
   const gameSpace = useGameSpaceStore(gameSpaceStore);
   const pause = usePause();

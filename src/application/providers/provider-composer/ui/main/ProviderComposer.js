@@ -3,7 +3,7 @@ import {CallbacksProvider} from "../../../callbacks";
 import {SizeProvider} from "../../../size";
 import {ApiProvider} from "../../../api-provider";
 
-export default function ProviderComposer({children}) {
+export function ProviderComposer({children}) {
   return (
     <SizeProvider>
       <CallbacksProvider>

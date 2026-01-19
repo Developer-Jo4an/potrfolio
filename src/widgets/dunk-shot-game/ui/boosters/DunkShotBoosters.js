@@ -1,10 +1,10 @@
 import cl from "classnames";
-import {Button} from "../../../../shared/ui/button";
+import {Button} from "@shared";
 import {isNumber} from "lodash";
-import useBoosters from "../../model/hooks/useBoosters";
+import {useBoosters} from "../../model/hooks/useBoosters";
 import styles from "./DunkShotBoosters.module.scss";
 
-export default function DunkShotBoosters({navRefs}) {
+export function DunkShotBoosters({navRefs}) {
   const {boosters, onClick} = useBoosters({navRefs});
 
   return (

@@ -1,7 +1,7 @@
 import {dunkShotFactory} from "../../factory/DunkShotFactory";
-import setNecessaryListeners from "../../utils/setNecessaryListeners";
+import {setNecessaryListeners} from "../../utils/setNecessaryListeners";
 
-export default class BaseEntity {
+export class BaseEntity {
 
   constructor(data) {
     for (const key in data)

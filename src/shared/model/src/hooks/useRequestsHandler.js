@@ -79,7 +79,7 @@ export function useRequestsHandler(handlers) {
   }, [handlers]);
 
   return pendingData;
-};
+}
 
 function setStatus(setter, requestKey, status) {
   if (requestKey)

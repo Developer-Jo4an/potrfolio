@@ -1,11 +1,10 @@
 import {useRef} from "react";
-import useKillGsapTweens from "../../../../shared/model/src/hooks/useKillGsapTweens";
+import {useKillGsapTweens} from "@shared";
 import {starAnimation} from "../../config/animations";
-import gsap from "gsap";
 
 const {offset, scale, delayBetween, opacity} = starAnimation;
 
-export default function useDunkShotStar() {
+export function useDunkShotStar() {
   const tweenRefs = useRef({star: null});
 
   useKillGsapTweens(tweenRefs);

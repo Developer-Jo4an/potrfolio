@@ -1,5 +1,1 @@
-import ServiceDataProvider from "./ui/main/ServiceDataProvider";
-
-export {
-  ServiceDataProvider
-};
+export {ServiceDataProvider} from "./ui/main/ServiceDataProvider";

@@ -1,8 +1,7 @@
-import eventSubscription from "../../../../shared/lib/src/events/eventListener";
-import {STATE_CHANGED} from "../../../../shared/scene/constants/events/names";
+import {STATE_CHANGED, eventSubscription} from "@shared";
 import {DUNK_SHOT_CONFIG_EVENT, DUNK_SHOT_GAME_DATA_EVENT} from "../../constants/events";
 
-export default function setNecessaryListeners(context) {
+export function setNecessaryListeners(context) {
   const {eventBus} = context;
 
   eventSubscription({

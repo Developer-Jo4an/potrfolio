@@ -1,18 +1,16 @@
 import {useRef} from "react";
-import useLoadScene from "../../../../shared/scene/model/hooks/useLoadScene";
-import useStateController from "../../../../shared/scene/model/hooks/useStateController";
-import useDunkShotStats from "./useDunkShotStats";
-import useBeforeInit from "./useBeforeInit";
-import useDunkShotProgressHandler from "./useDunkShotProgressHandler";
-import useResetGame from "./useDestroyGame";
-import useDunkShotPause from "./useDunkShotPause";
-import useDunkShotStore from "../state-manager/dunkShotStore";
+import {useLoadScene, useStateController, imports} from "@shared";
+import {useDunkShotStats} from "./useDunkShotStats";
+import {useBeforeInit} from "./useBeforeInit";
+import {useDunkShotProgressHandler} from "./useDunkShotProgressHandler";
+import {useResetGame} from "./useDestroyGame";
+import {useDunkShotPause} from "./useDunkShotPause";
+import {useDunkShotStore} from "../state-manager/dunkShotStore";
 import {DUNK_SHOT_STATE_MACHINE, IGNORE_NEXT_STATES} from "../../constants/stateMachine";
-import imports from "../../../../shared/scene/lib/import";
 import {mainSceneSettings} from "../../config/mainSceneSettings";
 import {preload} from "../../config/preload";
 
-export default function useLoadDunkShotScene() {
+export function useLoadDunkShotScene() {
   const {wrapper, reset, setWrapper} = useDunkShotStore();
   const containerRef = useRef();
 

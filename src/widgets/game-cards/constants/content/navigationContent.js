@@ -1,4 +1,4 @@
-import {LEFT, RIGHT} from "../../../../shared/constants/src/directions/directions";
+import {LEFT, RIGHT} from "@shared";
 import {RiArrowLeftDoubleLine, RiArrowRightDoubleLine} from "react-icons/ri";
 
 export const navigationButtons = [

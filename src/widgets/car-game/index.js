@@ -1,5 +1,1 @@
-import CarGame from "./ui/main/CarGame";
-
-export {
-  CarGame
-};
+export {CarGame} from "./ui/main/CarGame";

@@ -1,7 +1,7 @@
 import {createContext, useContext} from "react";
 import {useRouter} from "next/navigation";
 
-export default function CallbacksProvider({children}) {
+export function CallbacksProvider({children}) {
   const router = useRouter();
 
   const callbacks = {

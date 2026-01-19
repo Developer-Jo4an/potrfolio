@@ -1,35 +1,36 @@
-import PIXIController from "../../../shared/scene/controllers/pixi/PIXIController";
-import GameplayController from "./controllers/GameplayController/GameplayController";
-import InteractionController from "./controllers/InteractionController/InteractionController";
-import CameraController from "./controllers/CameraController/CameraController";
-import EffectsController from "./controllers/EffectsController/EffectsController";
-import CollisionObserver from "./controllers/CollisionObserver/CollisionObserver";
-import Resize from "../../../shared/scene/decorators/resize/Resize";
-import State from "../../../shared/scene/decorators/state/State";
-import Performance from "../../../shared/scene/decorators/performance/Performance";
-import PIXIMatterUpdate from "../../../shared/scene/decorators/pixi/pixi-matter-update/PIXIMatterUpdate";
-import gsap from "gsap";
-import eventSubscription from "../../../shared/lib/src/events/eventListener";
-import {addControllerStateHandler} from "../../../shared/scene/lib/state/addControllerStateHandler";
-import getIsDebug from "../../../shared/lib/src/debug/debug";
-import {RESIZE} from "../../../shared/constants/src/events/eventsNames";
-import {UPDATED} from "../../../shared/scene/constants/events/names";
+import {GameplayController} from "./controllers/GameplayController/GameplayController";
+import {InteractionController} from "./controllers/InteractionController/InteractionController";
+import {CameraController} from "./controllers/CameraController/CameraController";
+import {EffectsController} from "./controllers/EffectsController/EffectsController";
+import {CollisionObserver} from "./controllers/CollisionObserver/CollisionObserver";
+import {
+  PIXIController,
+  Resize,
+  State,
+  Performance,
+  PIXIMatterUpdate,
+  eventSubscription,
+  getIsDebug,
+  addControllerStateHandler,
+  RESIZE,
+  UPDATED,
+  LEFT,
+  RIGHT,
+  PERFORMANCE_DECORATOR_FIELD,
+  RESIZE_DECORATOR_FIELD,
+  STATE_DECORATOR_FIELD,
+  UPDATE_DECORATOR_FIELD,
+  PAUSED
+} from "@shared";
 import {DUNK_SHOT_TWEEN, GAME_SIZE} from "../constants";
 import {DUNK_SHOT_STATE_MACHINE} from "../constants/stateMachine";
 import {CONTROLLER_RESET, DUNK_SHOT_CONFIG_EVENT, DUNK_SHOT_GAME_DATA_EVENT} from "../constants/events";
 import {dunkShotFactory} from "./factory/DunkShotFactory";
 import {dunkShotAnimationPlayer} from "./animations/DunkShotAnimationPlayer";
 import {dunkShotUtils} from "./utils/DunkShotUtils";
-import {LEFT, RIGHT} from "../../../shared/constants/src/directions/directions";
 import {RESET_ITEMS} from "../constants/factoryVariables";
-import {
-  PERFORMANCE_DECORATOR_FIELD,
-  RESIZE_DECORATOR_FIELD,
-  STATE_DECORATOR_FIELD, UPDATE_DECORATOR_FIELD
-} from "../../../shared/scene/constants/decorators/names";
-import {PAUSED} from "../../../shared/lib/src/gsap/LocalTimeline";
 
-export default class Controller extends PIXIController {
+export class Controller extends PIXIController {
 
   CONTROLLERS = [
     GameplayController,

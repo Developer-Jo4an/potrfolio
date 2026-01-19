@@ -1,11 +1,9 @@
-import BaseEntity from "../base/BaseEntity";
-import {createArrayWithMap} from "../../../../../shared/lib/src/array/createArrayWithMap";
+import {BaseEntity} from "../base/BaseEntity";
+import {createArrayWithMap, assetsManager, PIXI_SPACE, TEXTURE} from "@shared";
 import {dunkShotFactory} from "../../factory/DunkShotFactory";
-import {assetsManager} from "../../../../../shared/scene/assets/AssetsManager";
-import {PIXI_SPACE, TEXTURE} from "../../../../../shared/scene/constants/loaders/assetsTypes";
 import {AIM} from "../../../config/preload";
 
-export default class Aim extends BaseEntity {
+export class Aim extends BaseEntity {
 
   constructor(data) {
     super(data);

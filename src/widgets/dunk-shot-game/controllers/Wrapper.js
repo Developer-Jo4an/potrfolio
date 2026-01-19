@@ -1,8 +1,7 @@
-import PixiWrapper from "../../../shared/scene/wrappers/pixi/PixiWrapper";
-import Controller from "./Controller";
-import {STATE_DECORATOR_FIELD} from "../../../shared/scene/constants/decorators/names";
+import {Controller} from "./Controller";
+import {STATE_DECORATOR_FIELD, PixiWrapper} from "@shared";
 
-export default class Wrapper extends PixiWrapper {
+export class Wrapper extends PixiWrapper {
 
   static get instance() {
     return this._instance ??= new Wrapper();

@@ -1,13 +1,8 @@
-import AnimationPlayer from "../../../../shared/scene/animations/AnimationPlayer";
+import {AnimationPlayer, toRad, distance, findClosestNumber, createProxyObject, PI2, LEFT, RIGHT} from "@shared";
 import {clamp} from "lodash";
-import {toRad, distance, findClosestNumber} from "../../../../shared/lib/src/matrix/matrix";
-import {createProxyObject} from "../../../../shared/lib/proxy/createProxyObject";
+import {setNecessaryListeners} from "../utils/setNecessaryListeners";
 import {dunkShotUtils} from "../utils/DunkShotUtils";
 import {DUNK_SHOT_TWEEN} from "../../constants";
-import {PI2} from "../../../../shared/constants/src/trigonometry/trigonometry";
-import {LEFT, RIGHT} from "../../../../shared/constants/src/directions/directions";
-import gsap from "gsap";
-import setNecessaryListeners from "../utils/setNecessaryListeners";
 
 class DunkShotAnimationPlayer extends AnimationPlayer {
   constructor(data) {

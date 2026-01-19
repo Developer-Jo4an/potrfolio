@@ -1,1 +1,1 @@
-export { Basketball as default, metadata } from "../../src/pages/basketball";
+export {Basketball as default, metadata} from "../../src/pages/basketball";

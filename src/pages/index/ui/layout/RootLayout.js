@@ -1,5 +1,5 @@
+import {MainLayout} from "@application/layouts/main-layout";
 import "../../../../application/styles/main.scss";
-import {MainLayout} from "../../../../application/layouts/main-layout";
 
 function RootLayout({children}) {
   return (
@@ -13,4 +13,4 @@ function RootLayout({children}) {
   );
 }
 
-export {RootLayout}
+export {RootLayout};

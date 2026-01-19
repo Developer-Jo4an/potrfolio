@@ -1,9 +1,8 @@
-import gsap from "gsap";
 import {cardsAnimationSettings, cardsConfig} from "../../config/cardsConfig";
-import useGamesStore from "../state-manager/gamesStore";
+import {useGamesStore} from "../state-manager/gamesStore";
 import {useLayoutEffect} from "react";
 
-export default function useCardShowing({gameCards}) {
+export function useCardShowing({gameCards}) {
   const {
     gameList,
     activeGame, leftGame, rightGame,

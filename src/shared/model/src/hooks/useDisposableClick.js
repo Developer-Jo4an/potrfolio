@@ -8,4 +8,4 @@ export function useDisposableClick(onClick) {
     isClicked.current = true;
     onClick?.(...arguments);
   };
-};
+}

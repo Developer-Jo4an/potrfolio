@@ -1,7 +1,2 @@
-import BottomMenu from "./ui/main/BottomMenu";
-import {MODES} from "./constants/modes";
-
-export {
-  MODES,
-  BottomMenu
-}
+export {BottomMenu}  from "./ui/main/BottomMenu";
+export {MODES} from "./constants/modes";

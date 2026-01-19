@@ -1,11 +1,5 @@
-import Collider from "../../../../shared/scene/ecs/base/components/collision/Collider";
-import State from "../../../../shared/scene/ecs/base/components/state/State";
-import Matrix3Component from "../../../../shared/scene/ecs/base/components/transform/Matrix3Component";
-import Collection from "../../../../shared/scene/ecs/base/components/data/Collection";
-import PixiComponent from "../../../../shared/scene/ecs/pixi/components/PixiComponent";
-import Chunk from "../../controllers/components/Chunk";
-import Game from "../../controllers/components/Game";
-import getDefaultState from "../../../../shared/scene/lib/state/getDefaultState";
+import {Chunk} from "../../controllers/components/Chunk";
+import {Game} from "../../controllers/components/Game";
 import {CHARACTER, states as characterStates} from "./character";
 import {GAME} from "./game";
 import {MAIN_CONTAINER} from "./mainContainer";
@@ -14,6 +8,9 @@ import {BONUS} from "./bonus";
 import {SPIKE} from "./spike";
 import {CAR_STATE_MACHINE} from "../stateMachine";
 import {ROAD_CHUNKS_CONTAINER} from "./roadChunksContainer";
+import {getDefaultState, Collider, Matrix3Component, PixiComponent} from "@shared";
+import {State} from "@/shared/scene/src/ecs/base/components/state/State"; //TODO: поправить импорт
+import {Collection} from "@/shared/scene/src/ecs/base/components/data/Collection"; //TODO: поправить импорт
 
 export const types = {
   [GAME]: {

@@ -1,5 +1,1 @@
-import MainLayout from "./ui/main/MainLayout";
-
-export {
-  MainLayout
-}
+export {MainLayout} from "./ui/main/MainLayout";

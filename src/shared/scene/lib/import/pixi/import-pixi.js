@@ -1,8 +1,0 @@
-import PixiPlugin from "gsap/PixiPlugin";
-import gsap from "gsap";
-
-export default async function importPixi() {
-  global.PIXI = await import("pixi.js");
-  gsap.registerPlugin(PixiPlugin);
-  PixiPlugin.registerPIXI(global.PIXI);
-}

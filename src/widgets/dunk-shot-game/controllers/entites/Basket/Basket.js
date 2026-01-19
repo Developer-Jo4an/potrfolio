@@ -1,16 +1,13 @@
-import BasePhysicsEntity from "../base/BasePhysicsEntity";
+import {BasePhysicsEntity} from "../base/BasePhysicsEntity";
 import {upperFirst, cloneDeep} from "lodash";
-import getIsDebug from "../../../../../shared/lib/src/debug/debug";
-import {PIXI_SPACE, TEXTURE} from "../../../../../shared/scene/constants/loaders/assetsTypes";
+import {getIsDebug, PIXI_SPACE, TEXTURE, assetsManager, RED, WHITE} from "@shared";
 import {dunkShotFactory} from "../../factory/DunkShotFactory";
 import {COLLISION_FILTERS} from "../../../constants/collision";
 import {INACTIVE} from "../../../constants/statuses";
 import {VISIBLE} from "../../../constants/modes";
-import {assetsManager} from "../../../../../shared/scene/assets/AssetsManager";
-import {RED, WHITE} from "../../../../../shared/constants/src/colors/colors";
 import {BASKET_GRID_BACK} from "../../../config/preload";
 
-export default class Basket extends BasePhysicsEntity {
+export class Basket extends BasePhysicsEntity {
 
   _position = {x: 0, y: 0};
 

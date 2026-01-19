@@ -1,6 +1,6 @@
-import MainGame from "../../../../shared/scene/ecs/base/systems/MainGame";
+import {MainGame} from "@shared";
 
-export default class Game extends MainGame {
+export class Game extends MainGame {
   constructor(data) {
     super({...data, types: data.storage.types});
   }

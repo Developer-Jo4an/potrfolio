@@ -1,8 +1,7 @@
 import {useEffect} from "react";
-import gsap from "gsap";
-import useGamesStore from "../state-manager/gamesStore";
+import {useGamesStore} from "../state-manager/gamesStore";
 
-export default function useBackgroundShowing({cardsBackground}) {
+export function useBackgroundShowing({cardsBackground}) {
   const {gameList, isShowing} = useGamesStore();
 
   useEffect(() => {

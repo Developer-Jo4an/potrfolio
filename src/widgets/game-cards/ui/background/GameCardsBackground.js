@@ -1,11 +1,11 @@
-import useGamesStore from "../../model/state-manager/gamesStore";
-import styles from "./GameCardsBackground.module.scss";
-import cl from "classnames";
-import {Image} from "../../../../shared/ui/image";
-import useBackgroundShowing from "../../model/hooks/useBackgroundShowing";
 import {useRef} from "react";
+import {Image} from "@shared";
+import cl from "classnames";
+import {useBackgroundShowing} from "../../model/hooks/useBackgroundShowing";
+import {useGamesStore} from "../../model/state-manager/gamesStore";
+import styles from "./GameCardsBackground.module.scss";
 
-export default function GameCardsBackground() {
+export function GameCardsBackground() {
   const {gameList, activeGame} = useGamesStore();
   const {current: cardsBackground} = useRef([]);
 

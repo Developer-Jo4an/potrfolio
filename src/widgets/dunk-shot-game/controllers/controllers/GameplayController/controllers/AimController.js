@@ -1,10 +1,9 @@
-import BaseGameplayController from "../BaseGameplayController";
-import {createArrayWithMap} from "../../../../../../shared/lib/src/array/createArrayWithMap";
+import {BaseGameplayController} from "../BaseGameplayController";
+import {createArrayWithMap, LEFT, RIGHT} from "@shared";
 import {dunkShotFactory} from "../../../factory/DunkShotFactory";
 import {INSIDE_BASKET} from "../../../../constants/statuses";
-import {LEFT, RIGHT} from "../../../../../../shared/constants/src/directions/directions";
 
-export default class AimController extends BaseGameplayController {
+export class AimController extends BaseGameplayController {
 
   cashedData = {
     prevPositions: {}

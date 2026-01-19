@@ -1,11 +1,11 @@
-import styles from "./GameCardsInfo.module.scss";
-import {ReactTyped} from "react-typed";
 import {useRef} from "react";
-import useGamesStore from "../../model/state-manager/gamesStore";
 import cl from "classnames";
+import {ReactTyped} from "react-typed";
+import {useGamesStore} from "../../model/state-manager/gamesStore";
 import {upperFirst} from "lodash/string";
+import styles from "./GameCardsInfo.module.scss";
 
-export default function GameCardsInfo() {
+export function GameCardsInfo() {
   const {activeGame, gameList} = useGamesStore();
   const {current: typed} = useRef({title: null, description: null});
 

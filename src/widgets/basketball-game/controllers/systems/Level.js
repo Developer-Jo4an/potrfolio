@@ -1,11 +1,6 @@
-import System from "../../../../shared/scene/ecs/core/System";
-import Entity from "../../../../shared/scene/ecs/core/Entity";
-import ThreeComponent from "../../../../shared/scene/ecs/three/components/ThreeComponent";
-import Body from "../../../../shared/scene/ecs/rapier/components/Body";
-import Mixer from "../../../../shared/scene/ecs/three/components/Mixer";
+import {Mixer, System, Body, ThreeComponent, Entity, add, GLTF, THREE_SPACE, assetsManager, X, Y, Z} from "@shared";
+import {getVerticesWithDeep} from "../../utils/getVerticesWithDeep";
 import {mean} from "lodash";
-import getVerticesWithDeep from "../../utils/getVerticesWithDeep";
-import add from "../../../../shared/scene/ecs/three/side-effects/add";
 import {CHARACTER, CHARACTER_BODY} from "../../constants/character";
 import {GROUND, GROUND_BODY} from "../../constants/ground";
 import {
@@ -16,12 +11,9 @@ import {
   RING_SHIELD_VIEW_NAME,
   RING_VIEW_NAME
 } from "../../constants/ring";
-import {X, Y, Z} from "../../../../shared/constants/src/trigonometry/trigonometry";
-import {assetsManager} from "../../../../shared/scene/assets/AssetsManager";
-import {GLTF, THREE_SPACE} from "../../../../shared/scene/constants/loaders/assetsTypes";
 import {SCENE_FROM_BLENDER} from "../../constants/preload";
 
-export default class Level extends System {
+export class Level extends System {
   initializationLevelSelect() {
     this.initCharacter();
     this.initRing();

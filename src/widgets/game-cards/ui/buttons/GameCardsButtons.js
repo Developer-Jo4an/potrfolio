@@ -1,13 +1,13 @@
-import {Button} from "../../../../shared/ui/button";
-import styles from "./GameCardsButtons.module.scss";
 import cl from "classnames";
+import {Button} from "@shared";
+import {useAppCallbacks} from "@application/providers/callbacks";
 import {upperFirst} from "lodash/string";
-import useGamesStore from "../../model/state-manager/gamesStore";
+import {useGamesStore} from "../../model/state-manager/gamesStore";
 import {buttonContent} from "../../constants/content/buttonContent";
-import {useAppCallbacks} from "../../../../application/providers/callbacks/ui/main/CallbacksProvider";
 import {ROUTES} from "../../constants/routes";
+import styles from "./GameCardsButtons.module.scss";
 
-export default function GameCardsButtons() {
+export function GameCardsButtons() {
   const {activeGame} = useGamesStore();
 
   const allCallbacks = useAppCallbacks();

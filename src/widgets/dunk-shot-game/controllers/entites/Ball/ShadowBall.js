@@ -1,6 +1,6 @@
-import Ball from "./Ball";
+import {Ball} from "./Ball";
 
-export default class ShadowBall extends Ball {
+export class ShadowBall extends Ball {
 
   constructor(data) {
     super(data);

@@ -1,6 +1,6 @@
-import System from "../../../../shared/scene/ecs/core/System";
+import {System} from "@shared";
 
-export default class Light extends System {
+export class Light extends System {
   init() {
     const {
       storage: {

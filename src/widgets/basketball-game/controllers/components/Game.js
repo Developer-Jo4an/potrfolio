@@ -1,6 +1,6 @@
-import Component from "../../../../shared/scene/ecs/core/Component";
+import {Component} from "@shared";
 import {BASKETBALL} from "../../constants/game";
 
-export default class Game extends Component {
+export class Game extends Component {
   type = BASKETBALL;
 }

@@ -1,5 +1,4 @@
-import {image} from "../../../../shared/lib/src/image/url";
-import gsap from "gsap";
+import {image} from "@shared";
 import {TWEENS} from "../../constants/tweens";
 import {BASKETBALL} from "../../constants/game";
 
@@ -18,7 +17,7 @@ const settings = {
   ease: "sine.inOut"
 };
 
-export default function extraLifePulseTween(bounding, parent) {
+export function extraLifePulseTween(bounding, parent) {
   const nodes = createNodes(bounding, parent);
 
   const timeline = gsap.timeline({

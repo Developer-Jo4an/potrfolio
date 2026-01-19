@@ -1,5 +1,1 @@
-import ApiProvider from "./ui/main/ApiProvider";
-
-export {
-  ApiProvider
-};
+export {ApiProvider} from "./ui/main/ApiProvider";

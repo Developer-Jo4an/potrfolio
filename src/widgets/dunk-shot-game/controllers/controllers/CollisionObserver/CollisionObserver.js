@@ -1,7 +1,7 @@
-import BaseController from "../BaseController/BaseController";
+import {BaseController} from "../BaseController/BaseController";
 import {COLLISION_START} from "../../../constants/events";
 
-export default class CollisionObserver extends BaseController {
+export class CollisionObserver extends BaseController {
   constructor(data) {
     super(data);
 

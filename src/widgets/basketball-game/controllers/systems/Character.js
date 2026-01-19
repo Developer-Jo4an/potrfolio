@@ -1,26 +1,29 @@
-import System from "../../../../shared/scene/ecs/core/System";
-import EventComponent from "../../../../shared/scene/ecs/base/components/EventComponent";
-import Body from "../../../../shared/scene/ecs/rapier/components/Body";
-import ThreeComponent from "../../../../shared/scene/ecs/three/components/ThreeComponent";
-import GSAPTween from "../../../../shared/scene/ecs/base/components/tween/GSAPTween";
-import Matrix4Component from "../../../../shared/scene/ecs/base/components/transform/Matrix4Component";
-import State from "../../../../shared/scene/ecs/base/components/state/State";
-import Mixer from "../../../../shared/scene/ecs/three/components/Mixer";
-import Entity from "../../../../shared/scene/ecs/core/Entity";
-import Orbit from "../components/Orbit";
+import {Orbit} from "../components/Orbit";
+import {
+  Entity,
+  System,
+  Mixer,
+  Matrix4Component,
+  GSAPTween,
+  ThreeComponent,
+  Body,
+  EventComponent,
+  add,
+  resetMatrix,
+  getIsDebug,
+  createAnimationFrame,
+  DRAG_END,
+  DRAG_MOVE,
+  DRAG_START,
+  PI2
+} from "@shared";
 import {clamp, random, upperFirst} from "lodash";
-import {createAnimationFrame} from "../../../../shared/lib/src/browserApi/frames";
-import returnCharacterToInitialPositionTween from "../../utils/animations/returnCharacterToInitialPositionTween";
-import teleportActorToInitialPositionTween from "../../utils/animations/teleportActorToInitialPositionTween";
-import extraLifeTrailTween from "../../utils/animations/extraLifeTrailTween";
-import extraLifePulseTween from "../../utils/animations/extrLifePulseTween";
-import x2ViewTween from "../../utils/animations/x2ViewTween";
-import add from "../../../../shared/scene/ecs/three/side-effects/add";
-import resetMatrix from "../../../../shared/scene/ecs/three/side-effects/resetMatrix";
-import getIsDebug from "../../../../shared/lib/src/debug/debug";
-import gsap from "gsap";
+import {returnCharacterToInitialPositionTween} from "../../utils/animations/returnCharacterToInitialPositionTween";
+import {teleportActorToInitialPositionTween} from "../../utils/animations/teleportActorToInitialPositionTween";
+import {extraLifeTrailTween} from "../../utils/animations/extraLifeTrailTween";
+import {extraLifePulseTween} from "../../utils/animations/extrLifePulseTween";
+import {x2ViewTween} from "../../utils/animations/x2ViewTween";
 import {CHARACTER} from "../../constants/character";
-import {DRAG_END, DRAG_MOVE, DRAG_START} from "../../../../shared/constants/src/events/eventsNames";
 import {CLEAR_HIT, COLLISION_START, GET_INFO, LOSE, MISS, THROWN, WIN} from "../../constants/events";
 import {GROUND} from "../../constants/ground";
 import {TWEENS} from "../../constants/tweens";
@@ -30,9 +33,9 @@ import {BASKETBALL, GAME} from "../../constants/game";
 import {LOSE as LOSE_STATE, WIN as WIN_STATE} from "../../constants/stateMachine";
 import {EXTRA_LIFE, X2} from "../../constants/boosters";
 import {X2VIEW} from "../../constants/x2View";
-import {PI2} from "../../../../shared/constants/src/trigonometry/trigonometry";
+import {State} from "@/shared/scene/src/ecs/base/components/state/State"; //TODO: поправить импорт
 
-export default class Character extends System {
+export class Character extends System {
 
   uuid = UUIDS.character;
 

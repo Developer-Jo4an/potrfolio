@@ -1,6 +1,5 @@
-import {image} from "../../../../shared/lib/src/image/url";
+import {image} from "@shared";
 import {random} from "lodash";
-import gsap from "gsap";
 import {TWEENS} from "../../constants/tweens";
 import {BASKETBALL} from "../../constants/game";
 
@@ -24,7 +23,7 @@ const settings = {
   ease: "sine.inOut"
 };
 
-export default function extraLifeTrailTween(bounding, parent) {
+export function extraLifeTrailTween(bounding, parent) {
   const nodes = createNodes(bounding, parent);
   const duration = settings.vectorLength / settings.speed;
 

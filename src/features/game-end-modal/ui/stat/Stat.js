@@ -1,8 +1,8 @@
-import {Image} from "../../../../shared/ui/image";
+import {Image} from "@shared";
 import {isNil} from "lodash";
 import styles from "./Stat.module.scss";
 
-export default function Stat({label, value, mod, img}) {
+export function Stat({label, value, mod, img}) {
   return (
     <div className={styles.stat} data-mod={mod}>
       <p className={styles.statName}>{`${label}:`}</p>

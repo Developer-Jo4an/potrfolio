@@ -1,4 +1,4 @@
-export default function getVerticesWithDeep(object) {
+export function getVerticesWithDeep(object) {
   const vertices = [];
   const indexes = [];
   let indexOffset = 0;

@@ -1,5 +1,5 @@
 //canvas должен быть во всю ширину и высоту экрана, иначе придется вызывать getBoundingClientRect, а это дорого
-export default function getIsInsideCanvas(bounds, canvas) {
+export function getIsInsideCanvas(bounds, canvas) {
   return !(
     bounds.minX > canvas.offsetWidth
     ||

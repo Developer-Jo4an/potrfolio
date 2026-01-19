@@ -1,4 +1,4 @@
-import BasePhysicsEntity from "../base/BasePhysicsEntity";
+import {BasePhysicsEntity} from "../base/BasePhysicsEntity";
 import {cloneDeep} from "lodash";
 import {COLLISION_FILTERS} from "../../../constants/collision";
 

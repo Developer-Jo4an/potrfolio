@@ -1,13 +1,13 @@
 import {motion} from "framer-motion";
 import cl from "classnames";
-import {useDisposableClick} from "../../../../../shared/model/src/hooks/useDisposableClick";
-import useIsCanInteractive from "../../model/hooks/useIsCanInteractive";
-import useModalStore from "../../model/state-manager/stores/modalStore";
+import {useDisposableClick} from "@shared";
+import {useIsCanInteractive} from "../../model/hooks/useIsCanInteractive";
+import {useModalStore} from "../../model/state-manager/stores/modalStore";
 import {modals} from "../../constants/modals";
 import {ANIMATION_NAMES, backgroundAnimations, containerAnimations} from "../../constants/animations";
 import styles from "./ModalContainer.module.scss";
 
-export default function ModalContainer(
+export function ModalContainer(
   {
     type,
     props,

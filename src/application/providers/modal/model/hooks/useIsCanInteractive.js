@@ -1,6 +1,6 @@
 import {useState} from "react";
 
-export default function useIsCanInteractive() {
+export function useIsCanInteractive() {
   const [animationCount, setAnimationCount] = useState(0);
 
   return {

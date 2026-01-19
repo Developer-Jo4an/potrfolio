@@ -1,4 +1,4 @@
-@use "constants" as constants;
+@use "@/application/styles/constants" as constants;
 
 @mixin hover {
   @media(hover: hover) {

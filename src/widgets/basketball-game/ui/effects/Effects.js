@@ -1,8 +1,7 @@
 import {useEffect, useImperativeHandle, useRef, useState} from "react";
-import Image from "../../../../shared/ui/image/ui/main/Image";
-import eventSubscription from "../../../../shared/lib/src/events/eventListener";
-import hitTween from "../../utils/animations/hitTween";
-import useBasketballStore from "../../model/state-manager/basketballStore";
+import {hitTween} from "../../utils/animations/hitTween";
+import {eventSubscription, Image} from "@shared";
+import {useBasketballStore} from "../../model/state-manager/basketballStore";
 import {CLEAR_HIT, MISS} from "../../constants/events";
 import content from "../../constants/content";
 import {BASKETBALL} from "../../constants/game";
@@ -11,7 +10,7 @@ import styles from "./Effects.module.scss";
 
 const {effects: {clearHit, miss}} = content;
 
-export default function Effects({ref}) {
+export function Effects({ref}) {
   const {wrapper, state} = useBasketballStore();
   const [{isVisibleClearHitEffect, isVisibleMissEffect}, setVisibleEffects] = useState({
     isVisibleClearHitEffect: false,

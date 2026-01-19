@@ -1,15 +1,22 @@
-import System from "../../../../shared/scene/ecs/core/System";
-import ThreeComponent from "../../../../shared/scene/ecs/three/components/ThreeComponent";
-import EventComponent from "../../../../shared/scene/ecs/base/components/EventComponent";
-import State from "../../../../shared/scene/ecs/base/components/state/State";
-import eventSubscription from "../../../../shared/lib/src/events/eventListener";
-import getEventPosition from "../../../../shared/lib/src/events/eventPosition";
-import {createAnimationFrame} from "../../../../shared/lib/src/browserApi/frames";
+import {
+  getEventPosition,
+  createAnimationFrame,
+  eventSubscription,
+  System,
+  ThreeComponent,
+  EventComponent,
+  DRAG_END,
+  DRAG_MOVE,
+  DRAG_START,
+  END,
+  MOVE,
+  START
+} from "@shared";
 import {CHARACTER} from "../../constants/character";
-import {DRAG_END, DRAG_MOVE, DRAG_START, END, MOVE, START} from "../../../../shared/constants/src/events/eventsNames";
 import {GAME} from "../../constants/game";
+import {State} from "@/shared/scene/src/ecs/base/components/state/State"; //TODO: поправить импорт
 
-export default class Interactive extends System {
+export class Interactive extends System {
   constructor() {
     super(...arguments);
 

@@ -1,32 +1,33 @@
-import ThreeController from "../../../shared/scene/controllers/three/ThreeController";
-import Engine from "../../../shared/scene/ecs/core/Engine";
-import Assets from "../../../shared/scene/ecs/base/systems/Assets";
-import Factory from "./Factory";
-import Collector from "../../../shared/scene/ecs/base/systems/Collector";
-import Game from "./systems/Game";
-import Level from "./systems/Level";
-import Camera from "./systems/Camera";
-import DebugRenderer from "../../../shared/scene/debug/rapier/DebugRenderer";
-import ThreeRapierRenderSystem from "../../../shared/scene/ecs/three/systems/ThreeRapierRenderSystem";
-import Event from "./systems/Event";
-import Interactive from "./systems/Interactive";
-import Character from "./systems/Character";
-import Light from "./systems/Light";
-import Collision from "./systems/Collision";
-import CameraFlying from "../../../shared/scene/debug/three/CameraFlying";
-import Effect from "./systems/Effect";
-import gsap from "gsap";
-import getIsDebug from "../../../shared/lib/src/debug/debug";
-import eventSubscription from "../../../shared/lib/src/events/eventListener";
-import gameSpaceStore from "../model/storages/gameSpace";
-import {analysis} from "../../../shared/scene/analytics/Analytics";
-import {UPDATED} from "../../../shared/scene/constants/events/names";
-import {RESIZE} from "../../../shared/constants/src/events/eventsNames";
-import {UPDATE_DECORATOR_FIELD} from "../../../shared/scene/constants/decorators/names";
+import {BasketballFactory} from "./Factory";
+import {Game} from "./systems/Game";
+import {Level} from "./systems/Level";
+import {Camera} from "./systems/Camera";
+import {Event} from "./systems/Event";
+import {Interactive} from "./systems/Interactive";
+import {Character} from "./systems/Character";
+import {Light} from "./systems/Light";
+import {Collision} from "./systems/Collision";
+import {Effect} from "./systems/Effect";
+import {gameSpaceStore} from "../model/storages/gameSpace";
 import {NOT_AVAILABLE_ENTITIES_TYPES_FOR_RESET} from "../constants/reset";
 import {BASKETBALL} from "../constants/game";
+import {
+  UPDATE_DECORATOR_FIELD,
+  RESIZE,
+  UPDATED,
+  analysis,
+  eventSubscription,
+  getIsDebug,
+  CameraFlying,
+  ThreeRapierRenderSystem,
+  DebugRenderer,
+  Collector,
+  Assets,
+  ThreeController,
+  Engine
+} from "@shared";
 
-export default class Controller extends ThreeController {
+export class Controller extends ThreeController {
   constructor() {
     super(...arguments);
 
@@ -82,7 +83,7 @@ export default class Controller extends ThreeController {
     storage.eventQueue = new RAPIER3D.EventQueue(true);
 
     engine
-    .addSystem(new Assets({eventBus, storage, factory: new Factory({eventBus, storage})}))
+    .addSystem(new Assets({eventBus, storage, factory: new BasketballFactory({eventBus, storage})}))
     .addSystem(new Level({eventBus, storage}))
     .addSystem(new Interactive({eventBus, storage}))
     .addSystem(new Collision({eventBus, storage}))

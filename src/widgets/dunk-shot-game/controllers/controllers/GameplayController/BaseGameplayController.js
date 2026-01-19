@@ -1,5 +1,5 @@
-import BaseController from "../BaseController/BaseController";
-import {gsapTimeout} from "../../../../../shared/lib/src/gsap/helpers";
+import {BaseController} from "../BaseController/BaseController";
+import {gsapTimeout} from "@shared";
 import {dunkShotFactory} from "../../factory/DunkShotFactory";
 import {dunkShotUtils} from "../../utils/DunkShotUtils";
 import {dunkShotAnimationPlayer} from "../../animations/DunkShotAnimationPlayer";
@@ -7,9 +7,8 @@ import {DUNK_SHOT_TWEEN} from "../../../constants";
 import {ACTIVE, INACTIVE, NEXT, TO_DOWN} from "../../../constants/statuses";
 import {HIDDEN} from "../../../constants/modes";
 import {BASKET_TIMER_END, BASKET_TIMER_START, BASKET_TIMER_UPDATE, PROGRESS_RESET} from "../../../constants/events";
-import gsap from "gsap";
 
-export default class BaseGameplayController extends BaseController {
+export class BaseGameplayController extends BaseController {
   constructor(data) {
     super(data);
   }
