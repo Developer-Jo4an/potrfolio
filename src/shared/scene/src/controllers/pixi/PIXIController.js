@@ -12,7 +12,7 @@ import {
   PERFORMANCE_DECORATOR_FIELD,
   RESIZE_DECORATOR_FIELD,
   STATE_DECORATOR_FIELD,
-  UPDATE_DECORATOR_FIELD
+  UPDATE_DECORATOR_FIELD,
 } from "../../constants/decorators/names";
 
 export class PIXIController extends BaseController {
@@ -25,17 +25,16 @@ export class PIXIController extends BaseController {
   }
 
   static async loadRenderer() {
-    if (this._loadRendererPromise)
-      return this._loadRendererPromise;
+    if (this._loadRendererPromise) return this._loadRendererPromise;
     const renderer = new PIXI.WebGLRenderer();
-    this._loadRendererPromise = await renderer.init(PIXI_APP_CONFIG).then(() => this.renderer = renderer);
+    this._loadRendererPromise = await renderer.init(PIXI_APP_CONFIG).then(() => (this.renderer = renderer));
   }
 
   DECORATORS = [
     {DecoratorClass: PIXIUpdate, decoratorField: UPDATE_DECORATOR_FIELD},
     {DecoratorClass: PixiResize, decoratorField: RESIZE_DECORATOR_FIELD},
     {DecoratorClass: State, decoratorField: STATE_DECORATOR_FIELD},
-    getIsDebug() && {DecoratorClass: Performance, decoratorField: PERFORMANCE_DECORATOR_FIELD}
+    getIsDebug() && {DecoratorClass: Performance, decoratorField: PERFORMANCE_DECORATOR_FIELD},
   ].filter(Boolean);
 
   decorators = {};
@@ -73,8 +72,7 @@ export class PIXIController extends BaseController {
   async initScene() {
     await this.initRenderer();
     await this.initApp();
-    if (getIsDebug())
-      await this.initDevTools();
+    if (getIsDebug()) await this.initDevTools();
   }
 
   async initRenderer() {
@@ -82,11 +80,11 @@ export class PIXIController extends BaseController {
   }
 
   async initApp() {
-    const app = this.app = {};
+    const app = (this.app = {});
 
     app.renderer = this.renderer;
 
-    const stage = app.stage = new PIXI.Container();
+    const stage = (app.stage = new PIXI.Container());
     stage.isStage = true;
 
     app.ticker = new PIXI.Ticker();
@@ -107,7 +105,7 @@ export class PIXIController extends BaseController {
       DECORATORS.map(({DecoratorClass, decoratorField}) => {
         const decorator = (decorators[decoratorField] = new DecoratorClass(fullData));
         return decorator.initDecorator();
-      })
+      }),
     );
   }
 
@@ -130,16 +128,13 @@ export class PIXIController extends BaseController {
     }
   }
 
-  onResized() {
-
-  }
+  onResized() {}
 
   onUpdated() {
     const {decorators, renderer, stage} = this;
 
     renderer.render(stage);
 
-    if (decorators[PERFORMANCE_DECORATOR_FIELD])
-      decorators[PERFORMANCE_DECORATOR_FIELD].update();
+    if (decorators[PERFORMANCE_DECORATOR_FIELD]) decorators[PERFORMANCE_DECORATOR_FIELD].update();
   }
 }
