@@ -24,6 +24,8 @@ export class ThreeController extends BaseController {
 
   decorators = {};
 
+  //TODO: сделать инстанс одного WebGlRenderer-а
+
   static get canvas() {
     return (this._canvas ??= document.createElement("canvas"));
   }
