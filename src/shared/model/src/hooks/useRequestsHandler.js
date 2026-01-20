@@ -3,7 +3,7 @@ import {isFunction} from "lodash";
 import axios from "axios";
 import {PENDING, REJECTED, FULFILLED} from "../../../constants";
 
-export function useRequestsHandler(handlers) {
+export function useRequestsHandler(handlers = []) {
   const [requestStatuses, setRequestStatuses] = useState({});
 
   const pendingData = (() => {

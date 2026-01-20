@@ -18,6 +18,10 @@ export class BaseWrapper {
     this.controller ??= new BaseController({...data, eventBus});
   }
 
+  appendContainer($container) {
+    this.controller.appendContainer($container);
+  }
+
   async initController() {
     const {controller, isInitialized} = this;
 

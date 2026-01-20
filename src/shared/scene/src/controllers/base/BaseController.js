@@ -13,9 +13,15 @@ export class BaseController {
     await this.initMainSceneSettings();
   }
 
-  async loadAssets() {}
+  appendContainer($container) {
+    this.$container = $container;
+  }
 
-  async initScene() {}
+  async loadAssets() {
+  }
+
+  async initScene() {
+  }
 
   async initMainSceneSettings() {
     const {storage, mainSceneSettings} = this;

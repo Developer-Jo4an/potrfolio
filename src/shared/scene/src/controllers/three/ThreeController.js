@@ -132,8 +132,9 @@ export class ThreeController extends BaseController {
   }
 
   appendContainer($container) {
+    super.appendContainer($container);
     const {canvas} = this;
-    (this.$container = $container).appendChild(canvas);
+    $container.appendChild(canvas);
   }
 
   onResized() {

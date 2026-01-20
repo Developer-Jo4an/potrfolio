@@ -1,6 +1,6 @@
 import {AppState as State} from "../../decorators/app-state/AppState";
 import {BaseController} from "../base/BaseController";
-import {Resize} from "../../decorators/resize/Resize";
+import {PixiResize} from "../../decorators/pixi/resize/PixiResize";
 import {Performance} from "../../decorators/performance/Performance";
 import {PIXIUpdate} from "../../decorators/pixi/update/PIXIUpdate";
 import {getIsDebug} from "../../../../lib";
@@ -12,30 +12,36 @@ import {
   PERFORMANCE_DECORATOR_FIELD,
   RESIZE_DECORATOR_FIELD,
   STATE_DECORATOR_FIELD,
-  UPDATE_DECORATOR_FIELD,
+  UPDATE_DECORATOR_FIELD
 } from "../../constants/decorators/names";
 
 export class PIXIController extends BaseController {
+  static get renderer() {
+    return this._renderer;
+  }
+
+  static set renderer(renderer) {
+    this._renderer = renderer;
+  }
+
+  static async loadRenderer() {
+    if (this._loadRendererPromise)
+      return this._loadRendererPromise;
+    const renderer = new PIXI.WebGLRenderer();
+    this._loadRendererPromise = await renderer.init(PIXI_APP_CONFIG).then(() => this.renderer = renderer);
+  }
+
   DECORATORS = [
     {DecoratorClass: PIXIUpdate, decoratorField: UPDATE_DECORATOR_FIELD},
-    {DecoratorClass: Resize, decoratorField: RESIZE_DECORATOR_FIELD},
+    {DecoratorClass: PixiResize, decoratorField: RESIZE_DECORATOR_FIELD},
     {DecoratorClass: State, decoratorField: STATE_DECORATOR_FIELD},
-    getIsDebug() && {DecoratorClass: Performance, decoratorField: PERFORMANCE_DECORATOR_FIELD},
+    getIsDebug() && {DecoratorClass: Performance, decoratorField: PERFORMANCE_DECORATOR_FIELD}
   ].filter(Boolean);
 
   decorators = {};
 
-  static get canvas() {
-    return (this._canvas ??= document.createElement("canvas"));
-  }
-
-  static get context() {
-    const {canvas} = this;
-    return (this._context ??= canvas.getContext("webgl2", {stencil: true}));
-  }
-
   get canvas() {
-    return PIXIController.canvas;
+    return this.renderer.canvas;
   }
 
   get stage() {
@@ -43,7 +49,7 @@ export class PIXIController extends BaseController {
   }
 
   get renderer() {
-    return this.app.renderer;
+    return PIXIController.renderer;
   }
 
   get ticker() {
@@ -61,6 +67,57 @@ export class PIXIController extends BaseController {
   async init() {
     await super.init();
     await this.initDecorators();
+    this.prepare();
+  }
+
+  async initScene() {
+    await this.initRenderer();
+    await this.initApp();
+    if (getIsDebug())
+      await this.initDevTools();
+  }
+
+  async initRenderer() {
+    await PIXIController.loadRenderer();
+  }
+
+  async initApp() {
+    const app = this.app = {};
+
+    app.renderer = this.renderer;
+
+    const stage = app.stage = new PIXI.Container();
+    stage.isStage = true;
+
+    app.ticker = new PIXI.Ticker();
+  }
+
+  async initDevTools() {
+    const {renderer, stage} = this;
+    await initDevtools({renderer, stage});
+    globalThis.__PIXI_RENDERER__ = renderer;
+    globalThis.__PIXI_STAGE__ = stage;
+  }
+
+  initDecorators() {
+    const {DECORATORS, decorators, app, ticker, renderer, eventBus, stage, stateMachine, canvas, $container} = this;
+    const fullData = {app, ticker, renderer, eventBus, stage, stateMachine, canvas, $container};
+
+    return Promise.all(
+      DECORATORS.map(({DecoratorClass, decoratorField}) => {
+        const decorator = (decorators[decoratorField] = new DecoratorClass(fullData));
+        return decorator.initDecorator();
+      })
+    );
+  }
+
+  prepare() {
+    const {$container, canvas} = this;
+
+    $container.appendChild(canvas);
+
+    const resizeDecorator = this.decorators[RESIZE_DECORATOR_FIELD];
+    resizeDecorator.onResized();
   }
 
   async loadAssets() {
@@ -73,38 +130,16 @@ export class PIXIController extends BaseController {
     }
   }
 
-  async initScene() {
-    const {$container, settings} = this;
-    const {canvas, context} = PIXIController;
+  onResized() {
 
-    const app = (this.app = new PIXI.Application());
-    await app.init({...PIXI_APP_CONFIG, resizeTo: $container, canvas, context, ...settings});
-    await initDevtools({app});
-    globalThis.__PIXI_APP__ = app;
   }
-
-  initDecorators() {
-    const {DECORATORS, decorators, app, ticker, renderer, eventBus, stage, stateMachine, canvas, $container} = this;
-    const fullData = {app, ticker, renderer, eventBus, stage, stateMachine, canvas, $container};
-
-    return Promise.all(
-      DECORATORS.map(({DecoratorClass, decoratorField}) => {
-        const decorator = (decorators[decoratorField] = new DecoratorClass(fullData));
-        return decorator.initDecorator();
-      }),
-    );
-  }
-
-  appendContainer($container) {
-    const {canvas} = PIXIController;
-
-    (this.$container = $container).appendChild(canvas);
-  }
-
-  onResized() {}
 
   onUpdated() {
-    const {decorators} = this;
-    if (decorators[PERFORMANCE_DECORATOR_FIELD]) decorators[PERFORMANCE_DECORATOR_FIELD].update();
+    const {decorators, renderer, stage} = this;
+
+    renderer.render(stage);
+
+    if (decorators[PERFORMANCE_DECORATOR_FIELD])
+      decorators[PERFORMANCE_DECORATOR_FIELD].update();
   }
 }

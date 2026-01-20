@@ -20,7 +20,7 @@ import {
   Collector,
   PixiRenderSystem,
   Assets,
-  PIXIController,
+  PIXIController
 } from "@shared";
 
 export class Controller extends PIXIController {
@@ -42,8 +42,8 @@ export class Controller extends PIXIController {
       target: eventBus,
       callbacksBus: [
         {event: UPDATED, callback: this.onUpdated},
-        {event: RESIZE, callback: this.onResized},
-      ],
+        {event: RESIZE, callback: this.onResized}
+      ]
     });
   }
 
@@ -73,23 +73,23 @@ export class Controller extends PIXIController {
     storage.renderer = renderer;
 
     engine
-      .addSystem(new Assets({eventBus, storage, factory: new CarFactory({eventBus, storage})}))
-      .addSystem(new Game({eventBus, storage}))
-      .addSystem(new Input({eventBus, storage}))
-      .addSystem(new Level({eventBus, storage}))
-      .addSystem(new Movement({eventBus, storage}))
-      .addSystem(new Collision({eventBus, storage}))
-      .addSystem(new PixiRenderSystem({eventBus, storage}))
-      .addSystem(new Camera({eventBus, storage}))
-      .addSystem(new Event({eventBus, storage}))
-      .addSystem(new Collector({eventBus, storage}));
+    .addSystem(new Assets({eventBus, storage, factory: new CarFactory({eventBus, storage})}))
+    .addSystem(new Game({eventBus, storage}))
+    .addSystem(new Input({eventBus, storage}))
+    .addSystem(new Level({eventBus, storage}))
+    .addSystem(new Movement({eventBus, storage}))
+    .addSystem(new Collision({eventBus, storage}))
+    .addSystem(new PixiRenderSystem({eventBus, storage}))
+    .addSystem(new Camera({eventBus, storage}))
+    .addSystem(new Event({eventBus, storage}))
+    .addSystem(new Collector({eventBus, storage}));
   }
 
   updateEngine({deltaMS, deltaTime}) {
     const {
       storage: {states},
       state,
-      engine,
+      engine
     } = this;
     if (states[state]?.isAvailableUpdate) engine.update({deltaMS, deltaTime});
   }
@@ -102,7 +102,7 @@ export class Controller extends PIXIController {
   onResized() {
     const {
       stage,
-      $container: {offsetWidth: width, offsetHeight: height},
+      $container: {offsetWidth: width, offsetHeight: height}
     } = this;
     const scale = height / GAME_SIZE.height;
     stage.scale.set(scale);
@@ -117,8 +117,8 @@ export class Controller extends PIXIController {
     const {storage} = this;
     const {
       gameSpace: {
-        serviceData: {clearFunctions},
-      },
+        serviceData: {clearFunctions}
+      }
     } = storage;
     clearFunctions.forEach((clear) => clear());
     clearFunctions.length = 0;
