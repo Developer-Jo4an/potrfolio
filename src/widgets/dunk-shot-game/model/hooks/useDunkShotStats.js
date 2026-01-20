@@ -12,7 +12,7 @@ export function useDunkShotStats() {
     setDunkShotStory,
     setDunkShotProgress,
     setDunkShotPure,
-    setDunkShotState
+    setDunkShotState,
   } = useDunkShotStore();
 
   useEffect(() => {
@@ -24,21 +24,24 @@ export function useDunkShotStats() {
       target: eventBus,
       callbacksBus: [
         {
-          event: THROW_HIT, callback() {
+          event: THROW_HIT,
+          callback() {
             setDunkShotScore({action: ADD});
             setDunkShotStory({action: ADD, data: {value: true}});
-          }
+          },
         },
         {
-          event: THROW_PURE, callback() {
+          event: THROW_PURE,
+          callback() {
             setDunkShotProgress({action: ADD});
             setDunkShotPure({action: ADD});
-          }
+          },
         },
         {
-          event: PROGRESS_RESET, callback() {
+          event: PROGRESS_RESET,
+          callback() {
             setDunkShotProgress({action: SET, data: {value: 0}});
-          }
+          },
         },
         {
           event: STATE_CHANGED,
@@ -49,9 +52,9 @@ export function useDunkShotStats() {
             }
 
             setDunkShotState(state);
-          }
-        }
-      ]
+          },
+        },
+      ],
     });
   }, [wrapper]);
-};
+}

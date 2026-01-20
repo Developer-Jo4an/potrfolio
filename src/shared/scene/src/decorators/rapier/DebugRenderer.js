@@ -1,7 +1,6 @@
 import {BaseDecorator} from "../base/BaseDecorator";
 
 export class DebugRenderer extends BaseDecorator {
-
   _isActive = false;
 
   constructor(data) {
@@ -18,12 +17,13 @@ export class DebugRenderer extends BaseDecorator {
     if (isActive === this._isActive) {
       console.warn("isActive is equal this._isActive", `isActive: ${isActive}`);
       return;
-    } else
-      this._isActive = isActive;
-    const {storage: {scene}, mesh} = this;
+    } else this._isActive = isActive;
+    const {
+      storage: {scene},
+      mesh,
+    } = this;
     if (isActive) {
-      if (!mesh)
-        this.mesh = this.initMesh();
+      if (!mesh) this.mesh = this.initMesh();
       scene.add(this.mesh);
       this.update();
     } else {
@@ -36,7 +36,7 @@ export class DebugRenderer extends BaseDecorator {
   initMesh() {
     const mesh = new THREE.LineSegments(
       new THREE.BufferGeometry(),
-      new THREE.LineBasicMaterial({color: 0xffffff, vertexColors: true})
+      new THREE.LineBasicMaterial({color: 0xffffff, vertexColors: true}),
     );
 
     mesh.frustumCulled = false;
@@ -45,7 +45,10 @@ export class DebugRenderer extends BaseDecorator {
   }
 
   update() {
-    const {mesh, storage: {world}} = this;
+    const {
+      mesh,
+      storage: {world},
+    } = this;
 
     const {vertices, colors} = world.debugRender();
     mesh.geometry.setAttribute("position", new THREE.BufferAttribute(vertices, 3));

@@ -13,58 +13,27 @@ import {State} from "@/shared/scene/src/ecs/base/components/state/State"; //TODO
 import {Collection} from "@/shared/scene/src/ecs/base/components/data/Collection"; //TODO: поправить импорт
 
 export const types = {
-  [GAME]: {
-    components: [
-      {Class: State, props: {states: CAR_STATE_MACHINE}},
-      {Class: Game}
-    ]
-  },
+  [GAME]: {components: [{Class: State, props: {states: CAR_STATE_MACHINE}}, {Class: Game}]},
   [CHARACTER]: {
     components: [
       {Class: PixiComponent},
       {Class: Matrix3Component},
       {Class: State, props: {states: characterStates, state: getDefaultState(characterStates)}},
       {Class: Collection},
-      {Class: Collider}
-    ]
+      {Class: Collider},
+    ],
   },
-  [MAIN_CONTAINER]: {
-    components: [
-      {Class: PixiComponent},
-      {Class: Matrix3Component},
-      {Class: Collection}
-    ]
-  },
-  [ROAD_CHUNKS_CONTAINER]: {
-    components: [
-      {Class: PixiComponent},
-      {Class: Matrix3Component},
-      {Class: Collection}
-    ]
-  },
+  [MAIN_CONTAINER]: {components: [{Class: PixiComponent}, {Class: Matrix3Component}, {Class: Collection}]},
+  [ROAD_CHUNKS_CONTAINER]: {components: [{Class: PixiComponent}, {Class: Matrix3Component}, {Class: Collection}]},
   [ROAD_CHUNK]: {
     components: [
       {Class: PixiComponent},
       {Class: Chunk},
       {Class: Collection},
       {Class: Matrix3Component},
-      {Class: Collider}
-    ]
+      {Class: Collider},
+    ],
   },
-  [BONUS]: {
-    components: [
-      {Class: PixiComponent},
-      {Class: Collection},
-      {Class: Matrix3Component},
-      {Class: Collider}
-    ]
-  },
-  [SPIKE]: {
-    components: [
-      {Class: PixiComponent},
-      {Class: Collection},
-      {Class: Matrix3Component},
-      {Class: Collider}
-    ]
-  }
+  [BONUS]: {components: [{Class: PixiComponent}, {Class: Collection}, {Class: Matrix3Component}, {Class: Collider}]},
+  [SPIKE]: {components: [{Class: PixiComponent}, {Class: Collection}, {Class: Matrix3Component}, {Class: Collider}]},
 };

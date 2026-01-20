@@ -18,13 +18,12 @@ export function useMouseTrail({isActive}) {
     const initializationPromise = initialization();
 
     return () => {
-      initializationPromise.then(() => MouseTrailWrapper.instance.isActive = false);
+      initializationPromise.then(() => (MouseTrailWrapper.instance.isActive = false));
     };
   }, []);
 
   useEffect(() => {
-    if (wrapper)
-      wrapper.isActive = isActive;
+    if (wrapper) wrapper.isActive = isActive;
   }, [wrapper, isActive]);
 
   return containerRef;

@@ -86,17 +86,12 @@ export * from "./src/model/hooks/useResetScene";
 export * from "./src/model/hooks/useStateController";
 export * from "./src/model/hooks/useStateControls";
 
-export * from "./src/performance/ecs/ECSPlugin"
-export * from "./src/performance/scene/FactoryPlugin"
-export * from "./src/performance/threejs/ThreePlugin"
+export * from "./src/performance/ecs/ECSPlugin";
+export * from "./src/performance/scene/FactoryPlugin";
+export * from "./src/performance/threejs/ThreePlugin";
 
-export * from "./src/utils/GameUtils"
+export * from "./src/utils/GameUtils";
 
-export * from "./src/wrappers/base/BaseWrapper"
-export * from "./src/wrappers/pixi/PixiWrapper"
-export * from "./src/wrappers/three/ThreeWrapper"
-
-
-
-
-
+export * from "./src/wrappers/base/BaseWrapper";
+export * from "./src/wrappers/pixi/PixiWrapper";
+export * from "./src/wrappers/three/ThreeWrapper";

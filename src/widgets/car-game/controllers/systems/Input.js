@@ -15,15 +15,19 @@ export class Input extends System {
   }
 
   initEvents() {
-    const {storage: {gameSpace: {serviceData: {clearFunctions}}}} = this;
+    const {
+      storage: {
+        gameSpace: {
+          serviceData: {clearFunctions},
+        },
+      },
+    } = this;
 
-    clearFunctions.push(eventSubscription({
-      callbacksBus: [{
-        event: CLICK_ON_WINDOW,
-        callback: this.onClick,
-        options: {passive: true, capture: true}
-      }]
-    }));
+    clearFunctions.push(
+      eventSubscription({
+        callbacksBus: [{event: CLICK_ON_WINDOW, callback: this.onClick, options: {passive: true, capture: true}}],
+      }),
+    );
   }
 
   onClick() {
@@ -32,7 +36,11 @@ export class Input extends System {
 
     if (gameStateComponent.state !== PLAYING) return;
 
-    const {storage: {gameSpace: {characterMovement}}} = this;
+    const {
+      storage: {
+        gameSpace: {characterMovement},
+      },
+    } = this;
     characterMovement.currentDirection = {[LEFT]: RIGHT, [RIGHT]: [LEFT]}[characterMovement.currentDirection];
   }
 }

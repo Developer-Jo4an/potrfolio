@@ -11,7 +11,7 @@ import styles from "./DunkShotStar.module.scss";
 
 export function DunkShotStar({topMenuEls}) {
   const {wrapper} = useDunkShotStore();
-  const [StarComponent, setStarComponent] = useState(<FaStar/>);
+  const [StarComponent, setStarComponent] = useState(<FaStar />);
 
   const elementRefs = useRef({stars: []});
 
@@ -33,23 +33,19 @@ export function DunkShotStar({topMenuEls}) {
             const {stars} = elementRefs.current;
             const {scoreIcon: to} = topMenuEls.current;
 
-            setStarComponent(isActiveX2 ? <TbStarsFilled/> : <FaStar/>);
+            setStarComponent(isActiveX2 ? <TbStarsFilled /> : <FaStar />);
 
             starAnimation(stars, from, to);
-          }
-        }
-      ]
+          },
+        },
+      ],
     });
   }, [wrapper, isActiveX2]);
 
   return (
     <>
       {createArrayWithMap(5, (_, i) => (
-        <div
-          key={i}
-          ref={ref => elementRefs.current.stars[i] = ref}
-          className={styles.star}
-        >
+        <div key={i} ref={(ref) => (elementRefs.current.stars[i] = ref)} className={styles.star}>
           {StarComponent}
         </div>
       ))}

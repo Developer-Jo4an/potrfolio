@@ -5,11 +5,5 @@ export function getEventPosition(e) {
   const normalizedX = (x / global.innerWidth) * 2 - 1;
   const normalizedY = -(y / global.innerHeight) * 2 + 1;
 
-  return {
-    x, y,
-    normalizedX,
-    normalizedY,
-    fromScreenX: x / global.innerWidth,
-    fromScreenY: y / global.innerHeight
-  };
+  return {x, y, normalizedX, normalizedY, fromScreenX: x / global.innerWidth, fromScreenY: y / global.innerHeight};
 }

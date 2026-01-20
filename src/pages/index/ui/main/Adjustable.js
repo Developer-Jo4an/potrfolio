@@ -5,7 +5,7 @@ import styles from "./Adjustable.module.scss";
 function Adjustable() {
   return (
     <div className={styles.adjustable}>
-      <GameCards/>
+      <GameCards />
     </div>
   );
 }

@@ -19,16 +19,11 @@ export function getVerticesWithDeep(object) {
 
       if (geometry.index) {
         const meshIndexes = geometry.index.array;
-        for (let i = 0; i < meshIndexes.length; i++)
-          indexes.push(meshIndexes[i] + indexOffset);
-      } else
-        for (let i = 0; i < positionAttr.count; i++)
-          indexes.push(i + indexOffset);
+        for (let i = 0; i < meshIndexes.length; i++) indexes.push(meshIndexes[i] + indexOffset);
+      } else for (let i = 0; i < positionAttr.count; i++) indexes.push(i + indexOffset);
       indexOffset += positionAttr.count;
     }
   });
 
-  return {
-    vertices, indexes
-  };
+  return {vertices, indexes};
 }

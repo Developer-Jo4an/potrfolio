@@ -42,11 +42,9 @@ export class System {
   /**
    * Инициализация системы
    */
-  init() {
-  }
+  init() {}
 
-  onRemove() {
-  }
+  onRemove() {}
 
   /**
    * Добавление очищаемого действия в систему
@@ -59,19 +57,14 @@ export class System {
   addSideEffect({entity, effect, name = uuidv4(), args = [], context = this}) {
     const collection = entity.getList(Collection)?.find(({group}) => group === "side-effects");
     if (!collection) return console.error("'side-effects' collection not found");
-    const prevEffect = collection.list.find(effect => effect.name === name);
+    const prevEffect = collection.list.find((effect) => effect.name === name);
     if (prevEffect) {
       prevEffect.cleanFunction?.();
       collection.list.splice(collection.list.indexOf(prevEffect), 1);
     }
 
     const cleanFunction = effect.apply(context, args);
-    collection.list.push({
-      name,
-      cleanFunction,
-      effect,
-      args
-    });
+    collection.list.push({name, cleanFunction, effect, args});
   }
 
   /**
@@ -105,7 +98,7 @@ export class System {
   }
 
   destroyEntitiesByTypes(types) {
-    return types.forEach(type => [...this.getEntitiesByType(type)?.list]?.forEach(entity => entity.destroy()));
+    return types.forEach((type) => [...this.getEntitiesByType(type)?.list]?.forEach((entity) => entity.destroy()));
   }
 
   /**
@@ -117,7 +110,7 @@ export class System {
   }
 
   getAllComponentsByClass(ComponentClass) {
-    return this.allComponents.filter(component => component instanceof ComponentClass);
+    return this.allComponents.filter((component) => component instanceof ComponentClass);
   }
 
   /** Хелпер для добавление компонента в сущность
@@ -167,28 +160,24 @@ export class System {
    * Ленивое обновление системы
    * @param {{deltaTime: number, totalTime: number}} data
    */
-  lazyUpdate(data) {
-  }
+  lazyUpdate(data) {}
 
   /**
    * Обновление системы
    * @param {{deltaTime: number, totalTime: number}} data
    */
-  update(data) {
-  }
+  update(data) {}
 
   /**
    * Сброс системы
    */
-  reset() {
-  }
+  reset() {}
 
   /**
    * Функция конфигурирования систем
    * @param settings
    */
-  configure(settings) {
-  }
+  configure(settings) {}
 
   getAsset(entity, name, extraData = {}) {
     const {eventBus} = this;

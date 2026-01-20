@@ -5,7 +5,6 @@ import {COLLISION_FILTERS} from "../../../constants/collision";
 import {INACTIVE} from "../../../constants/statuses";
 
 export class Spike extends BasePhysicsEntity {
-
   _status = INACTIVE;
 
   constructor(data) {
@@ -29,21 +28,37 @@ export class Spike extends BasePhysicsEntity {
   }
 
   initBody() {
-    const {storage: {mainSceneSettings: {spike: {body: {width, height, physicalSettings}}}}} = this;
+    const {
+      storage: {
+        mainSceneSettings: {
+          spike: {
+            body: {width, height, physicalSettings},
+          },
+        },
+      },
+    } = this;
 
-    const body = this.body = Matter.Bodies.rectangle(
-      0, 0, width, height,
-      {
-        ...cloneDeep(physicalSettings),
-        collisionFilter: cloneDeep(COLLISION_FILTERS.SPIKE)
-      }
-    );
+    const body = (this.body = Matter.Bodies.rectangle(0, 0, width, height, {
+      ...cloneDeep(physicalSettings),
+      collisionFilter: cloneDeep(COLLISION_FILTERS.SPIKE),
+    }));
   }
 
   initView() {
-    const {type, groups, storage: {mainSceneSettings: {spike: {textureTypes, view: {width, height}}}}} = this;
+    const {
+      type,
+      groups,
+      storage: {
+        mainSceneSettings: {
+          spike: {
+            textureTypes,
+            view: {width, height},
+          },
+        },
+      },
+    } = this;
 
-    const view = this.view ??= new PIXI.Sprite();
+    const view = (this.view ??= new PIXI.Sprite());
     view.label = type;
     groups.back.attach(view);
     view.texture = assetsManager.getAssetFromSpace(PIXI_SPACE, TEXTURE, textureTypes[type]);

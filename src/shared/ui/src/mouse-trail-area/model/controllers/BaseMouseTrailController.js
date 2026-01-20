@@ -6,7 +6,6 @@ import {trailTextureSrc} from "../../constants/assets";
 import {getEventPosition} from "../../../../../lib";
 
 export class BaseMouseTrailController {
-
   _isActive = false;
 
   _isInitialized = false;
@@ -85,7 +84,7 @@ export class BaseMouseTrailController {
   }
 
   async initApplication() {
-    const app = this.app = new PIXI.Application();
+    const app = (this.app = new PIXI.Application());
     await app.init({...sceneInitConfig, resizeTo: global});
     app.stage.eventMode = "static";
     app.stage.hitArea = app.screen;
@@ -93,7 +92,7 @@ export class BaseMouseTrailController {
   }
 
   async loadTrailTexture() {
-    const trailTexture = this.trailTexture = await PIXI.Assets.load(trailTextureSrc);
+    const trailTexture = (this.trailTexture = await PIXI.Assets.load(trailTextureSrc));
   }
 
   initEvents() {
@@ -101,8 +100,8 @@ export class BaseMouseTrailController {
       callbacksBus: [
         {event: MOVE, callback: this.onMove},
         {event: MOUSE_ENTER, callback: this.onEnter},
-        {event: TOUCH_START, callback: this.onEnter}
-      ]
+        {event: TOUCH_START, callback: this.onEnter},
+      ],
     });
   }
 
@@ -118,8 +117,7 @@ export class BaseMouseTrailController {
   onMove(e) {
     const {x, y} = getEventPosition(e);
 
-    if (!this.mousePosition)
-      this.mousePosition = {x, y};
+    if (!this.mousePosition) this.mousePosition = {x, y};
 
     const {mousePosition} = this;
 
@@ -132,8 +130,7 @@ export class BaseMouseTrailController {
 
     const {x, y} = getEventPosition(e);
 
-    if (!this.mousePosition)
-      this.mousePosition = {x, y};
+    if (!this.mousePosition) this.mousePosition = {x, y};
 
     const {mousePosition} = this;
 
@@ -160,7 +157,5 @@ export class BaseMouseTrailController {
     ticker.stop();
   }
 
-  update() {
-
-  }
+  update() {}
 }

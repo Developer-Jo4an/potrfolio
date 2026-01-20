@@ -165,8 +165,7 @@ export class Matrix4Component extends Component {
     } else if (isArray(value)) {
       const {x, y, z} = vector;
       vector.set(value[0] ?? x, value[1] ?? y, value[2] ?? z);
-    } else if (isNumber(value))
-      vector.set(value, value, value);
+    } else if (isNumber(value)) vector.set(value, value, value);
   }
 
   _setVector4(vector, value) {
@@ -176,8 +175,7 @@ export class Matrix4Component extends Component {
     } else if (isArray(value)) {
       const {x, y, z, w} = vector;
       vector.set(value[0] ?? x, value[1] ?? y, value[2] ?? z, value[3] ?? w);
-    } else if (isNumber(value))
-      vector.set(value, value, value, value);
+    } else if (isNumber(value)) vector.set(value, value, value, value);
   }
 
   destroy() {

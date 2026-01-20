@@ -4,17 +4,13 @@ export const PLAYING = "playing";
 export const PAUSED = "paused";
 
 export class LocalTimeline {
-  static statuses = {
-    playing: PLAYING,
-    paused: PAUSED
-  };
+  static statuses = {playing: PLAYING, paused: PAUSED};
 
   _spaces = {};
 
   static get instance() {
-    if (LocalTimeline._instance)
-      return LocalTimeline._instance;
-    const localTimeline = LocalTimeline._instance = new LocalTimeline();
+    if (LocalTimeline._instance) return LocalTimeline._instance;
+    const localTimeline = (LocalTimeline._instance = new LocalTimeline());
     localTimeline.register();
     return localTimeline;
   }
@@ -46,10 +42,7 @@ export class LocalTimeline {
     const {spaces} = this;
 
     if (!spaces[namespace]) {
-      spaces[namespace] = {
-        arr: [],
-        status: LocalTimeline.statuses.playing
-      };
+      spaces[namespace] = {arr: [], status: LocalTimeline.statuses.playing};
       console.log(`new gsap space created: ${namespace}`);
     }
   }
@@ -63,19 +56,19 @@ export class LocalTimeline {
   clear(namespace, toKill = true, progress = 0) {
     const tweens = this.getTweensByNamespace(namespace);
 
-    toKill && tweens.forEach(tween => {
-      tween.progress(progress);
-      this.killTween(tween);
-    });
+    toKill &&
+      tweens.forEach((tween) => {
+        tween.progress(progress);
+        this.killTween(tween);
+      });
 
     this.spaces[namespace].arr = [];
   }
 
-
   add(namespace, tween) {
     const currentStatus = this.getStatusByNamespace(namespace);
 
-    tween[({playing: "resume", paused: "pause"})[currentStatus]]?.();
+    tween[{playing: "resume", paused: "pause"}[currentStatus]]?.();
 
     const tweens = this.getTweensByNamespace(namespace);
 
@@ -85,21 +78,22 @@ export class LocalTimeline {
   isExist(namespace, id) {
     const tweens = this.getTweensByNamespace(namespace);
 
-    return tweens.some(tween => tween.tweenId === id);
+    return tweens.some((tween) => tween.tweenId === id);
   }
 
   getTweenByNamespaceAndId(namespace, id) {
     const tweens = this.getTweensByNamespace(namespace);
 
-    return tweens.find(tween => tween.tweenId === id);
+    return tweens.find((tween) => tween.tweenId === id);
   }
 
   delete(namespace, tween, toKill) {
     let tweens;
-    if (namespace)
-      tweens = this.getTweensByNamespace(namespace);
+    if (namespace) tweens = this.getTweensByNamespace(namespace);
     else {
-      const [namespaceId, currentSpace] = Object.entries(this.spaces).find(([, {arr}]) => arr.some(insideSpaceTween => insideSpaceTween === tween));
+      const [namespaceId, currentSpace] = Object.entries(this.spaces).find(([, {arr}]) =>
+        arr.some((insideSpaceTween) => insideSpaceTween === tween),
+      );
       tweens = currentSpace.arr;
       namespace = namespaceId;
     }
@@ -108,26 +102,26 @@ export class LocalTimeline {
 
     toKill && this.killTween(tween);
 
-    this.spaces[namespace].arr = tweens.filter(insideSpaceTween => insideSpaceTween !== tween);
+    this.spaces[namespace].arr = tweens.filter((insideSpaceTween) => insideSpaceTween !== tween);
   }
 
   discontinue(namespace, id, toKill = true, toComplete = false) {
     const tweens = this.getTweensByNamespace(namespace);
 
-    const necessaryTween = tweens.find(tween => tween.tweenId === id);
+    const necessaryTween = tweens.find((tween) => tween.tweenId === id);
 
     if (!necessaryTween) return;
 
     toComplete && necessaryTween.progress(1);
     toKill && this.killTween(necessaryTween);
 
-    this.spaces[namespace].arr = tweens.filter(insideSpaceTween => insideSpaceTween !== necessaryTween);
+    this.spaces[namespace].arr = tweens.filter((insideSpaceTween) => insideSpaceTween !== necessaryTween);
   }
 
   pause(namespace) {
     const tweens = this.getTweensByNamespace(namespace);
 
-    tweens.forEach(tween => tween.pause());
+    tweens.forEach((tween) => tween.pause());
 
     this.setStatus(namespace, LocalTimeline.statuses.paused);
   }
@@ -135,7 +129,7 @@ export class LocalTimeline {
   play(namespace) {
     const tweens = this.getTweensByNamespace(namespace);
 
-    tweens.forEach(tween => tween.resume());
+    tweens.forEach((tween) => tween.resume());
 
     this.setStatus(namespace, LocalTimeline.statuses.playing);
   }
@@ -146,8 +140,7 @@ export class LocalTimeline {
       return;
     }
 
-    if (tween.paused())
-      tween.resume();
+    if (tween.paused()) tween.resume();
 
     tween.kill();
     tween.isKilled = true;

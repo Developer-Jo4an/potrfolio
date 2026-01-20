@@ -4,10 +4,7 @@ import {GLTF, TEXTURE, THREE_SPACE} from "../../constants/loaders/assetsTypes";
 import {assetsManager} from "../../assets/AssetsManager";
 
 export class ThreeLoader extends BaseLoader {
-  LOADERS = {
-    [TEXTURE]: THREE.TextureLoader,
-    [GLTF]: THREE.GLTFLoader
-  };
+  LOADERS = {[TEXTURE]: THREE.TextureLoader, [GLTF]: THREE.GLTFLoader};
 
   async init(preload) {
     if (this.isInitialized) return;
@@ -19,13 +16,17 @@ export class ThreeLoader extends BaseLoader {
   }
 
   loadAssets(assets) {
-    return Promise.all(assets.map(({name, type, src}) => {
-      return this[`load${upperFirst(type)}`](name, src);
-    }));
+    return Promise.all(
+      assets.map(({name, type, src}) => {
+        return this[`load${upperFirst(type)}`](name, src);
+      }),
+    );
   }
 
   async loadTexture(name, src) {
-    const {loaders: {[TEXTURE]: textureLoader}} = this;
+    const {
+      loaders: {[TEXTURE]: textureLoader},
+    } = this;
     const texture = await textureLoader.loadAsync(src);
     texture.colorSpace = THREE.SRGBColorSpace;
     texture.anisotropy = 16;
@@ -34,15 +35,19 @@ export class ThreeLoader extends BaseLoader {
   }
 
   async loadGLTF(name, src) {
-    const {loaders: {[GLTF]: gltfLoader}} = this;
-    await new Promise(res => gltfLoader.load(
-      src,
-      data => {
-        assetsManager.setAssetsToSpace(THREE_SPACE, GLTF, name, data);
-        res();
-      },
-      null,
-      res
-    ));
+    const {
+      loaders: {[GLTF]: gltfLoader},
+    } = this;
+    await new Promise((res) =>
+      gltfLoader.load(
+        src,
+        (data) => {
+          assetsManager.setAssetsToSpace(THREE_SPACE, GLTF, name, data);
+          res();
+        },
+        null,
+        res,
+      ),
+    );
   }
 }

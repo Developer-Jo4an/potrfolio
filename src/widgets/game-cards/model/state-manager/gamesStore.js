@@ -12,7 +12,7 @@ const {useStore: useGamesStore, selectors} = createStore({
 
     isShowing: true,
 
-    lastSwipeDirection: null
+    lastSwipeDirection: null,
   },
   syncActions: {
     setIsShowing({state}, isShowing) {
@@ -21,7 +21,7 @@ const {useStore: useGamesStore, selectors} = createStore({
     onSwipe({state}, {direction}) {
       const {gameList, leftGame, activeGame, rightGame} = state;
 
-      const swipeAdd = ({[LEFT]: 1, [RIGHT]: -1})[direction];
+      const swipeAdd = {[LEFT]: 1, [RIGHT]: -1}[direction];
 
       const leftIndex = gameList.findIndex(({id}) => id === leftGame);
       const activeIndex = gameList.findIndex(({id}) => id === activeGame);
@@ -31,9 +31,16 @@ const {useStore: useGamesStore, selectors} = createStore({
       const possibleActiveIndex = activeIndex + swipeAdd;
       const possibleRightIndex = rightIndex + swipeAdd;
 
-      const newLeftIndex = possibleLeftIndex < 0 ? gameList.length - 1 : possibleLeftIndex >= gameList.length ? 0 : possibleLeftIndex;
-      const newActiveIndex = possibleActiveIndex < 0 ? gameList.length - 1 : possibleActiveIndex >= gameList.length ? 0 : possibleActiveIndex;
-      const newRightIndex = possibleRightIndex < 0 ? gameList.length - 1 : possibleRightIndex >= gameList.length ? 0 : possibleRightIndex;
+      const newLeftIndex =
+        possibleLeftIndex < 0 ? gameList.length - 1 : possibleLeftIndex >= gameList.length ? 0 : possibleLeftIndex;
+      const newActiveIndex =
+        possibleActiveIndex < 0
+          ? gameList.length - 1
+          : possibleActiveIndex >= gameList.length
+            ? 0
+            : possibleActiveIndex;
+      const newRightIndex =
+        possibleRightIndex < 0 ? gameList.length - 1 : possibleRightIndex >= gameList.length ? 0 : possibleRightIndex;
 
       state.leftGame = gameList[newLeftIndex]?.id;
       state.activeGame = gameList[newActiveIndex]?.id;
@@ -47,7 +54,7 @@ const {useStore: useGamesStore, selectors} = createStore({
       state.isShowing = true;
 
       state.lastSwipeDirection = null;
-    }
+    },
   },
   asyncActions: {
     getGameList: {
@@ -62,9 +69,9 @@ const {useStore: useGamesStore, selectors} = createStore({
           state.activeGame = activeGame.id;
           state.rightGame = rightGame.id;
         }
-      }
-    }
-  }
+      },
+    },
+  },
 });
 
 export {useGamesStore};

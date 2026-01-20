@@ -13,14 +13,15 @@ export function useStateControls() {
 
     const clear = eventSubscription({
       target: eventBus,
-      callbacksBus: [{
-        event: STATE_CHANGED,
-        async callback({state}) {
-          await controller[`${state}Select`]?.();
-          if (!IGNORE_NEXT_STATES.includes(state))
-            controller.state = CAR_STATE_MACHINE[state].nextState;
-        }
-      }]
+      callbacksBus: [
+        {
+          event: STATE_CHANGED,
+          async callback({state}) {
+            await controller[`${state}Select`]?.();
+            if (!IGNORE_NEXT_STATES.includes(state)) controller.state = CAR_STATE_MACHINE[state].nextState;
+          },
+        },
+      ],
     });
 
     controller.state = getDefaultState(CAR_STATE_MACHINE);

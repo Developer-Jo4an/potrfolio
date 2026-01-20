@@ -8,13 +8,9 @@ export function SoundButton({background, ref, className, ...otherProps}) {
   let status = ON;
 
   return (
-    <Button
-      ref={ref}
-      className={cl(styles.soundButton, className)}
-      {...otherProps}
-    >
-      {background && <Image {...background} className={cl(styles.background, background.className)}/>}
-      {({[ON]: <AiFillSound/>, [OFF]: <FaVolumeOff/>})[status]}
+    <Button ref={ref} className={cl(styles.soundButton, className)} {...otherProps}>
+      {background && <Image {...background} className={cl(styles.background, background.className)} />}
+      {{[ON]: <AiFillSound />, [OFF]: <FaVolumeOff />}[status]}
     </Button>
   );
 }

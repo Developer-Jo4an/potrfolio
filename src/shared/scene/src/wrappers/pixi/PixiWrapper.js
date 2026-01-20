@@ -2,9 +2,8 @@ import {BaseWrapper} from "../base/BaseWrapper";
 import {PIXIController} from "../../controllers/pixi/PIXIController";
 
 export class PixiWrapper extends BaseWrapper {
-
   static get instance() {
-    return this._instance ??= new PixiWrapper();
+    return (this._instance ??= new PixiWrapper());
   }
 
   appendContainer($container) {

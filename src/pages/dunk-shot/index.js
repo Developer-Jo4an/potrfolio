@@ -1,8 +1,5 @@
 import {DunkShot} from "./ui/main/DunkShot";
 
-const metadata = {}
+const metadata = {};
 
-export {
-  metadata,
-  DunkShot
-};
+export {metadata, DunkShot};

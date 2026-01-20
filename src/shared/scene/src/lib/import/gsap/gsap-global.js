@@ -6,4 +6,3 @@ global.gsap = gsap;
 
 gsap.localTimeline = LocalTimeline.instance;
 gsap.registerPlugin(MotionPathPlugin);
-

@@ -12,7 +12,7 @@ export class MainContainer extends BaseEntity {
   }
 
   initView() {
-    const view = this.view ??= new PIXI.Container();
+    const view = (this.view ??= new PIXI.Container());
     view.label = "mainContainer";
     view.position.set(0, 0);
   }

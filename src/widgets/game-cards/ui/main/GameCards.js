@@ -15,13 +15,13 @@ export function GameCards() {
   return (
     <>
       <section className={styles.gameCards}>
-        <GameCardsBackground/>
-        <GameCardsInfo/>
-        <GameCardsList/>
-        <GameCardsNavigation/>
-        <GameCardsButtons/>
+        <GameCardsBackground />
+        <GameCardsInfo />
+        <GameCardsList />
+        <GameCardsNavigation />
+        <GameCardsButtons />
       </section>
-      <MouseTrailArea/>
+      <MouseTrailArea />
     </>
   );
 }

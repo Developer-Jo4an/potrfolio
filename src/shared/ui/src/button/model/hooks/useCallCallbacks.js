@@ -1,21 +1,12 @@
 import {isFunction} from "lodash";
 
-export function useCallCallbacks(
-  {
-    callbacksData: {
-      callbacks,
-      calledFunctions = [],
-      calledFunctionsProps = {}
-    }
-  }) {
+export function useCallCallbacks({callbacksData: {callbacks, calledFunctions = [], calledFunctionsProps = {}}}) {
   return () => {
-    calledFunctions.forEach(calledFunction => {
+    calledFunctions.forEach((calledFunction) => {
       const necessaryCallbacks = callbacks[calledFunction];
 
-      if (isFunction(necessaryCallbacks))
-        necessaryCallbacks(calledFunctionsProps[calledFunction]);
-      else
-        console.warn(`${calledFunction} is not a function`);
+      if (isFunction(necessaryCallbacks)) necessaryCallbacks(calledFunctionsProps[calledFunction]);
+      else console.warn(`${calledFunction} is not a function`);
     });
   };
 }

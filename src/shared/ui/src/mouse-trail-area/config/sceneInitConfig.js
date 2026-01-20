@@ -4,5 +4,5 @@ export const sceneInitConfig = {
   antialias: true,
   resolution: 1,
   preference: "webgl",
-  autoStart: false
+  autoStart: false,
 };

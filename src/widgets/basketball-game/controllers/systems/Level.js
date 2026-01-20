@@ -9,7 +9,7 @@ import {
   RING_BODY,
   RING_GRID_VIEW_NAME,
   RING_SHIELD_VIEW_NAME,
-  RING_VIEW_NAME
+  RING_VIEW_NAME,
 } from "../../constants/ring";
 import {SCENE_FROM_BLENDER} from "../../constants/preload";
 
@@ -22,7 +22,8 @@ export class Level extends System {
 
   initCharacter() {
     const {
-      eventBus, storage: {
+      eventBus,
+      storage: {
         scene,
         mainSceneSettings: {
           character: {
@@ -36,16 +37,16 @@ export class Level extends System {
             linearDamping,
             friction,
             restitution,
-            startData: {rotation, position}
-          }
-        }
-      }
+            startData: {rotation, position},
+          },
+        },
+      },
     } = this;
 
     const eCharacter = new Entity({eventBus, type: CHARACTER}).init();
 
     const cThreeComponent = eCharacter.get(ThreeComponent);
-    const characterView = cThreeComponent.threeObject = this.getAsset(eCharacter, CHARACTER);
+    const characterView = (cThreeComponent.threeObject = this.getAsset(eCharacter, CHARACTER));
     characterView.material.transparent = transparent;
     characterView.material.metalness = metalness;
     characterView.material.roughness = roughness;
@@ -55,9 +56,13 @@ export class Level extends System {
     this.addSideEffect({entity: eCharacter, effect: add, args: [scene, characterView]});
 
     const cBody = eCharacter.get(Body);
-    const {geometry: {boundingBox: {min, max}}} = characterView;
-    const radius = mean([max.x - min.x, max.y - min.y, max.z - min.z].map(num => Math.abs(num / 2)));
-    const characterBody = cBody.object = this.getAsset(eCharacter, CHARACTER_BODY, {radius});
+    const {
+      geometry: {
+        boundingBox: {min, max},
+      },
+    } = characterView;
+    const radius = mean([max.x - min.x, max.y - min.y, max.z - min.z].map((num) => Math.abs(num / 2)));
+    const characterBody = (cBody.object = this.getAsset(eCharacter, CHARACTER_BODY, {radius}));
     characterBody.setTranslation(position);
     characterBody.setRotation(new THREE.Quaternion().setFromEuler(new THREE.Euler().setFromVector3(rotation)));
     characterBody.setBodyType(RAPIER3D.RigidBodyType.KinematicPositionBased);
@@ -70,7 +75,8 @@ export class Level extends System {
 
   initRing() {
     const {
-      eventBus, storage: {
+      eventBus,
+      storage: {
         scene,
         mainSceneSettings: {
           ring: {
@@ -79,38 +85,38 @@ export class Level extends System {
             sensor,
             grid,
             transparent,
-            startData: {position}
-          }
-        }
-      }
+            startData: {position},
+          },
+        },
+      },
     } = this;
 
     const eRing = new Entity({eventBus, type: RING}).init();
     const cThreeComponent = eRing.get(ThreeComponent);
 
-    const ringContainer = cThreeComponent.threeObject = this.getAsset(eRing, RING);
-    ringContainer.traverse(object => {
-      if (object.material)
-        object.material.transparent = transparent;
+    const ringContainer = (cThreeComponent.threeObject = this.getAsset(eRing, RING));
+    ringContainer.traverse((object) => {
+      if (object.material) object.material.transparent = transparent;
     });
     this.addSideEffect({entity: eRing, effect: add, args: [scene, ringContainer]});
-
 
     const ringView = ringContainer.getObjectByName(RING_VIEW_NAME);
     const ringBoundingBox = new THREE.Box3();
     ringBoundingBox.setFromObject(ringView);
-    const ringRadius = Math.max(...[X, Y, Z].map(axis => {
-      const maxAxis = ringBoundingBox.max[axis];
-      const minAxis = ringBoundingBox.min[axis];
-      return Math.abs(maxAxis - minAxis) - (tube * 2);
-    })) / 2;
+    const ringRadius =
+      Math.max(
+        ...[X, Y, Z].map((axis) => {
+          const maxAxis = ringBoundingBox.max[axis];
+          const minAxis = ringBoundingBox.min[axis];
+          return Math.abs(maxAxis - minAxis) - tube * 2;
+        }),
+      ) / 2;
     const ringViewGeometry = new THREE.TorusGeometry(ringRadius, tube);
     const ringViewVertices = Array.from(ringViewGeometry.attributes.position.array);
     const ringViewIndexes = Array.from(ringViewGeometry.index.array);
 
     const shieldView = ringContainer.getObjectByName(RING_SHIELD_VIEW_NAME);
     const {vertices: shieldViewVertices, indexes: shieldViewIndexes} = getVerticesWithDeep(shieldView);
-
 
     const gridView = ringContainer.getObjectByName(RING_GRID_VIEW_NAME);
 
@@ -123,16 +129,19 @@ export class Level extends System {
       effect: () => () => {
         cGridMixer.mixer.stopAllAction();
         gridView.children[0].skeleton.pose();
-      }
+      },
     });
 
     const gridBoundingBox = new THREE.Box3();
     gridBoundingBox.setFromObject(ringView);
-    const gridRadiusTop = Math.max(...[X, Y, Z].map(axis => {
-      const maxAxis = gridBoundingBox.max[axis];
-      const minAxis = gridBoundingBox.min[axis];
-      return Math.abs(maxAxis - minAxis);
-    })) / 2;
+    const gridRadiusTop =
+      Math.max(
+        ...[X, Y, Z].map((axis) => {
+          const maxAxis = gridBoundingBox.max[axis];
+          const minAxis = gridBoundingBox.min[axis];
+          return Math.abs(maxAxis - minAxis);
+        }),
+      ) / 2;
     const radiusBottom = gridRadiusTop * grid.radsProportion;
     const gridViewGeometry = new THREE.CylinderGeometry(
       gridRadiusTop,
@@ -142,7 +151,7 @@ export class Level extends System {
       grid.heightSegments,
       grid.openEnded,
       grid.thetaStart,
-      grid.thetaLength
+      grid.thetaLength,
     );
     const gridOffsetMatrix = new THREE.Matrix4();
     gridOffsetMatrix.makeTranslation(0, -grid.height / 2, 0);
@@ -151,31 +160,18 @@ export class Level extends System {
     const gridViewVertices = Array.from(gridViewGeometry.attributes.position.array);
     const gridViewIndexes = Array.from(gridViewGeometry.index.array);
 
-
     const cBody = eRing.get(Body);
-    const ringBody = cBody.object = this.getAsset(eRing, RING_BODY, {
+    const ringBody = (cBody.object = this.getAsset(eRing, RING_BODY, {
       ring: {
         view: ringView,
         vertices: ringViewVertices,
         indexes: ringViewIndexes,
-        extraProps: {
-          rotation: geometryRotation
-        }
+        extraProps: {rotation: geometryRotation},
       },
-      shield: {
-        view: shieldView,
-        vertices: shieldViewVertices,
-        indexes: shieldViewIndexes,
-        extraProps: {}
-      },
-      grid: {
-        view: gridView,
-        vertices: gridViewVertices,
-        indexes: gridViewIndexes,
-        extraProps: {}
-      },
-      sensor
-    });
+      shield: {view: shieldView, vertices: shieldViewVertices, indexes: shieldViewIndexes, extraProps: {}},
+      grid: {view: gridView, vertices: gridViewVertices, indexes: gridViewIndexes, extraProps: {}},
+      sensor,
+    }));
 
     ringBody.setTranslation(position);
     ringBody.collider.ring.setActiveEvents(RAPIER3D.ActiveEvents.COLLISION_EVENTS);
@@ -186,7 +182,12 @@ export class Level extends System {
   initGround() {
     const {
       eventBus,
-      storage: {scene, mainSceneSettings: {ground: {height, castShadow, friction, restitution, receiveShadow}}}
+      storage: {
+        scene,
+        mainSceneSettings: {
+          ground: {height, castShadow, friction, restitution, receiveShadow},
+        },
+      },
     } = this;
 
     const eGroud = new Entity({eventBus, type: GROUND}).init();
@@ -205,7 +206,7 @@ export class Level extends System {
     const cBody = eGroud.get(Body);
     const vertices = Array.from(groundView.geometry.attributes.position.array);
     const indexes = Array.from(groundView.geometry.index.array);
-    const groundBody = cBody.object = this.getAsset(eGroud, GROUND_BODY, {vertices, indexes});
+    const groundBody = (cBody.object = this.getAsset(eGroud, GROUND_BODY, {vertices, indexes}));
     groundBody.setTranslation({x: 0, y: -height / 2 - characterBodyRadius, z: 0});
     groundBody.collider.setFriction(friction);
     groundBody.collider.setRestitution(restitution);
@@ -214,6 +215,5 @@ export class Level extends System {
     groundBody.collider.setActiveEvents(RAPIER3D.ActiveEvents.COLLISION_EVENTS);
   }
 
-  update({deltaTime}) {
-  }
+  update({deltaTime}) {}
 }

@@ -11,5 +11,5 @@ export const preload = [
   {type: TEXTURE, name: CLOUD, src: assets(`basketball/${CLOUD}.png`)},
   {type: TEXTURE, name: TRAIL, src: assets(`basketball/${TRAIL}.png`)},
   {type: TEXTURE, name: WIND, src: assets(`basketball/${WIND}.png`)},
-  {type: GLTF, name: SCENE_FROM_BLENDER, src: assets(`basketball/${SCENE_FROM_BLENDER}.gltf`)}
+  {type: GLTF, name: SCENE_FROM_BLENDER, src: assets(`basketball/${SCENE_FROM_BLENDER}.gltf`)},
 ];

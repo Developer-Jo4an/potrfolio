@@ -9,5 +9,5 @@ export const preload = [
   {type: TEXTURE, name: CHARACTER, src: assets("car/character.png")},
   {type: TEXTURE, name: ROAD_CHUNK, src: assets("car/roadChunk.png")},
   {type: TEXTURE, name: BONUS, src: assets("car/bonus.png")},
-  {type: TEXTURE, name: SPIKE, src: assets("car/spike.png")}
+  {type: TEXTURE, name: SPIKE, src: assets("car/spike.png")},
 ];

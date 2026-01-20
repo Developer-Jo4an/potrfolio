@@ -11,15 +11,11 @@ import {
   RING_SHIELD,
   RING_SHIELD_VIEW_NAME,
   RING_VIEW_NAME,
-  SENSOR
+  SENSOR,
 } from "../constants/ring";
 import {X2VIEW} from "../constants/x2View";
 
-const METHODS = {
-  create: "create",
-  prepare: "prepare",
-  reset: "reset"
-};
+const METHODS = {create: "create", prepare: "prepare", reset: "reset"};
 
 export class BasketballFactory extends Factory {
   constructor(data) {
@@ -34,10 +30,8 @@ export class BasketballFactory extends Factory {
   getItem(type, data) {
     const storage = this.getStorage(type);
     let item = storage.pop();
-    if (item)
-      this[createMethod(METHODS.prepare, type)]?.(item, data);
-    else
-      item = this.createItem(type, data);
+    if (item) this[createMethod(METHODS.prepare, type)]?.(item, data);
+    else item = this.createItem(type, data);
     return item;
   }
 
@@ -60,7 +54,11 @@ export class BasketballFactory extends Factory {
    * character body
    */
   [createMethod(METHODS.create, CHARACTER_BODY)]({radius}) {
-    const {defaultProperties: {storage: {world}}} = this;
+    const {
+      defaultProperties: {
+        storage: {world},
+      },
+    } = this;
     const characterBodyDesc = RAPIER3D.RigidBodyDesc.dynamic();
     const characterBody = world.createRigidBody(characterBodyDesc);
     const characterColliderDesc = RAPIER3D.ColliderDesc.ball(radius);
@@ -74,19 +72,28 @@ export class BasketballFactory extends Factory {
    * ground view
    */
   [createMethod(METHODS.create, GROUND)]() {
-    const {defaultProperties: {storage: {mainSceneSettings: {ground: {width, height, depth, opacity}}}}} = this;
+    const {
+      defaultProperties: {
+        storage: {
+          mainSceneSettings: {
+            ground: {width, height, depth, opacity},
+          },
+        },
+      },
+    } = this;
 
-    return new THREE.Mesh(
-      new THREE.BoxGeometry(width, height, depth),
-      new THREE.ShadowMaterial({opacity})
-    );
+    return new THREE.Mesh(new THREE.BoxGeometry(width, height, depth), new THREE.ShadowMaterial({opacity}));
   }
 
   /**
    * ground body
    */
   [createMethod(METHODS.create, GROUND_BODY)]({vertices, indexes}) {
-    const {defaultProperties: {storage: {world}}} = this;
+    const {
+      defaultProperties: {
+        storage: {world},
+      },
+    } = this;
     const groundBodyDesc = RAPIER3D.RigidBodyDesc.fixed();
     const groundBody = world.createRigidBody(groundBodyDesc);
     const groundColliderDesc = RAPIER3D.ColliderDesc.trimesh(vertices, indexes);
@@ -118,16 +125,20 @@ export class BasketballFactory extends Factory {
    * ring body
    */
   [createMethod(METHODS.create, RING_BODY)]({ring, shield, grid, sensor}) {
-    const {defaultProperties: {storage: {world}}} = this;
+    const {
+      defaultProperties: {
+        storage: {world},
+      },
+    } = this;
     const ringBodyDesc = RAPIER3D.RigidBodyDesc.fixed();
     const ringBody = world.createRigidBody(ringBodyDesc);
 
     const ringColliderDesc = RAPIER3D.ColliderDesc.trimesh(ring.vertices, ring.indexes);
-    ringColliderDesc.setRotation(new THREE.Quaternion().setFromEuler(new THREE.Euler(
-      ring.extraProps.rotation.x,
-      ring.extraProps.rotation.y,
-      ring.extraProps.rotation.z
-    )));
+    ringColliderDesc.setRotation(
+      new THREE.Quaternion().setFromEuler(
+        new THREE.Euler(ring.extraProps.rotation.x, ring.extraProps.rotation.y, ring.extraProps.rotation.z),
+      ),
+    );
     const ringCollider = world.createCollider(ringColliderDesc, ringBody);
     ringCollider.userData = {id: RING};
 
@@ -145,12 +156,7 @@ export class BasketballFactory extends Factory {
     const gridCollider = world.createCollider(gridColliderDesc, ringBody);
     gridCollider.userData = {id: RING_GRID};
 
-    ringBody.collider = {
-      ring: ringCollider,
-      shield: shieldCollider,
-      grid: gridCollider,
-      sensor: sensorCollider
-    };
+    ringBody.collider = {ring: ringCollider, shield: shieldCollider, grid: gridCollider, sensor: sensorCollider};
 
     return ringBody;
   }

@@ -26,12 +26,12 @@ export function DunkShotGame() {
           sound={true}
           score={{count: score}}
         />
-        <ProgressBar count={current} progress={current / (max - min)} ref={progressBarEls}/>
-        <DunkShotBoosters/>
+        <ProgressBar count={current} progress={current / (max - min)} ref={progressBarEls} />
+        <DunkShotBoosters />
       </div>
-      <DunkShotWalls containerRef={containerRef}/>
-      <DunkShotGameElements topMenuEls={topMenuEls} progressBarEls={progressBarEls}/>
-      <Loader isPending={!state || DUNK_SHOT_STATE_MACHINE[state]?.isLoad}/>
+      <DunkShotWalls containerRef={containerRef} />
+      <DunkShotGameElements topMenuEls={topMenuEls} progressBarEls={progressBarEls} />
+      <Loader isPending={!state || DUNK_SHOT_STATE_MACHINE[state]?.isLoad} />
     </>
   );
 }

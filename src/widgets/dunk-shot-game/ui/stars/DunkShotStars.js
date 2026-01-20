@@ -13,7 +13,7 @@ import styles from "./DunkShotStars.module.scss";
 export function DunkShotStars({topMenuEls, progressBarEls}) {
   const {wrapper} = useDunkShotStore();
   const {gameData: {progress: {current, max} = {}} = {}} = useDunkShotStore();
-  const [StarComponent, setStarComponent] = useState(<FaStar/>);
+  const [StarComponent, setStarComponent] = useState(<FaStar />);
 
   const elementRefs = useRef({stars: []});
 
@@ -32,10 +32,10 @@ export function DunkShotStars({topMenuEls, progressBarEls}) {
         {
           event: THROW_HIT,
           callback() {
-            setStarComponent(isActiveX2 ? <TbStarsFilled/> : <FaStar/>);
-          }
-        }
-      ]
+            setStarComponent(isActiveX2 ? <TbStarsFilled /> : <FaStar />);
+          },
+        },
+      ],
     });
   }, [wrapper, isActiveX2]);
 
@@ -54,16 +54,15 @@ export function DunkShotStars({topMenuEls, progressBarEls}) {
         createArrayWithMap(5, (_, starIndex) => (
           <div
             key={`${groupIndex}-${starIndex}`}
-            ref={ref => {
-              if (!isArray(elementRefs.current.stars[groupIndex]))
-                elementRefs.current.stars[groupIndex] = [];
+            ref={(ref) => {
+              if (!isArray(elementRefs.current.stars[groupIndex])) elementRefs.current.stars[groupIndex] = [];
               elementRefs.current.stars[groupIndex][starIndex] = ref;
             }}
             className={styles.star}
           >
             {StarComponent}
           </div>
-        ))
+        )),
       )}
     </>
   );

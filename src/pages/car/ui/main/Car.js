@@ -5,7 +5,7 @@ import styles from "./Car.module.scss";
 function Car() {
   return (
     <section className={styles.car}>
-      <CarGame/>
+      <CarGame />
     </section>
   );
 }

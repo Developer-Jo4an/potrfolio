@@ -13,5 +13,5 @@ export const imports = {
   sat: importSat,
   three: importThree,
   rapier3d: importRapier3d,
-  quarks: importQuarks
+  quarks: importQuarks,
 };

@@ -1,6 +1,5 @@
 export function dataAttrs(data) {
   const attrs = {};
-  for (const key in data)
-    attrs[`data-${key}`] = data[key];
+  for (const key in data) attrs[`data-${key}`] = data[key];
   return attrs;
 }

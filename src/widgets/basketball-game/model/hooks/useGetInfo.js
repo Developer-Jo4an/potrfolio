@@ -15,12 +15,12 @@ export function useGetInfo(fullProps) {
       target: eventBus,
       callbacksBus: [
         {
-          event: GET_INFO, callback({result}) {
-            for (const key in fullProps)
-              result[key] = fullProps[key];
-          }
-        }
-      ]
+          event: GET_INFO,
+          callback({result}) {
+            for (const key in fullProps) result[key] = fullProps[key];
+          },
+        },
+      ],
     });
   }, [wrapper, fullProps]);
 }

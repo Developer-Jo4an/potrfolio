@@ -2,21 +2,16 @@ import {setNecessaryListeners} from "../../utils/setNecessaryListeners";
 
 export class BaseController {
   constructor(data) {
-    for (const key in data)
-      this[key] = data[key];
+    for (const key in data) this[key] = data[key];
 
     this.baseInit();
   }
 
-  init() {
-
-  }
+  init() {}
 
   baseInit() {
-    setNecessaryListeners(this)
+    setNecessaryListeners(this);
   }
 
-  onStateChanged(state) {
-
-  }
+  onStateChanged(state) {}
 }

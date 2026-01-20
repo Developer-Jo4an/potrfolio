@@ -19,7 +19,7 @@ import {
   CollisionComponent,
   Matrix3Component,
   PixiComponent,
-  Collider
+  Collider,
 } from "@shared";
 
 export class Level extends System {
@@ -32,7 +32,10 @@ export class Level extends System {
   }
 
   initMainContainer() {
-    const {eventBus, storage: {stage}} = this;
+    const {
+      eventBus,
+      storage: {stage},
+    } = this;
     const mainContainerEntity = new Entity({eventBus, type: MAIN_CONTAINER}).init();
     const mainContainerPixiComponent = mainContainerEntity.get(PixiComponent);
     const mainContainerView = this.getAsset(mainContainerEntity, MAIN_CONTAINER);
@@ -53,18 +56,15 @@ export class Level extends System {
 
   initCharacter() {
     const {
-      eventBus, storage: {
+      eventBus,
+      storage: {
         mainSceneSettings: {
-          character: {
-            width, height, startPosition, rotationFromDirection
-          }
+          character: {width, height, startPosition, rotationFromDirection},
         },
         gameSpace: {
-          characterMovement: {
-            currentDirection
-          }
-        }
-      }
+          characterMovement: {currentDirection},
+        },
+      },
     } = this;
 
     const characterEntity = new Entity({eventBus, type: CHARACTER}).init();
@@ -81,7 +81,7 @@ export class Level extends System {
     const characterMatrix3Component = characterEntity.get(Matrix3Component);
     characterMatrix3Component.scaleX = characterMatrix3Component.scaleY = Math.min(
       width / characterView.width,
-      height / characterView.height
+      height / characterView.height,
     );
     characterMatrix3Component.x = startPosition.x;
     characterMatrix3Component.y = startPosition.y;
@@ -91,24 +91,28 @@ export class Level extends System {
     const characterColliderComponent = characterEntity.get(Collider);
     const halfWidth = width / 2;
     const halfHeight = height / 2;
-    const characterPolygon = new SAT.Polygon(
-      new SAT.Vector(characterMatrix3Component.x, characterMatrix3Component.y),
-      [
-        new SAT.Vector(-halfWidth, halfHeight),
-        new SAT.Vector(halfWidth, halfHeight),
-        new SAT.Vector(halfWidth, -halfHeight),
-        new SAT.Vector(-halfWidth, -halfHeight)
-      ]
-    );
+    const characterPolygon = new SAT.Polygon(new SAT.Vector(characterMatrix3Component.x, characterMatrix3Component.y), [
+      new SAT.Vector(-halfWidth, halfHeight),
+      new SAT.Vector(halfWidth, halfHeight),
+      new SAT.Vector(halfWidth, -halfHeight),
+      new SAT.Vector(-halfWidth, -halfHeight),
+    ]);
     characterPolygon.setAngle(characterMatrix3Component.rotation);
     characterColliderComponent.object = characterPolygon;
   }
 
   initMapEntities() {
-    const {storage: {mainSceneSettings: {roadChunks: {generate: {count, minStartCount}}}}} = this;
+    const {
+      storage: {
+        mainSceneSettings: {
+          roadChunks: {
+            generate: {count, minStartCount},
+          },
+        },
+      },
+    } = this;
     const cycles = Math.ceil(minStartCount / count);
-    for (let i = 0; i < cycles; i++)
-      this.createMapEntities();
+    for (let i = 0; i < cycles; i++) this.createMapEntities();
   }
 
   initRoadChunkChunkComponent({roadChunkEntity, prevChunkComponent}) {
@@ -116,9 +120,9 @@ export class Level extends System {
       storage: {
         mainSceneSettings: {
           character: {rotationFromDirection},
-          roadChunks: {width, height, sparePoint}
-        }
-      }
+          roadChunks: {width, height, sparePoint},
+        },
+      },
     } = this;
 
     const direction = {[RIGHT]: LEFT, [LEFT]: RIGHT}[prevChunkComponent?.direction] ?? LEFT;
@@ -130,25 +134,23 @@ export class Level extends System {
 
     const oppositeLeg = getRandomIntFromRange(height.min, height.max);
     const adjacentLeg = Math.tan(Math.PI / 2 - Math.abs(rotationFromDirection[direction])) * oppositeLeg;
-    const multiplier = ({[LEFT]: -1, [RIGHT]: 1})[direction];
+    const multiplier = {[LEFT]: -1, [RIGHT]: 1}[direction];
 
     const endWidth = getRandomIntFromRange(width.min, width.max);
-    const endPoint = {
-      x: startPoint.x + multiplier * adjacentLeg,
-      y: startPoint.y - oppositeLeg
-    };
+    const endPoint = {x: startPoint.x + multiplier * adjacentLeg, y: startPoint.y - oppositeLeg};
     const endPointFirst = {x: endPoint.x + endWidth / 2, y: endPoint.y};
     const endPointSecond = {x: endPoint.x - endWidth / 2, y: endPoint.y};
 
     const roadChunkChunkComponent = roadChunkEntity.get(Chunk);
     roadChunkChunkComponent.points = {
-      start: startPoint, startPointFirst, startPointSecond,
-      end: endPoint, endPointFirst, endPointSecond
+      start: startPoint,
+      startPointFirst,
+      startPointSecond,
+      end: endPoint,
+      endPointFirst,
+      endPointSecond,
     };
-    roadChunkChunkComponent.width = {
-      start: startWidth,
-      end: endWidth
-    };
+    roadChunkChunkComponent.width = {start: startWidth, end: endWidth};
     roadChunkChunkComponent.adjacentLeg = adjacentLeg;
     roadChunkChunkComponent.oppositeLeg = oppositeLeg;
     roadChunkChunkComponent.direction = direction;
@@ -157,7 +159,7 @@ export class Level extends System {
 
   initRoadChunkPixiComponent({roadChunkEntity, roadChunksContainerEntity}) {
     const roadChunkPixiComponent = roadChunkEntity.get(PixiComponent);
-    const roadChunkView = roadChunkPixiComponent.pixiObject = this.getAsset(roadChunkEntity, ROAD_CHUNK);
+    const roadChunkView = (roadChunkPixiComponent.pixiObject = this.getAsset(roadChunkEntity, ROAD_CHUNK));
     const roadChunksContainerPixiComponent = roadChunksContainerEntity.get(PixiComponent);
     roadChunksContainerPixiComponent.pixiObject.addChild(roadChunkView);
   }
@@ -165,18 +167,17 @@ export class Level extends System {
   initRoadChunkSatComponent({roadChunkEntity}) {
     const roadChunkChunkComponent = roadChunkEntity.get(Chunk);
     const roadChunkSatColliderComponent = roadChunkEntity.get(Collider);
-    const {points: {startPointFirst, startPointSecond, endPointFirst, endPointSecond}} = roadChunkChunkComponent;
+    const {
+      points: {startPointFirst, startPointSecond, endPointFirst, endPointSecond},
+    } = roadChunkChunkComponent;
 
     const roadChunkPolygonPoints = [startPointFirst, startPointSecond, endPointFirst, endPointSecond].map(
       ({x, y}, index, points) => {
         const nextPoint = points[index + 1] ?? points[0];
         return new SAT.Vector(nextPoint.x, nextPoint.y);
-      }
+      },
     );
-    roadChunkSatColliderComponent.object = new SAT.Polygon(
-      new SAT.Vector(0, 0),
-      roadChunkPolygonPoints
-    );
+    roadChunkSatColliderComponent.object = new SAT.Polygon(new SAT.Vector(0, 0), roadChunkPolygonPoints);
   }
 
   initRoadChunkMatrix3Component({roadChunkEntity}) {
@@ -184,9 +185,9 @@ export class Level extends System {
       storage: {
         mainSceneSettings: {
           roadChunks: {height, width, tileScale},
-          character: {rotationFromDirection}
-        }
-      }
+          character: {rotationFromDirection},
+        },
+      },
     } = this;
 
     const roadChunkMatrix3Component = roadChunkEntity.get(Matrix3Component);
@@ -199,7 +200,7 @@ export class Level extends System {
 
     const spriteScale = Math.max(
       maxHeight / roadChunkPixiComponent.pixiObject.height,
-      maxWidth / roadChunkPixiComponent.pixiObject.width
+      maxWidth / roadChunkPixiComponent.pixiObject.width,
     );
     roadChunkMatrix3Component.scaleX = roadChunkMatrix3Component.scaleY = spriteScale;
 
@@ -208,17 +209,21 @@ export class Level extends System {
 
     roadChunkPixiComponent.pixiObject.tilePosition.set(
       -roadChunkMatrix3Component.x / roadChunkMatrix3Component.scaleX,
-      -roadChunkMatrix3Component.y / roadChunkMatrix3Component.scaleY
+      -roadChunkMatrix3Component.y / roadChunkMatrix3Component.scaleY,
     );
 
-    roadChunkPixiComponent.pixiObject.tileScale.set(
-      tileScale.x / spriteScale,
-      tileScale.y / spriteScale
-    );
+    roadChunkPixiComponent.pixiObject.tileScale.set(tileScale.x / spriteScale, tileScale.y / spriteScale);
   }
 
   initBonus(roadChunkEntity) {
-    const {eventBus, storage: {mainSceneSettings: {bonus: {width, height, chance: bonusChance}}}} = this;
+    const {
+      eventBus,
+      storage: {
+        mainSceneSettings: {
+          bonus: {width, height, chance: bonusChance},
+        },
+      },
+    } = this;
     if (!chance(bonusChance)) return;
     const mainContainerEntity = this.getFirstEntityByType(MAIN_CONTAINER);
     const mainContainerPixiComponent = mainContainerEntity.get(PixiComponent);
@@ -228,14 +233,16 @@ export class Level extends System {
     bonusPixiComponent.pixiObject = this.getAsset(bonusEntity, BONUS);
     bonusMatrix3Component.scaleX = width / bonusPixiComponent.pixiObject.width;
     bonusMatrix3Component.scaleY = height / bonusPixiComponent.pixiObject.height;
-    const {points: {startPointFirst, startPointSecond, endPointFirst, endPointSecond}} = roadChunkEntity.get(Chunk);
+    const {
+      points: {startPointFirst, startPointSecond, endPointFirst, endPointSecond},
+    } = roadChunkEntity.get(Chunk);
     const bonusViewWidthHalf = width / 2;
     const bonusViewHeightHalf = height / 2;
     const allowedSpawnArea = [
       {x: startPointFirst.x + bonusViewWidthHalf, y: startPointFirst.y - bonusViewHeightHalf},
       {x: startPointSecond.x - bonusViewWidthHalf, y: startPointSecond.y - bonusViewHeightHalf},
       {x: endPointFirst.x - bonusViewWidthHalf, y: endPointFirst.y + bonusViewHeightHalf},
-      {x: endPointSecond.x + bonusViewWidthHalf, y: endPointSecond.y + bonusViewHeightHalf}
+      {x: endPointSecond.x + bonusViewWidthHalf, y: endPointSecond.y + bonusViewHeightHalf},
     ];
     const spawnPosition = getRandomPointInQuadrilateralBilinear(...allowedSpawnArea);
     bonusMatrix3Component.x = spawnPosition.x;
@@ -243,19 +250,23 @@ export class Level extends System {
     mainContainerPixiComponent.pixiObject.addChild(bonusPixiComponent.pixiObject);
 
     const bonusSatColliderComponent = bonusEntity.get(Collider);
-    bonusSatColliderComponent.object = new SAT.Polygon(
-      new SAT.Vector(0, 0),
-      [
-        new SAT.Vector(bonusMatrix3Component.x - bonusViewWidthHalf, bonusMatrix3Component.y + bonusViewHeightHalf),
-        new SAT.Vector(bonusMatrix3Component.x + bonusViewWidthHalf, bonusMatrix3Component.y + bonusViewHeightHalf),
-        new SAT.Vector(bonusMatrix3Component.x + bonusViewWidthHalf, bonusMatrix3Component.y - bonusViewHeightHalf),
-        new SAT.Vector(bonusMatrix3Component.x - bonusViewWidthHalf, bonusMatrix3Component.y - bonusViewHeightHalf)
-      ]
-    );
+    bonusSatColliderComponent.object = new SAT.Polygon(new SAT.Vector(0, 0), [
+      new SAT.Vector(bonusMatrix3Component.x - bonusViewWidthHalf, bonusMatrix3Component.y + bonusViewHeightHalf),
+      new SAT.Vector(bonusMatrix3Component.x + bonusViewWidthHalf, bonusMatrix3Component.y + bonusViewHeightHalf),
+      new SAT.Vector(bonusMatrix3Component.x + bonusViewWidthHalf, bonusMatrix3Component.y - bonusViewHeightHalf),
+      new SAT.Vector(bonusMatrix3Component.x - bonusViewWidthHalf, bonusMatrix3Component.y - bonusViewHeightHalf),
+    ]);
   }
 
   initSpike(roadChunkEntity) {
-    const {eventBus, storage: {mainSceneSettings: {spike: {width, height, chance: spikeChance}}}} = this;
+    const {
+      eventBus,
+      storage: {
+        mainSceneSettings: {
+          spike: {width, height, chance: spikeChance},
+        },
+      },
+    } = this;
 
     if (!chance(spikeChance)) return;
 
@@ -267,33 +278,41 @@ export class Level extends System {
     spikePixiComponent.pixiObject = this.getAsset(spikeEntity, SPIKE);
     spikeMatrix3Component.scaleX = width / spikePixiComponent.pixiObject.width;
     spikeMatrix3Component.scaleY = height / spikePixiComponent.pixiObject.height;
-    const {points: {startPointFirst, startPointSecond, endPointFirst, endPointSecond}} = roadChunkEntity.get(Chunk);
+    const {
+      points: {startPointFirst, startPointSecond, endPointFirst, endPointSecond},
+    } = roadChunkEntity.get(Chunk);
     const spikeViewWidthHalf = width / 2;
     const spikeViewHeightHalf = height / 2;
     const allowedSpawnArea = [
       {x: startPointFirst.x + spikeViewWidthHalf, y: startPointFirst.y - spikeViewHeightHalf},
       {x: startPointSecond.x - spikeViewWidthHalf, y: startPointSecond.y - spikeViewHeightHalf},
       {x: endPointFirst.x - spikeViewWidthHalf, y: endPointFirst.y + spikeViewHeightHalf},
-      {x: endPointSecond.x + spikeViewWidthHalf, y: endPointSecond.y + spikeViewHeightHalf}
+      {x: endPointSecond.x + spikeViewWidthHalf, y: endPointSecond.y + spikeViewHeightHalf},
     ];
     const spawnPosition = getRandomPointInQuadrilateralBilinear(...allowedSpawnArea);
     spikeMatrix3Component.x = spawnPosition.x;
     spikeMatrix3Component.y = spawnPosition.y;
     mainContainerPixiComponent.pixiObject.addChild(spikePixiComponent.pixiObject);
     const spikeSatColliderComponent = spikeEntity.get(Collider);
-    spikeSatColliderComponent.object = new SAT.Polygon(
-      new SAT.Vector(0, 0),
-      [
-        new SAT.Vector(spikeMatrix3Component.x - spikeViewWidthHalf, spikeMatrix3Component.y + spikeViewHeightHalf),
-        new SAT.Vector(spikeMatrix3Component.x + spikeViewWidthHalf, spikeMatrix3Component.y + spikeViewHeightHalf),
-        new SAT.Vector(spikeMatrix3Component.x + spikeViewWidthHalf, spikeMatrix3Component.y - spikeViewHeightHalf),
-        new SAT.Vector(spikeMatrix3Component.x - spikeViewWidthHalf, spikeMatrix3Component.y - spikeViewHeightHalf)
-      ]
-    );
+    spikeSatColliderComponent.object = new SAT.Polygon(new SAT.Vector(0, 0), [
+      new SAT.Vector(spikeMatrix3Component.x - spikeViewWidthHalf, spikeMatrix3Component.y + spikeViewHeightHalf),
+      new SAT.Vector(spikeMatrix3Component.x + spikeViewWidthHalf, spikeMatrix3Component.y + spikeViewHeightHalf),
+      new SAT.Vector(spikeMatrix3Component.x + spikeViewWidthHalf, spikeMatrix3Component.y - spikeViewHeightHalf),
+      new SAT.Vector(spikeMatrix3Component.x - spikeViewWidthHalf, spikeMatrix3Component.y - spikeViewHeightHalf),
+    ]);
   }
 
   createMapEntities() {
-    const {eventBus, storage: {mainSceneSettings: {roadChunks: {generate: {count}}}}} = this;
+    const {
+      eventBus,
+      storage: {
+        mainSceneSettings: {
+          roadChunks: {
+            generate: {count},
+          },
+        },
+      },
+    } = this;
 
     const mainContainerEntity = this.getFirstEntityByType(MAIN_CONTAINER);
     const roadChunksContainerEntity = this.getFirstEntityByType(ROAD_CHUNKS_CONTAINER);
@@ -317,11 +336,13 @@ export class Level extends System {
   }
 
   checkOnIsInsideCanvasAndDestroy(entities) {
-    const {storage: {canvas}} = this;
+    const {
+      storage: {canvas},
+    } = this;
     let isDestroyed = false;
 
     const savedEntities = [...entities];
-    savedEntities.forEach(entity => {
+    savedEntities.forEach((entity) => {
       const pixiComponent = entity.get(PixiComponent);
       const bounds = pixiComponent.pixiObject.getBounds(true);
       pixiComponent.pixiObject.renderable = getIsInsideCanvas(bounds, canvas);
@@ -335,30 +356,32 @@ export class Level extends System {
   }
 
   checkOnRoadChunksIsInsideInCanvasAndDestroy({roadChunkEntities, roadChunksContainerEntity}) {
-    const {storage: {canvas}} = this;
+    const {
+      storage: {canvas},
+    } = this;
     const roadChunksContainerPixiComponent = roadChunksContainerEntity.get(PixiComponent);
     let isDestroyed = false;
 
-    [...roadChunkEntities].forEach(roadChunkEntity => {
-      const {points: {startPointFirst, startPointSecond, endPointFirst, endPointSecond}} = roadChunkEntity.get(Chunk);
-      const {xs, ys} = [startPointFirst, startPointSecond, endPointFirst, endPointSecond].reduce((acc, {x, y}) => {
-        const globalPoint = roadChunksContainerPixiComponent.pixiObject.toGlobal({x, y});
-        acc.xs.push(globalPoint.x);
-        acc.ys.push(globalPoint.y);
-        return acc;
-      }, {xs: [], ys: []});
+    [...roadChunkEntities].forEach((roadChunkEntity) => {
+      const {
+        points: {startPointFirst, startPointSecond, endPointFirst, endPointSecond},
+      } = roadChunkEntity.get(Chunk);
+      const {xs, ys} = [startPointFirst, startPointSecond, endPointFirst, endPointSecond].reduce(
+        (acc, {x, y}) => {
+          const globalPoint = roadChunksContainerPixiComponent.pixiObject.toGlobal({x, y});
+          acc.xs.push(globalPoint.x);
+          acc.ys.push(globalPoint.y);
+          return acc;
+        },
+        {xs: [], ys: []},
+      );
       const minX = Math.min(...xs);
       const maxX = Math.max(...xs);
       const minY = Math.min(...ys);
       const maxY = Math.max(...ys);
 
       const roadChunkPixiComponent = roadChunkEntity.get(PixiComponent);
-      roadChunkPixiComponent.pixiObject.visible = getIsInsideCanvas({
-        minX,
-        maxX,
-        minY,
-        maxY
-      }, canvas);
+      roadChunkPixiComponent.pixiObject.visible = getIsInsideCanvas({minX, maxX, minY, maxY}, canvas);
 
       if (minY > canvas.offsetHeight) {
         roadChunkEntity.destroy();
@@ -370,13 +393,21 @@ export class Level extends System {
   }
 
   checkOnAddEntities({characterEntity, roadChunkEntities}) {
-    const {storage: {mainSceneSettings: {roadChunks: {generate: {minCountForGenerate}}}}} = this;
+    const {
+      storage: {
+        mainSceneSettings: {
+          roadChunks: {
+            generate: {minCountForGenerate},
+          },
+        },
+      },
+    } = this;
     const collisionComponents = characterEntity.getList(CollisionComponent);
 
     if (!collisionComponents?.length) return; //NOTE: Только на первом кадре может быть такая ситуёвина, так как система коллизий еще не обновилась
     const {collisionList} = collisionComponents.find(({group}) => group === CHARACTER_WITH_ROAD_CHUNK);
-    const indexes = collisionList.map(roadChunkEntity => roadChunkEntities.indexOf(roadChunkEntity));
-    const isCanUpdate = indexes.some(index => roadChunkEntities?.length - index < minCountForGenerate);
+    const indexes = collisionList.map((roadChunkEntity) => roadChunkEntities.indexOf(roadChunkEntity));
+    const isCanUpdate = indexes.some((index) => roadChunkEntities?.length - index < minCountForGenerate);
     isCanUpdate && this.createMapEntities();
     return isCanUpdate;
   }
@@ -386,9 +417,11 @@ export class Level extends System {
    */
   checkOnCollisionWithBonuses({characterEntity}) {
     const characterCollisionComponents = characterEntity.getList(CollisionComponent);
-    const characterCollisionWithBonuses = characterCollisionComponents.find(({group}) => group === CHARACTER_WITH_BONUSES);
+    const characterCollisionWithBonuses = characterCollisionComponents.find(
+      ({group}) => group === CHARACTER_WITH_BONUSES,
+    );
     if (characterCollisionWithBonuses)
-      characterCollisionWithBonuses.collisionList.forEach(entity => entity.destroy());
+      characterCollisionWithBonuses.collisionList.forEach((entity) => entity.destroy());
   }
 
   /**
@@ -396,36 +429,31 @@ export class Level extends System {
    */
   checkOnCollisionWithSpikes({characterEntity}) {
     const characterCollisionComponents = characterEntity.getList(CollisionComponent);
-    const characterCollisionWithSpikes = characterCollisionComponents.find(({group}) => group === CHARACTER_WITH_SPIKES);
-    if (characterCollisionWithSpikes)
-      characterCollisionWithSpikes.collisionList.forEach(entity => entity.destroy());
+    const characterCollisionWithSpikes = characterCollisionComponents.find(
+      ({group}) => group === CHARACTER_WITH_SPIKES,
+    );
+    if (characterCollisionWithSpikes) characterCollisionWithSpikes.collisionList.forEach((entity) => entity.destroy());
   }
 
   updateRoadChunksContainerMask() {
     const roadChunksContainerEntity = this.getFirstEntityByType(ROAD_CHUNKS_CONTAINER);
     const roadChunkViewMask = roadChunksContainerEntity.get(PixiComponent).pixiObject.mask;
     const roadChunkEntities = this.getEntitiesByType(ROAD_CHUNK).list ?? [];
-    const roadChunksChunksPoints = roadChunkEntities.map(roadChunkEntity => roadChunkEntity.get(Chunk).points);
+    const roadChunksChunksPoints = roadChunkEntities.map((roadChunkEntity) => roadChunkEntity.get(Chunk).points);
 
     roadChunkViewMask.clear();
     roadChunksChunksPoints.forEach(({startPointFirst, startPointSecond, endPointFirst}, index) => {
       if (!index) {
         roadChunkViewMask.moveTo(startPointFirst.x, startPointFirst.y);
         roadChunkViewMask.lineTo(startPointSecond.x, startPointSecond.y);
-      } else
-        roadChunkViewMask.lineTo(startPointSecond.x, startPointSecond.y);
+      } else roadChunkViewMask.lineTo(startPointSecond.x, startPointSecond.y);
     });
-    [...roadChunksChunksPoints].reverse().forEach((
-      {
-        startPointFirst,
-        startPointSecond,
-        endPointFirst,
-        endPointSecond
-      }, index) => {
-      if (!index)
-        roadChunkViewMask.lineTo(endPointSecond.x, endPointSecond.y);
-      roadChunkViewMask.lineTo(startPointFirst.x, startPointFirst.y);
-    });
+    [...roadChunksChunksPoints]
+      .reverse()
+      .forEach(({startPointFirst, startPointSecond, endPointFirst, endPointSecond}, index) => {
+        if (!index) roadChunkViewMask.lineTo(endPointSecond.x, endPointSecond.y);
+        roadChunkViewMask.lineTo(startPointFirst.x, startPointFirst.y);
+      });
     roadChunkViewMask.closePath();
     roadChunkViewMask.fill(0xffffff);
   }
@@ -443,7 +471,7 @@ export class Level extends System {
       mainContainerEntity,
       roadChunksContainerEntity,
       roadChunkEntities,
-      arguments
+      arguments,
     };
 
     this.checkOnCollisionWithBonuses(fullArguments);
@@ -455,7 +483,6 @@ export class Level extends System {
 
     const isAddedEntities = this.checkOnAddEntities(fullArguments);
 
-    if (isAddedEntities || isDestroyedRoadChunks)
-      this.updateRoadChunksContainerMask();
+    if (isAddedEntities || isDestroyedRoadChunks) this.updateRoadChunksContainerMask();
   }
 }

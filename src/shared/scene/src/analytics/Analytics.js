@@ -3,7 +3,6 @@ import {FactoryPlugin} from "../performance/scene/FactoryPlugin";
 import {EventDispatcher} from "../lib/event-dispatcher/EventDispatcher";
 
 export class Analytics {
-
   static plugins = [ECSPlugin, FactoryPlugin];
 
   eventBus = new EventDispatcher();
@@ -32,19 +31,18 @@ export class Analytics {
   get statistics() {
     const {plugins} = this;
     const statistics = {};
-    plugins.forEach(plugin => statistics[plugin.type] = plugin.stats);
+    plugins.forEach((plugin) => (statistics[plugin.type] = plugin.stats));
     return statistics;
   }
 
   connect(type, context) {
     const plugin = this.getPlugin(type);
-    if (plugin)
-      plugin.connect(context);
+    if (plugin) plugin.connect(context);
   }
 
   getPlugin(type) {
     const {plugins} = this;
-    return plugins.find(plugin => plugin.type === type);
+    return plugins.find((plugin) => plugin.type === type);
   }
 
   init() {

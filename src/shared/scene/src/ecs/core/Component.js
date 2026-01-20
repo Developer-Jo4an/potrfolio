@@ -7,11 +7,7 @@ export class Component {
    * ADD - событие на добавление компонента в сущность
    * @type {{ADD: string, CREATE: string, REMOVE: string}}
    */
-  static EVENTS = {
-    REMOVE: "component:remove",
-    ADD: "component:add",
-    CREATE: "component:create"
-  };
+  static EVENTS = {REMOVE: "component:remove", ADD: "component:add", CREATE: "component:create"};
 
   /**
    * Тип компонента для возможности фильтрации компонентов

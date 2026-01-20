@@ -5,6 +5,5 @@ export class Game extends MainGame {
     super({...data, types: data.storage.types});
   }
 
-  update(data) {
-  }
+  update(data) {}
 }

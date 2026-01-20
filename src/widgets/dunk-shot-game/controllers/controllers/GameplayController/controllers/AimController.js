@@ -4,10 +4,7 @@ import {dunkShotFactory} from "../../../factory/DunkShotFactory";
 import {INSIDE_BASKET} from "../../../../constants/statuses";
 
 export class AimController extends BaseGameplayController {
-
-  cashedData = {
-    prevPositions: {}
-  };
+  cashedData = {prevPositions: {}};
 
   constructor(data) {
     super(data);
@@ -25,14 +22,14 @@ export class AimController extends BaseGameplayController {
   }
 
   initShadowWorld() {
-    const shadowEngine = this.shadowEngine = Matter.Engine.create();
-    const shadowWorld = this.shadowWorld = shadowEngine.world;
+    const shadowEngine = (this.shadowEngine = Matter.Engine.create());
+    const shadowWorld = (this.shadowWorld = shadowEngine.world);
   }
 
   initShadowWalls() {
     const {shadowEngine, shadowWorld} = this;
 
-    [LEFT, RIGHT].forEach(direction => {
+    [LEFT, RIGHT].forEach((direction) => {
       const wall = dunkShotFactory.createItem("shadowWall", {direction, engine: shadowEngine, world: shadowWorld});
       wall.addToSpaces();
     });
@@ -46,26 +43,26 @@ export class AimController extends BaseGameplayController {
     shadowBall.addToSpaces();
   }
 
-
   throwShadowBall(angle, power) {
-    const {storage: {mainSceneSettings: {throw: throwSettings}}} = this;
+    const {
+      storage: {
+        mainSceneSettings: {throw: throwSettings},
+      },
+    } = this;
     const {ball, shadowBall} = dunkShotFactory;
 
     shadowBall.isGravity = false;
     shadowBall.position = {x: ball.x, y: ball.y};
     shadowBall.angle = ball.angle;
 
-    const formattedAngle = angle + (Math.PI * 3 / 2);
+    const formattedAngle = angle + (Math.PI * 3) / 2;
     const speed = power * throwSettings.power.linear;
 
     Matter.Body.applyForce(shadowBall.body, shadowBall.position, {
       x: Math.cos(formattedAngle) * speed,
-      y: Math.sin(formattedAngle) * speed
+      y: Math.sin(formattedAngle) * speed,
     });
-    Matter.Body.setAngularVelocity(
-      shadowBall.body,
-      (angle > 0 ? -1 : 1) * (power * throwSettings.power.angular)
-    );
+    Matter.Body.setAngularVelocity(shadowBall.body, (angle > 0 ? -1 : 1) * (power * throwSettings.power.angular));
     shadowBall.isGravity = true;
   }
 
@@ -73,15 +70,21 @@ export class AimController extends BaseGameplayController {
     const {
       shadowEngine,
       cashedData: {prevPositions},
-      storage: {mainSceneSettings: {aim: {points: {updateCount, count}}, throw: throwSettings}}
+      storage: {
+        mainSceneSettings: {
+          aim: {
+            points: {updateCount, count},
+          },
+          throw: throwSettings,
+        },
+      },
     } = this;
     const {shadowBall} = dunkShotFactory;
 
     angle = +angle.toFixed(throwSettings.accuracy);
     power = +power.toFixed(throwSettings.accuracy);
 
-    if (prevPositions.key === `${angle}-${power}`)
-      return prevPositions.positions;
+    if (prevPositions.key === `${angle}-${power}`) return prevPositions.positions;
 
     this.throwShadowBall(angle, power);
 
@@ -90,14 +93,17 @@ export class AimController extends BaseGameplayController {
       return {x: shadowBall.position.x, y: shadowBall.position.y};
     });
 
-    const aimPositions = positions.reduce((acc, position) => {
-      acc.counter += 1;
-      if (acc.counter >= updateCount / count) {
-        acc.positions.push(position);
-        acc.counter = 0;
-      }
-      return acc;
-    }, {positions: [], counter: 0}).positions;
+    const aimPositions = positions.reduce(
+      (acc, position) => {
+        acc.counter += 1;
+        if (acc.counter >= updateCount / count) {
+          acc.positions.push(position);
+          acc.counter = 0;
+        }
+        return acc;
+      },
+      {positions: [], counter: 0},
+    ).positions;
 
     prevPositions.key = `${angle}-${power}`;
     prevPositions.positions = aimPositions;
@@ -110,17 +116,17 @@ export class AimController extends BaseGameplayController {
     const {ball, aim} = dunkShotFactory;
 
     if (
-      !Object.values(throwData).every(Boolean)
-      ||
-      !throwData?.currentData?.isCanThrow
-      ||
+      !Object.values(throwData).every(Boolean) ||
+      !throwData?.currentData?.isCanThrow ||
       ball.status !== INSIDE_BASKET
     ) {
       aim.setProperties();
       return;
     }
 
-    const {currentData: {angle, stretchMultiplier}} = throwData;
+    const {
+      currentData: {angle, stretchMultiplier},
+    } = throwData;
 
     const positions = this.getAimPointPositions(angle, stretchMultiplier);
     aim.setProperties(stretchMultiplier, positions);
@@ -130,7 +136,5 @@ export class AimController extends BaseGameplayController {
     this.updateAim();
   }
 
-  reset() {
-
-  }
+  reset() {}
 }

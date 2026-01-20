@@ -7,10 +7,10 @@ import styles from "./DunkShotGameElements.module.scss";
 export function DunkShotGameElements({topMenuEls, progressBarEls}) {
   return (
     <div className={styles.dunkShotGameElements}>
-      <DunkShotTimer/>
-      <DunkShotPureHit/>
-      <DunkShotStar topMenuEls={topMenuEls}/>
-      <DunkShotStars topMenuEls={topMenuEls} progressBarEls={progressBarEls}/>
+      <DunkShotTimer />
+      <DunkShotPureHit />
+      <DunkShotStar topMenuEls={topMenuEls} />
+      <DunkShotStars topMenuEls={topMenuEls} progressBarEls={progressBarEls} />
     </div>
   );
 }

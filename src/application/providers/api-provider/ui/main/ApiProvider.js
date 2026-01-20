@@ -8,11 +8,7 @@ export function ApiProvider({children}) {
     //TODO: есть ли какие-то запросы при изменении pathname?
   }, [pathname]);
 
-  return (
-    <ApiContext.Provider value={{}}>
-      {children}
-    </ApiContext.Provider>
-  );
+  return <ApiContext.Provider value={{}}>{children}</ApiContext.Provider>;
 }
 
 const ApiContext = createContext({});

@@ -1,16 +1,7 @@
 import {useEffect} from "react";
 import {isFunction} from "lodash";
 
-export function useLoadScene(
-  {
-    libraries = [],
-    loadWrapper,
-    initProps = {},
-    containerRef,
-    beforeInit,
-    afterInit
-  }
-) {
+export function useLoadScene({libraries = [], loadWrapper, initProps = {}, containerRef, beforeInit, afterInit}) {
   useEffect(() => {
     let isUnmount = false;
     let beforeClear = null;
@@ -53,7 +44,7 @@ export function useLoadScene(
 
     return () => {
       isUnmount = true;
-      [beforeClear, afterClear].filter(isFunction).forEach(clear => clear());
+      [beforeClear, afterClear].filter(isFunction).forEach((clear) => clear());
     };
   }, []);
 }

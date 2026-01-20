@@ -14,7 +14,9 @@ import {gameSpaceStore} from "../../model/storages/gameSpace";
 import content from "../../constants/content";
 import styles from "./BasketballGame.module.scss";
 
-const {menu: {score, lifes, sound}} = content;
+const {
+  menu: {score, lifes, sound},
+} = content;
 
 export function BasketballGame() {
   const {state} = useBasketballStore();
@@ -24,21 +26,24 @@ export function BasketballGame() {
   const boostersRef = useRef();
   const effectFreeSpaceRef = useRef();
 
-  const fullProps = useMemo(() => ({
-    effectFreeSpaceRef,
-    gameSpace,
-    boostersRef,
-    topMenuElementsRef,
-    isPending: !state || [INITIALIZATION_LEVEL, INITIALIZATION].includes(state)
-  }), [gameSpace, state]);
+  const fullProps = useMemo(
+    () => ({
+      effectFreeSpaceRef,
+      gameSpace,
+      boostersRef,
+      topMenuElementsRef,
+      isPending: !state || [INITIALIZATION_LEVEL, INITIALIZATION].includes(state),
+    }),
+    [gameSpace, state],
+  );
 
   useGetInfo(fullProps);
   useEndGame();
 
   return (
     <div className={styles.basketballGame}>
-      <Background {...fullProps}/>
-      <Canvas {...fullProps}/>
+      <Background {...fullProps} />
+      <Canvas {...fullProps} />
       <TopMenu
         ref={topMenuElementsRef}
         lifes={{count: gameSpace.gameData.lifes, ...lifes}}
@@ -46,9 +51,9 @@ export function BasketballGame() {
         sound={sound}
         pause={pause}
       />
-      <Boosters {...fullProps} ref={fullProps.boostersRef}/>
-      <Effects {...fullProps} ref={fullProps.effectFreeSpaceRef}/>
-      <Loader isPending={fullProps.isPending}/>
+      <Boosters {...fullProps} ref={fullProps.boostersRef} />
+      <Effects {...fullProps} ref={fullProps.effectFreeSpaceRef} />
+      <Loader isPending={fullProps.isPending} />
     </div>
   );
 }

@@ -27,11 +27,7 @@ export function DunkShotWalls({containerRef}) {
   return (
     <div className={styles.walls}>
       {[LEFT, RIGHT].map((side, index) => (
-        <div
-          key={index}
-          className={cl(styles.wall, styles[side])}
-          ref={ref => wallRefs.current[index] = ref}
-        />
+        <div key={index} className={cl(styles.wall, styles[side])} ref={(ref) => (wallRefs.current[index] = ref)} />
       ))}
     </div>
   );

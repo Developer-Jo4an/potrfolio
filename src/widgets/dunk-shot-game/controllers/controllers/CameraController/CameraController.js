@@ -11,28 +11,40 @@ export class CameraController extends BaseController {
     super(data);
   }
 
-  init() {
-
-  }
+  init() {}
 
   get target() {
-    const {storage: {mainSceneSettings: {camera: {validRectangle}}}} = this;
+    const {
+      storage: {
+        mainSceneSettings: {
+          camera: {validRectangle},
+        },
+      },
+    } = this;
     const {mainContainer, ball} = dunkShotFactory;
 
     const ballGlobalPosition = {x: mainContainer.view.position.x + ball.x, y: mainContainer.view.position.y + ball.y};
 
-    const mathFunction = ballGlobalPosition?.y < (validRectangle.y + validRectangle.y + validRectangle.width) / 2 ? MIN : MAX;
+    const mathFunction =
+      ballGlobalPosition?.y < (validRectangle.y + validRectangle.y + validRectangle.width) / 2 ? MIN : MAX;
 
     return ball.status !== INSIDE_BASKET
       ? Math[mathFunction](
-        validRectangle.y - ballGlobalPosition.y,
-        validRectangle.y + validRectangle.height - ballGlobalPosition.y
-      )
+          validRectangle.y - ballGlobalPosition.y,
+          validRectangle.y + validRectangle.height - ballGlobalPosition.y,
+        )
       : validRectangle.y + validRectangle.height - ballGlobalPosition.y;
   }
 
   get speed() {
-    const {target, storage: {mainSceneSettings: {camera: {speed, borderDistance}}}} = this;
+    const {
+      target,
+      storage: {
+        mainSceneSettings: {
+          camera: {speed, borderDistance},
+        },
+      },
+    } = this;
 
     return clamp(Math.abs(target) / borderDistance, speed.min, speed.max);
   }
@@ -40,14 +52,18 @@ export class CameraController extends BaseController {
   moveCamera(mathFunction, deltaTime) {
     const {mainContainer} = dunkShotFactory;
 
-    mainContainer.view.position.y = mainContainer.view.position.y + this.speed * deltaTime * ({
-      [MIN]: 1,
-      [MAX]: -1
-    })[mathFunction];
+    mainContainer.view.position.y =
+      mainContainer.view.position.y + this.speed * deltaTime * {[MIN]: 1, [MAX]: -1}[mathFunction];
   }
 
   updateCamera(milliseconds, deltaTime) {
-    const {storage: {mainSceneSettings: {camera: {validRectangle}}}} = this;
+    const {
+      storage: {
+        mainSceneSettings: {
+          camera: {validRectangle},
+        },
+      },
+    } = this;
     const {ball, mainContainer} = dunkShotFactory;
 
     if (!ball) return;
@@ -68,7 +84,7 @@ export class CameraController extends BaseController {
     }
 
     if (!ballIsInsideCameraValidPlace) {
-      const mathFunction = ballGlobalPosition?.y < (validRectangle.y + validRectangle.height / 2) ? MIN : MAX;
+      const mathFunction = ballGlobalPosition?.y < validRectangle.y + validRectangle.height / 2 ? MIN : MAX;
       this.moveCamera(mathFunction, deltaTime);
     }
   }

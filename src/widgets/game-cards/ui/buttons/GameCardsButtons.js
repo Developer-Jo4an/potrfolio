@@ -13,8 +13,7 @@ export function GameCardsButtons() {
   const allCallbacks = useAppCallbacks();
 
   const onClick = () => {
-    if (activeGame)
-      allCallbacks.redirect(ROUTES[activeGame]);
+    if (activeGame) allCallbacks.redirect(ROUTES[activeGame]);
   };
 
   return (

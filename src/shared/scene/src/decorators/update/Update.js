@@ -2,7 +2,6 @@ import {BaseDecorator} from "../base/BaseDecorator";
 import {UPDATED} from "../../constants/events/names";
 
 export class Update extends BaseDecorator {
-
   updateData = {prevMilliseconds: null, frame: null};
 
   constructor(data) {

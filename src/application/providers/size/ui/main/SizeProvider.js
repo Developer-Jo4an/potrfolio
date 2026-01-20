@@ -25,7 +25,7 @@ export function SizeProvider({children}) {
   return (
     <SizeContext.Provider value={{width, height}}>
       {children}
-      {isVisibleBlock && <div className={styles.blocker}/>}
+      {isVisibleBlock && <div className={styles.blocker} />}
     </SizeContext.Provider>
   );
 }

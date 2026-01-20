@@ -6,7 +6,7 @@ export class PixiRenderSystem extends System {
   updateItems() {
     const entities = this.filterEntitiesByClass(PixiComponent, Matrix3Component);
 
-    entities.forEach(entity => {
+    entities.forEach((entity) => {
       const pixiComponent = entity.get(PixiComponent);
       const matrix3Component = entity.get(Matrix3Component);
 

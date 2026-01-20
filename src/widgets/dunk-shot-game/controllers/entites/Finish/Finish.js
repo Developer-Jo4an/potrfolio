@@ -14,11 +14,19 @@ export class Finish extends BaseEntity {
   }
 
   initView() {
-    const {target, groups, storage: {mainSceneSettings: {finish: {width, height, offset}}}} = this;
+    const {
+      target,
+      groups,
+      storage: {
+        mainSceneSettings: {
+          finish: {width, height, offset},
+        },
+      },
+    } = this;
 
-    const view = this.view ??= new PIXI.Sprite();
+    const view = (this.view ??= new PIXI.Sprite());
     view.label = "finish";
-    groups.back.attach(view)
+    groups.back.attach(view);
     view.texture = assetsManager.getAssetFromSpace(PIXI_SPACE, TEXTURE, FINISH);
     view.scale.set(1);
     view.anchor.set(0, 1);

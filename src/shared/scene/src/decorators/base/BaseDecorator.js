@@ -1,14 +1,9 @@
 export class BaseDecorator {
   constructor(data) {
-    for (const key in data)
-      this[key] = data[key];
+    for (const key in data) this[key] = data[key];
   }
 
-  initDecorator() {
+  initDecorator() {}
 
-  }
-
-  reset() {
-
-  }
+  reset() {}
 }

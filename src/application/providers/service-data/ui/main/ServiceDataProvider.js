@@ -25,11 +25,9 @@ export function ServiceDataProvider({children, storageSettings = {}}) {
           const updatedServiceData = cloneDeep(serviceData);
 
           keys.reduce((acc, key, index, {length}) => {
-            if (!acc[key])
-              acc[key] = {};
+            if (!acc[key]) acc[key] = {};
 
-            if (index === length - 1)
-              acc[key] = data;
+            if (index === length - 1) acc[key] = data;
 
             return acc[key];
           }, updatedServiceData);
@@ -38,11 +36,9 @@ export function ServiceDataProvider({children, storageSettings = {}}) {
 
           setServiceData(updatedServiceData);
         },
-        api() {
-
-        }
+        api() {},
       })[storageType]?.(storageSettings, data);
-    }
+    },
   };
 
   useEffect(() => {
@@ -53,8 +49,7 @@ export function ServiceDataProvider({children, storageSettings = {}}) {
         const storageId = encode(key);
 
         const storageData =
-          localStorage.getItem(storageId)
-          ??
+          localStorage.getItem(storageId) ??
           (() => {
             localStorage.setItem(storageId, encode(JSON.stringify({})));
             return localStorage.getItem(storageId);
@@ -64,9 +59,7 @@ export function ServiceDataProvider({children, storageSettings = {}}) {
 
         setServiceData(parsedData);
       },
-      api() {
-
-      }
+      api() {},
     })[storageType]?.(storageSettings);
   }, []);
 
@@ -74,11 +67,7 @@ export function ServiceDataProvider({children, storageSettings = {}}) {
     getIsDebug() && console.log("CHANGED SERVICE DATA>>", serviceData);
   }, [serviceData]);
 
-  return (
-    <ServiceDataContext.Provider value={{serviceData, ...actions}}>
-      {children}
-    </ServiceDataContext.Provider>
-  );
+  return <ServiceDataContext.Provider value={{serviceData, ...actions}}>{children}</ServiceDataContext.Provider>;
 }
 
 export const useServiceData = () => useContext(ServiceDataContext);

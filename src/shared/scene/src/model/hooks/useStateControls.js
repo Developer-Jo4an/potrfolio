@@ -11,27 +11,25 @@ export function useStateControls(wrapper, stateMachine, ignoreNextStates, reduce
 
     const clear = eventSubscription({
       target: eventBus,
-      callbacksBus: [{
-        event: STATE_CHANGED,
-        async callback({state}) {
-          const changeStatePromise = controller[`${state}Select`]?.();
+      callbacksBus: [
+        {
+          event: STATE_CHANGED,
+          async callback({state}) {
+            const changeStatePromise = controller[`${state}Select`]?.();
 
-          onChangedAnyState?.(state);
+            onChangedAnyState?.(state);
 
-          const nextState = stateMachine[state].nextState;
+            const nextState = stateMachine[state].nextState;
 
-          const onStateChange = reducers[state];
-          await onStateChange?.(
-            changeStatePromise,
-            (newState = nextState) => controller.state = newState
-          );
+            const onStateChange = reducers[state];
+            await onStateChange?.(changeStatePromise, (newState = nextState) => (controller.state = newState));
 
-          await changeStatePromise;
+            await changeStatePromise;
 
-          if (!ignoreNextStates.includes(state))
-            controller.state = nextState;
-        }
-      }]
+            if (!ignoreNextStates.includes(state)) controller.state = nextState;
+          },
+        },
+      ],
     });
 
     controller.state = getDefaultState(stateMachine);

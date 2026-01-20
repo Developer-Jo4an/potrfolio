@@ -16,11 +16,8 @@ export function GameCardsBackground() {
       {gameList.map(({id}, index) => (
         <Image
           key={id}
-          ref={ref => cardsBackground[index] = ref}
-          className={cl(
-            styles.gameCardBackgroundImage,
-            {[styles.gameCardBackgroundImageVisible]: activeGame === id}
-          )}
+          ref={(ref) => (cardsBackground[index] = ref)}
+          className={cl(styles.gameCardBackgroundImage, {[styles.gameCardBackgroundImageVisible]: activeGame === id})}
           src={`widgets/game-cards/backgrounds/${id}.png`}
         />
       ))}

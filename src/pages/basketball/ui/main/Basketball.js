@@ -5,7 +5,7 @@ import styles from "./BasketballGame.module.scss";
 function Basketball() {
   return (
     <section className={styles.basketball}>
-      <BasketballGame/>
+      <BasketballGame />
     </section>
   );
 }

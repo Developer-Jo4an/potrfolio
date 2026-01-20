@@ -14,13 +14,16 @@ export class Movement extends System {
     const {
       storage: {
         mainSceneSettings: {character},
-        gameSpace: {characterMovement, characterMovement: {currentSpeed, currentDirection: direction}}
-      }
+        gameSpace: {
+          characterMovement,
+          characterMovement: {currentSpeed, currentDirection: direction},
+        },
+      },
     } = this;
     const characterMatrixComponent = characterEntity.get(Matrix3Component);
     const speed = (characterMovement.currentSpeed = Math.min(
       currentSpeed + character.velocity * deltaTime ** 2, // т.к ускорение
-      character.speed * deltaTime
+      character.speed * deltaTime,
     ));
     const angle = character.rotationFromDirection[direction];
 

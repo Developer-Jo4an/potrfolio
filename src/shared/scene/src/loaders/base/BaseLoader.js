@@ -1,3 +1,1 @@
-export class BaseLoader {
-
-}
+export class BaseLoader {}

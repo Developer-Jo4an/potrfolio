@@ -7,17 +7,13 @@ import {modals} from "../../constants/modals";
 import {ANIMATION_NAMES, backgroundAnimations, containerAnimations} from "../../constants/animations";
 import styles from "./ModalContainer.module.scss";
 
-export function ModalContainer(
-  {
-    type,
-    props,
-    isCloseOnBackground,
-    animation: {
-      background = ANIMATION_NAMES.default,
-      container = ANIMATION_NAMES.default
-    } = {},
-    id
-  }) {
+export function ModalContainer({
+  type,
+  props,
+  isCloseOnBackground,
+  animation: {background = ANIMATION_NAMES.default, container = ANIMATION_NAMES.default} = {},
+  id,
+}) {
   const {close} = useModalStore();
 
   const Component = modals[type] ?? "div";
@@ -37,7 +33,7 @@ export function ModalContainer(
     <motion.div
       className={cl(styles.modalWrapper, {
         [styles.modalActive]: isCanInteractive,
-        [styles.modalDisabled]: !isCanInteractive
+        [styles.modalDisabled]: !isCanInteractive,
       })}
       {...backgroundAnimations[background]}
       {...animationHandlers}
@@ -49,7 +45,7 @@ export function ModalContainer(
         onClick={onClick}
       >
         <div className={styles.modalParent}>
-          <Component modalProps={props} id={id}/>
+          <Component modalProps={props} id={id} />
         </div>
       </motion.div>
     </motion.div>

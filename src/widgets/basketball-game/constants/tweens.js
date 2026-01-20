@@ -4,5 +4,5 @@ export const TWEENS = {
   hitMessage: "hitMessage",
   extraLifeTrailTween: "extraLifeTrailTween",
   extraLifePulseTween: "extraLifePulseTween",
-  x2ViewTween: "x2ViewTween"
+  x2ViewTween: "x2ViewTween",
 };

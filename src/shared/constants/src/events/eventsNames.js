@@ -24,5 +24,3 @@ export const DRAG_END = "drag:end";
 export const START = [TOUCH_START, MOUSE_DOWN];
 export const MOVE = [TOUCH_MOVE, MOUSE_MOVE];
 export const END = [TOUCH_END, TOUCH_CANCEL, MOUSE_UP];
-
-

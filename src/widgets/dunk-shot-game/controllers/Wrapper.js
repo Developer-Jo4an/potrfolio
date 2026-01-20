@@ -2,9 +2,8 @@ import {Controller} from "./Controller";
 import {STATE_DECORATOR_FIELD, PixiWrapper} from "@shared";
 
 export class Wrapper extends PixiWrapper {
-
   static get instance() {
-    return this._instance ??= new Wrapper();
+    return (this._instance ??= new Wrapper());
   }
 
   registerController(data) {

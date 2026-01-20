@@ -9,7 +9,7 @@ export class Performance extends BaseDecorator {
 
   async initDecorator() {
     const {default: Stats} = await import("stats.js");
-    const stats = this.stats = new Stats();
+    const stats = (this.stats = new Stats());
     document.body.appendChild(stats.dom);
   }
 

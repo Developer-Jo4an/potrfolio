@@ -13,13 +13,9 @@ export function GameCardsList() {
 
   return (
     <div className={styles.gameCardsList} {...useCardFlipping({gameCards})}>
-      {gameList.map((gameData, index) =>
-        <GameCard
-          ref={ref => gameCards[index] = ref}
-          key={index}
-          gameData={gameData}
-        />
-      )}
+      {gameList.map((gameData, index) => (
+        <GameCard ref={(ref) => (gameCards[index] = ref)} key={index} gameData={gameData} />
+      ))}
     </div>
   );
 }

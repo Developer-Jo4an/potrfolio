@@ -5,7 +5,7 @@ import styles from "./DunkShot.module.scss";
 function DunkShot() {
   return (
     <section className={styles.dunkShot}>
-      <DunkShotGame/>
+      <DunkShotGame />
     </section>
   );
 }

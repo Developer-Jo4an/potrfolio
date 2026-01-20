@@ -1,50 +1,34 @@
 export const timerAnimation = {
-  offset: {
-    x: 0, y: 75
-  },
+  offset: {x: 0, y: 75},
   motion: {
     initial: {opacity: 0},
     animate: {opacity: 1},
     exit: {opacity: 0},
-    transition: {
-      duration: 0.3,
-      type: "tween",
-      ease: "easeInOut"
-    }
-  }
+    transition: {duration: 0.3, type: "tween", ease: "easeInOut"},
+  },
 };
 
 export const pureHitAnimation = {
   offset: {x: 0, y: -40},
-  confetti: {
-    width: 240, height: 240,
-    decorateOptions: {particleCount: 25, startVelocity: 7.5}
-  },
+  confetti: {width: 240, height: 240, decorateOptions: {particleCount: 25, startVelocity: 7.5}},
   motion: {
     initial: {opacity: 0},
     animate: {opacity: 1},
     exit: {opacity: 0},
-    transition: {
-      duration: 0.3,
-      type: "tween",
-      ease: "easeInOut"
-    }
-  }
+    transition: {duration: 0.3, type: "tween", ease: "easeInOut"},
+  },
 };
 
 export const starAnimation = {
   offset: {x: 150, y: 0},
   delayBetween: 0.04,
   opacity: {max: 1, min: 0.2},
-  scale: {max: 1, min: 0.5}
-}
+  scale: {max: 1, min: 0.5},
+};
 
 export const starsAnimation = {
   offset: {x: 150, y: 0},
-  delay: {
-    betweenStars: 0.04,
-    betweenGroups: 0.25
-  },
+  delay: {betweenStars: 0.04, betweenGroups: 0.25},
   opacity: {max: 1, min: 0.2},
-  scale: {max: 1, min: 0.5}
-}
+  scale: {max: 1, min: 0.5},
+};

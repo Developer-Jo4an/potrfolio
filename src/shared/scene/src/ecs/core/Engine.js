@@ -66,7 +66,7 @@ export class Engine {
    * @returns {*}
    */
   getEntitiesByComponent(component) {
-    return Object.values(this.entities).flatMap(({list}) => list.filter(entity => entity.has(component)));
+    return Object.values(this.entities).flatMap(({list}) => list.filter((entity) => entity.has(component)));
   }
 
   /**
@@ -112,11 +112,11 @@ export class Engine {
    * @param type
    */
   onComponentAdded({
-                     data: {
-                       component,
-                       component: {type}
-                     }
-                   }) {
+    data: {
+      component,
+      component: {type},
+    },
+  }) {
     this.checkComponentCollection(type, component.constructor);
   }
 
@@ -126,11 +126,11 @@ export class Engine {
    * @param type
    */
   onComponentRemoved({
-                       data: {
-                         component,
-                         component: {type}
-                       }
-                     }) {
+    data: {
+      component,
+      component: {type},
+    },
+  }) {
     this.checkComponentCollection(type, component.constructor);
 
     this.components[type].remove(component);
@@ -149,11 +149,11 @@ export class Engine {
    * @param type
    */
   onComponentCreated({
-                       data: {
-                         component,
-                         component: {type}
-                       }
-                     }) {
+    data: {
+      component,
+      component: {type},
+    },
+  }) {
     this.checkComponentCollection(type, component.constructor);
 
     this.components[type].add(component);
@@ -190,11 +190,11 @@ export class Engine {
    * @param type
    */
   onEntityRemoved({
-                    data: {
-                      entity,
-                      entity: {type}
-                    }
-                  }) {
+    data: {
+      entity,
+      entity: {type},
+    },
+  }) {
     this.checkEntityCollection(type);
     this.entities[type].remove(entity);
   }
@@ -205,11 +205,11 @@ export class Engine {
    * @param type
    */
   onEntityCreated({
-                    data: {
-                      entity,
-                      entity: {type}
-                    }
-                  }) {
+    data: {
+      entity,
+      entity: {type},
+    },
+  }) {
     this.checkEntityCollection(type);
     this.entities[type].add(entity);
   }
@@ -228,7 +228,7 @@ export class Engine {
    */
   update(data) {
     this._ticks++;
-    this.systems.list.forEach(system => system.update({...data, ticks: this._ticks}));
+    this.systems.list.forEach((system) => system.update({...data, ticks: this._ticks}));
   }
 
   /**
@@ -237,14 +237,14 @@ export class Engine {
    */
   lazyUpdate(data) {
     this._ticks++;
-    this.systems.list.forEach(system => system.lazyUpdate({...data, ticks: this._ticks}));
+    this.systems.list.forEach((system) => system.lazyUpdate({...data, ticks: this._ticks}));
   }
 
   /**
    * Сброс систем
    */
   reset() {
-    this.systems.list.forEach(system => system.reset());
+    this.systems.list.forEach((system) => system.reset());
   }
 
   /**
@@ -252,7 +252,7 @@ export class Engine {
    * @param settings
    */
   configure(settings) {
-    this.systems.list.forEach(system => system.configure(settings));
+    this.systems.list.forEach((system) => system.configure(settings));
   }
 
   /**
@@ -263,9 +263,9 @@ export class Engine {
     const first = components[0];
     if (!this.componentsClasses.has(first)) return [];
     return this.componentsClasses
-    .get(first)
-    .list.filter(component => component.entity.isInherits(components))
-    .map(component => component.entity);
+      .get(first)
+      .list.filter((component) => component.entity.isInherits(components))
+      .map((component) => component.entity);
   }
 
   destroy() {

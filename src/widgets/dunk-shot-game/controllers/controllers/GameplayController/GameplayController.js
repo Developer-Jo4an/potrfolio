@@ -13,26 +13,14 @@ import {VISIBLE} from "../../../constants/modes";
 import {TO_DOWN} from "../../../constants/statuses";
 import {dunkShotAnimationPlayer} from "../../animations/DunkShotAnimationPlayer";
 
-
 export class GameplayController extends BaseGameplayController {
-
-  static CONTROLLERS = [
-    BallController,
-    MapEntitiesController,
-    AimController,
-    BoostersController
-  ];
+  static CONTROLLERS = [BallController, MapEntitiesController, AimController, BoostersController];
 
   controllers = [];
 
-  throwData = {
-    startData: null,
-    currentData: null
-  };
+  throwData = {startData: null, currentData: null};
 
-  idealThrowData = {
-    collisions: []
-  };
+  idealThrowData = {collisions: []};
 
   constructor(data) {
     super(data);
@@ -42,26 +30,59 @@ export class GameplayController extends BaseGameplayController {
 
   init() {
     const {
-      eventBus, renderer, canvas, stage, storage, state, engine, world, app, groups, controllers,
-      throwData, idealThrowData, config, decorators, gameData
+      eventBus,
+      renderer,
+      canvas,
+      stage,
+      storage,
+      state,
+      engine,
+      world,
+      app,
+      groups,
+      controllers,
+      throwData,
+      idealThrowData,
+      config,
+      decorators,
+      gameData,
     } = this;
 
     const generalData = {
-      eventBus, renderer, decorators, canvas, stage, storage, state, engine, world, app, groups, throwData,
-      idealThrowData, config, gameData
+      eventBus,
+      renderer,
+      decorators,
+      canvas,
+      stage,
+      storage,
+      state,
+      engine,
+      world,
+      app,
+      groups,
+      throwData,
+      idealThrowData,
+      config,
+      gameData,
     };
 
-    GameplayController.CONTROLLERS.forEach(ControllerClass => {
+    GameplayController.CONTROLLERS.forEach((ControllerClass) => {
       const controller = new ControllerClass(generalData);
       controller.initEvents?.();
       controllers.push(controller);
     });
 
-    controllers.forEach(controller => controller.init?.());
+    controllers.forEach((controller) => controller.init?.());
   }
 
   async fellSelect() {
-    const {storage: {mainSceneSettings: {states: {fell}}}} = this;
+    const {
+      storage: {
+        mainSceneSettings: {
+          states: {fell},
+        },
+      },
+    } = this;
     const {activeBasket, nextBasket, ball} = dunkShotFactory;
 
     this.resetThrowData();
@@ -82,7 +103,7 @@ export class GameplayController extends BaseGameplayController {
     await dunkShotAnimationPlayer.basketDefaultAnimation(activeBasket, {
       rotation: true,
       scale: {isImmediate: true},
-      alpha: true
+      alpha: true,
     });
 
     ball.isGravity = true;
@@ -91,7 +112,9 @@ export class GameplayController extends BaseGameplayController {
   }
 
   deleteDamageAnimation() {
-    const {ball: {_factoryUUID, view}} = dunkShotFactory;
+    const {
+      ball: {_factoryUUID, view},
+    } = dunkShotFactory;
 
     const damageAnimation = gsap.localTimeline.getTweenByNamespaceAndId(DUNK_SHOT_TWEEN, `ballDamage${_factoryUUID}`);
 
@@ -103,7 +126,7 @@ export class GameplayController extends BaseGameplayController {
 
   update(milliseconds, deltaTime) {
     const {controllers} = this;
-    controllers.forEach(controller => controller.update(milliseconds, deltaTime));
+    controllers.forEach((controller) => controller.update(milliseconds, deltaTime));
   }
 
   resetThrowData() {

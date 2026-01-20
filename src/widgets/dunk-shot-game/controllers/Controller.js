@@ -20,7 +20,7 @@ import {
   RESIZE_DECORATOR_FIELD,
   STATE_DECORATOR_FIELD,
   UPDATE_DECORATOR_FIELD,
-  PAUSED
+  PAUSED,
 } from "@shared";
 import {DUNK_SHOT_TWEEN, GAME_SIZE} from "../constants";
 import {DUNK_SHOT_STATE_MACHINE} from "../constants/stateMachine";
@@ -31,13 +31,7 @@ import {dunkShotUtils} from "./utils/DunkShotUtils";
 import {RESET_ITEMS} from "../constants/factoryVariables";
 
 export class Controller extends PIXIController {
-
-  CONTROLLERS = [
-    GameplayController,
-    InteractionController,
-    CameraController,
-    EffectsController
-  ];
+  CONTROLLERS = [GameplayController, InteractionController, CameraController, EffectsController];
 
   controllers = [];
 
@@ -45,7 +39,7 @@ export class Controller extends PIXIController {
     {DecoratorClass: PIXIMatterUpdate, decoratorField: UPDATE_DECORATOR_FIELD},
     {DecoratorClass: Resize, decoratorField: RESIZE_DECORATOR_FIELD},
     {DecoratorClass: State, decoratorField: STATE_DECORATOR_FIELD},
-    getIsDebug() && {DecoratorClass: Performance, decoratorField: PERFORMANCE_DECORATOR_FIELD}
+    getIsDebug() && {DecoratorClass: Performance, decoratorField: PERFORMANCE_DECORATOR_FIELD},
   ].filter(Boolean);
 
   groups = {};
@@ -112,11 +106,9 @@ export class Controller extends PIXIController {
 
     const updateDecorator = decorators[UPDATE_DECORATOR_FIELD];
 
-    if (!updateDecorator.isStarted)
-      updateDecorator.startUpdate();
+    if (!updateDecorator.isStarted) updateDecorator.startUpdate();
 
-    if (gsap.localTimeline.getStatusByNamespace(DUNK_SHOT_TWEEN) === PAUSED)
-      gsap.localTimeline.play(DUNK_SHOT_TWEEN);
+    if (gsap.localTimeline.getStatusByNamespace(DUNK_SHOT_TWEEN) === PAUSED) gsap.localTimeline.play(DUNK_SHOT_TWEEN);
   }
 
   initEvents() {
@@ -127,15 +119,15 @@ export class Controller extends PIXIController {
       callbacksBus: [
         {event: RESIZE, callback: this.onResized},
         {event: UPDATED, callback: this.onUpdated},
-        {event: DUNK_SHOT_GAME_DATA_EVENT, callback: ({gameData}) => this.gameData = gameData},
-        {event: DUNK_SHOT_CONFIG_EVENT, callback: ({config}) => this.config = config}
-      ]
+        {event: DUNK_SHOT_GAME_DATA_EVENT, callback: ({gameData}) => (this.gameData = gameData)},
+        {event: DUNK_SHOT_CONFIG_EVENT, callback: ({config}) => (this.config = config)},
+      ],
     });
   }
 
   initWorld() {
-    const engine = this.engine = Matter.Engine.create();
-    const world = this.world = engine.world;
+    const engine = (this.engine = Matter.Engine.create());
+    const world = (this.world = engine.world);
   }
 
   initStage() {
@@ -153,7 +145,7 @@ export class Controller extends PIXIController {
   }
 
   initWalls() {
-    [LEFT, RIGHT].forEach(direction => {
+    [LEFT, RIGHT].forEach((direction) => {
       const wall = dunkShotFactory.createItem("wall", {direction});
       wall.addToSpaces();
     });
@@ -165,10 +157,16 @@ export class Controller extends PIXIController {
   }
 
   initLayers() {
-    const {stage, groups, storage: {mainSceneSettings: {layers}}} = this;
+    const {
+      stage,
+      groups,
+      storage: {
+        mainSceneSettings: {layers},
+      },
+    } = this;
 
     layers.forEach(({id}) => {
-      const layer = groups[id] = new PIXI.RenderLayer({sortableChildren: true});
+      const layer = (groups[id] = new PIXI.RenderLayer({sortableChildren: true}));
       layer.label = `${id}Layer`;
       stage.addChild(layer);
     });
@@ -177,38 +175,62 @@ export class Controller extends PIXIController {
   initControllers() {
     const {CONTROLLERS, generalData} = this;
 
-    const controllers = this.controllers = CONTROLLERS.map(ControllerClass => {
+    const controllers = (this.controllers = CONTROLLERS.map((ControllerClass) => {
       const controller = new ControllerClass(generalData);
       controller.initEvents?.();
       return controller;
-    });
+    }));
 
-    controllers.forEach(controller => controller.init?.());
+    controllers.forEach((controller) => controller.init?.());
 
     this.collisionObserver = new CollisionObserver(generalData);
   }
 
   get generalData() {
     const {
-      eventBus, config, gameData, decorators, renderer, canvas, stage, storage, state, engine, world, app, groups
+      eventBus,
+      config,
+      gameData,
+      decorators,
+      renderer,
+      canvas,
+      stage,
+      storage,
+      state,
+      engine,
+      world,
+      app,
+      groups,
     } = this;
 
     return {
-      eventBus, renderer, canvas, decorators, stage, storage, state, engine, world, app, groups, config, gameData
+      eventBus,
+      renderer,
+      canvas,
+      decorators,
+      stage,
+      storage,
+      state,
+      engine,
+      world,
+      app,
+      groups,
+      config,
+      gameData,
     };
   }
 
   onResized() {
-    const {stage, $container: {offsetWidth: width, offsetHeight: height}} = this;
+    const {
+      stage,
+      $container: {offsetWidth: width, offsetHeight: height},
+    } = this;
 
     const scale = width / GAME_SIZE.width; // Игра вписана по ширине
 
     stage.scale.set(scale);
 
-    stage.position.set(
-      (width - GAME_SIZE.width * scale) / 2,
-      (height - GAME_SIZE.height * scale) / 2
-    );
+    stage.position.set((width - GAME_SIZE.width * scale) / 2, (height - GAME_SIZE.height * scale) / 2);
   }
 
   onUpdated({deltaMS, deltaTime}) {
@@ -218,7 +240,7 @@ export class Controller extends PIXIController {
 
     if (!stateMachine[state]?.isAvailableUpdate) return;
 
-    controllers.forEach(controller => controller?.update?.(deltaMS, deltaTime));
+    controllers.forEach((controller) => controller?.update?.(deltaMS, deltaTime));
     Matter.Engine.update(engine, deltaMS);
   }
 
@@ -228,12 +250,11 @@ export class Controller extends PIXIController {
 
     gsap.localTimeline.clear(DUNK_SHOT_TWEEN);
 
-    for (const key in storage)
-      RESET_ITEMS.includes(key) && storage[key].resetItems();
+    for (const key in storage) RESET_ITEMS.includes(key) && storage[key].resetItems();
 
     const arrayDecorators = Object.values(decorators);
     const toReset = [...arrayDecorators, ...controllers];
-    await Promise.all(toReset.map(item => item.reset?.() ?? Promise.resolve()));
+    await Promise.all(toReset.map((item) => item.reset?.() ?? Promise.resolve()));
 
     eventBus.dispatchEvent({type: CONTROLLER_RESET});
   }

@@ -17,7 +17,7 @@ export function GameCardsNavigation() {
           events={{onClick: () => onSwipe({direction: id})}}
           {...otherProps}
         >
-          <Icon/>
+          <Icon />
         </Button>
       ))}
     </div>

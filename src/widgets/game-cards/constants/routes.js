@@ -5,7 +5,7 @@ import {
   CAR as CAR_ROUTE,
   MARIO as MARIO_ROUTE,
   FRUITS as FRUITS_ROUTE,
-  DRIVE as DRIVE_ROUTE
+  DRIVE as DRIVE_ROUTE,
 } from "../../../shared/constants/src/pages/routes";
 
 export const ROUTES = {
@@ -14,5 +14,5 @@ export const ROUTES = {
   [CAR]: CAR_ROUTE,
   [MARIO]: MARIO_ROUTE,
   [FRUITS]: FRUITS_ROUTE,
-  [DRIVE]: DRIVE_ROUTE
+  [DRIVE]: DRIVE_ROUTE,
 };

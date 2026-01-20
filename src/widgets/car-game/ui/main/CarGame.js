@@ -21,34 +21,33 @@ export function CarGame() {
     },
     initProps: {stateMachine: CAR_STATE_MACHINE, mainSceneSettings, preload},
     afterInit: setWrapper,
-    containerRef
+    containerRef,
   });
 
-  useStateControls(wrapper, CAR_STATE_MACHINE, IGNORE_NEXT_STATES, useMemo(() => {
-    if (!wrapper) return {};
-    return {
-      async [LOSE](promise, toNextState) {
-        await promise;
-        await wrapper.reset();
-        toNextState();
-      }
-    };
-  }, [wrapper]));
+  useStateControls(
+    wrapper,
+    CAR_STATE_MACHINE,
+    IGNORE_NEXT_STATES,
+    useMemo(() => {
+      if (!wrapper) return {};
+      return {
+        async [LOSE](promise, toNextState) {
+          await promise;
+          await wrapper.reset();
+          toNextState();
+        },
+      };
+    }, [wrapper]),
+  );
 
   useEffect(() => {
     if (wrapper)
       return eventSubscription({
         target: wrapper.eventBus,
         callbacksBus: [
-          {
-            event: BONUSES_COLLISION, callback: ({count}) => {
-            }
-          },
-          {
-            event: SPIKES_COLLISION, callback: ({count}) => {
-            }
-          }
-        ]
+          {event: BONUSES_COLLISION, callback: ({count}) => {}},
+          {event: SPIKES_COLLISION, callback: ({count}) => {}},
+        ],
       });
   }, [wrapper]);
 
@@ -56,8 +55,8 @@ export function CarGame() {
 
   return (
     <>
-      <Image className={styles.carGameBackground} src={"widgets/car-game/background.jpg"}/>
-      <div className={styles.carGame} ref={containerRef}/>
+      <Image className={styles.carGameBackground} src={"widgets/car-game/background.jpg"} />
+      <div className={styles.carGame} ref={containerRef} />
     </>
   );
 }

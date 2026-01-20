@@ -14,7 +14,7 @@ export class Entity {
     REMOVE: "entity:remove",
     CREATE: "entity:create",
     ENABLE: "entity:enable",
-    DISABLE: "entity:disable"
+    DISABLE: "entity:disable",
   };
 
   /**
@@ -80,7 +80,7 @@ export class Entity {
   add(...newChildren) {
     const {children} = this;
     children.push(...newChildren);
-    newChildren.forEach(child => child.entity = this);
+    newChildren.forEach((child) => (child.entity = this));
   }
 
   /**
@@ -101,7 +101,7 @@ export class Entity {
    */
   removeAll() {
     const {children} = this;
-    children.forEach(child => child.destroy());
+    children.forEach((child) => child.destroy());
     children.length = 0;
   }
 
@@ -112,8 +112,7 @@ export class Entity {
     const {children} = this;
 
     const indexes = [];
-    for (let i = children.length - 1; i >= 0; i--)
-      children[i] instanceof Class && indexes.push(i);
+    for (let i = children.length - 1; i >= 0; i--) children[i] instanceof Class && indexes.push(i);
 
     for (const index of indexes) {
       const [component] = children.splice(index, 1);
@@ -164,14 +163,13 @@ export class Entity {
     this.dispatch(`${Entity.EVENTS.ENABLE}-${this.type}`, {entity: this});
   }
 
-
   isInherits(components) {
-    return components.every(component => this.has(component));
+    return components.every((component) => this.has(component));
   }
 
   has(Class) {
     const {children} = this;
-    return children.some(v => v instanceof Class);
+    return children.some((v) => v instanceof Class);
   }
 
   /**
@@ -181,7 +179,7 @@ export class Entity {
    */
   get(ComponentClass) {
     const {children} = this;
-    return children.find(v => v instanceof ComponentClass);
+    return children.find((v) => v instanceof ComponentClass);
   }
 
   /**
@@ -191,7 +189,7 @@ export class Entity {
    */
   getList(ComponentClass) {
     const {children} = this;
-    return children.filter(v => v instanceof ComponentClass);
+    return children.filter((v) => v instanceof ComponentClass);
   }
 
   /**
@@ -202,6 +200,6 @@ export class Entity {
    */
   getSome(ComponentClass, ...types) {
     const {children} = this;
-    return children.filter(component => component instanceof ComponentClass && types.includes(component.type));
+    return children.filter((component) => component instanceof ComponentClass && types.includes(component.type));
   }
 }

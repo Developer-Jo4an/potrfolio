@@ -7,7 +7,11 @@ import {WINGS as WINGS_STATE} from "../../constants/stateMachine";
 import content from "../../constants/content";
 
 export function useBoosters() {
-  const {wrapper, setDunkShotBoosters, gameData: {boosters}} = useDunkShotStore();
+  const {
+    wrapper,
+    setDunkShotBoosters,
+    gameData: {boosters},
+  } = useDunkShotStore();
 
   const boosterCallbacks = {
     [EXTRA_LIFE]() {
@@ -19,12 +23,11 @@ export function useBoosters() {
     [WINGS]() {
       setDunkShotBoosters({action: APPLY, data: WINGS});
       wrapper.state = WINGS_STATE;
-    }
+    },
   };
 
   const onClick = ({value, name, isDisabled}) => {
-    if (value && !isDisabled)
-      boosterCallbacks[name]();
+    if (value && !isDisabled) boosterCallbacks[name]();
   };
 
   useEffect(() => {
@@ -39,17 +42,17 @@ export function useBoosters() {
           event: BOOSTERS_SET_DISABLED,
           callback({isDisabled}) {
             setDunkShotBoosters({action: DISABLED, data: isDisabled});
-          }
-        }
-      ]
+          },
+        },
+      ],
     });
   }, [wrapper]);
 
   return {
-    boosters: boosters?.map(boosterData => {
+    boosters: boosters?.map((boosterData) => {
       const extraData = content.boosters.find(({booster}) => booster === boosterData.name);
       return {...boosterData, ...extraData};
     }),
-    onClick
+    onClick,
   };
-};
+}

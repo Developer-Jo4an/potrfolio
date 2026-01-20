@@ -27,12 +27,14 @@ export function useEndGame() {
           callback({status}) {
             wrapper.state = status;
 
-            const {gameData: {story, pureCount, score}} = gameSpaceStore.gameSpace;
+            const {
+              gameData: {story, pureCount, score},
+            } = gameSpaceStore.gameSpace;
             const modalData = endModal({wrapper, redirect, score, pureCount, status, story});
             add(modalData);
-          }
-        }
-      ]
+          },
+        },
+      ],
     });
   }, [wrapper]);
 }

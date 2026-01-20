@@ -19,11 +19,7 @@ export function DunkShotPureHit() {
 
     const {eventBus} = wrapper;
 
-    const savedData = {
-      pureData: {
-        isShoot: false
-      }
-    };
+    const savedData = {pureData: {isShoot: false}};
 
     return eventSubscription({
       target: eventBus,
@@ -31,8 +27,7 @@ export function DunkShotPureHit() {
         {
           event: THROW_PURE_DATA,
           callback({pureData: {position, isActive, stage}}) {
-            if (stage === START)
-              savedData.pureData.isShoot = false;
+            if (stage === START) savedData.pureData.isShoot = false;
 
             if (confettiController.current) {
               const {ref, callbacks} = confettiController.current;
@@ -40,7 +35,8 @@ export function DunkShotPureHit() {
               gsap.set(ref, {
                 "--x": `${position.x + offset.x}px`,
                 "--y": `${position.y + offset.y}px`,
-                width: confetti.width, height: confetti.height
+                width: confetti.width,
+                height: confetti.height,
               });
 
               if (!savedData.pureData.isShoot) {
@@ -50,7 +46,7 @@ export function DunkShotPureHit() {
             }
 
             setPureHit({x: position.x + offset.x, y: position.y + offset.y, isActive});
-          }
+          },
         },
         {
           event: CONTROLLER_RESET,
@@ -61,33 +57,29 @@ export function DunkShotPureHit() {
               const {callbacks} = confettiController.current;
               callbacks.stop();
             }
-          }
-        }
-      ]
+          },
+        },
+      ],
     });
   }, [wrapper]);
 
   return (
     <>
       <AnimatePresence>
-        {pureHit?.isActive &&
+        {pureHit?.isActive && (
           <motion.div
             className={styles.pureHit}
             style={{"--x": `${pureHit?.x}px`, "--y": `${pureHit?.y}px`}}
             {...motionSettings}
           >
             <div className={styles.pureHitContainer}>
-              <Image src={"widgets/dunk-shot-game/pure.png"}/>
+              <Image src={"widgets/dunk-shot-game/pure.png"} />
             </div>
           </motion.div>
-        }
+        )}
       </AnimatePresence>
 
-      <Confetti
-        className={styles.confetti}
-        ref={confettiController}
-        decorateOptions={confetti}
-      />
+      <Confetti className={styles.confetti} ref={confettiController} decorateOptions={confetti} />
     </>
   );
 }

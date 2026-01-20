@@ -16,10 +16,10 @@ export class Event extends System {
   }
 
   trackEvents({gameEntity, characterEntity}) {
-    [gameEntity, characterEntity].forEach(entity => {
+    [gameEntity, characterEntity].forEach((entity) => {
       const events = entity.getList(EventComponent);
       const savedList = [...events];
-      savedList.forEach(event => {
+      savedList.forEach((event) => {
         const callbackKey = `on${upperFirst(entity.type)}${upperFirst(event.type)}`;
         this[callbackKey]({...arguments, event});
         entity.remove(event);

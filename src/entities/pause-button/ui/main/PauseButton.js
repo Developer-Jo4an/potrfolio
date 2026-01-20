@@ -5,13 +5,9 @@ import styles from "./PauseButton.module.scss";
 
 export function PauseButton({background, ref, className, ...otherProps}) {
   return (
-    <Button
-      ref={ref}
-      className={cl(styles.pauseButton, className)}
-      {...otherProps}
-    >
-      {background && <Image {...background} className={cl(styles.background, background.className)}/>}
-      <HiPause/>
+    <Button ref={ref} className={cl(styles.pauseButton, className)} {...otherProps}>
+      {background && <Image {...background} className={cl(styles.background, background.className)} />}
+      <HiPause />
     </Button>
   );
 }

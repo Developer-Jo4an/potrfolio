@@ -12,15 +12,15 @@ export function Confetti({className, decorateOptions = defaultSettings, ref}) {
       shoot: () => controller.current.shoot(),
       run: (settings = {}) => controller.current.run(settings),
       pause: () => controller.current.pause(),
-      stop: () => controller.current.stop()
-    }
+      stop: () => controller.current.stop(),
+    },
   }));
 
   return (
     <div className={className} ref={containerRef}>
       <Fireworks
         decorateOptions={() => ({...defaultSettings, ...decorateOptions})}
-        onInit={({conductor}) => controller.current = conductor}
+        onInit={({conductor}) => (controller.current = conductor)}
       />
     </div>
   );

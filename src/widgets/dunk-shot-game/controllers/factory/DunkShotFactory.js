@@ -33,12 +33,10 @@ class DunkShotFactory extends Factory {
     if (reusedItem) {
       reusedItem.activate(data);
       totalItem = reusedItem;
-    } else
-      totalItem = this[`create${upperFirst(type)}`]?.(data);
+    } else totalItem = this[`create${upperFirst(type)}`]?.(data);
 
     return totalItem;
   }
-
 
   /**
    * basket
@@ -72,7 +70,6 @@ class DunkShotFactory extends Factory {
     return baskets?.find(({isLast}) => isLast);
   }
 
-
   /**
    * ball
    */
@@ -85,7 +82,6 @@ class DunkShotFactory extends Factory {
     return this.getStorage("ball")?.activeItems?.[0];
   }
 
-
   /**
    * finish
    */
@@ -97,7 +93,6 @@ class DunkShotFactory extends Factory {
   get finish() {
     return this.getStorage("finish")?.activeItems?.[0];
   }
-
 
   /**
    * spike
@@ -121,7 +116,6 @@ class DunkShotFactory extends Factory {
     return spikes?.find(({status}) => status === ACTIVE);
   }
 
-
   /**
    * mainContainer
    */
@@ -133,7 +127,6 @@ class DunkShotFactory extends Factory {
   get mainContainer() {
     return this.getStorage("mainContainer")?.activeItems?.[0];
   }
-
 
   /**
    * wall
@@ -147,7 +140,6 @@ class DunkShotFactory extends Factory {
     return this.getStorage("wall")?.activeItems;
   }
 
-
   /**
    * shadowBall
    */
@@ -160,7 +152,6 @@ class DunkShotFactory extends Factory {
     return this.getStorage("shadowBall")?.activeItems?.[0];
   }
 
-
   /**
    * shadowWall
    */
@@ -172,7 +163,6 @@ class DunkShotFactory extends Factory {
   get shadowWalls() {
     return this.getStorage("shadowWall")?.activeItems;
   }
-
 
   /**
    * aim

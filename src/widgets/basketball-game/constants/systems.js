@@ -1,3 +1,1 @@
-export const UUIDS = {
-  character: "character"
-};
+export const UUIDS = {character: "character"};

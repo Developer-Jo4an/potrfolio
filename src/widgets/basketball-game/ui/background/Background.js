@@ -7,7 +7,7 @@ const {background} = content;
 export function Background() {
   return (
     <div className={styles.background}>
-      <Image src={background.src} className={styles.backgroundImg}/>
+      <Image src={background.src} className={styles.backgroundImg} />
     </div>
   );
 }

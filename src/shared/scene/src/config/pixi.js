@@ -9,5 +9,5 @@ export const PIXI_APP_CONFIG = {
   powerPreference: "high-performance",
   backgroundAlpha: 0,
   autoDensity: true,
-  hello: true
+  hello: true,
 };

@@ -3,10 +3,9 @@ import {upperFirst} from "lodash";
 import {getIsDebug} from "@shared";
 
 export class BasePhysicsEntity extends BaseEntity {
-
   static rememberFields = {
     setters: ["mass", "inertia"],
-    fields: ["friction", "frictionAir", "frictionStatic", "restitution", "density"]
+    fields: ["friction", "frictionAir", "frictionStatic", "restitution", "density"],
   };
 
   _body = null;
@@ -96,10 +95,8 @@ export class BasePhysicsEntity extends BaseEntity {
     for (const key in this.savedPhysics) {
       const value = this.savedPhysics[key];
 
-      if (BasePhysicsEntity.rememberFields.setters.includes(key))
-        Body[`set${upperFirst(key)}`](body, value);
-      else
-        body[key] = value;
+      if (BasePhysicsEntity.rememberFields.setters.includes(key)) Body[`set${upperFirst(key)}`](body, value);
+      else body[key] = value;
     }
 
     this.savedPhysics = {};
@@ -111,32 +108,25 @@ export class BasePhysicsEntity extends BaseEntity {
 
     for (const key in BasePhysicsEntity.rememberFields) {
       const array = BasePhysicsEntity.rememberFields[key];
-      array.forEach(key => this.savedPhysics[key] = body[key]);
+      array.forEach((key) => (this.savedPhysics[key] = body[key]));
     }
 
     Body.setStatic(body, !isGravity);
   }
 
-  basePhysicsInit() {
-
-  }
+  basePhysicsInit() {}
 
   addToWorld() {
     const {world, body} = this;
     const {World} = Matter;
 
-    if (!this.body && getIsDebug())
-      throw new Error("You can add a Body if you have a Body");
+    if (!this.body && getIsDebug()) throw new Error("You can add a Body if you have a Body");
 
-    if (!world.bodies.includes(body.body))
-      World.add(world, body);
-    else if (getIsDebug())
-      console.warn("This body already in world");
+    if (!world.bodies.includes(body.body)) World.add(world, body);
+    else if (getIsDebug()) console.warn("This body already in world");
   }
 
-  update() {
-
-  }
+  update() {}
 
   delete() {
     const {body, world} = this;

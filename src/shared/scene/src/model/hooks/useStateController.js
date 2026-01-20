@@ -15,23 +15,31 @@ export function useStateController(wrapper, ignoreNextStates, stateMachine) {
   const {add, close} = useModalStore();
   const {redirect} = useAppCallbacks();
 
-  const onGameEnd = state => {
-    const {wrapper, gameData: {story, pureCount, score}} = useDunkShotStore.getState();
+  const onGameEnd = (state) => {
+    const {
+      wrapper,
+      gameData: {story, pureCount, score},
+    } = useDunkShotStore.getState();
 
-    const {value: {id: modalId}} = add({
+    const {
+      value: {id: modalId},
+    } = add({
       type: MODAL_NAMES.gameEndModal,
       props: {
         status: state,
         imageDirectory: DIRECTORY,
         game: DUNK_SHOT_GAME,
         stats: {
-          kd: story.reduce((acc, shot) => {
-            acc[shot ? "hit" : "miss"]++;
-            return acc;
-          }, {hit: 0, miss: 0}),
+          kd: story.reduce(
+            (acc, shot) => {
+              acc[shot ? "hit" : "miss"]++;
+              return acc;
+            },
+            {hit: 0, miss: 0},
+          ),
           story,
           pureCount,
-          score
+          score,
         },
         actions: {
           async [ON]() {
@@ -43,9 +51,9 @@ export function useStateController(wrapper, ignoreNextStates, stateMachine) {
           [OFF]() {
             redirect(INDEX);
             close({id: modalId});
-          }
-        }
-      }
+          },
+        },
+      },
     });
   };
 
@@ -56,18 +64,18 @@ export function useStateController(wrapper, ignoreNextStates, stateMachine) {
 
     const clear = eventSubscription({
       target: eventBus,
-      callbacksBus: [{
-        event: STATE_CHANGED,
-        async callback({state}) {
-          await controller[`${state}Select`]?.();
+      callbacksBus: [
+        {
+          event: STATE_CHANGED,
+          async callback({state}) {
+            await controller[`${state}Select`]?.();
 
-          if (!ignoreNextStates.includes(state))
-            controller.state = stateMachine[state].nextState;
+            if (!ignoreNextStates.includes(state)) controller.state = stateMachine[state].nextState;
 
-          if (DUNK_SHOT_STATE_MACHINE[state]?.isEndGame)
-            onGameEnd(state);
-        }
-      }]
+            if (DUNK_SHOT_STATE_MACHINE[state]?.isEndGame) onGameEnd(state);
+          },
+        },
+      ],
     });
 
     controller.state = getDefaultState(stateMachine);

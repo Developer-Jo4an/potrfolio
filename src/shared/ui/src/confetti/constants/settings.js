@@ -3,5 +3,5 @@ export const defaultSettings = {
   spread: 360,
   startVelocity: 15,
   gravity: 0.2,
-  particleCount: 100
+  particleCount: 100,
 };

@@ -13,13 +13,9 @@ export class BoostersController extends BaseGameplayController {
     super(data);
   }
 
-  initEvents() {
+  initEvents() {}
 
-  }
-
-  init() {
-
-  }
+  init() {}
 
   async wingsSelect() {
     const {ball, activeBasket, nextBasket, activeSpike} = dunkShotFactory;
@@ -36,37 +32,33 @@ export class BoostersController extends BaseGameplayController {
         const {angle, x, y} = dunkShotUtils.getBallTarget(activeBasket);
         ball.position = {x, y};
         ball.angle = angle;
-      }
+      },
     });
 
     const beforeAnimationPromises = [];
 
     const tweens = gsap.localTimeline.getTweensByNamespace(DUNK_SHOT_TWEEN);
 
-    [activeBasket, nextBasket].forEach(basket => {
+    [activeBasket, nextBasket].forEach((basket) => {
       if (!basket) return;
 
-      tweens.forEach(tween => {
+      tweens.forEach((tween) => {
         const {tweenId} = tween;
-        if (tweenId?.endsWith?.(basket._factoryUUID))
-          tween.delete(DUNK_SHOT_TWEEN);
+        if (tweenId?.endsWith?.(basket._factoryUUID)) tween.delete(DUNK_SHOT_TWEEN);
       });
 
-      beforeAnimationPromises.push(dunkShotAnimationPlayer.basketDefaultAnimation(basket, {
-        alpha: true,
-        scale: true,
-        rotation: true
-      }));
+      beforeAnimationPromises.push(
+        dunkShotAnimationPlayer.basketDefaultAnimation(basket, {alpha: true, scale: true, rotation: true}),
+      );
     });
 
-    if (activeSpike)
-      beforeAnimationPromises.push(dunkShotAnimationPlayer.spikeInactiveAnimation(activeSpike));
+    if (activeSpike) beforeAnimationPromises.push(dunkShotAnimationPlayer.spikeInactiveAnimation(activeSpike));
 
     await Promise.all(beforeAnimationPromises);
 
     updateBall.delete(DUNK_SHOT_TWEEN);
 
-    const [leftWing, rightWing] = [LEFT, RIGHT].map(side => {
+    const [leftWing, rightWing] = [LEFT, RIGHT].map((side) => {
       const wing = dunkShotFactory.createItem("wing");
       wing.addToSpaces();
       wing.side = side;
@@ -96,12 +88,9 @@ export class BoostersController extends BaseGameplayController {
     const {ball} = dunkShotFactory;
 
     if (DUNK_SHOT_STATE_MACHINE[state]?.isAvailableBoosters && ball.status === INSIDE_BASKET) {
-      if (Object.values(throwData).every(Boolean))
-        !isDisabledBoosters && (this.isDisabledBoosters = true);
-      else
-        isDisabledBoosters && (this.isDisabledBoosters = false);
-    } else
-      !isDisabledBoosters && (this.isDisabledBoosters = true);
+      if (Object.values(throwData).every(Boolean)) !isDisabledBoosters && (this.isDisabledBoosters = true);
+      else isDisabledBoosters && (this.isDisabledBoosters = false);
+    } else !isDisabledBoosters && (this.isDisabledBoosters = true);
   }
 
   update() {

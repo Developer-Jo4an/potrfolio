@@ -15,16 +15,15 @@ export class Orbit extends Component {
 
   tangent2;
 
-  constructor(
-    {
-      center = {x: 0, y: 0, z: 0},
-      radius = 1,
-      angle = 0,
-      angularVelocity = 0,
-      normal = {x: 1, y: 0, z: 0},
-      tangent1 = {x: 1, y: 0, z: 0},
-      tangent = {x: 0, y: 0, z: 1}
-    }) {
+  constructor({
+    center = {x: 0, y: 0, z: 0},
+    radius = 1,
+    angle = 0,
+    angularVelocity = 0,
+    normal = {x: 1, y: 0, z: 0},
+    tangent1 = {x: 1, y: 0, z: 0},
+    tangent = {x: 0, y: 0, z: 1},
+  }) {
     super(...arguments);
 
     this.center = center;

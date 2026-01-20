@@ -1,3 +1,1 @@
-export const MODS = {
-  velvet: "velvet"
-};
+export const MODS = {velvet: "velvet"};

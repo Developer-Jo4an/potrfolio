@@ -1,3 +1,1 @@
-export const buttonContent = {
-  text: "Играть"
-};
+export const buttonContent = {text: "Играть"};

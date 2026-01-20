@@ -5,11 +5,11 @@ import styles from "./Loader.module.scss";
 export function Loader({isPending}) {
   return (
     <AnimatePresence>
-      {isPending &&
+      {isPending && (
         <motion.div className={styles.loader} {...loaderAnimation}>
-          <div className={styles.loaderSpinner}/>
+          <div className={styles.loaderSpinner} />
         </motion.div>
-      }
+      )}
     </AnimatePresence>
   );
 }

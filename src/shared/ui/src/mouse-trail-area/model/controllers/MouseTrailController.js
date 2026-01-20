@@ -4,7 +4,6 @@ import {getEventPosition, eventSubscription} from "../../../../../lib";
 import {MOVE} from "../../../../../constants";
 
 export class MouseTrailController extends BaseMouseTrailController {
-
   clearActivate = null;
 
   constructor() {
@@ -16,54 +15,49 @@ export class MouseTrailController extends BaseMouseTrailController {
   activate() {
     super.activate();
 
-    const {
-      historyX, historyY,
-      historySize, ropeSize,
-      points,
-      trailTexture,
-      stage
-    } = this;
+    const {historyX, historyY, historySize, ropeSize, points, trailTexture, stage} = this;
 
     this.clearActivate = eventSubscription({
-      callbacksBus: [{
-        event: MOVE, callback: e => {
-          const {x, y} = getEventPosition(e);
+      callbacksBus: [
+        {
+          event: MOVE,
+          callback: (e) => {
+            const {x, y} = getEventPosition(e);
 
-          const {clearActivate} = this;
+            const {clearActivate} = this;
 
-          if (!this.mousePosition)
-            this.mousePosition = {x, y};
+            if (!this.mousePosition) this.mousePosition = {x, y};
 
-          const {mousePosition} = this;
+            const {mousePosition} = this;
 
-          historyX.length = 0;
-          historyY.length = 0;
+            historyX.length = 0;
+            historyY.length = 0;
 
-          for (let i = 0; i < historySize; i++) {
-            historyX.push(mousePosition.x);
-            historyY.push(mousePosition.y);
-          }
+            for (let i = 0; i < historySize; i++) {
+              historyX.push(mousePosition.x);
+              historyY.push(mousePosition.y);
+            }
 
-          for (let i = 0; i < ropeSize; i++) {
-            const cashedPoint = points[i];
+            for (let i = 0; i < ropeSize; i++) {
+              const cashedPoint = points[i];
 
-            if (cashedPoint) {
-              cashedPoint.x = mousePosition.x;
-              cashedPoint.y = mousePosition.y;
-            } else
-              points.push(new PIXI.Point(mousePosition.x, mousePosition.y));
-          }
+              if (cashedPoint) {
+                cashedPoint.x = mousePosition.x;
+                cashedPoint.y = mousePosition.y;
+              } else points.push(new PIXI.Point(mousePosition.x, mousePosition.y));
+            }
 
-          const rope = this.rope ??= new PIXI.MeshRope({texture: trailTexture, points});
-          rope.blendmode = "add";
-          stage.addChild(rope);
+            const rope = (this.rope ??= new PIXI.MeshRope({texture: trailTexture, points}));
+            rope.blendmode = "add";
+            stage.addChild(rope);
 
-          this.startUpdate();
+            this.startUpdate();
 
-          clearActivate?.();
-          this.clearActivate = null;
-        }
-      }]
+            clearActivate?.();
+            this.clearActivate = null;
+          },
+        },
+      ],
     });
   }
 
@@ -86,12 +80,7 @@ export class MouseTrailController extends BaseMouseTrailController {
   }
 
   update() {
-    const {
-      historyX, historyY,
-      mousePosition,
-      ropeSize, historySize,
-      points
-    } = this;
+    const {historyX, historyY, mousePosition, ropeSize, historySize, points} = this;
 
     historyX.pop();
     historyX.unshift(mousePosition.x);
@@ -105,4 +94,3 @@ export class MouseTrailController extends BaseMouseTrailController {
     }
   }
 }
-

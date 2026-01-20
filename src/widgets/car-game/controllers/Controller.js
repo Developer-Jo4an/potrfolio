@@ -20,9 +20,8 @@ import {
   Collector,
   PixiRenderSystem,
   Assets,
-  PIXIController
+  PIXIController,
 } from "@shared";
-
 
 export class Controller extends PIXIController {
   constructor() {
@@ -43,8 +42,8 @@ export class Controller extends PIXIController {
       target: eventBus,
       callbacksBus: [
         {event: UPDATED, callback: this.onUpdated},
-        {event: RESIZE, callback: this.onResized}
-      ]
+        {event: RESIZE, callback: this.onResized},
+      ],
     });
   }
 
@@ -64,7 +63,7 @@ export class Controller extends PIXIController {
   initEngine() {
     const {storage, app, stage, canvas, renderer, decorators, eventBus} = this;
 
-    const engine = storage.engine = (this.engine = new Engine({eventBus}));
+    const engine = (storage.engine = this.engine = new Engine({eventBus}));
     storage.app = app;
     storage.eventBus = eventBus;
     storage.gameSpace = cloneDeep(GAME_SPACE);
@@ -74,22 +73,25 @@ export class Controller extends PIXIController {
     storage.renderer = renderer;
 
     engine
-    .addSystem(new Assets({eventBus, storage, factory: new CarFactory({eventBus, storage})}))
-    .addSystem(new Game({eventBus, storage}))
-    .addSystem(new Input({eventBus, storage}))
-    .addSystem(new Level({eventBus, storage}))
-    .addSystem(new Movement({eventBus, storage}))
-    .addSystem(new Collision({eventBus, storage}))
-    .addSystem(new PixiRenderSystem({eventBus, storage}))
-    .addSystem(new Camera({eventBus, storage}))
-    .addSystem(new Event({eventBus, storage}))
-    .addSystem(new Collector({eventBus, storage}));
+      .addSystem(new Assets({eventBus, storage, factory: new CarFactory({eventBus, storage})}))
+      .addSystem(new Game({eventBus, storage}))
+      .addSystem(new Input({eventBus, storage}))
+      .addSystem(new Level({eventBus, storage}))
+      .addSystem(new Movement({eventBus, storage}))
+      .addSystem(new Collision({eventBus, storage}))
+      .addSystem(new PixiRenderSystem({eventBus, storage}))
+      .addSystem(new Camera({eventBus, storage}))
+      .addSystem(new Event({eventBus, storage}))
+      .addSystem(new Collector({eventBus, storage}));
   }
 
   updateEngine({deltaMS, deltaTime}) {
-    const {storage: {states}, state, engine} = this;
-    if (states[state]?.isAvailableUpdate)
-      engine.update({deltaMS, deltaTime});
+    const {
+      storage: {states},
+      state,
+      engine,
+    } = this;
+    if (states[state]?.isAvailableUpdate) engine.update({deltaMS, deltaTime});
   }
 
   onUpdated() {
@@ -98,13 +100,13 @@ export class Controller extends PIXIController {
   }
 
   onResized() {
-    const {stage, $container: {offsetWidth: width, offsetHeight: height}} = this;
+    const {
+      stage,
+      $container: {offsetWidth: width, offsetHeight: height},
+    } = this;
     const scale = height / GAME_SIZE.height;
     stage.scale.set(scale);
-    stage.position.set(
-      (width - GAME_SIZE.width * scale) / 2,
-      (height - GAME_SIZE.height * scale) / 2
-    );
+    stage.position.set((width - GAME_SIZE.width * scale) / 2, (height - GAME_SIZE.height * scale) / 2);
   }
 
   reset() {
@@ -113,8 +115,12 @@ export class Controller extends PIXIController {
     updateDecorator.stopUpdate();
 
     const {storage} = this;
-    const {gameSpace: {serviceData: {clearFunctions}}} = storage;
-    clearFunctions.forEach(clear => clear());
+    const {
+      gameSpace: {
+        serviceData: {clearFunctions},
+      },
+    } = storage;
+    clearFunctions.forEach((clear) => clear());
     clearFunctions.length = 0;
     storage.gameSpace = cloneDeep(GAME_SPACE);
 
@@ -124,7 +130,7 @@ export class Controller extends PIXIController {
       if (NOT_AVAILABLE_ENTITIES_TYPES_FOR_RESET.includes(key)) continue;
       const collection = engine.entities[key];
       const savedList = [...collection.list];
-      savedList.forEach(entity => {
+      savedList.forEach((entity) => {
         collection.remove(entity);
         entity.destroy();
       });

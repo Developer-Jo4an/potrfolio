@@ -9,16 +9,18 @@ export class PIXILoader extends BaseLoader {
 
     await PIXI.Assets.init({
       texturePreference: {resolution: dpr, format: ["png"]},
-      preferences: {crossOrigin: "anonymous"}
+      preferences: {crossOrigin: "anonymous"},
     });
 
     this.isInitialized = true;
   }
 
   loadAssets(assets) {
-    return Promise.all(assets.map(({name, type, src}) => {
-      return this[`load${upperFirst(type)}`](name, src);
-    }));
+    return Promise.all(
+      assets.map(({name, type, src}) => {
+        return this[`load${upperFirst(type)}`](name, src);
+      }),
+    );
   }
 
   async loadTexture(name, src) {

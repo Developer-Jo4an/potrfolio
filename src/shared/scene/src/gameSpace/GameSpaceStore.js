@@ -29,14 +29,12 @@ export class GameSpaceStore {
 
     this.gameSpace = cloneDeep(gameSpace);
 
-    listeners.forEach(listener => listener());
+    listeners.forEach((listener) => listener());
   }
-
 
   reset() {
     this.gameSpace = cloneDeep(this.savedGameSpace);
   }
-
 
   getSnapshot() {
     return this.get();
@@ -45,7 +43,6 @@ export class GameSpaceStore {
   getServerSnapshot() {
     return this.get();
   }
-
 
   subscribe(listener) {
     const {listeners} = this;

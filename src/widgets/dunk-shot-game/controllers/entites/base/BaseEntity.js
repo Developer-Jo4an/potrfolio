@@ -2,10 +2,8 @@ import {dunkShotFactory} from "../../factory/DunkShotFactory";
 import {setNecessaryListeners} from "../../utils/setNecessaryListeners";
 
 export class BaseEntity {
-
   constructor(data) {
-    for (const key in data)
-      this[key] = data[key];
+    for (const key in data) this[key] = data[key];
 
     this.baseInit();
   }
@@ -20,7 +18,7 @@ export class BaseEntity {
   }
 
   baseInit() {
-    setNecessaryListeners(this)
+    setNecessaryListeners(this);
   }
 
   addToStage() {
@@ -29,19 +27,11 @@ export class BaseEntity {
     mainContainer.view.addChild(view);
   }
 
-  onStateChanged(state) {
+  onStateChanged(state) {}
 
-  }
+  update() {}
 
-  update() {
+  reset() {}
 
-  }
-
-  reset() {
-
-  }
-
-  destroy() {
-
-  }
+  destroy() {}
 }

@@ -14,11 +14,7 @@ export class Resize extends BaseDecorator {
   }
 
   initEvents() {
-    eventSubscription({
-      callbacksBus: [
-        {event: RESIZE, callback: this.onResized}
-      ]
-    });
+    eventSubscription({callbacksBus: [{event: RESIZE, callback: this.onResized}]});
   }
 
   onResized(data) {

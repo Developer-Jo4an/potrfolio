@@ -24,7 +24,7 @@ import {
   Collector,
   Assets,
   ThreeController,
-  Engine
+  Engine,
 } from "@shared";
 
 export class Controller extends ThreeController {
@@ -47,8 +47,8 @@ export class Controller extends ThreeController {
       target: eventBus,
       callbacksBus: [
         {event: UPDATED, callback: this.onUpdated},
-        {event: RESIZE, callback: this.onResized}
-      ]
+        {event: RESIZE, callback: this.onResized},
+      ],
     });
   }
 
@@ -56,8 +56,7 @@ export class Controller extends ThreeController {
     if (this.isInitialized) return;
     this.initEngine();
     this.initWorld();
-    if (getIsDebug())
-      await this.initDebug();
+    if (getIsDebug()) await this.initDebug();
     this.isInitialized = true;
   }
 
@@ -72,7 +71,7 @@ export class Controller extends ThreeController {
   initEngine() {
     const {storage, scene, renderer, camera, canvas, decorators, eventBus} = this;
 
-    const engine = storage.engine = (this.engine = new Engine({eventBus}));
+    const engine = (storage.engine = this.engine = new Engine({eventBus}));
     storage.eventBus = eventBus;
     storage.scene = scene;
     storage.camera = camera;
@@ -83,29 +82,36 @@ export class Controller extends ThreeController {
     storage.eventQueue = new RAPIER3D.EventQueue(true);
 
     engine
-    .addSystem(new Assets({eventBus, storage, factory: new BasketballFactory({eventBus, storage})}))
-    .addSystem(new Level({eventBus, storage}))
-    .addSystem(new Interactive({eventBus, storage}))
-    .addSystem(new Collision({eventBus, storage}))
-    .addSystem(new Character({eventBus, storage}))
-    .addSystem(new Effect({eventBus, storage}))
-    .addSystem(new Light({eventBus, storage}))
-    .addSystem(new ThreeRapierRenderSystem({eventBus, storage}))
-    .addSystem(new Camera({eventBus, storage}))
-    .addSystem(new Event({eventBus, storage}))
-    .addSystem(new Collector({eventBus, storage}))
-    .addSystem(new Game({eventBus, storage}));
+      .addSystem(new Assets({eventBus, storage, factory: new BasketballFactory({eventBus, storage})}))
+      .addSystem(new Level({eventBus, storage}))
+      .addSystem(new Interactive({eventBus, storage}))
+      .addSystem(new Collision({eventBus, storage}))
+      .addSystem(new Character({eventBus, storage}))
+      .addSystem(new Effect({eventBus, storage}))
+      .addSystem(new Light({eventBus, storage}))
+      .addSystem(new ThreeRapierRenderSystem({eventBus, storage}))
+      .addSystem(new Camera({eventBus, storage}))
+      .addSystem(new Event({eventBus, storage}))
+      .addSystem(new Collector({eventBus, storage}))
+      .addSystem(new Game({eventBus, storage}));
   }
 
   initWorld() {
-    const {storage, storage: {mainSceneSettings: {world: {gravity}}}} = this;
+    const {
+      storage,
+      storage: {
+        mainSceneSettings: {
+          world: {gravity},
+        },
+      },
+    } = this;
     storage.world = new RAPIER3D.World(gravity);
   }
 
   async initDebug() {
     const {storage} = this;
-    const debugRenderer = storage.debugRenderer = new DebugRenderer({storage});
-    const cameraFlying = storage.cameraFlying = new CameraFlying({storage});
+    const debugRenderer = (storage.debugRenderer = new DebugRenderer({storage}));
+    const cameraFlying = (storage.cameraFlying = new CameraFlying({storage}));
     await cameraFlying.init();
   }
 
@@ -115,13 +121,24 @@ export class Controller extends ThreeController {
   }
 
   updateWorld({deltaTime}) {
-    const {storage: {world, eventQueue, mainSceneSettings: {world: {maxDeltaTime}}}} = this;
+    const {
+      storage: {
+        world,
+        eventQueue,
+        mainSceneSettings: {
+          world: {maxDeltaTime},
+        },
+      },
+    } = this;
     world.timestep = Math.min(maxDeltaTime, deltaTime);
     world.step(eventQueue);
   }
 
   get isAvailableUpdate() {
-    const {storage: {states}, state} = this;
+    const {
+      storage: {states},
+      state,
+    } = this;
     return !!states[state]?.isAvailableUpdate;
   }
 
@@ -163,29 +180,36 @@ export class Controller extends ThreeController {
 
     gsap.localTimeline.clear(BASKETBALL);
 
-    const {storage: {gameSpace: {get, reset, set}}} = this;
+    const {
+      storage: {
+        gameSpace: {get, reset, set},
+      },
+    } = this;
     const gameSpace = get();
-    gameSpace.serviceData.clearFunctions.forEach(func => func());
-    set(({serviceData: {clearFunctions}}) => clearFunctions.length = 0);
+    gameSpace.serviceData.clearFunctions.forEach((func) => func());
+    set(({serviceData: {clearFunctions}}) => (clearFunctions.length = 0));
     reset();
 
-    const {storage: {eventQueue}} = this;
+    const {
+      storage: {eventQueue},
+    } = this;
     eventQueue.clear();
 
-    const {storage: {engine}} = this;
+    const {
+      storage: {engine},
+    } = this;
     engine.reset();
     for (const key in engine.entities) {
       if (NOT_AVAILABLE_ENTITIES_TYPES_FOR_RESET.includes(key)) continue;
       const collection = engine.entities[key];
       const savedList = [...collection.list];
-      savedList.forEach(entity => {
+      savedList.forEach((entity) => {
         collection.remove(entity);
         entity.destroy();
       });
       savedList.length = 0;
     }
 
-    if (getIsDebug())
-      analysis.logStatistics();
+    if (getIsDebug()) analysis.logStatistics();
   }
 }

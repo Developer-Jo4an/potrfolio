@@ -2,21 +2,19 @@ import {getTruthClasses} from "../../../../../lib";
 import {useButtonClickControls} from "../../model/hooks/useButtonClickControls";
 import styles from "./Button.module.scss";
 
-export function Button(
-  {
-    ref,
-    className,
-    style = {},
-    isDisabled: disabled = false,
-    isDisposable = false,
-    timeout = 300,
-    events = {},
-    eventFunctions = [],
-    callbacksData = {},
-    modalsData = {},
-    children
-  }) {
-
+export function Button({
+  ref,
+  className,
+  style = {},
+  isDisabled: disabled = false,
+  isDisposable = false,
+  timeout = 300,
+  events = {},
+  eventFunctions = [],
+  callbacksData = {},
+  modalsData = {},
+  children,
+}) {
   const {onClick: click, otherEvents = {}} = events;
 
   const onClick = useButtonClickControls({
@@ -25,7 +23,7 @@ export function Button(
     isDisposable,
     eventFunctions,
     callbacksData,
-    modalsData
+    modalsData,
   });
 
   return (
@@ -40,4 +38,4 @@ export function Button(
       {children}
     </button>
   );
-};
+}

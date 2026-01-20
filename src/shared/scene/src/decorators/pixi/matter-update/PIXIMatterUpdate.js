@@ -1,7 +1,6 @@
 import {PIXIUpdate} from "../update/PIXIUpdate";
 
 export class PIXIMatterUpdate extends PIXIUpdate {
-
   static MAX_DELTA_15_FPS = 3;
 
   static MAX_FPS_FOR_PHYSICS = 60;
@@ -21,8 +20,7 @@ export class PIXIMatterUpdate extends PIXIUpdate {
   update({deltaMS, deltaTime = 0}) {
     const {updateType} = this;
 
-    if (deltaTime <= PIXIMatterUpdate.MAX_DELTA_15_FPS)
-      this[`${updateType}Update`]?.(deltaMS, deltaTime);
+    if (deltaTime <= PIXIMatterUpdate.MAX_DELTA_15_FPS) this[`${updateType}Update`]?.(deltaMS, deltaTime);
   }
 
   standardUpdate(deltaMS, deltaTime) {

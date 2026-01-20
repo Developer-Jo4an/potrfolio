@@ -6,7 +6,7 @@ import {Matrix4Component} from "../../base/components/transform/Matrix4Component
 export class ThreeRenderSystem extends System {
   updateAnimations({deltaTime}) {
     const entities = this.filterEntitiesByClass(Mixer);
-    entities.forEach(entity => entity.getList(Mixer).forEach(cMixer => cMixer.mixer?.update(deltaTime)));
+    entities.forEach((entity) => entity.getList(Mixer).forEach((cMixer) => cMixer.mixer?.update(deltaTime)));
   }
 
   getNecessaryEntities() {
@@ -15,7 +15,7 @@ export class ThreeRenderSystem extends System {
 
   updateItems() {
     const entities = this.getNecessaryEntities();
-    entities.forEach(entity => this.updateItem(entity));
+    entities.forEach((entity) => this.updateItem(entity));
   }
 
   updateItem(entity) {

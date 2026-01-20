@@ -2,7 +2,6 @@ import {getEventPosition, eventSubscription} from "../../../../lib";
 import {END, MOVE, START} from "../../../../constants";
 
 export class CameraFlying {
-
   static ALL_KEYS = ["w", "s"];
 
   static SENS = 0.785;
@@ -13,25 +12,16 @@ export class CameraFlying {
 
   isInitialized = false;
 
-  frameData = {
-    timestamp: null,
-    frame: null
-  };
+  frameData = {timestamp: null, frame: null};
 
   keyboardData = CameraFlying.ALL_KEYS.reduce((acc, key) => {
     acc[key] = false;
     return acc;
   }, {});
 
-  cameraData = {
-    direction: null,
-    screenPrev: null,
-    offset: null
-  };
+  cameraData = {direction: null, screenPrev: null, offset: null};
 
-  serviceData = {
-    clearFunctions: []
-  };
+  serviceData = {clearFunctions: []};
 
   constructor({storage}) {
     this.storage = storage;
@@ -67,7 +57,7 @@ export class CameraFlying {
     if (isActive) {
       const {serviceData, frameData, keyboardData} = this;
 
-      CameraFlying.ALL_KEYS.forEach(key => {
+      CameraFlying.ALL_KEYS.forEach((key) => {
         KeyboardJS.bind(
           key,
           (e) => {
@@ -77,17 +67,19 @@ export class CameraFlying {
           (e) => {
             e.preventDefault();
             keyboardData[key] = false;
-          }
+          },
         );
       });
 
-      serviceData.clearFunctions.push(eventSubscription({
-        callbacksBus: [
-          {event: START, callback: this.onStart},
-          {event: MOVE, callback: this.onMove},
-          {event: END, callback: this.onEnd}
-        ]
-      }));
+      serviceData.clearFunctions.push(
+        eventSubscription({
+          callbacksBus: [
+            {event: START, callback: this.onStart},
+            {event: MOVE, callback: this.onMove},
+            {event: END, callback: this.onEnd},
+          ],
+        }),
+      );
 
       frameData.frame = requestAnimationFrame(this.update);
     } else {
@@ -97,19 +89,17 @@ export class CameraFlying {
 
       cancelAnimationFrame(frameData.frame);
 
-      [frameData, keyboardData, cameraData].forEach(object => {
-        for (const key in object)
-          object[key] = false;
+      [frameData, keyboardData, cameraData].forEach((object) => {
+        for (const key in object) object[key] = false;
       });
 
-      serviceData.clearFunctions.forEach(clearFunction => clearFunction());
+      serviceData.clearFunctions.forEach((clearFunction) => clearFunction());
       serviceData.clearFunctions.length = 0;
     }
   }
 
   onStart(e) {
-    if (e.cancelable)
-      e.preventDefault();
+    if (e.cancelable) e.preventDefault();
 
     const {cameraData} = this;
 
@@ -121,8 +111,7 @@ export class CameraFlying {
   }
 
   onMove(e) {
-    if (e.cancelable)
-      e.preventDefault();
+    if (e.cancelable) e.preventDefault();
 
     const {cameraData} = this;
 
@@ -141,8 +130,7 @@ export class CameraFlying {
   }
 
   onEnd(e) {
-    if (e.cancelable)
-      e.preventDefault();
+    if (e.cancelable) e.preventDefault();
 
     const {cameraData} = this;
 
@@ -153,13 +141,17 @@ export class CameraFlying {
   }
 
   updatePosition(_, deltaS) {
-    const {storage: {camera}, cameraData, keyboardData} = this;
+    const {
+      storage: {camera},
+      cameraData,
+      keyboardData,
+    } = this;
 
     const {w, s} = keyboardData;
 
     if (w !== s) {
       const moveDistance = deltaS * CameraFlying.SPEED;
-      const forward = cameraData.direction ??= new THREE.Vector3();
+      const forward = (cameraData.direction ??= new THREE.Vector3());
       forward.set(0, 0, w ? -1 : 1);
       forward.applyQuaternion(camera.quaternion);
       const addValue = forward.multiplyScalar(moveDistance);
@@ -168,7 +160,10 @@ export class CameraFlying {
   }
 
   updateSight() {
-    const {storage: {camera}, cameraData: {offset}} = this;
+    const {
+      storage: {camera},
+      cameraData: {offset},
+    } = this;
 
     const rotateX = -offset.y * CameraFlying.SENS;
     const rotateY = -offset.x * CameraFlying.SENS;

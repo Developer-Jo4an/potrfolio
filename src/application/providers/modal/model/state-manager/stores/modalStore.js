@@ -6,9 +6,7 @@ const getId = createId();
 
 const {useStore: useModalStore} = createStore({
   name: MODAL,
-  state: {
-    modals: []
-  },
+  state: {modals: []},
   syncActions: {
     add({state, returned}, {type, animation, isCloseOnBackground = false, isQueue = true, props = {}} = {}) {
       const id = getId();
@@ -24,18 +22,16 @@ const {useStore: useModalStore} = createStore({
         },
         active() {
           const activeModals = getActiveModals(state.modals);
-          state.modals = state.modals.filter(modalData => !activeModals.includes(modalData));
+          state.modals = state.modals.filter((modalData) => !activeModals.includes(modalData));
         },
         default() {
           state.modals = state.modals.filter(({id: modalId}) => modalId !== id);
-        }
+        },
       };
 
       (necessaryFunction[id] ?? necessaryFunction.default)();
-    }
-  }
+    },
+  },
 });
 
 export {useModalStore};
-
-

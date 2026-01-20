@@ -1,11 +1,4 @@
-import {
-  getDefaultState,
-  Mixer,
-  GSAPTween,
-  Matrix4Component,
-  Body,
-  ThreeComponent
-} from "@shared";
+import {getDefaultState, Mixer, GSAPTween, Matrix4Component, Body, ThreeComponent} from "@shared";
 import {Orbit} from "../controllers/components/Orbit";
 import {Game} from "../controllers/components/Game";
 import {BASKETBALL_STATE_MACHINE} from "./stateMachine";
@@ -18,12 +11,7 @@ import {State} from "@/shared/scene/src/ecs/base/components/state/State"; //TODO
 import {Collection} from "@/shared/scene/src/ecs/base/components/data/Collection"; //TODO: поправить импорт
 
 export const types = {
-  [GAME]: {
-    components: [
-      {Class: State, props: {states: BASKETBALL_STATE_MACHINE}},
-      {Class: Game}
-    ]
-  },
+  [GAME]: {components: [{Class: State, props: {states: BASKETBALL_STATE_MACHINE}}, {Class: Game}]},
   [CHARACTER]: {
     components: [
       {Class: State, props: {states: characterStates, state: getDefaultState(characterStates)}},
@@ -31,17 +19,10 @@ export const types = {
       {Class: Matrix4Component},
       {Class: Body},
       {Class: Collection},
-      {Class: GSAPTween}
-    ]
+      {Class: GSAPTween},
+    ],
   },
-  [GROUND]: {
-    components: [
-      {Class: ThreeComponent},
-      {Class: Matrix4Component},
-      {Class: Body},
-      {Class: Collection}
-    ]
-  },
+  [GROUND]: {components: [{Class: ThreeComponent}, {Class: Matrix4Component}, {Class: Body}, {Class: Collection}]},
   [RING]: {
     components: [
       {Class: ThreeComponent},
@@ -49,8 +30,8 @@ export const types = {
       {Class: Body},
       {Class: Collection},
       {Class: GSAPTween},
-      {Class: Mixer}
-    ]
+      {Class: Mixer},
+    ],
   },
   [X2VIEW]: {
     components: [
@@ -58,7 +39,7 @@ export const types = {
       {Class: Matrix4Component},
       {Class: Collection},
       {Class: GSAPTween},
-      {Class: Orbit}
-    ]
-  }
+      {Class: Orbit},
+    ],
+  },
 };

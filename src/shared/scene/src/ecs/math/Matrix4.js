@@ -40,7 +40,6 @@ import {Vector3} from "./Vector3.js";
  * transpose of any matrices outlined here to make sense of the calculations.
  */
 class Matrix4 {
-
   /**
    * Constructs a new 4x4 matrix. The arguments are supposed to be
    * in row-major order. If no arguments are provided, the constructor
@@ -64,7 +63,6 @@ class Matrix4 {
    * @param {number} [n44] - 4-4 matrix element.
    */
   constructor(n11, n12, n13, n14, n21, n22, n23, n24, n31, n32, n33, n34, n41, n42, n43, n44) {
-
     /**
      * This flag can be used for type testing.
      *
@@ -79,21 +77,11 @@ class Matrix4 {
      *
      * @type {Array<number>}
      */
-    this.elements = [
-
-      1, 0, 0, 0,
-      0, 1, 0, 0,
-      0, 0, 1, 0,
-      0, 0, 0, 1
-
-    ];
+    this.elements = [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1];
 
     if (n11 !== undefined) {
-
       this.set(n11, n12, n13, n14, n21, n22, n23, n24, n31, n32, n33, n34, n41, n42, n43, n44);
-
     }
-
   }
 
   /**
@@ -119,7 +107,6 @@ class Matrix4 {
    * @return {Matrix4} A reference to this matrix.
    */
   set(n11, n12, n13, n14, n21, n22, n23, n24, n31, n32, n33, n34, n41, n42, n43, n44) {
-
     const te = this.elements;
 
     te[0] = n11;
@@ -140,7 +127,6 @@ class Matrix4 {
     te[15] = n44;
 
     return this;
-
   }
 
   /**
@@ -149,16 +135,9 @@ class Matrix4 {
    * @return {Matrix4} A reference to this matrix.
    */
   identity() {
-
-    this.set(
-      1, 0, 0, 0,
-      0, 1, 0, 0,
-      0, 0, 1, 0,
-      0, 0, 0, 1
-    );
+    this.set(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1);
 
     return this;
-
   }
 
   /**
@@ -167,9 +146,7 @@ class Matrix4 {
    * @return {Matrix4} A clone of this instance.
    */
   clone() {
-
     return new Matrix4().fromArray(this.elements);
-
   }
 
   /**
@@ -179,7 +156,6 @@ class Matrix4 {
    * @return {Matrix4} A reference to this matrix.
    */
   copy(m) {
-
     const te = this.elements;
     const me = m.elements;
 
@@ -201,7 +177,6 @@ class Matrix4 {
     te[15] = me[15];
 
     return this;
-
   }
 
   /**
@@ -212,15 +187,14 @@ class Matrix4 {
    * @return {Matrix4} A reference to this matrix.
    */
   copyPosition(m) {
-
-    const te = this.elements, me = m.elements;
+    const te = this.elements,
+      me = m.elements;
 
     te[12] = me[12];
     te[13] = me[13];
     te[14] = me[14];
 
     return this;
-
   }
 
   /**
@@ -230,18 +204,11 @@ class Matrix4 {
    * @return {Matrix4} A reference to this matrix.
    */
   setFromMatrix3(m) {
-
     const me = m.elements;
 
-    this.set(
-      me[0], me[3], me[6], 0,
-      me[1], me[4], me[7], 0,
-      me[2], me[5], me[8], 0,
-      0, 0, 0, 1
-    );
+    this.set(me[0], me[3], me[6], 0, me[1], me[4], me[7], 0, me[2], me[5], me[8], 0, 0, 0, 0, 1);
 
     return this;
-
   }
 
   /**
@@ -253,13 +220,11 @@ class Matrix4 {
    * @return {Matrix4} A reference to this matrix.
    */
   extractBasis(xAxis, yAxis, zAxis) {
-
     xAxis.setFromMatrixColumn(this, 0);
     yAxis.setFromMatrixColumn(this, 1);
     zAxis.setFromMatrixColumn(this, 2);
 
     return this;
-
   }
 
   /**
@@ -271,16 +236,9 @@ class Matrix4 {
    * @return {Matrix4} A reference to this matrix.
    */
   makeBasis(xAxis, yAxis, zAxis) {
-
-    this.set(
-      xAxis.x, yAxis.x, zAxis.x, 0,
-      xAxis.y, yAxis.y, zAxis.y, 0,
-      xAxis.z, yAxis.z, zAxis.z, 0,
-      0, 0, 0, 1
-    );
+    this.set(xAxis.x, yAxis.x, zAxis.x, 0, xAxis.y, yAxis.y, zAxis.y, 0, xAxis.z, yAxis.z, zAxis.z, 0, 0, 0, 0, 1);
 
     return this;
-
   }
 
   /**
@@ -293,7 +251,6 @@ class Matrix4 {
    * @return {Matrix4} A reference to this matrix.
    */
   extractRotation(m) {
-
     const te = this.elements;
     const me = m.elements;
 
@@ -322,7 +279,6 @@ class Matrix4 {
     te[15] = 1;
 
     return this;
-
   }
 
   /**
@@ -336,17 +292,23 @@ class Matrix4 {
    * @return {Matrix4} A reference to this matrix.
    */
   makeRotationFromEuler(euler) {
-
     const te = this.elements;
 
-    const x = euler.x, y = euler.y, z = euler.z;
-    const a = Math.cos(x), b = Math.sin(x);
-    const c = Math.cos(y), d = Math.sin(y);
-    const e = Math.cos(z), f = Math.sin(z);
+    const x = euler.x,
+      y = euler.y,
+      z = euler.z;
+    const a = Math.cos(x),
+      b = Math.sin(x);
+    const c = Math.cos(y),
+      d = Math.sin(y);
+    const e = Math.cos(z),
+      f = Math.sin(z);
 
     if (euler.order === "XYZ") {
-
-      const ae = a * e, af = a * f, be = b * e, bf = b * f;
+      const ae = a * e,
+        af = a * f,
+        be = b * e,
+        bf = b * f;
 
       te[0] = c * e;
       te[4] = -c * f;
@@ -359,10 +321,11 @@ class Matrix4 {
       te[2] = bf - ae * d;
       te[6] = be + af * d;
       te[10] = a * c;
-
     } else if (euler.order === "YXZ") {
-
-      const ce = c * e, cf = c * f, de = d * e, df = d * f;
+      const ce = c * e,
+        cf = c * f,
+        de = d * e,
+        df = d * f;
 
       te[0] = ce + df * b;
       te[4] = de * b - cf;
@@ -375,10 +338,11 @@ class Matrix4 {
       te[2] = cf * b - de;
       te[6] = df + ce * b;
       te[10] = a * c;
-
     } else if (euler.order === "ZXY") {
-
-      const ce = c * e, cf = c * f, de = d * e, df = d * f;
+      const ce = c * e,
+        cf = c * f,
+        de = d * e,
+        df = d * f;
 
       te[0] = ce - df * b;
       te[4] = -a * f;
@@ -391,10 +355,11 @@ class Matrix4 {
       te[2] = -a * d;
       te[6] = b;
       te[10] = a * c;
-
     } else if (euler.order === "ZYX") {
-
-      const ae = a * e, af = a * f, be = b * e, bf = b * f;
+      const ae = a * e,
+        af = a * f,
+        be = b * e,
+        bf = b * f;
 
       te[0] = c * e;
       te[4] = be * d - af;
@@ -407,10 +372,11 @@ class Matrix4 {
       te[2] = -d;
       te[6] = b * c;
       te[10] = a * c;
-
     } else if (euler.order === "YZX") {
-
-      const ac = a * c, ad = a * d, bc = b * c, bd = b * d;
+      const ac = a * c,
+        ad = a * d,
+        bc = b * c,
+        bd = b * d;
 
       te[0] = c * e;
       te[4] = bd - ac * f;
@@ -423,10 +389,11 @@ class Matrix4 {
       te[2] = -d * e;
       te[6] = ad * f + bc;
       te[10] = ac - bd * f;
-
     } else if (euler.order === "XZY") {
-
-      const ac = a * c, ad = a * d, bc = b * c, bd = b * d;
+      const ac = a * c,
+        ad = a * d,
+        bc = b * c,
+        bd = b * d;
 
       te[0] = c * e;
       te[4] = -f;
@@ -439,7 +406,6 @@ class Matrix4 {
       te[2] = bc * f - ad;
       te[6] = b * e;
       te[10] = bd * f + ac;
-
     }
 
     // bottom row
@@ -454,7 +420,6 @@ class Matrix4 {
     te[15] = 1;
 
     return this;
-
   }
 
   /**
@@ -466,9 +431,7 @@ class Matrix4 {
    * @return {Matrix4} A reference to this matrix.
    */
   makeRotationFromQuaternion(q) {
-
     return this.compose(_zero, q, _one);
-
   }
 
   /**
@@ -481,39 +444,30 @@ class Matrix4 {
    * @return {Matrix4} A reference to this matrix.
    */
   lookAt(eye, target, up) {
-
     const te = this.elements;
 
     _z.subVectors(eye, target);
 
     if (_z.lengthSq() === 0) {
-
       // eye and target are in the same position
 
       _z.z = 1;
-
     }
 
     _z.normalize();
     _x.crossVectors(up, _z);
 
     if (_x.lengthSq() === 0) {
-
       // up and z are parallel
 
       if (Math.abs(up.z) === 1) {
-
         _z.x += 0.0001;
-
       } else {
-
         _z.z += 0.0001;
-
       }
 
       _z.normalize();
       _x.crossVectors(up, _z);
-
     }
 
     _x.normalize();
@@ -530,7 +484,6 @@ class Matrix4 {
     te[10] = _z.z;
 
     return this;
-
   }
 
   /**
@@ -540,9 +493,7 @@ class Matrix4 {
    * @return {Matrix4} A reference to this matrix.
    */
   multiply(m) {
-
     return this.multiplyMatrices(this, m);
-
   }
 
   /**
@@ -552,9 +503,7 @@ class Matrix4 {
    * @return {Matrix4} A reference to this matrix.
    */
   premultiply(m) {
-
     return this.multiplyMatrices(m, this);
-
   }
 
   /**
@@ -566,20 +515,43 @@ class Matrix4 {
    * @return {Matrix4} A reference to this matrix.
    */
   multiplyMatrices(a, b) {
-
     const ae = a.elements;
     const be = b.elements;
     const te = this.elements;
 
-    const a11 = ae[0], a12 = ae[4], a13 = ae[8], a14 = ae[12];
-    const a21 = ae[1], a22 = ae[5], a23 = ae[9], a24 = ae[13];
-    const a31 = ae[2], a32 = ae[6], a33 = ae[10], a34 = ae[14];
-    const a41 = ae[3], a42 = ae[7], a43 = ae[11], a44 = ae[15];
+    const a11 = ae[0],
+      a12 = ae[4],
+      a13 = ae[8],
+      a14 = ae[12];
+    const a21 = ae[1],
+      a22 = ae[5],
+      a23 = ae[9],
+      a24 = ae[13];
+    const a31 = ae[2],
+      a32 = ae[6],
+      a33 = ae[10],
+      a34 = ae[14];
+    const a41 = ae[3],
+      a42 = ae[7],
+      a43 = ae[11],
+      a44 = ae[15];
 
-    const b11 = be[0], b12 = be[4], b13 = be[8], b14 = be[12];
-    const b21 = be[1], b22 = be[5], b23 = be[9], b24 = be[13];
-    const b31 = be[2], b32 = be[6], b33 = be[10], b34 = be[14];
-    const b41 = be[3], b42 = be[7], b43 = be[11], b44 = be[15];
+    const b11 = be[0],
+      b12 = be[4],
+      b13 = be[8],
+      b14 = be[12];
+    const b21 = be[1],
+      b22 = be[5],
+      b23 = be[9],
+      b24 = be[13];
+    const b31 = be[2],
+      b32 = be[6],
+      b33 = be[10],
+      b34 = be[14];
+    const b41 = be[3],
+      b42 = be[7],
+      b43 = be[11],
+      b44 = be[15];
 
     te[0] = a11 * b11 + a12 * b21 + a13 * b31 + a14 * b41;
     te[4] = a11 * b12 + a12 * b22 + a13 * b32 + a14 * b42;
@@ -602,7 +574,6 @@ class Matrix4 {
     te[15] = a41 * b14 + a42 * b24 + a43 * b34 + a44 * b44;
 
     return this;
-
   }
 
   /**
@@ -612,7 +583,6 @@ class Matrix4 {
    * @return {Matrix4} A reference to this matrix.
    */
   multiplyScalar(s) {
-
     const te = this.elements;
 
     te[0] *= s;
@@ -633,7 +603,6 @@ class Matrix4 {
     te[15] *= s;
 
     return this;
-
   }
 
   /**
@@ -644,52 +613,36 @@ class Matrix4 {
    * @return {number} The determinant.
    */
   determinant() {
-
     const te = this.elements;
 
-    const n11 = te[0], n12 = te[4], n13 = te[8], n14 = te[12];
-    const n21 = te[1], n22 = te[5], n23 = te[9], n24 = te[13];
-    const n31 = te[2], n32 = te[6], n33 = te[10], n34 = te[14];
-    const n41 = te[3], n42 = te[7], n43 = te[11], n44 = te[15];
+    const n11 = te[0],
+      n12 = te[4],
+      n13 = te[8],
+      n14 = te[12];
+    const n21 = te[1],
+      n22 = te[5],
+      n23 = te[9],
+      n24 = te[13];
+    const n31 = te[2],
+      n32 = te[6],
+      n33 = te[10],
+      n34 = te[14];
+    const n41 = te[3],
+      n42 = te[7],
+      n43 = te[11],
+      n44 = te[15];
 
     //TODO: make this more efficient
 
     return (
-      n41 * (
-        +n14 * n23 * n32
-        - n13 * n24 * n32
-        - n14 * n22 * n33
-        + n12 * n24 * n33
-        + n13 * n22 * n34
-        - n12 * n23 * n34
-      ) +
-      n42 * (
-        +n11 * n23 * n34
-        - n11 * n24 * n33
-        + n14 * n21 * n33
-        - n13 * n21 * n34
-        + n13 * n24 * n31
-        - n14 * n23 * n31
-      ) +
-      n43 * (
-        +n11 * n24 * n32
-        - n11 * n22 * n34
-        - n14 * n21 * n32
-        + n12 * n21 * n34
-        + n14 * n22 * n31
-        - n12 * n24 * n31
-      ) +
-      n44 * (
-        -n13 * n22 * n31
-        - n11 * n23 * n32
-        + n11 * n22 * n33
-        + n13 * n21 * n32
-        - n12 * n21 * n33
-        + n12 * n23 * n31
-      )
-
+      n41 *
+        (+n14 * n23 * n32 - n13 * n24 * n32 - n14 * n22 * n33 + n12 * n24 * n33 + n13 * n22 * n34 - n12 * n23 * n34) +
+      n42 *
+        (+n11 * n23 * n34 - n11 * n24 * n33 + n14 * n21 * n33 - n13 * n21 * n34 + n13 * n24 * n31 - n14 * n23 * n31) +
+      n43 *
+        (+n11 * n24 * n32 - n11 * n22 * n34 - n14 * n21 * n32 + n12 * n21 * n34 + n14 * n22 * n31 - n12 * n24 * n31) +
+      n44 * (-n13 * n22 * n31 - n11 * n23 * n32 + n11 * n22 * n33 + n13 * n21 * n32 - n12 * n21 * n33 + n12 * n23 * n31)
     );
-
   }
 
   /**
@@ -698,7 +651,6 @@ class Matrix4 {
    * @return {Matrix4} A reference to this matrix.
    */
   transpose() {
-
     const te = this.elements;
     let tmp;
 
@@ -723,7 +675,6 @@ class Matrix4 {
     te[14] = tmp;
 
     return this;
-
   }
 
   /**
@@ -736,25 +687,19 @@ class Matrix4 {
    * @return {Matrix4} A reference to this matrix.
    */
   setPosition(x, y, z) {
-
     const te = this.elements;
 
     if (x.isVector3) {
-
       te[12] = x.x;
       te[13] = x.y;
       te[14] = x.z;
-
     } else {
-
       te[12] = x;
       te[13] = y;
       te[14] = z;
-
     }
 
     return this;
-
   }
 
   /**
@@ -765,15 +710,24 @@ class Matrix4 {
    * @return {Matrix4} A reference to this matrix.
    */
   invert() {
-
     // based on http://www.euclideanspace.com/maths/algebra/matrix/functions/inverse/fourD/index.htm
     const te = this.elements,
-
-      n11 = te[0], n21 = te[1], n31 = te[2], n41 = te[3],
-      n12 = te[4], n22 = te[5], n32 = te[6], n42 = te[7],
-      n13 = te[8], n23 = te[9], n33 = te[10], n43 = te[11],
-      n14 = te[12], n24 = te[13], n34 = te[14], n44 = te[15],
-
+      n11 = te[0],
+      n21 = te[1],
+      n31 = te[2],
+      n41 = te[3],
+      n12 = te[4],
+      n22 = te[5],
+      n32 = te[6],
+      n42 = te[7],
+      n13 = te[8],
+      n23 = te[9],
+      n33 = te[10],
+      n43 = te[11],
+      n14 = te[12],
+      n24 = te[13],
+      n34 = te[14],
+      n44 = te[15],
       t11 = n23 * n34 * n42 - n24 * n33 * n42 + n24 * n32 * n43 - n22 * n34 * n43 - n23 * n32 * n44 + n22 * n33 * n44,
       t12 = n14 * n33 * n42 - n13 * n34 * n42 - n14 * n32 * n43 + n12 * n34 * n43 + n13 * n32 * n44 - n12 * n33 * n44,
       t13 = n13 * n24 * n42 - n14 * n23 * n42 + n14 * n22 * n43 - n12 * n24 * n43 - n13 * n22 * n44 + n12 * n23 * n44,
@@ -786,27 +740,50 @@ class Matrix4 {
     const detInv = 1 / det;
 
     te[0] = t11 * detInv;
-    te[1] = (n24 * n33 * n41 - n23 * n34 * n41 - n24 * n31 * n43 + n21 * n34 * n43 + n23 * n31 * n44 - n21 * n33 * n44) * detInv;
-    te[2] = (n22 * n34 * n41 - n24 * n32 * n41 + n24 * n31 * n42 - n21 * n34 * n42 - n22 * n31 * n44 + n21 * n32 * n44) * detInv;
-    te[3] = (n23 * n32 * n41 - n22 * n33 * n41 - n23 * n31 * n42 + n21 * n33 * n42 + n22 * n31 * n43 - n21 * n32 * n43) * detInv;
+    te[1] =
+      (n24 * n33 * n41 - n23 * n34 * n41 - n24 * n31 * n43 + n21 * n34 * n43 + n23 * n31 * n44 - n21 * n33 * n44) *
+      detInv;
+    te[2] =
+      (n22 * n34 * n41 - n24 * n32 * n41 + n24 * n31 * n42 - n21 * n34 * n42 - n22 * n31 * n44 + n21 * n32 * n44) *
+      detInv;
+    te[3] =
+      (n23 * n32 * n41 - n22 * n33 * n41 - n23 * n31 * n42 + n21 * n33 * n42 + n22 * n31 * n43 - n21 * n32 * n43) *
+      detInv;
 
     te[4] = t12 * detInv;
-    te[5] = (n13 * n34 * n41 - n14 * n33 * n41 + n14 * n31 * n43 - n11 * n34 * n43 - n13 * n31 * n44 + n11 * n33 * n44) * detInv;
-    te[6] = (n14 * n32 * n41 - n12 * n34 * n41 - n14 * n31 * n42 + n11 * n34 * n42 + n12 * n31 * n44 - n11 * n32 * n44) * detInv;
-    te[7] = (n12 * n33 * n41 - n13 * n32 * n41 + n13 * n31 * n42 - n11 * n33 * n42 - n12 * n31 * n43 + n11 * n32 * n43) * detInv;
+    te[5] =
+      (n13 * n34 * n41 - n14 * n33 * n41 + n14 * n31 * n43 - n11 * n34 * n43 - n13 * n31 * n44 + n11 * n33 * n44) *
+      detInv;
+    te[6] =
+      (n14 * n32 * n41 - n12 * n34 * n41 - n14 * n31 * n42 + n11 * n34 * n42 + n12 * n31 * n44 - n11 * n32 * n44) *
+      detInv;
+    te[7] =
+      (n12 * n33 * n41 - n13 * n32 * n41 + n13 * n31 * n42 - n11 * n33 * n42 - n12 * n31 * n43 + n11 * n32 * n43) *
+      detInv;
 
     te[8] = t13 * detInv;
-    te[9] = (n14 * n23 * n41 - n13 * n24 * n41 - n14 * n21 * n43 + n11 * n24 * n43 + n13 * n21 * n44 - n11 * n23 * n44) * detInv;
-    te[10] = (n12 * n24 * n41 - n14 * n22 * n41 + n14 * n21 * n42 - n11 * n24 * n42 - n12 * n21 * n44 + n11 * n22 * n44) * detInv;
-    te[11] = (n13 * n22 * n41 - n12 * n23 * n41 - n13 * n21 * n42 + n11 * n23 * n42 + n12 * n21 * n43 - n11 * n22 * n43) * detInv;
+    te[9] =
+      (n14 * n23 * n41 - n13 * n24 * n41 - n14 * n21 * n43 + n11 * n24 * n43 + n13 * n21 * n44 - n11 * n23 * n44) *
+      detInv;
+    te[10] =
+      (n12 * n24 * n41 - n14 * n22 * n41 + n14 * n21 * n42 - n11 * n24 * n42 - n12 * n21 * n44 + n11 * n22 * n44) *
+      detInv;
+    te[11] =
+      (n13 * n22 * n41 - n12 * n23 * n41 - n13 * n21 * n42 + n11 * n23 * n42 + n12 * n21 * n43 - n11 * n22 * n43) *
+      detInv;
 
     te[12] = t14 * detInv;
-    te[13] = (n13 * n24 * n31 - n14 * n23 * n31 + n14 * n21 * n33 - n11 * n24 * n33 - n13 * n21 * n34 + n11 * n23 * n34) * detInv;
-    te[14] = (n14 * n22 * n31 - n12 * n24 * n31 - n14 * n21 * n32 + n11 * n24 * n32 + n12 * n21 * n34 - n11 * n22 * n34) * detInv;
-    te[15] = (n12 * n23 * n31 - n13 * n22 * n31 + n13 * n21 * n32 - n11 * n23 * n32 - n12 * n21 * n33 + n11 * n22 * n33) * detInv;
+    te[13] =
+      (n13 * n24 * n31 - n14 * n23 * n31 + n14 * n21 * n33 - n11 * n24 * n33 - n13 * n21 * n34 + n11 * n23 * n34) *
+      detInv;
+    te[14] =
+      (n14 * n22 * n31 - n12 * n24 * n31 - n14 * n21 * n32 + n11 * n24 * n32 + n12 * n21 * n34 - n11 * n22 * n34) *
+      detInv;
+    te[15] =
+      (n12 * n23 * n31 - n13 * n22 * n31 + n13 * n21 * n32 - n11 * n23 * n32 - n12 * n21 * n33 + n11 * n22 * n33) *
+      detInv;
 
     return this;
-
   }
 
   /**
@@ -816,9 +793,10 @@ class Matrix4 {
    * @return {Matrix4} A reference to this matrix.
    */
   scale(v) {
-
     const te = this.elements;
-    const x = v.x, y = v.y, z = v.z;
+    const x = v.x,
+      y = v.y,
+      z = v.z;
 
     te[0] *= x;
     te[4] *= y;
@@ -834,7 +812,6 @@ class Matrix4 {
     te[11] *= z;
 
     return this;
-
   }
 
   /**
@@ -843,7 +820,6 @@ class Matrix4 {
    * @return {number} The maximum scale.
    */
   getMaxScaleOnAxis() {
-
     const te = this.elements;
 
     const scaleXSq = te[0] * te[0] + te[1] * te[1] + te[2] * te[2];
@@ -851,7 +827,6 @@ class Matrix4 {
     const scaleZSq = te[8] * te[8] + te[9] * te[9] + te[10] * te[10];
 
     return Math.sqrt(Math.max(scaleXSq, scaleYSq, scaleZSq));
-
   }
 
   /**
@@ -863,29 +838,13 @@ class Matrix4 {
    * @return {Matrix4} A reference to this matrix.
    */
   makeTranslation(x, y, z) {
-
     if (x.isVector3) {
-
-      this.set(
-        1, 0, 0, x.x,
-        0, 1, 0, x.y,
-        0, 0, 1, x.z,
-        0, 0, 0, 1
-      );
-
+      this.set(1, 0, 0, x.x, 0, 1, 0, x.y, 0, 0, 1, x.z, 0, 0, 0, 1);
     } else {
-
-      this.set(
-        1, 0, 0, x,
-        0, 1, 0, y,
-        0, 0, 1, z,
-        0, 0, 0, 1
-      );
-
+      this.set(1, 0, 0, x, 0, 1, 0, y, 0, 0, 1, z, 0, 0, 0, 1);
     }
 
     return this;
-
   }
 
   /**
@@ -896,18 +855,12 @@ class Matrix4 {
    * @return {Matrix4} A reference to this matrix.
    */
   makeRotationX(theta) {
+    const c = Math.cos(theta),
+      s = Math.sin(theta);
 
-    const c = Math.cos(theta), s = Math.sin(theta);
-
-    this.set(
-      1, 0, 0, 0,
-      0, c, -s, 0,
-      0, s, c, 0,
-      0, 0, 0, 1
-    );
+    this.set(1, 0, 0, 0, 0, c, -s, 0, 0, s, c, 0, 0, 0, 0, 1);
 
     return this;
-
   }
 
   /**
@@ -918,18 +871,12 @@ class Matrix4 {
    * @return {Matrix4} A reference to this matrix.
    */
   makeRotationY(theta) {
+    const c = Math.cos(theta),
+      s = Math.sin(theta);
 
-    const c = Math.cos(theta), s = Math.sin(theta);
-
-    this.set(
-      c, 0, s, 0,
-      0, 1, 0, 0,
-      -s, 0, c, 0,
-      0, 0, 0, 1
-    );
+    this.set(c, 0, s, 0, 0, 1, 0, 0, -s, 0, c, 0, 0, 0, 0, 1);
 
     return this;
-
   }
 
   /**
@@ -940,18 +887,12 @@ class Matrix4 {
    * @return {Matrix4} A reference to this matrix.
    */
   makeRotationZ(theta) {
+    const c = Math.cos(theta),
+      s = Math.sin(theta);
 
-    const c = Math.cos(theta), s = Math.sin(theta);
-
-    this.set(
-      c, -s, 0, 0,
-      s, c, 0, 0,
-      0, 0, 1, 0,
-      0, 0, 0, 1
-    );
+    this.set(c, -s, 0, 0, s, c, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1);
 
     return this;
-
   }
 
   /**
@@ -966,24 +907,37 @@ class Matrix4 {
    * @return {Matrix4} A reference to this matrix.
    */
   makeRotationAxis(axis, angle) {
-
     // Based on http://www.gamedev.net/reference/articles/article1199.asp
 
     const c = Math.cos(angle);
     const s = Math.sin(angle);
     const t = 1 - c;
-    const x = axis.x, y = axis.y, z = axis.z;
-    const tx = t * x, ty = t * y;
+    const x = axis.x,
+      y = axis.y,
+      z = axis.z;
+    const tx = t * x,
+      ty = t * y;
 
     this.set(
-      tx * x + c, tx * y - s * z, tx * z + s * y, 0,
-      tx * y + s * z, ty * y + c, ty * z - s * x, 0,
-      tx * z - s * y, ty * z + s * x, t * z * z + c, 0,
-      0, 0, 0, 1
+      tx * x + c,
+      tx * y - s * z,
+      tx * z + s * y,
+      0,
+      tx * y + s * z,
+      ty * y + c,
+      ty * z - s * x,
+      0,
+      tx * z - s * y,
+      ty * z + s * x,
+      t * z * z + c,
+      0,
+      0,
+      0,
+      0,
+      1,
     );
 
     return this;
-
   }
 
   /**
@@ -995,16 +949,9 @@ class Matrix4 {
    * @return {Matrix4} A reference to this matrix.
    */
   makeScale(x, y, z) {
-
-    this.set(
-      x, 0, 0, 0,
-      0, y, 0, 0,
-      0, 0, z, 0,
-      0, 0, 0, 1
-    );
+    this.set(x, 0, 0, 0, 0, y, 0, 0, 0, 0, z, 0, 0, 0, 0, 1);
 
     return this;
-
   }
 
   /**
@@ -1019,16 +966,9 @@ class Matrix4 {
    * @return {Matrix4} A reference to this matrix.
    */
   makeShear(xy, xz, yx, yz, zx, zy) {
-
-    this.set(
-      1, yx, zx, 0,
-      xy, 1, zy, 0,
-      xz, yz, 1, 0,
-      0, 0, 0, 1
-    );
+    this.set(1, yx, zx, 0, xy, 1, zy, 0, xz, yz, 1, 0, 0, 0, 0, 1);
 
     return this;
-
   }
 
   /**
@@ -1041,16 +981,28 @@ class Matrix4 {
    * @return {Matrix4} A reference to this matrix.
    */
   compose(position, quaternion, scale) {
-
     const te = this.elements;
 
-    const x = quaternion._x, y = quaternion._y, z = quaternion._z, w = quaternion._w;
-    const x2 = x + x, y2 = y + y, z2 = z + z;
-    const xx = x * x2, xy = x * y2, xz = x * z2;
-    const yy = y * y2, yz = y * z2, zz = z * z2;
-    const wx = w * x2, wy = w * y2, wz = w * z2;
+    const x = quaternion._x,
+      y = quaternion._y,
+      z = quaternion._z,
+      w = quaternion._w;
+    const x2 = x + x,
+      y2 = y + y,
+      z2 = z + z;
+    const xx = x * x2,
+      xy = x * y2,
+      xz = x * z2;
+    const yy = y * y2,
+      yz = y * z2,
+      zz = z * z2;
+    const wx = w * x2,
+      wy = w * y2,
+      wz = w * z2;
 
-    const sx = scale.x, sy = scale.y, sz = scale.z;
+    const sx = scale.x,
+      sy = scale.y,
+      sz = scale.z;
 
     te[0] = (1 - (yy + zz)) * sx;
     te[1] = (xy + wz) * sx;
@@ -1073,7 +1025,6 @@ class Matrix4 {
     te[15] = 1;
 
     return this;
-
   }
 
   /**
@@ -1090,7 +1041,6 @@ class Matrix4 {
    * @return {Matrix4} A reference to this matrix.
    */
   decompose(position, quaternion, scale) {
-
     const te = this.elements;
 
     let sx = _v1.set(te[0], te[1], te[2]).length();
@@ -1131,7 +1081,6 @@ class Matrix4 {
     scale.z = sz;
 
     return this;
-
   }
 
   /**
@@ -1148,12 +1097,20 @@ class Matrix4 {
    * @param {boolean} [reversedDepth=false] - Whether to use a reversed depth.
    * @return {Matrix4} A reference to this matrix.
    */
-  makePerspective(left, right, top, bottom, near, far, coordinateSystem = WebGLCoordinateSystem, reversedDepth = false) {
-
+  makePerspective(
+    left,
+    right,
+    top,
+    bottom,
+    near,
+    far,
+    coordinateSystem = WebGLCoordinateSystem,
+    reversedDepth = false,
+  ) {
     const te = this.elements;
 
-    const x = 2 * near / (right - left);
-    const y = 2 * near / (top - bottom);
+    const x = (2 * near) / (right - left);
+    const y = (2 * near) / (top - bottom);
 
     const a = (right + left) / (right - left);
     const b = (top + bottom) / (top - bottom);
@@ -1161,28 +1118,18 @@ class Matrix4 {
     let c, d;
 
     if (reversedDepth) {
-
       c = near / (far - near);
       d = (far * near) / (far - near);
-
     } else {
-
       if (coordinateSystem === WebGLCoordinateSystem) {
-
         c = -(far + near) / (far - near);
         d = (-2 * far * near) / (far - near);
-
       } else if (coordinateSystem === WebGPUCoordinateSystem) {
-
         c = -far / (far - near);
         d = (-far * near) / (far - near);
-
       } else {
-
         throw new Error("THREE.Matrix4.makePerspective(): Invalid coordinate system: " + coordinateSystem);
-
       }
-
     }
 
     te[0] = x;
@@ -1203,7 +1150,6 @@ class Matrix4 {
     te[15] = 0;
 
     return this;
-
   }
 
   /**
@@ -1220,8 +1166,16 @@ class Matrix4 {
    * @param {boolean} [reversedDepth=false] - Whether to use a reversed depth.
    * @return {Matrix4} A reference to this matrix.
    */
-  makeOrthographic(left, right, top, bottom, near, far, coordinateSystem = WebGLCoordinateSystem, reversedDepth = false) {
-
+  makeOrthographic(
+    left,
+    right,
+    top,
+    bottom,
+    near,
+    far,
+    coordinateSystem = WebGLCoordinateSystem,
+    reversedDepth = false,
+  ) {
     const te = this.elements;
 
     const x = 2 / (right - left);
@@ -1233,28 +1187,18 @@ class Matrix4 {
     let c, d;
 
     if (reversedDepth) {
-
       c = 1 / (far - near);
       d = far / (far - near);
-
     } else {
-
       if (coordinateSystem === WebGLCoordinateSystem) {
-
         c = -2 / (far - near);
         d = -(far + near) / (far - near);
-
       } else if (coordinateSystem === WebGPUCoordinateSystem) {
-
         c = -1 / (far - near);
         d = -near / (far - near);
-
       } else {
-
         throw new Error("THREE.Matrix4.makeOrthographic(): Invalid coordinate system: " + coordinateSystem);
-
       }
-
     }
 
     te[0] = x;
@@ -1275,7 +1219,6 @@ class Matrix4 {
     te[15] = 1;
 
     return this;
-
   }
 
   /**
@@ -1285,18 +1228,14 @@ class Matrix4 {
    * @return {boolean} Whether this matrix is equal with the given one.
    */
   equals(matrix) {
-
     const te = this.elements;
     const me = matrix.elements;
 
     for (let i = 0; i < 16; i++) {
-
       if (te[i] !== me[i]) return false;
-
     }
 
     return true;
-
   }
 
   /**
@@ -1307,15 +1246,11 @@ class Matrix4 {
    * @return {Matrix4} A reference to this matrix.
    */
   fromArray(array, offset = 0) {
-
     for (let i = 0; i < 16; i++) {
-
       this.elements[i] = array[i + offset];
-
     }
 
     return this;
-
   }
 
   /**
@@ -1327,7 +1262,6 @@ class Matrix4 {
    * @return {Array<number>} The matrix elements in column-major order.
    */
   toArray(array = [], offset = 0) {
-
     const te = this.elements;
 
     array[offset] = te[0];
@@ -1351,9 +1285,7 @@ class Matrix4 {
     array[offset + 15] = te[15];
 
     return array;
-
   }
-
 }
 
 const _v1 = /*@__PURE__*/ new Vector3();

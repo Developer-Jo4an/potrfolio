@@ -2,16 +2,14 @@ import {EventDispatcher} from "../../lib/event-dispatcher/EventDispatcher";
 import {BaseController} from "../../controllers/base/BaseController";
 
 export class BaseWrapper {
-
   static get instance() {
-    return this._instance ??= new BaseWrapper();
+    return (this._instance ??= new BaseWrapper());
   }
 
   eventBus = new EventDispatcher();
 
   constructor(data = {}) {
-    for (const key in data)
-      this[key] = data[key];
+    for (const key in data) this[key] = data[key];
   }
 
   registerController(data) {
@@ -27,7 +25,6 @@ export class BaseWrapper {
       this.isInitialized = true;
       await controller.init();
       return controller;
-    } else
-      return controller;
+    } else return controller;
   }
 }

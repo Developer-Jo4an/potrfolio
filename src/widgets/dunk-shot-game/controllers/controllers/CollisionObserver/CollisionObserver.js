@@ -11,7 +11,7 @@ export class CollisionObserver extends BaseController {
   init() {
     const {engine, eventBus} = this;
 
-    Matter.Events.on(engine, COLLISION_START, e => {
+    Matter.Events.on(engine, COLLISION_START, (e) => {
       const {pairs} = e;
 
       pairs.forEach(({bodyA, bodyB}) => {

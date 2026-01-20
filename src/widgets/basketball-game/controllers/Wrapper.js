@@ -4,7 +4,7 @@ import {STATE_DECORATOR_FIELD, ThreeWrapper} from "@shared";
 
 export class Wrapper extends ThreeWrapper {
   static get instance() {
-    return this._instance ??= new Wrapper();
+    return (this._instance ??= new Wrapper());
   }
 
   registerController(data) {
@@ -12,7 +12,7 @@ export class Wrapper extends ThreeWrapper {
     this.controller ??= new Controller({
       eventBus,
       rendererSettings: {background: {transparent: true, opacity: 0}, shadow: true},
-      ...data
+      ...data,
     });
   }
 
@@ -25,7 +25,13 @@ export class Wrapper extends ThreeWrapper {
   }
 
   activateBooster(type) {
-    const {controller: {storage: {engine: {systems}}}} = this;
+    const {
+      controller: {
+        storage: {
+          engine: {systems},
+        },
+      },
+    } = this;
     const characterSystem = systems.get(UUIDS.character);
     characterSystem.activateBooster(type);
   }

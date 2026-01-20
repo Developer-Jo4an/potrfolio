@@ -7,11 +7,11 @@ export function useIsCanInteractive() {
     isCanInteractive: !animationCount,
     handlers: {
       onAnimationStart() {
-        setAnimationCount(prev => ++prev);
+        setAnimationCount((prev) => ++prev);
       },
       onAnimationComplete() {
-        setAnimationCount(prev => Math.max(prev - 1, 0));
-      }
-    }
+        setAnimationCount((prev) => Math.max(prev - 1, 0));
+      },
+    },
   };
 }

@@ -6,15 +6,11 @@ export function CallbacksProvider({children}) {
 
   const callbacks = {
     redirect(page) {
-      router.push(page)
-    }
+      router.push(page);
+    },
   };
 
-  return (
-    <CallbacksContext.Provider value={callbacks}>
-      {children}
-    </CallbacksContext.Provider>
-  );
+  return <CallbacksContext.Provider value={callbacks}>{children}</CallbacksContext.Provider>;
 }
 
 const CallbacksContext = createContext({});

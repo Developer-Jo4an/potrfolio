@@ -8,13 +8,15 @@ import {BASKETBALL} from "../../constants/game";
 import {PLAYING} from "../../constants/stateMachine";
 import styles from "./Effects.module.scss";
 
-const {effects: {clearHit, miss}} = content;
+const {
+  effects: {clearHit, miss},
+} = content;
 
 export function Effects({ref}) {
   const {wrapper, state} = useBasketballStore();
   const [{isVisibleClearHitEffect, isVisibleMissEffect}, setVisibleEffects] = useState({
     isVisibleClearHitEffect: false,
-    isVisibleMissEffect: false
+    isVisibleMissEffect: false,
   });
   const animatedElements = useRef({clearHitEffect: null, missEffect: null});
   const effectsFreeSpaceRef = useRef();
@@ -30,25 +32,24 @@ export function Effects({ref}) {
         {
           event: CLEAR_HIT,
           callback() {
-            setVisibleEffects(prev => ({...prev, isVisibleClearHitEffect: true}));
-          }
+            setVisibleEffects((prev) => ({...prev, isVisibleClearHitEffect: true}));
+          },
         },
         {
           event: MISS,
           callback() {
-            setVisibleEffects(prev => ({...prev, isVisibleMissEffect: true}));
-          }
-        }
-      ]
+            setVisibleEffects((prev) => ({...prev, isVisibleMissEffect: true}));
+          },
+        },
+      ],
     });
   }, [wrapper]);
 
   useEffect(() => {
     if (state !== PLAYING) {
-      setVisibleEffects(prev => {
+      setVisibleEffects((prev) => {
         const newData = {};
-        for (const key in prev)
-          newData[key] = false;
+        for (const key in prev) newData[key] = false;
         return newData;
       });
 
@@ -62,12 +63,12 @@ export function Effects({ref}) {
     const animatedData = [
       isVisibleClearHitEffect && {
         DOMElement: clearHitEffect,
-        clear: () => setVisibleEffects(prev => ({...prev, isVisibleClearHitEffect: false}))
+        clear: () => setVisibleEffects((prev) => ({...prev, isVisibleClearHitEffect: false})),
       },
       isVisibleMissEffect && {
         DOMElement: missEffect,
-        clear: () => setVisibleEffects(prev => ({...prev, isVisibleMissEffect: false}))
-      }
+        clear: () => setVisibleEffects((prev) => ({...prev, isVisibleMissEffect: false})),
+      },
     ].filter(Boolean);
 
     const clearFunctions = animatedData.map(({DOMElement, clear}) => {
@@ -75,30 +76,24 @@ export function Effects({ref}) {
       return () => !tween.isKilled && tween.delete(BASKETBALL);
     });
 
-    return () => clearFunctions.forEach(func => func());
+    return () => clearFunctions.forEach((func) => func());
   }, [state, isVisibleClearHitEffect, isVisibleMissEffect]);
 
   return (
     <div className={styles.effects}>
-      {isVisibleClearHitEffect &&
-        <div
-          ref={ref => animatedElements.current.clearHitEffect = ref}
-          className={styles.clearHitEffect}
-        >
-          <Image {...clearHit.img}/>
+      {isVisibleClearHitEffect && (
+        <div ref={(ref) => (animatedElements.current.clearHitEffect = ref)} className={styles.clearHitEffect}>
+          <Image {...clearHit.img} />
         </div>
-      }
+      )}
 
-      {isVisibleMissEffect &&
-        <div
-          ref={ref => animatedElements.current.missEffect = ref}
-          className={styles.missEffect}
-        >
-          <Image {...miss.img}/>
+      {isVisibleMissEffect && (
+        <div ref={(ref) => (animatedElements.current.missEffect = ref)} className={styles.missEffect}>
+          <Image {...miss.img} />
         </div>
-      }
+      )}
 
-      <div ref={effectsFreeSpaceRef} className={styles.effectsFreeSpace}/>
+      <div ref={effectsFreeSpaceRef} className={styles.effectsFreeSpace} />
     </div>
   );
 }

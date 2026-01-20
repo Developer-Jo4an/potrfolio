@@ -6,12 +6,9 @@ import {isFunction, isObject, upperFirst} from "lodash";
 import {FULFILLED, PENDING, REJECTED, SETTLED} from "../../../constants";
 
 class StateManagerStore {
-
   stores = {};
 
-  constructor() {
-
-  }
+  constructor() {}
 
   initStore(data) {
     const {stores} = this;
@@ -24,7 +21,7 @@ class StateManagerStore {
       interceptors = {},
       selectors = {},
       matchers = {},
-      helpers = {}
+      helpers = {},
     } = data;
 
     let customSyncActions;
@@ -32,20 +29,20 @@ class StateManagerStore {
     let customInterceptors;
     let customMatchers;
 
-    const useStore = create(immer(subscribeWithSelector(set => {
-      customSyncActions = this.createSyncActions(syncActions, set);
-      customAsyncActions = this.createAsyncActions(asyncActions, set);
-      customInterceptors = this.createInterceptors(interceptors, set);
-      customMatchers = this.createMatchers(matchers, set);
+    const useStore = create(
+      immer(
+        subscribeWithSelector((set) => {
+          customSyncActions = this.createSyncActions(syncActions, set);
+          customAsyncActions = this.createAsyncActions(asyncActions, set);
+          customInterceptors = this.createInterceptors(interceptors, set);
+          customMatchers = this.createMatchers(matchers, set);
 
-      return {
-        ...state,
-        ...customSyncActions,
-        ...customAsyncActions
-      };
-    })));
+          return {...state, ...customSyncActions, ...customAsyncActions};
+        }),
+      ),
+    );
 
-    return stores[name] = {
+    return (stores[name] = {
       useStore,
       selectors: this.createSelectors(useStore, selectors),
       originSyncActions: syncActions,
@@ -53,8 +50,8 @@ class StateManagerStore {
       asyncActions: customAsyncActions,
       interceptors: customInterceptors,
       matchers: customMatchers,
-      helpers
-    };
+      helpers,
+    });
   }
 
   createSyncActions(actions, set) {
@@ -67,7 +64,7 @@ class StateManagerStore {
 
       customActions[key] = function (...data) {
         const returned = {};
-        set(state => {
+        set((state) => {
           action({state, globalStore: self, returned}, ...data);
           self.callMatchers(key, state, ...data);
         });
@@ -102,29 +99,33 @@ class StateManagerStore {
         let totalData;
 
         try {
-          isFunction(onPending) && set(state => {
-            onPending.call(self, {state, globalStore: self}, totalData);
-            self.callInterceptor(key, state, data, PENDING);
-          });
+          isFunction(onPending) &&
+            set((state) => {
+              onPending.call(self, {state, globalStore: self}, totalData);
+              self.callInterceptor(key, state, data, PENDING);
+            });
 
           totalData = await request(...data);
 
-          isFunction(onFulfilled) && set(state => {
-            onFulfilled.call(self, {state, globalStore: self}, totalData);
-            self.callInterceptor(key, state, totalData, FULFILLED);
-          });
+          isFunction(onFulfilled) &&
+            set((state) => {
+              onFulfilled.call(self, {state, globalStore: self}, totalData);
+              self.callInterceptor(key, state, totalData, FULFILLED);
+            });
         } catch (e) {
           totalData = e;
 
-          isFunction(onRejected) && set(state => {
-            onRejected.call(self, {state, globalStore: self}, totalData);
-            self.callInterceptor(key, state, totalData, REJECTED);
-          });
+          isFunction(onRejected) &&
+            set((state) => {
+              onRejected.call(self, {state, globalStore: self}, totalData);
+              self.callInterceptor(key, state, totalData, REJECTED);
+            });
         } finally {
-          isFunction(onSettled) && set(state => {
-            onSettled.call(self, {state, globalStore: self}, totalData);
-            self.callInterceptor(key, state, totalData, SETTLED);
-          });
+          isFunction(onSettled) &&
+            set((state) => {
+              onSettled.call(self, {state, globalStore: self}, totalData);
+              self.callInterceptor(key, state, totalData, SETTLED);
+            });
         }
 
         return totalData;
@@ -143,7 +144,7 @@ class StateManagerStore {
       const action = interceptors[key];
 
       customInterceptors[key] = function (data) {
-        set(state => action({state, globalStore: self}, data));
+        set((state) => action({state, globalStore: self}, data));
       };
     }
 
@@ -161,8 +162,7 @@ class StateManagerStore {
       customMatchers[key] = function (actionKey, ...data) {
         const isChecked = checker(actionKey, ...data);
 
-        if (isChecked)
-          set(state => handler(actionKey, {state, globalStore: self}, ...data));
+        if (isChecked) set((state) => handler(actionKey, {state, globalStore: self}, ...data));
       };
     }
 
@@ -172,8 +172,7 @@ class StateManagerStore {
   createSelectors(useStore, selectors) {
     const customSelectors = {};
 
-    for (const key in selectors)
-      customSelectors[`use${upperFirst(key)}`] = () => useStore(useShallow(selectors[key]));
+    for (const key in selectors) customSelectors[`use${upperFirst(key)}`] = () => useStore(useShallow(selectors[key]));
 
     return customSelectors;
   }
@@ -197,8 +196,7 @@ class StateManagerStore {
     for (const key in stores) {
       const {matchers} = stores[key];
 
-      for (const subKey in matchers)
-        matchers[subKey](actionKey, {state, globalState: self}, ...data);
+      for (const subKey in matchers) matchers[subKey](actionKey, {state, globalState: self}, ...data);
     }
   }
 
@@ -211,4 +209,4 @@ class StateManagerStore {
 
 const globalStore = new StateManagerStore();
 
-export const createStore = data => globalStore.initStore(data);
+export const createStore = (data) => globalStore.initStore(data);

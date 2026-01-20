@@ -3,7 +3,6 @@ import {LEFT, RIGHT, PIXI_SPACE, TEXTURE, assetsManager} from "@shared";
 import {WING} from "../../../config/preload";
 
 export class Wing extends BaseEntity {
-
   _side = RIGHT;
 
   constructor(data) {
@@ -20,7 +19,7 @@ export class Wing extends BaseEntity {
     const {view} = this;
 
     this._side = side;
-    const multiplier = ({[LEFT]: -1, [RIGHT]: 1})[side];
+    const multiplier = {[LEFT]: -1, [RIGHT]: 1}[side];
 
     view.scale.x = view.scale.x * multiplier;
   }
@@ -30,9 +29,18 @@ export class Wing extends BaseEntity {
   }
 
   initView() {
-    const {groups, storage: {mainSceneSettings: {wings: {view: {width, height}}}}} = this;
+    const {
+      groups,
+      storage: {
+        mainSceneSettings: {
+          wings: {
+            view: {width, height},
+          },
+        },
+      },
+    } = this;
 
-    const view = this.view ??= new PIXI.Sprite();
+    const view = (this.view ??= new PIXI.Sprite());
     view.label = "wing";
     view.texture = assetsManager.getAssetFromSpace(PIXI_SPACE, TEXTURE, WING);
     groups.middle.attach(view);

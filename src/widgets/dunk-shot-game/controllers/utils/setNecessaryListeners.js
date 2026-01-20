@@ -12,22 +12,22 @@ export function setNecessaryListeners(context) {
         callback({state}) {
           context.state = state;
           context.onStateChanged?.(state);
-        }
+        },
       },
       {
         event: DUNK_SHOT_GAME_DATA_EVENT,
         callback({gameData}) {
           context.gameData = gameData;
           context.onGameDataChanged?.(gameData);
-        }
+        },
       },
       {
         event: DUNK_SHOT_CONFIG_EVENT,
         callback({config}) {
           context.config = config;
           context.onConfigChanged?.(config);
-        }
-      }
-    ]
+        },
+      },
+    ],
   });
 }

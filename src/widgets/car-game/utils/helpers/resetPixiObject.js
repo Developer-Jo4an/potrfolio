@@ -24,4 +24,3 @@ export function resetPixiObject(object) {
   }
   object.parent && object.parent.removeChild(object);
 }
-

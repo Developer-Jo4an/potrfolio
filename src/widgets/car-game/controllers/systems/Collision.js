@@ -11,7 +11,7 @@ import {STATE_DECORATOR_FIELD, EventComponent, Collider, Matrix3Component, Colli
 export class Collision extends System {
   clearCollisionComponents({characterEntity}) {
     const allCollisionComponent = characterEntity.getList(CollisionComponent);
-    allCollisionComponent.forEach(collisionComponent => characterEntity.remove(collisionComponent));
+    allCollisionComponent.forEach((collisionComponent) => characterEntity.remove(collisionComponent));
   }
 
   updateCharacterCollider({characterEntity}) {
@@ -23,26 +23,24 @@ export class Collision extends System {
     characterPolygon.setAngle(characterMatrix3Component.rotation);
   }
 
-  updateRoadChunksCollider() {
-  }
+  updateRoadChunksCollider() {}
 
-  updateBonusCollider() {
+  updateBonusCollider() {}
 
-  }
-
-  updateSpikeCollider() {
-
-  }
+  updateSpikeCollider() {}
 
   getCollisionEntities(characterPolygon, entities) {
-    return entities.filter(entity => {
+    return entities.filter((entity) => {
       const roadChunkPolygon = entity.get(Collider).object;
       return SAT.testPolygonPolygon(characterPolygon, roadChunkPolygon);
     });
   }
 
   checkCharacterCollision({characterEntity, roadChunkEntities, bonusEntities, spikeEntities}) {
-    const {eventBus, storage: {decorators}} = this;
+    const {
+      eventBus,
+      storage: {decorators},
+    } = this;
     const characterPolygon = characterEntity.get(Collider).object;
 
     const collidedRoads = this.getCollisionEntities(characterPolygon, roadChunkEntities);
@@ -53,9 +51,7 @@ export class Collision extends System {
       const characterCollisionComponent = new CollisionComponent({
         eventBus,
         group: CHARACTER_WITH_ROAD_CHUNK,
-        collision: {
-          collisionList: collidedRoads
-        }
+        collision: {collisionList: collidedRoads},
       });
       characterEntity.add(characterCollisionComponent);
     }
@@ -65,9 +61,7 @@ export class Collision extends System {
       const characterCollisionComponent = new CollisionComponent({
         eventBus,
         group: CHARACTER_WITH_BONUSES,
-        collision: {
-          collisionList: collidedBonuses
-        }
+        collision: {collisionList: collidedBonuses},
       });
       const event = new EventComponent({eventBus, type: BONUSES_COLLISION, data: collidedBonuses});
       characterEntity.add(event);
@@ -79,9 +73,7 @@ export class Collision extends System {
       const characterCollisionComponent = new CollisionComponent({
         eventBus,
         group: CHARACTER_WITH_SPIKES,
-        collision: {
-          collisionList: collidedSpikes
-        }
+        collision: {collisionList: collidedSpikes},
       });
       const event = new EventComponent({eventBus, type: SPIKES_COLLISION, data: collidedSpikes});
       characterEntity.add(event);

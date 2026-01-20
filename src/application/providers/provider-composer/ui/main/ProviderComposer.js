@@ -8,9 +8,7 @@ export function ProviderComposer({children}) {
     <SizeProvider>
       <CallbacksProvider>
         <ModalProvider>
-          <ApiProvider>
-            {children}
-          </ApiProvider>
+          <ApiProvider>{children}</ApiProvider>
         </ModalProvider>
       </CallbacksProvider>
     </SizeProvider>

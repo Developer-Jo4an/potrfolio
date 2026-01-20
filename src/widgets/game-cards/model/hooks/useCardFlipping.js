@@ -5,13 +5,7 @@ import {useGamesStore} from "../state-manager/gamesStore";
 import {cardsAnimationSettings, cardsConfig} from "../../config/cardsConfig";
 
 export function useCardFlipping({gameCards}) {
-  const {
-    gameList,
-    activeGame, leftGame, rightGame,
-    isShowing,
-    lastSwipeDirection,
-    onSwipe
-  } = useGamesStore();
+  const {gameList, activeGame, leftGame, rightGame, isShowing, lastSwipeDirection, onSwipe} = useGamesStore();
 
   useEffect(() => {
     if (isShowing || !gameList.length || !lastSwipeDirection) return;
@@ -31,50 +25,55 @@ export function useCardFlipping({gameCards}) {
 
       const isVisible = visibleIndexes.includes(index);
 
-      flippingTween
-      .to(gameCard, {
-        opacity: Number(isVisible),
-        ease: "sine.inOut",
-        duration: 0.5,
-        [isVisible ? "onStart" : "onComplete"]() {
-          gsap.set(gameCard, {visibility: isVisible ? "visible" : "hidden"});
-        }
-      }, 0);
+      flippingTween.to(
+        gameCard,
+        {
+          opacity: Number(isVisible),
+          ease: "sine.inOut",
+          duration: 0.5,
+          [isVisible ? "onStart" : "onComplete"]() {
+            gsap.set(gameCard, {visibility: isVisible ? "visible" : "hidden"});
+          },
+        },
+        0,
+      );
 
       const {translateX, translateZ, ...otherProps} = necessaryConfig;
       const availableStatusesForMotionTween = [ACTIVE, lastSwipeDirection].includes(gameCardStatus);
 
-      flippingTween
-      .to(gameCard, {
-        ease: "sine.inOut",
-        duration: 0.5,
-        ...otherProps,
-        ...(!availableStatusesForMotionTween && {translateX, translateZ})
-      }, 0);
+      flippingTween.to(
+        gameCard,
+        {
+          ease: "sine.inOut",
+          duration: 0.5,
+          ...otherProps,
+          ...(!availableStatusesForMotionTween && {translateX, translateZ}),
+        },
+        0,
+      );
 
       if (!availableStatusesForMotionTween) return;
 
       const start = {
         translateX: gsap.getProperty(gameCard, "translateX"),
-        translateZ: gsap.getProperty(gameCard, "translateZ")
+        translateZ: gsap.getProperty(gameCard, "translateZ"),
       };
 
-      const middle = cardsAnimationSettings.flipping[({
-        [ACTIVE]: () => `${lastSwipeDirection === RIGHT ? LEFT : RIGHT}${CENTER}`,
-        [lastSwipeDirection]: () => `${lastSwipeDirection}${CENTER}`
-      })[gameCardStatus]()];
+      const middle =
+        cardsAnimationSettings.flipping[
+          {
+            [ACTIVE]: () => `${lastSwipeDirection === RIGHT ? LEFT : RIGHT}${CENTER}`,
+            [lastSwipeDirection]: () => `${lastSwipeDirection}${CENTER}`,
+          }[gameCardStatus]()
+        ];
 
       const end = {translateX, translateZ};
 
-      flippingTween.to(gameCard, {
-        motionPath: {
-          path: [start, middle, end],
-          autoRotate: false,
-          curviness: 1.5
-        },
-        ease: "sine.out",
-        duration: 0.5
-      }, 0);
+      flippingTween.to(
+        gameCard,
+        {motionPath: {path: [start, middle, end], autoRotate: false, curviness: 1.5}, ease: "sine.out", duration: 0.5},
+        0,
+      );
     });
 
     return () => {
@@ -87,9 +86,8 @@ export function useCardFlipping({gameCards}) {
     trackMouse: true,
     onSwiped({dir}) {
       const direction = dir.toLowerCase();
-      if (!isShowing && gameList.length && [RIGHT, LEFT].includes(direction))
-        onSwipe({direction});
-    }
+      if (!isShowing && gameList.length && [RIGHT, LEFT].includes(direction)) onSwipe({direction});
+    },
   });
 }
 

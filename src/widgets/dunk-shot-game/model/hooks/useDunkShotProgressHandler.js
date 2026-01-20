@@ -17,4 +17,4 @@ export function useDunkShotProgressHandler() {
       return () => clearTimeout(timeoutId);
     }
   }, [current, max]);
-};
+}

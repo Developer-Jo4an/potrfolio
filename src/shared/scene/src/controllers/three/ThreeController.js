@@ -9,7 +9,8 @@ import {ThreeLoader} from "../../loaders/three/ThreeLoader";
 import {
   PERFORMANCE_DECORATOR_FIELD,
   RESIZE_DECORATOR_FIELD,
-  STATE_DECORATOR_FIELD, UPDATE_DECORATOR_FIELD
+  STATE_DECORATOR_FIELD,
+  UPDATE_DECORATOR_FIELD,
 } from "../../constants/decorators/names";
 import {THREE_WEBGL_RENDERER_CONFIG} from "../../config/three";
 
@@ -18,22 +19,22 @@ export class ThreeController extends BaseController {
     {DecoratorClass: ThreeUpdate, decoratorField: UPDATE_DECORATOR_FIELD},
     {DecoratorClass: Resize, decoratorField: RESIZE_DECORATOR_FIELD},
     {DecoratorClass: State, decoratorField: STATE_DECORATOR_FIELD},
-    getIsDebug() && {DecoratorClass: Performance, decoratorField: PERFORMANCE_DECORATOR_FIELD}
+    getIsDebug() && {DecoratorClass: Performance, decoratorField: PERFORMANCE_DECORATOR_FIELD},
   ].filter(Boolean);
 
   decorators = {};
 
   static get canvas() {
-    return this._canvas ??= document.createElement("canvas");
+    return (this._canvas ??= document.createElement("canvas"));
   }
 
   static get context() {
     const {canvas} = this;
-    return this._context ??= canvas.getContext("webgl2", {stencil: true});
+    return (this._context ??= canvas.getContext("webgl2", {stencil: true}));
   }
 
   static get loader() {
-    return this._loader ??= new ThreeLoader();
+    return (this._loader ??= new ThreeLoader());
   }
 
   get canvas() {
@@ -70,27 +71,18 @@ export class ThreeController extends BaseController {
   }
 
   initSceneInstance() {
-    const {
-      sceneSettings: {
-        fog
-      } = {}
-    } = this;
+    const {sceneSettings: {fog} = {}} = this;
 
-    return this.scene = new THREE.Scene({fog});
+    return (this.scene = new THREE.Scene({fog}));
   }
 
   initCamera() {
     const {
       $container: {offsetWidth, offsetHeight},
-      cameraSettings: {
-        fov = 30,
-        aspect = offsetWidth / offsetHeight,
-        near = 0.1,
-        far = 100
-      } = {}
+      cameraSettings: {fov = 30, aspect = offsetWidth / offsetHeight, near = 0.1, far = 100} = {},
     } = this;
 
-    return this.camera = new THREE.PerspectiveCamera(fov, aspect, near, far);
+    return (this.camera = new THREE.PerspectiveCamera(fov, aspect, near, far));
   }
 
   initRenderer() {
@@ -101,11 +93,11 @@ export class ThreeController extends BaseController {
         background,
         colorSpace = THREE.SRGBColorSpace,
         toneMapping = THREE.NoToneMapping,
-        dpr = 2
-      } = {}
+        dpr = 2,
+      } = {},
     } = this;
     const {canvas, context} = ThreeController;
-    const renderer = this.renderer = new THREE.WebGLRenderer({...THREE_WEBGL_RENDERER_CONFIG, canvas, context});
+    const renderer = (this.renderer = new THREE.WebGLRenderer({...THREE_WEBGL_RENDERER_CONFIG, canvas, context}));
     renderer.debug.checkShaderErrors = getIsDebug();
 
     if (shadow) {
@@ -131,10 +123,12 @@ export class ThreeController extends BaseController {
     const {DECORATORS, scene, camera, decorators, renderer, eventBus, stage, stateMachine, canvas, $container} = this;
     const fullData = {renderer, scene, camera, eventBus, stage, stateMachine, canvas, $container};
 
-    return Promise.all(DECORATORS.map(({DecoratorClass, decoratorField}) => {
-      const decorator = decorators[decoratorField] = new DecoratorClass(fullData);
-      return decorator.initDecorator();
-    }));
+    return Promise.all(
+      DECORATORS.map(({DecoratorClass, decoratorField}) => {
+        const decorator = (decorators[decoratorField] = new DecoratorClass(fullData));
+        return decorator.initDecorator();
+      }),
+    );
   }
 
   appendContainer($container) {
@@ -143,7 +137,11 @@ export class ThreeController extends BaseController {
   }
 
   onResized() {
-    const {renderer, camera, $container: {offsetWidth, offsetHeight}} = this;
+    const {
+      renderer,
+      camera,
+      $container: {offsetWidth, offsetHeight},
+    } = this;
 
     camera.aspect = offsetWidth / offsetHeight;
     camera.updateProjectionMatrix();
@@ -161,7 +159,6 @@ export class ThreeController extends BaseController {
 
     this.render();
 
-    if (decorators[PERFORMANCE_DECORATOR_FIELD])
-      decorators[PERFORMANCE_DECORATOR_FIELD].update();
+    if (decorators[PERFORMANCE_DECORATOR_FIELD]) decorators[PERFORMANCE_DECORATOR_FIELD].update();
   }
 }

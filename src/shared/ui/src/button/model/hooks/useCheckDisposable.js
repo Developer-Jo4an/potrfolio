@@ -6,8 +6,7 @@ export function useCheckDisposable({isDisposable}) {
   return () => {
     if (isClicked.current) return false;
 
-    if (isDisposable)
-      isClicked.current = true;
+    if (isDisposable) isClicked.current = true;
 
     return true;
   };

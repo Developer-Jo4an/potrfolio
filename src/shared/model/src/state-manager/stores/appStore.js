@@ -7,7 +7,7 @@ const {useStore: useAppStore, selectors} = createStore({
   asyncActions: {},
   interceptors: {},
   selectors: {},
-  helpers: {}
+  helpers: {},
 });
 
 export {useAppStore};

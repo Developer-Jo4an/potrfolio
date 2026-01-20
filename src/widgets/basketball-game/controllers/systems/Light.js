@@ -5,19 +5,20 @@ export class Light extends System {
     const {
       storage: {
         scene,
-        mainSceneSettings: {lights: {ambient: ambientSettings, directional: directionalSettings}}
-      }
+        mainSceneSettings: {
+          lights: {ambient: ambientSettings, directional: directionalSettings},
+        },
+      },
     } = this;
 
     const ambient = new THREE.AmbientLight(ambientSettings.color, ambientSettings.intensity);
     scene.add(ambient);
 
-
     const directional = new THREE.DirectionalLight(directionalSettings.color, directionalSettings.intensity);
 
     directional.position.copy(directionalSettings.position);
 
-    const target = directional.target = new THREE.Object3D();
+    const target = (directional.target = new THREE.Object3D());
     target.name = directionalSettings.target.name;
     target.position.copy(directionalSettings.target.position);
 
@@ -35,4 +36,3 @@ export class Light extends System {
     scene.add(target);
   }
 }
-

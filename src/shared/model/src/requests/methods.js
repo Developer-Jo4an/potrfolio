@@ -14,8 +14,7 @@ function createMethod(method) {
       ...(params && {params}),
       ...(data && {data}),
       ...(metadata && {metadata}),
-      ...(isFinite(timeout) && {timeout})
+      ...(isFinite(timeout) && {timeout}),
     });
   };
 }
-

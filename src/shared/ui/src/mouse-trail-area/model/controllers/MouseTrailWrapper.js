@@ -1,13 +1,12 @@
 import {MouseTrailController} from "./MouseTrailController";
 
 export class MouseTrailWrapper {
-
   static get instance() {
-    return this._instance ??= new MouseTrailWrapper();
+    return (this._instance ??= new MouseTrailWrapper());
   }
 
   async initController() {
-    const controller = this.controller ??= new MouseTrailController();
+    const controller = (this.controller ??= new MouseTrailController());
     await controller.init();
   }
 

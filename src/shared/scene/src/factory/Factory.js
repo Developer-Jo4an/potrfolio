@@ -2,7 +2,6 @@ import {FactoryStorage} from "./FactoryStorage";
 import {analysis} from "../analytics/Analytics";
 
 export class Factory {
-
   storage = {};
 
   defaultProperties = {};
@@ -15,12 +14,12 @@ export class Factory {
     this.defaultProperties = properties;
   }
 
-  getItemByType(type, data) {
-
-  }
+  getItemByType(type, data) {}
 
   createItem(type, data = {}) {
-    const {defaultProperties: {args = []}} = this;
+    const {
+      defaultProperties: {args = []},
+    } = this;
     let item;
 
     if (data.Cls) item = new data.Cls(...[...args, ...data.args]);
@@ -100,8 +99,7 @@ export class Factory {
   }
 
   clear() {
-    Object.entries(this.storage)
-    .forEach(([, storage]) => {
+    Object.entries(this.storage).forEach(([, storage]) => {
       storage.clear();
       delete this.storage;
     });

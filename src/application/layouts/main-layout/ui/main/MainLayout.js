@@ -7,7 +7,7 @@ export function MainLayout({children}) {
   return (
     <ProviderComposer>
       {children}
-      <RequestsLoader/>
+      <RequestsLoader />
     </ProviderComposer>
   );
 }

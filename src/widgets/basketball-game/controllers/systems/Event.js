@@ -7,45 +7,43 @@ import {GROUND} from "../../constants/ground";
 export class Event extends System {
   updateCharacterEvents({eCharacter}) {
     const csCollisionEvent = eCharacter.getSome(EventComponent, COLLISION_START, COLLISION_END);
-    if (!!csCollisionEvent?.length)
-      csCollisionEvent.forEach(cEvent => eCharacter.remove(cEvent));
+    if (!!csCollisionEvent?.length) csCollisionEvent.forEach((cEvent) => eCharacter.remove(cEvent));
 
     const csClearHitEvent = eCharacter.getSome(EventComponent, CLEAR_HIT);
     if (!!csClearHitEvent?.length) {
       const {eventBus} = this;
       eventBus.dispatchEvent({type: CLEAR_HIT});
-      csClearHitEvent.forEach(cClearHitEvent => eCharacter.remove(cClearHitEvent));
+      csClearHitEvent.forEach((cClearHitEvent) => eCharacter.remove(cClearHitEvent));
     }
 
     const csMissEvent = eCharacter.getSome(EventComponent, MISS);
     if (!!csMissEvent?.length) {
       const {eventBus} = this;
       eventBus.dispatchEvent({type: MISS});
-      csMissEvent.forEach(cMissEvent => eCharacter.remove(cMissEvent));
+      csMissEvent.forEach((cMissEvent) => eCharacter.remove(cMissEvent));
     }
 
     const csThrownEvent = eCharacter.getSome(EventComponent, THROWN);
-    if (!!csThrownEvent.length)
-      csThrownEvent.forEach(cThrownEvent => eCharacter.remove(cThrownEvent));
+    if (!!csThrownEvent.length) csThrownEvent.forEach((cThrownEvent) => eCharacter.remove(cThrownEvent));
 
     const csWin = eCharacter.getSome(EventComponent, WIN);
     if (!!csWin?.length) {
       const {eventBus} = this;
       eventBus.dispatchEvent({type: WIN, status: WIN_STATUS});
-      csWin.forEach(cWinEvent => eCharacter.remove(cWinEvent));
+      csWin.forEach((cWinEvent) => eCharacter.remove(cWinEvent));
     }
 
     const csLose = eCharacter.getSome(EventComponent, LOSE);
     if (!!csLose?.length) {
       const {eventBus} = this;
       eventBus.dispatchEvent({type: LOSE, status: LOSE_STATUS});
-      csLose.forEach(cLoseEvent => eCharacter.remove(cLoseEvent));
+      csLose.forEach((cLoseEvent) => eCharacter.remove(cLoseEvent));
     }
   }
 
   updateGroundEvents({eGround}) {
     const csCollisionEvent = eGround.getSome(EventComponent, COLLISION_START, COLLISION_END);
-    csCollisionEvent.forEach(cEvent => eGround.remove(cEvent));
+    csCollisionEvent.forEach((cEvent) => eGround.remove(cEvent));
   }
 
   update() {

@@ -27,5 +27,5 @@ export const preload = [
   {type: TEXTURE, name: WING, src: assets("dunkShot/wing.png")},
   {type: TEXTURE, name: FINISH, src: assets("dunkShot/finish.png")},
   {type: TEXTURE, name: FINISH_LINE, src: assets("dunkShot/finish-line.png")},
-  {type: TEXTURE, name: SPIKE, src: assets("dunkShot/spike.png")}
+  {type: TEXTURE, name: SPIKE, src: assets("dunkShot/spike.png")},
 ];

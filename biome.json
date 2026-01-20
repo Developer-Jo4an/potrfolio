@@ -2,11 +2,18 @@
   "formatter": {
     "enabled": true,
     "indentStyle": "space",
-    "lineWidth": 120
+    "lineWidth": 120,
+    "formatWithErrors": false,
+    "lineEnding": "lf",
+    "bracketSameLine": false,
+    "bracketSpacing": false,
+    "expand": "auto"
   },
   "javascript": {
     "formatter": {
-      "quoteStyle": "double"
+      "quoteProperties": "preserve",
+      "trailingCommas": "all",
+      "semicolons": "always"
     }
   },
   "linter": {
@@ -16,9 +23,6 @@
     "enabled": true
   },
   "files": {
-    "includes": [
-      "src/**",
-      "pages/**"
-    ]
+    "includes": ["src/**", "pages/**"]
   }
 }

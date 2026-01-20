@@ -4,28 +4,24 @@ import {BASKETBALL} from "../../constants/game";
 
 const settings = {
   count: 10,
-  opacity: {
-    start: 0.5,
-    end: 0
-  },
-  scale: {
-    start: 1,
-    end: 4
-  },
+  opacity: {start: 0.5, end: 0},
+  scale: {start: 1, end: 4},
   duration: 1,
   delayBetween: 0.2,
-  ease: "sine.inOut"
+  ease: "sine.inOut",
 };
 
 export function extraLifePulseTween(bounding, parent) {
   const nodes = createNodes(bounding, parent);
 
-  const timeline = gsap.timeline({
-    id: TWEENS.extraLifePulseTween,
-    onComplete() {
-      this.delete(BASKETBALL);
-    }
-  }).save(BASKETBALL, TWEENS.extraLifePulseTween);
+  const timeline = gsap
+    .timeline({
+      id: TWEENS.extraLifePulseTween,
+      onComplete() {
+        this.delete(BASKETBALL);
+      },
+    })
+    .save(BASKETBALL, TWEENS.extraLifePulseTween);
 
   const prevKill = timeline.kill.bind(timeline);
   timeline.kill = kill.bind({prevKill, nodes});
@@ -33,23 +29,26 @@ export function extraLifePulseTween(bounding, parent) {
   const xStart = bounding.left + bounding.width / 2;
   const yStart = bounding.top + bounding.height / 2;
 
-  timeline
-  .set(nodes, {
+  timeline.set(nodes, {
     x: xStart,
     y: yStart,
     opacity: settings.opacity.start,
     scaleX: settings.scale.start,
-    scaleY: settings.scale.start
+    scaleY: settings.scale.start,
   });
 
   nodes.forEach((node, i) => {
-    timeline
-    .to(node, {
-      opacity: settings.opacity.end,
-      scaleX: settings.scale.end, scaleY: settings.scale.end,
-      duration: settings.duration,
-      ease: settings.ease
-    }, settings.delayBetween * i);
+    timeline.to(
+      node,
+      {
+        opacity: settings.opacity.end,
+        scaleX: settings.scale.end,
+        scaleY: settings.scale.end,
+        duration: settings.duration,
+        ease: settings.ease,
+      },
+      settings.delayBetween * i,
+    );
   });
 
   return timeline;
@@ -58,7 +57,7 @@ export function extraLifePulseTween(bounding, parent) {
 function kill() {
   const {prevKill, nodes} = this;
   prevKill();
-  nodes.forEach(node => node.remove());
+  nodes.forEach((node) => node.remove());
 }
 
 function createNodes(bounding, parent) {
@@ -72,17 +71,12 @@ function createNodes(bounding, parent) {
       top: `${-bounding.height / 2}px`,
       transformOrigin: "50% 50%",
       pointerEvents: "none",
-      willChange: "transform"
+      willChange: "transform",
     });
 
     const img = document.createElement("img");
     img.src = image("widgets/basketball-game/extraLifeBooster.png");
-    gsap.set(img, {
-      draggable: false,
-      width: bounding.width,
-      height: bounding.height,
-      objectFit: "cover"
-    });
+    gsap.set(img, {draggable: false, width: bounding.width, height: bounding.height, objectFit: "cover"});
     node.appendChild(img);
 
     parent.appendChild(node);

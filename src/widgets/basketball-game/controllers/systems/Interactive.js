@@ -10,7 +10,7 @@ import {
   DRAG_START,
   END,
   MOVE,
-  START
+  START,
 } from "@shared";
 import {CHARACTER} from "../../constants/character";
 import {GAME} from "../../constants/game";
@@ -26,13 +26,20 @@ export class Interactive extends System {
   }
 
   init() {
-    const {storage: {renderer, camera, canvas}} = this;
+    const {
+      storage: {renderer, camera, canvas},
+    } = this;
 
     this.interactionManager = new THREE.Interactive.InteractionManager(renderer, camera, canvas);
   }
 
   initializationLevelSelect() {
-    const {interactionManager, storage: {gameSpace: {set}}} = this;
+    const {
+      interactionManager,
+      storage: {
+        gameSpace: {set},
+      },
+    } = this;
 
     const eCharacter = this.getFirstEntityByType(CHARACTER);
     const cThreeComponent = eCharacter.get(ThreeComponent);
@@ -41,54 +48,73 @@ export class Interactive extends System {
       callbacksBus: [
         {event: START, callback: this.onStart, target: cThreeComponent.threeObject},
         {event: MOVE, callback: this.onMove, target: global},
-        {event: END, callback: this.onEnd, target: global}
-      ]
+        {event: END, callback: this.onEnd, target: global},
+      ],
     });
 
     interactionManager.add(cThreeComponent.threeObject);
 
-    set(
-      ({serviceData: {clearFunctions}}) => {
-        clearFunctions.push(() => {
-          interactionManager.remove(cThreeComponent.threeObject);
-          clearEvents();
-        });
-      }
-    );
+    set(({serviceData: {clearFunctions}}) => {
+      clearFunctions.push(() => {
+        interactionManager.remove(cThreeComponent.threeObject);
+        clearEvents();
+      });
+    });
   }
 
   get isAvailableInteractive() {
-    const {storage: {states, gameSpace: {get}}} = this;
-    const {characterMovement: {returnsBack, thrown}, activeBooster} = get();
+    const {
+      storage: {
+        states,
+        gameSpace: {get},
+      },
+    } = this;
+    const {
+      characterMovement: {returnsBack, thrown},
+      activeBooster,
+    } = get();
     const eGame = this.getFirstEntityByType(GAME);
     const cState = eGame.get(State);
     return !returnsBack && !thrown && !activeBooster && !!states[cState.state]?.isAvailableInteractive;
   }
 
   get isDrag() {
-    const {storage: {gameSpace: {get}}} = this;
-    const {characterMovement: {isDrag}} = get();
+    const {
+      storage: {
+        gameSpace: {get},
+      },
+    } = this;
+    const {
+      characterMovement: {isDrag},
+    } = get();
     return isDrag;
   }
 
   onStart({originalEvent}) {
     if (this.isDrag || !this.isAvailableInteractive) return;
 
-    const {storage: {gameSpace: {set}}} = this;
-    set(({characterMovement}) => characterMovement.isDrag = true);
+    const {
+      storage: {
+        gameSpace: {set},
+      },
+    } = this;
+    set(({characterMovement}) => (characterMovement.isDrag = true));
 
     this.addInteractiveEvent(DRAG_START, originalEvent);
   }
 
   onMove(e) {
-    if (this.isDrag && this.isAvailableInteractive)
-      this.addInteractiveEvent(DRAG_MOVE, e);
+    if (this.isDrag && this.isAvailableInteractive) this.addInteractiveEvent(DRAG_MOVE, e);
   }
 
   onEnd(e) {
     if (this.isDrag && this.isAvailableInteractive) {
-      const {storage: {gameSpace: {set}}} = this;
-      set(({characterMovement}) => characterMovement.isDrag = false);
+      const {
+        storage: {
+          gameSpace: {set},
+        },
+      } = this;
+      set(({characterMovement}) => (characterMovement.isDrag = false));
       this.addInteractiveEvent(DRAG_END, e);
     }
   }
@@ -110,20 +136,32 @@ export class Interactive extends System {
   clearExtraEvents(type) {
     const eCharacter = this.getFirstEntityByType(CHARACTER);
     if (type === DRAG_MOVE) {
-      const {storage: {mainSceneSettings: {character: {throw: {dragEventCountForThrow}}}}} = this;
+      const {
+        storage: {
+          mainSceneSettings: {
+            character: {
+              throw: {dragEventCountForThrow},
+            },
+          },
+        },
+      } = this;
       const csDragEvents = eCharacter.getSome(EventComponent, DRAG_MOVE);
       if (csDragEvents?.length > dragEventCountForThrow) {
         const firstEvent = csDragEvents[0];
         eCharacter.remove(firstEvent);
       }
     } else if (type === DRAG_END) {
-      const {storage: {gameSpace: {set}}} = this;
+      const {
+        storage: {
+          gameSpace: {set},
+        },
+      } = this;
       const csDragEvents = eCharacter.getSome(EventComponent, DRAG_START, DRAG_MOVE, DRAG_END);
       set(({serviceData: {clearFunctions}}) => {
         clearFunctions.push(
           createAnimationFrame(() => {
-            csDragEvents.forEach(event => eCharacter.remove(event));
-          })
+            csDragEvents.forEach((event) => eCharacter.remove(event));
+          }),
         );
       });
     }

@@ -9,12 +9,8 @@ export function useBackgroundShowing({cardsBackground}) {
 
     const showingTimeline = gsap.timeline();
 
-    cardsBackground.forEach(cardBackground => {
-      showingTimeline.to(cardBackground, {
-        filter: "blur(5px)",
-        ease: "sine.inOut",
-        duration: 0.5
-      }, 0);
+    cardsBackground.forEach((cardBackground) => {
+      showingTimeline.to(cardBackground, {filter: "blur(5px)", ease: "sine.inOut", duration: 0.5}, 0);
     });
 
     return () => showingTimeline.kill();

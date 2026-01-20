@@ -6,11 +6,9 @@ export class ThreeRapierRenderSystem extends ThreeRenderSystem {
   updateItems() {
     const items = this.getNecessaryEntities();
 
-    items.forEach(entity => {
+    items.forEach((entity) => {
       const cBody = entity.get(Body);
-      cBody
-        ? this.updatePhysicalItem(entity)
-        : this.updateItem(entity);
+      cBody ? this.updatePhysicalItem(entity) : this.updateItem(entity);
     });
   }
 

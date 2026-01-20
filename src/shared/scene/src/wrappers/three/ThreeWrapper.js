@@ -3,7 +3,7 @@ import {ThreeController} from "../../controllers/three/ThreeController";
 
 export class ThreeWrapper extends BaseWrapper {
   static get instance() {
-    return this._instance ??= new ThreeWrapper();
+    return (this._instance ??= new ThreeWrapper());
   }
 
   appendContainer($container) {

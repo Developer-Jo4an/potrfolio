@@ -7,7 +7,9 @@ import content from "../../constants/content";
 import {BASKETBALL_STATE_MACHINE, PAUSED, PLAYING} from "../../constants/stateMachine";
 import {useBasketballStore} from "../state-manager/basketballStore";
 
-const {menu: {pause}} = content;
+const {
+  menu: {pause},
+} = content;
 
 export function usePause() {
   const {wrapper, state} = useBasketballStore();
@@ -19,7 +21,9 @@ export function usePause() {
   const {buttons, ...otherProps} = pause;
 
   const onClick = () => {
-    const {value: {id: modalId}} = add({
+    const {
+      value: {id: modalId},
+    } = add({
       type: MODAL_NAMES.pauseModal,
       isCloseOnBackground: true,
       props: {
@@ -33,21 +37,17 @@ export function usePause() {
           [OFF]() {
             redirect(INDEX);
             close({id: modalId});
-          }
+          },
         },
 
         onCloseOnBackground() {
           wrapper.state = PLAYING;
-        }
-      }
+        },
+      },
     });
 
     wrapper.state = PAUSED;
   };
 
-  return {
-    isDisabled: !isCanPressPause,
-    events: {onClick},
-    ...otherProps
-  };
+  return {isDisabled: !isCanPressPause, events: {onClick}, ...otherProps};
 }

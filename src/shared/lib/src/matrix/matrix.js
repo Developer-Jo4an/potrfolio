@@ -1,8 +1,6 @@
 export function isInsideRectangle(rectangle, x, y) {
   return (
-    x >= rectangle.x && x <= rectangle.x + rectangle.width
-    &&
-    y >= rectangle.y && y <= rectangle.y + rectangle.height
+    x >= rectangle.x && x <= rectangle.x + rectangle.width && y >= rectangle.y && y <= rectangle.y + rectangle.height
   );
 }
 
@@ -19,8 +17,7 @@ export function velocity(x, y) {
 }
 
 export function findClosestNumber(target, ...rest) {
-  if (rest.length === 0)
-    return target;
+  if (rest.length === 0) return target;
 
   let closest = rest[0];
   let minDiff = Math.abs(target - closest);
@@ -37,5 +34,5 @@ export function findClosestNumber(target, ...rest) {
 }
 
 export function toRad(degrees) {
-  return degrees * Math.PI / 180;
+  return (degrees * Math.PI) / 180;
 }

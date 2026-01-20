@@ -6,14 +6,19 @@ import {DUNK_SHOT_GAME} from "../../constants";
 import {useAppCallbacks} from "@application/providers/callbacks";
 
 export function useDunkShotPause() {
-  const {gameData: {state}, wrapper} = useDunkShotStore();
+  const {
+    gameData: {state},
+    wrapper,
+  } = useDunkShotStore();
   const {add, close} = useModalStore();
   const {redirect} = useAppCallbacks();
 
   const isCanPressPause = DUNK_SHOT_STATE_MACHINE[state]?.availableStates?.includes?.(PAUSE);
 
   const onPause = () => {
-    const {value: {id: modalId}} = add({
+    const {
+      value: {id: modalId},
+    } = add({
       type: MODAL_NAMES.pauseModal,
       props: {
         mod: DUNK_SHOT_GAME,
@@ -25,13 +30,13 @@ export function useDunkShotPause() {
           [OFF]() {
             redirect(INDEX);
             close({id: modalId});
-          }
-        }
-      }
+          },
+        },
+      },
     });
 
     wrapper.state = PAUSE;
   };
 
   return {onPause, isCanPressPause};
-};
+}

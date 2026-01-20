@@ -18,54 +18,40 @@ export function DunkShotTimer() {
     const {eventBus} = wrapper;
 
     const updateTimer = ({progress, position}) =>
-      setBasketTimer({
-        progress, position: {
-          x: position.x + offset.x,
-          y: position.y + offset.y
-        }, isActive: true
-      });
+      setBasketTimer({progress, position: {x: position.x + offset.x, y: position.y + offset.y}, isActive: true});
 
     return eventSubscription({
       target: eventBus,
       callbacksBus: [
-        {
-          event: BASKET_TIMER_START,
-          callback: updateTimer
-        },
-        {
-          event: BASKET_TIMER_UPDATE,
-          callback: updateTimer
-        },
+        {event: BASKET_TIMER_START, callback: updateTimer},
+        {event: BASKET_TIMER_UPDATE, callback: updateTimer},
         {
           event: BASKET_TIMER_END,
           callback() {
-            setBasketTimer(prev => ({...prev, isActive: false}));
-          }
+            setBasketTimer((prev) => ({...prev, isActive: false}));
+          },
         },
         {
           event: CONTROLLER_RESET,
           callback() {
             setBasketTimer({progress: null, position: null, isActive: false});
-          }
-        }
-      ]
+          },
+        },
+      ],
     });
   }, [wrapper]);
 
   return (
     <AnimatePresence>
-      {basketTimer.isActive &&
+      {basketTimer.isActive && (
         <motion.div
           className={styles.timerContainer}
           style={{"--x": `${basketTimer.position?.x}px`, "--y": `${basketTimer.position?.y}px`}}
           {...motionSettings}
         >
-          <div
-            className={styles.timerProgress}
-            style={{"--progress": `${basketTimer.progress * 100 - 100}%`}}
-          />
+          <div className={styles.timerProgress} style={{"--progress": `${basketTimer.progress * 100 - 100}%`}} />
         </motion.div>
-      }
+      )}
     </AnimatePresence>
   );
 }

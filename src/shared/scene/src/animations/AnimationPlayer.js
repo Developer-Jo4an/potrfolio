@@ -1,10 +1,7 @@
 export class AnimationPlayer {
-  constructor() {
-
-  }
+  constructor() {}
 
   setDefaultProperties(properties) {
-    for (const key in properties)
-      this[key] = properties[key];
+    for (const key in properties) this[key] = properties[key];
   }
 }

@@ -16,12 +16,13 @@ export class Collision extends System {
       const type = isStarted ? COLLISION_START : COLLISION_END;
       data1.entity.add(new EventComponent({eventBus, type, data: data2}));
       data2.entity.add(new EventComponent({eventBus, type, data: data1}));
-    } else
-      console.warn("some data not found", data1, data2);
+    } else console.warn("some data not found", data1, data2);
   }
 
   getDataByCollisionId(colliderId1, colliderId2) {
-    const {storage: {world}} = this;
+    const {
+      storage: {world},
+    } = this;
 
     const collider1 = world.getCollider(colliderId1);
     const collider2 = world.getCollider(colliderId2);
@@ -35,18 +36,15 @@ export class Collision extends System {
     return csBody.reduce((acc, cBody) => {
       const {object: body} = cBody;
       const index = bodies.indexOf(body);
-      if (index !== -1)
-        acc[index] = {
-          entity: cBody.entity,
-          collider: colliders[index],
-          body: bodies[index]
-        };
+      if (index !== -1) acc[index] = {entity: cBody.entity, collider: colliders[index], body: bodies[index]};
       return acc;
     }, []);
   }
 
   update() {
-    const {storage: {eventQueue}} = this;
+    const {
+      storage: {eventQueue},
+    } = this;
     eventQueue.drainCollisionEvents(this.onCollision);
   }
 }

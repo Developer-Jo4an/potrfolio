@@ -1,12 +1,10 @@
 import {cloneDeep} from "lodash";
 
 export class BaseController {
-
   storage = {};
 
   constructor(data) {
-    for (const key in data)
-      this[key] = data[key];
+    for (const key in data) this[key] = data[key];
   }
 
   async init() {
@@ -15,17 +13,12 @@ export class BaseController {
     await this.initMainSceneSettings();
   }
 
-  async loadAssets() {
+  async loadAssets() {}
 
-  }
-
-  async initScene() {
-
-  }
+  async initScene() {}
 
   async initMainSceneSettings() {
     const {storage, mainSceneSettings} = this;
-    if (mainSceneSettings)
-      storage.mainSceneSettings = cloneDeep(mainSceneSettings);
+    if (mainSceneSettings) storage.mainSceneSettings = cloneDeep(mainSceneSettings);
   }
 }

@@ -14,9 +14,14 @@ export class Wall extends BasePhysicsEntity {
   }
 
   initBody() {
-    const {direction, storage: {mainSceneSettings: {wall: wallSettings}}} = this;
+    const {
+      direction,
+      storage: {
+        mainSceneSettings: {wall: wallSettings},
+      },
+    } = this;
     const params = wallSettings[direction].params;
-    const body = this.body = Matter.Bodies.rectangle(...params);
+    const body = (this.body = Matter.Bodies.rectangle(...params));
     body.collisionFilter = cloneDeep(COLLISION_FILTERS.WALL);
   }
 

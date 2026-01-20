@@ -4,7 +4,6 @@ import {STATE_CHANGED} from "../../constants/events/names";
 import {IDLE} from "../../constants/decorators/state/state";
 
 export class State extends BaseDecorator {
-
   _state = IDLE;
 
   get state() {
@@ -19,7 +18,6 @@ export class State extends BaseDecorator {
       this._state = state;
       eventBus.dispatchEvent({type: STATE_CHANGED, state});
       console.log(`%cSTATE>> ${state}`, "color: green");
-    } else if (getIsDebug())
-      throw new Error(`availableStates: ${availableStates} not includes new state: ${state}`);
+    } else if (getIsDebug()) throw new Error(`availableStates: ${availableStates} not includes new state: ${state}`);
   }
 }

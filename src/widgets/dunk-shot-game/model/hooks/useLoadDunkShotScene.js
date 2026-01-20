@@ -21,7 +21,7 @@ export function useLoadDunkShotScene() {
     beforeInit: useBeforeInit(),
     initProps: {stateMachine: DUNK_SHOT_STATE_MACHINE, mainSceneSettings, preload},
     afterInit: setWrapper,
-    containerRef
+    containerRef,
   });
   useStateController(wrapper, IGNORE_NEXT_STATES, DUNK_SHOT_STATE_MACHINE);
   useDunkShotStats();
@@ -29,4 +29,4 @@ export function useLoadDunkShotScene() {
   useResetGame({wrapper, callback: reset});
 
   return {containerRef, isCanPressPause, onPause};
-};
+}

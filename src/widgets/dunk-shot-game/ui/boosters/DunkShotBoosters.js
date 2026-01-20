@@ -13,17 +13,13 @@ export function DunkShotBoosters({navRefs}) {
         <Button
           key={name}
           isDisabled={isDisabled || !value}
-          className={cl(
-            styles.booster,
-            styles[name],
-            {
-              [styles.boosterInactive]: isDisabled || !value,
-              [styles.boosterActive]: isActive
-            }
-          )}
+          className={cl(styles.booster, styles[name], {
+            [styles.boosterInactive]: isDisabled || !value,
+            [styles.boosterActive]: isActive,
+          })}
           events={{onClick: () => onClick({value, name, isDisabled: isDisabled || !value})}}
         >
-          <Icon/>
+          <Icon />
           {isNumber(value) && <div className={styles.boosterCount}>{value}</div>}
         </Button>
       ))}

@@ -1,12 +1,10 @@
 export class AssetsManager {
-
   spaces = {};
 
   getSpace(space) {
     const {spaces} = this;
 
-    if (!spaces[space])
-      spaces[space] = {};
+    if (!spaces[space]) spaces[space] = {};
 
     return spaces[space];
   }

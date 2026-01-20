@@ -5,6 +5,5 @@ export class EffectsController extends BaseController {
     super(data);
   }
 
-  update() {
-  }
+  update() {}
 }

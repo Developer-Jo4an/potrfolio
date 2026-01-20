@@ -8,7 +8,6 @@ import {VISIBLE} from "../../../constants/modes";
 import {BASKET_GRID_BACK} from "../../../config/preload";
 
 export class Basket extends BasePhysicsEntity {
-
   _position = {x: 0, y: 0};
 
   _angle = 0;
@@ -17,9 +16,7 @@ export class Basket extends BasePhysicsEntity {
 
   _mode = VISIBLE; // visible | hidden
 
-  debug = {
-    circles: []
-  };
+  debug = {circles: []};
 
   constructor(data) {
     super(data);
@@ -62,7 +59,9 @@ export class Basket extends BasePhysicsEntity {
   }
 
   set angle(angle) {
-    const {position: {x, y}} = this;
+    const {
+      position: {x, y},
+    } = this;
 
     this._angle = angle;
 
@@ -75,11 +74,17 @@ export class Basket extends BasePhysicsEntity {
   }
 
   initBody() {
-    const {storage: {mainSceneSettings: {basket: {circles: circlesSettings}}}} = this;
+    const {
+      storage: {
+        mainSceneSettings: {
+          basket: {circles: circlesSettings},
+        },
+      },
+    } = this;
 
-    const body = this.body = Matter.Composite.create();
+    const body = (this.body = Matter.Composite.create());
 
-    const circles = this.circles = new Array(circlesSettings.array.length).fill(0).map(((_, index) => {
+    const circles = (this.circles = new Array(circlesSettings.array.length).fill(0).map((_, index) => {
       const {extraProps} = circlesSettings.array[index];
       return Matter.Bodies.circle(0, 0, circlesSettings.radius, {wrapper: this, ...extraProps});
     }));
@@ -90,7 +95,7 @@ export class Basket extends BasePhysicsEntity {
   initView() {
     const {type} = this;
 
-    const view = this.view ??= new PIXI.Container();
+    const view = (this.view ??= new PIXI.Container());
     view.label = type;
     view.sortableChildren = true;
     view.alpha = 1;
@@ -105,12 +110,16 @@ export class Basket extends BasePhysicsEntity {
     const {
       view,
       groups,
-      storage: {mainSceneSettings: {basket: {gridBack}}}
+      storage: {
+        mainSceneSettings: {
+          basket: {gridBack},
+        },
+      },
     } = this;
 
     const basketGridBackTexture = assetsManager.getAssetFromSpace(PIXI_SPACE, TEXTURE, BASKET_GRID_BACK);
 
-    const basketGridBack = this.basketGridBack ??= new PIXI.Sprite();
+    const basketGridBack = (this.basketGridBack ??= new PIXI.Sprite());
     basketGridBack.label = "basketGridBack";
     basketGridBack.texture = basketGridBackTexture;
     groups.back.attach(basketGridBack);
@@ -120,7 +129,7 @@ export class Basket extends BasePhysicsEntity {
     basketGridBack.scale.set(gridBack.width / basketGridBack.width);
     basketGridBack.position.set(
       gridBack.positionMultiplier.x * basketGridBack.width,
-      gridBack.positionMultiplier.y * basketGridBack.height
+      gridBack.positionMultiplier.y * basketGridBack.height,
     );
     view.addChild(basketGridBack);
   }
@@ -130,13 +139,17 @@ export class Basket extends BasePhysicsEntity {
       view,
       type,
       groups,
-      storage: {mainSceneSettings: {basket: {back, textureTypes: basketTypes}}}
+      storage: {
+        mainSceneSettings: {
+          basket: {back, textureTypes: basketTypes},
+        },
+      },
     } = this;
 
     const textureType = basketTypes[type];
 
     const basketBackTexture = assetsManager.getAssetFromSpace(PIXI_SPACE, TEXTURE, `basket${textureType}Back`);
-    const basketBack = this.basketBack ??= new PIXI.Sprite();
+    const basketBack = (this.basketBack ??= new PIXI.Sprite());
     basketBack.label = "basketBack";
     basketBack.texture = basketBackTexture;
     groups.back.attach(basketBack);
@@ -152,13 +165,21 @@ export class Basket extends BasePhysicsEntity {
       view,
       type,
       groups,
-      storage: {mainSceneSettings: {basket: {gridFront, textureTypes: basketTypes}}}
+      storage: {
+        mainSceneSettings: {
+          basket: {gridFront, textureTypes: basketTypes},
+        },
+      },
     } = this;
 
     const textureType = basketTypes[type];
 
-    const basketGridFrontTexture = assetsManager.getAssetFromSpace(PIXI_SPACE, TEXTURE, `basket${textureType}GridFront`);
-    const basketGridFront = this.basketGridFront ??= new PIXI.Sprite();
+    const basketGridFrontTexture = assetsManager.getAssetFromSpace(
+      PIXI_SPACE,
+      TEXTURE,
+      `basket${textureType}GridFront`,
+    );
+    const basketGridFront = (this.basketGridFront ??= new PIXI.Sprite());
     basketGridFront.label = "basketGridFront";
     basketGridFront.texture = basketGridFrontTexture;
     groups.front.attach(basketGridFront);
@@ -174,12 +195,16 @@ export class Basket extends BasePhysicsEntity {
       view,
       type,
       groups,
-      storage: {mainSceneSettings: {basket: {front, textureTypes: basketTypes}}}
+      storage: {
+        mainSceneSettings: {
+          basket: {front, textureTypes: basketTypes},
+        },
+      },
     } = this;
 
     const textureType = basketTypes[type];
 
-    const basketFront = this.basketFront ??= new PIXI.Sprite();
+    const basketFront = (this.basketFront ??= new PIXI.Sprite());
     basketFront.label = "basketFront";
     basketFront.texture = assetsManager.getAssetFromSpace(PIXI_SPACE, TEXTURE, `basket${textureType}Front`);
     groups.front.attach(basketFront);
@@ -191,13 +216,21 @@ export class Basket extends BasePhysicsEntity {
   }
 
   updateCirclesLocation(x, y, angle) {
-    const {view, body: {bodies}, storage: {mainSceneSettings: {basket: {circles: circlesSettings}}}} = this;
+    const {
+      view,
+      body: {bodies},
+      storage: {
+        mainSceneSettings: {
+          basket: {circles: circlesSettings},
+        },
+      },
+    } = this;
 
     bodies.forEach((circle, index) => {
       const {angle: offsetAngle, distanceMultiplier} = circlesSettings.array[index];
 
-      const newX = x + (Math.cos(offsetAngle + angle) * (circlesSettings.distanceBetween * distanceMultiplier));
-      const newY = y + (Math.sin(offsetAngle + angle) * (circlesSettings.distanceBetween * distanceMultiplier));
+      const newX = x + Math.cos(offsetAngle + angle) * (circlesSettings.distanceBetween * distanceMultiplier);
+      const newY = y + Math.sin(offsetAngle + angle) * (circlesSettings.distanceBetween * distanceMultiplier);
 
       Matter.Body.setPosition(circle, {x: newX, y: newY});
     });
@@ -219,17 +252,17 @@ export class Basket extends BasePhysicsEntity {
 
   onInactive() {
     const {circles} = this;
-    circles.forEach(circle => circle.collisionFilter = cloneDeep(COLLISION_FILTERS.INACTIVE));
+    circles.forEach((circle) => (circle.collisionFilter = cloneDeep(COLLISION_FILTERS.INACTIVE)));
   }
 
   onActive() {
     const {circles} = this;
-    circles.forEach(circle => circle.collisionFilter = cloneDeep(COLLISION_FILTERS.ACTIVE));
+    circles.forEach((circle) => (circle.collisionFilter = cloneDeep(COLLISION_FILTERS.ACTIVE)));
   }
 
   onNext() {
     const {circles} = this;
-    circles.forEach(circle => circle.collisionFilter = cloneDeep(COLLISION_FILTERS.NEXT));
+    circles.forEach((circle) => (circle.collisionFilter = cloneDeep(COLLISION_FILTERS.NEXT)));
   }
 
   onModeChanged() {
@@ -241,13 +274,13 @@ export class Basket extends BasePhysicsEntity {
   onHidden() {
     const {circles} = this;
 
-    circles.forEach(circle => circle.collisionFilter = cloneDeep(COLLISION_FILTERS.INACTIVE));
+    circles.forEach((circle) => (circle.collisionFilter = cloneDeep(COLLISION_FILTERS.INACTIVE)));
   }
 
   onVisible() {
     const {circles} = this;
 
-    circles.forEach(circle => circle.collisionFilter = cloneDeep(COLLISION_FILTERS.ACTIVE));
+    circles.forEach((circle) => (circle.collisionFilter = cloneDeep(COLLISION_FILTERS.ACTIVE)));
   }
 
   updateDebug() {
@@ -256,22 +289,26 @@ export class Basket extends BasePhysicsEntity {
       groups,
       body: {bodies},
       order,
-      storage: {mainSceneSettings: {basket: {circles: circlesSettings}}}
+      storage: {
+        mainSceneSettings: {
+          basket: {circles: circlesSettings},
+        },
+      },
     } = this;
 
     const {mainContainer} = dunkShotFactory;
 
     bodies.forEach(({position, label}, index) => {
-      const debugCircle = debug.circles[index] ??= new PIXI.Graphics();
+      const debugCircle = (debug.circles[index] ??= new PIXI.Graphics());
       groups.front.attach(debugCircle);
       debugCircle.zIndex = 1;
       debugCircle.label = `basketDebug:${order}-${label}`;
 
       debugCircle
-      .clear()
-      .beginFill(({basket: WHITE, basketSensor: RED})[label])
-      .drawCircle(position.x, position.y, circlesSettings.radius)
-      .endFill();
+        .clear()
+        .beginFill({basket: WHITE, basketSensor: RED}[label])
+        .drawCircle(position.x, position.y, circlesSettings.radius)
+        .endFill();
 
       mainContainer.view.addChild(debugCircle);
     });

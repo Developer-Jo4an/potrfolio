@@ -13,9 +13,7 @@ export class BaseGameplayController extends BaseController {
     super(data);
   }
 
-  initEvents() {
-
-  }
+  initEvents() {}
 
   callSpecificBehaviour() {
     this.applyBurningBasketBehaviour();
@@ -24,8 +22,16 @@ export class BaseGameplayController extends BaseController {
   applyBurningBasketBehaviour() {
     const {
       eventBus,
-      storage: {mainSceneSettings: {basket: {entitiesTypes}}},
-      config: {configuration: {global_basket: {burning_time}}}
+      storage: {
+        mainSceneSettings: {
+          basket: {entitiesTypes},
+        },
+      },
+      config: {
+        configuration: {
+          global_basket: {burning_time},
+        },
+      },
     } = this;
     const {ball, activeBasket} = dunkShotFactory;
 
@@ -44,7 +50,7 @@ export class BaseGameplayController extends BaseController {
       namespace: DUNK_SHOT_TWEEN,
       id: `burning${_factoryUUID}`,
       onStart: progressEvent.bind({type: BASKET_TIMER_START}),
-      onUpdate: progressEvent.bind({type: BASKET_TIMER_UPDATE})
+      onUpdate: progressEvent.bind({type: BASKET_TIMER_UPDATE}),
     }).then(() => {
       eventBus.dispatchEvent({type: BASKET_TIMER_END});
       eventBus.dispatchEvent({type: PROGRESS_RESET});
@@ -66,7 +72,10 @@ export class BaseGameplayController extends BaseController {
     const {eventBus} = this;
     const {activeBasket} = dunkShotFactory;
 
-    const burningTween = gsap.localTimeline.getTweenByNamespaceAndId(DUNK_SHOT_TWEEN, `burning${activeBasket?._factoryUUID}`);
+    const burningTween = gsap.localTimeline.getTweenByNamespaceAndId(
+      DUNK_SHOT_TWEEN,
+      `burning${activeBasket?._factoryUUID}`,
+    );
 
     if (burningTween) {
       burningTween.delete(DUNK_SHOT_TWEEN);
@@ -81,7 +90,6 @@ export class BaseGameplayController extends BaseController {
 
     const nextBasket = baskets.find(({order: basketOrder}) => basketOrder - 1 === activeBasket.order);
     if (nextBasket) {
-
       nextBasket.status = NEXT;
       nextBasket.view.visible = true;
       dunkShotAnimationPlayer.basketNextAnimation(nextBasket).then(() => {
@@ -95,7 +103,7 @@ export class BaseGameplayController extends BaseController {
 
       const {row: nextBasketRow} = nextBasket;
 
-      spikes.forEach(spike => {
+      spikes.forEach((spike) => {
         const {row: spikeRow} = spike;
 
         spike.status = nextBasketRow - spikeRow === 1 ? ACTIVE : INACTIVE;
@@ -106,27 +114,25 @@ export class BaseGameplayController extends BaseController {
 
             dunkShotAnimationPlayer.spikeShowAnimation(spike).then(() => {
               const availableRoad = dunkShotUtils.getSpikeRoad(spike);
-              if (availableRoad?.length)
-                dunkShotAnimationPlayer.spikeMoveAnimation(spike, availableRoad);
+              if (availableRoad?.length) dunkShotAnimationPlayer.spikeMoveAnimation(spike, availableRoad);
             });
           },
           [INACTIVE]() {
             const {_factoryUUID} = spike;
 
             const moveTween = gsap.localTimeline.getTweenByNamespaceAndId(DUNK_SHOT_TWEEN, `spikeMove${_factoryUUID}`);
-            if (moveTween)
-              moveTween.delete(DUNK_SHOT_TWEEN);
+            if (moveTween) moveTween.delete(DUNK_SHOT_TWEEN);
 
-            dunkShotAnimationPlayer.spikeInactiveAnimation(spike).then(() => spike.view.visible = false);
-          }
+            dunkShotAnimationPlayer.spikeInactiveAnimation(spike).then(() => (spike.view.visible = false));
+          },
         })[spike.status]?.call(this);
       });
     }
 
-    baskets.forEach(basket => {
+    baskets.forEach((basket) => {
       if (basket !== activeBasket && basket !== nextBasket) {
         basket.status = INACTIVE;
-        dunkShotAnimationPlayer.basketInactiveAnimation(basket).then(() => basket.view.visible = false);
+        dunkShotAnimationPlayer.basketInactiveAnimation(basket).then(() => (basket.view.visible = false));
       }
     });
   }

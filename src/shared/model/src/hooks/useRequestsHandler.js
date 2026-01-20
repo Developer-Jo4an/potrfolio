@@ -15,8 +15,7 @@ export function useRequestsHandler(handlers) {
 
       if (status === PENDING) {
         isPendingSome = true;
-        if (handlers.some(({request}) => request === key))
-          isPendingSpecifiedHandlers = true;
+        if (handlers.some(({request}) => request === key)) isPendingSpecifiedHandlers = true;
       }
     }
 
@@ -25,7 +24,7 @@ export function useRequestsHandler(handlers) {
 
   useEffect(() => {
     const requestHandler = axios.interceptors.request.use(
-      config => {
+      (config) => {
         const {metadata: {requestKey} = {}} = config;
 
         callHandlers(handlers, "onPending", {config});
@@ -34,20 +33,24 @@ export function useRequestsHandler(handlers) {
 
         return config;
       },
-      error => {
-        const {config: {metadata: {requestKey} = {}}} = error;
+      (error) => {
+        const {
+          config: {metadata: {requestKey} = {}},
+        } = error;
 
         callHandlers(handlers, "onPendingRejected", error);
 
         setStatus(setRequestStatuses, requestKey, REJECTED);
 
         return Promise.reject(error);
-      }
+      },
     );
 
     const responseHandler = axios.interceptors.response.use(
-      response => {
-        const {config: {metadata: {requestKey} = {}}} = response;
+      (response) => {
+        const {
+          config: {metadata: {requestKey} = {}},
+        } = response;
 
         (async () => {
           await callHandlers(handlers, "onFulfilled", response);
@@ -58,8 +61,10 @@ export function useRequestsHandler(handlers) {
 
         return response;
       },
-      error => {
-        const {config: {metadata: {requestKey} = {}}} = error;
+      (error) => {
+        const {
+          config: {metadata: {requestKey} = {}},
+        } = error;
 
         (async () => {
           await callHandlers(handlers, "onRejected", error);
@@ -69,7 +74,7 @@ export function useRequestsHandler(handlers) {
         setStatus(setRequestStatuses, requestKey, REJECTED);
 
         return Promise.reject(error);
-      }
+      },
     );
 
     return () => {
@@ -82,17 +87,18 @@ export function useRequestsHandler(handlers) {
 }
 
 function setStatus(setter, requestKey, status) {
-  if (requestKey)
-    setter(prev => ({...prev, [requestKey]: status}));
+  if (requestKey) setter((prev) => ({...prev, [requestKey]: status}));
 }
 
 function callHandlers(handlers, handlerKey, data) {
-  return Promise.all(handlers.map(handlersObject => {
-    const necessaryHandler = handlersObject[handlerKey];
+  return Promise.all(
+    handlers.map((handlersObject) => {
+      const necessaryHandler = handlersObject[handlerKey];
 
-    if (data?.config?.metadata?.requestKey === handlersObject?.request && isFunction(necessaryHandler))
-      return necessaryHandler(data);
+      if (data?.config?.metadata?.requestKey === handlersObject?.request && isFunction(necessaryHandler))
+        return necessaryHandler(data);
 
-    return Promise.resolve();
-  }));
+      return Promise.resolve();
+    }),
+  );
 }

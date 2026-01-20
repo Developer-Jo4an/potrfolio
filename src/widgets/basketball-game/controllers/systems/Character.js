@@ -15,7 +15,7 @@ import {
   DRAG_END,
   DRAG_MOVE,
   DRAG_START,
-  PI2
+  PI2,
 } from "@shared";
 import {clamp, random, upperFirst} from "lodash";
 import {returnCharacterToInitialPositionTween} from "../../utils/animations/returnCharacterToInitialPositionTween";
@@ -36,21 +36,23 @@ import {X2VIEW} from "../../constants/x2View";
 import {State} from "@/shared/scene/src/ecs/base/components/state/State"; //TODO: поправить импорт
 
 export class Character extends System {
-
   uuid = UUIDS.character;
 
-  helpers = {
-    raycaster: new THREE.Raycaster()
-  };
+  helpers = {raycaster: new THREE.Raycaster()};
 
   updateMovement({eCharacter, eRing}) {
     const csEvent = eCharacter.getSome(EventComponent, DRAG_START, DRAG_MOVE, DRAG_END);
 
     if (!csEvent?.length) return;
 
-    const {data: {cursor: current}} = csEvent[csEvent.length - 1];
+    const {
+      data: {cursor: current},
+    } = csEvent[csEvent.length - 1];
     const cursor = new THREE.Vector2(current.normalizedX, current.normalizedY);
-    const {storage: {camera}, helpers: {raycaster}} = this;
+    const {
+      storage: {camera},
+      helpers: {raycaster},
+    } = this;
     const cBody = eCharacter.get(Body);
     const planeForIntersect = new THREE.Plane(new THREE.Vector3(0, 0, -1), cBody.object.translation().z);
 
@@ -58,34 +60,50 @@ export class Character extends System {
     raycaster.setFromCamera(cursor, camera);
     raycaster.ray.intersectPlane(planeForIntersect, intersectionPoint);
 
-    const {storage: {mainSceneSettings: {character: {movement: {clamp: {x, y, z}}}}}} = this;
+    const {
+      storage: {
+        mainSceneSettings: {
+          character: {
+            movement: {
+              clamp: {x, y, z},
+            },
+          },
+        },
+      },
+    } = this;
 
     const formattedIntersectPoint = {
       x: clamp(intersectionPoint.x, ...x),
       y: clamp(intersectionPoint.y, ...y),
-      z: clamp(intersectionPoint.z, ...z)
+      z: clamp(intersectionPoint.z, ...z),
     };
 
     cBody.object.setTranslation(formattedIntersectPoint);
 
     const lastEvent = csEvent[csEvent.length - 1];
-    if (lastEvent.type === DRAG_END)
-      this.tryThrow({eCharacter, eRing, csEvent});
+    if (lastEvent.type === DRAG_END) this.tryThrow({eCharacter, eRing, csEvent});
   }
 
   tryThrow({eCharacter, eRing, csEvent}) {
-    const {storage: {mainSceneSettings: {character: {throw: {dragEventCountForThrow, minSpeed}}}}} = this;
+    const {
+      storage: {
+        mainSceneSettings: {
+          character: {
+            throw: {dragEventCountForThrow, minSpeed},
+          },
+        },
+      },
+    } = this;
 
     const startEvent = csEvent[0];
     const dragEvents = csEvent.slice(1, csEvent.length - 1);
     const endEvent = csEvent[csEvent.length - 1];
 
-    const isHasAllEvents = (
+    const isHasAllEvents =
       startEvent.type === DRAG_START &&
       dragEvents?.length === dragEventCountForThrow &&
       dragEvents.every(({type}) => type === DRAG_MOVE) &&
-      endEvent.type === DRAG_END
-    );
+      endEvent.type === DRAG_END;
     if (!isHasAllEvents) {
       this.returnCharacterToInitialPosition({eCharacter});
       return;
@@ -110,24 +128,31 @@ export class Character extends System {
   }
 
   calculateThrowData(eCharacter) {
-    const {helpers: {raycaster}, storage: {camera}} = this;
+    const {
+      helpers: {raycaster},
+      storage: {camera},
+    } = this;
 
     const cBody = eCharacter.get(Body);
     const {z} = cBody.object.translation();
 
     const dragEvents = eCharacter.getSome(EventComponent, DRAG_START, DRAG_MOVE, DRAG_END);
 
-    const {data: {cursor: drag}} = dragEvents[1];
-    const {data: {cursor: end}} = dragEvents[dragEvents.length - 1];
+    const {
+      data: {cursor: drag},
+    } = dragEvents[1];
+    const {
+      data: {cursor: end},
+    } = dragEvents[dragEvents.length - 1];
 
     if (drag.normalizedX === end.normalizedX && drag.normalizedY === end.normalizedY) return;
 
-    const [drag3d, end3d] = [drag, end].map(cursor => {
+    const [drag3d, end3d] = [drag, end].map((cursor) => {
       const intersectionPoint = new THREE.Vector3();
       const planeForIntersect = new THREE.Plane(new THREE.Vector3(0, 0, 1), z);
       raycaster.setFromCamera(new THREE.Vector2(cursor.normalizedX, cursor.normalizedY), camera);
       raycaster.ray.intersectPlane(planeForIntersect, intersectionPoint);
-      return cursor.position3d = new THREE.Vector3(intersectionPoint.x, intersectionPoint.y, z);
+      return (cursor.position3d = new THREE.Vector3(intersectionPoint.x, intersectionPoint.y, z));
     });
 
     const distance = drag3d.clone().sub(end3d).length();
@@ -141,8 +166,12 @@ export class Character extends System {
     const {
       storage: {
         gameSpace: {set},
-        mainSceneSettings: {character: {startData: {position}}}
-      }
+        mainSceneSettings: {
+          character: {
+            startData: {position},
+          },
+        },
+      },
     } = this;
 
     set(({characterMovement}) => {
@@ -154,7 +183,7 @@ export class Character extends System {
     const returnTween = returnCharacterToInitialPositionTween(cBody.object, position);
     const cTween = eCharacter.get(GSAPTween);
     cTween.add(returnTween);
-    await new Promise(res => {
+    await new Promise((res) => {
       returnTween.eventCallback("onComplete", () => {
         returnTween.delete(BASKETBALL);
         cTween.remove(returnTween.vars.id);
@@ -168,32 +197,47 @@ export class Character extends System {
   }
 
   throwBall({eRing, eCharacter, drag, end, speed, distance, duration}) {
-    const {storage: {gameSpace: {set}}} = this;
+    const {
+      storage: {
+        gameSpace: {set},
+      },
+    } = this;
 
     const cBody = eCharacter.get(Body);
 
     cBody.object.setBodyType(RAPIER3D.RigidBodyType.Dynamic);
 
     set(({serviceData: {clearFunctions}, characterMovement}) => {
-      clearFunctions.push(createAnimationFrame(() => {
-        const target = eRing.get(Body).object.translation();
-        const props = {eCharacter, drag, end, target, speed, distance, duration};
-        const {x, y, z, time} = this.calculateBallTarget(props);
-        const throwPoint = new THREE.Vector3(x, y, z);
+      clearFunctions.push(
+        createAnimationFrame(() => {
+          const target = eRing.get(Body).object.translation();
+          const props = {eCharacter, drag, end, target, speed, distance, duration};
+          const {x, y, z, time} = this.calculateBallTarget(props);
+          const throwPoint = new THREE.Vector3(x, y, z);
 
-        const {storage: {world, mainSceneSettings: {character: {throw: {angvel}}}}} = this;
-        const bodyPosition = cBody.object.translation();
-        const mass = cBody.object.mass();
-        const vectorBetweenBallAndTarget = throwPoint.clone().sub(bodyPosition);
-        const zeroV = new THREE.Vector3(
-          vectorBetweenBallAndTarget.x / time,
-          (vectorBetweenBallAndTarget.y - 0.5 * world.gravity.y * time ** 2) / time,
-          vectorBetweenBallAndTarget.z / time
-        );
-        const impulse = zeroV.clone().multiplyScalar(mass);
+          const {
+            storage: {
+              world,
+              mainSceneSettings: {
+                character: {
+                  throw: {angvel},
+                },
+              },
+            },
+          } = this;
+          const bodyPosition = cBody.object.translation();
+          const mass = cBody.object.mass();
+          const vectorBetweenBallAndTarget = throwPoint.clone().sub(bodyPosition);
+          const zeroV = new THREE.Vector3(
+            vectorBetweenBallAndTarget.x / time,
+            (vectorBetweenBallAndTarget.y - 0.5 * world.gravity.y * time ** 2) / time,
+            vectorBetweenBallAndTarget.z / time,
+          );
+          const impulse = zeroV.clone().multiplyScalar(mass);
 
-        this.applyPhysicalPropertiesForThrow({impulse, angvel});
-      }));
+          this.applyPhysicalPropertiesForThrow({impulse, angvel});
+        }),
+      );
 
       characterMovement.thrown = true;
       const {eventBus} = this;
@@ -212,13 +256,13 @@ export class Character extends System {
               vectorHelp,
               speedHelp,
               speedInterpolation,
-              multiplier: [min, max]
-            }
-          }
+              multiplier: [min, max],
+            },
+          },
         },
-        camera
+        camera,
       },
-      helpers: {raycaster}
+      helpers: {raycaster},
     } = this;
 
     const cBody = eCharacter.get(Body);
@@ -237,8 +281,7 @@ export class Character extends System {
     const timeBetween = (end.timestamp - drag.timestamp) / 1000;
     const currentSpeed = distance / timeBetween;
     let multiplier;
-    if (Math.abs(idealSpeed - currentSpeed) <= speedHelp)
-      multiplier = 1;
+    if (Math.abs(idealSpeed - currentSpeed) <= speedHelp) multiplier = 1;
     else {
       const diff = idealSpeed - currentSpeed;
       const help = diff / speedInterpolation;
@@ -248,12 +291,12 @@ export class Character extends System {
     flyVector.multiplyScalar(multiplier);
 
     if (getIsDebug()) {
-      ;[vecBetween, flyVector].forEach((vec, i) => {
+      [vecBetween, flyVector].forEach((vec, i) => {
         const helper = new THREE.ArrowHelper(
           vec.clone().normalize(),
           drag3d,
           vecBetween.length(),
-          new THREE.Color(Math.random(), Math.random(), Math.random())
+          new THREE.Color(Math.random(), Math.random(), Math.random()),
         );
         this.addSideEffect({entity: eCharacter, effect: add, args: [scene, helper], name: `arrowHelper${i}`});
       });
@@ -266,13 +309,27 @@ export class Character extends System {
   }
 
   activateBooster(type) {
-    const {storage: {gameSpace: {set}}} = this;
-    set(({booster}) => booster.active = type);
+    const {
+      storage: {
+        gameSpace: {set},
+      },
+    } = this;
+    set(({booster}) => (booster.active = type));
     this[createActivateMethod(type)]();
   }
 
   [createActivateMethod(X2)]() {
-    const {eventBus, storage: {scene, mainSceneSettings: {boosters: {[X2]: {count, velocity, offsetRadius}}}}} = this;
+    const {
+      eventBus,
+      storage: {
+        scene,
+        mainSceneSettings: {
+          boosters: {
+            [X2]: {count, velocity, offsetRadius},
+          },
+        },
+      },
+    } = this;
     const eGame = this.getFirstEntityByType(GAME);
     const eCharacter = this.getFirstEntityByType(CHARACTER);
     const eRing = this.getFirstEntityByType(RING);
@@ -281,7 +338,7 @@ export class Character extends System {
       const eX2 = new Entity({eventBus, type: X2VIEW}).init();
 
       const cThreeComponent = eX2.get(ThreeComponent);
-      const x2View = cThreeComponent.threeObject = cThreeComponent.threeObject = this.getAsset(eX2, X2VIEW);
+      const x2View = (cThreeComponent.threeObject = cThreeComponent.threeObject = this.getAsset(eX2, X2VIEW));
       this.addSideEffect({entity: eX2, effect: add, args: [scene, x2View]});
       this.addSideEffect({entity: eX2, effect: resetMatrix, args: [x2View]});
 
@@ -290,16 +347,11 @@ export class Character extends System {
       cOrbit.radius = eCharacter.get(Body).object.collider.shape.radius + offsetRadius;
       cOrbit.angle = Math.random() * PI2;
       cOrbit.angularVelocity = THREE.MathUtils.degToRad(random(velocity.min, velocity.max, true));
-      cOrbit.normal = new THREE.Vector3(
-        random(-1, 1, true),
-        random(-1, 1, true),
-        random(-1, 1, true)
-      );
-      cOrbit.tangent1 = cOrbit.normal.clone().cross(new THREE.Vector3(
-        random(-1, 1, true),
-        random(-1, 1, true),
-        random(-1, 1, true)
-      )).normalize();
+      cOrbit.normal = new THREE.Vector3(random(-1, 1, true), random(-1, 1, true), random(-1, 1, true));
+      cOrbit.tangent1 = cOrbit.normal
+        .clone()
+        .cross(new THREE.Vector3(random(-1, 1, true), random(-1, 1, true), random(-1, 1, true)))
+        .normalize();
       cOrbit.tangent2 = cOrbit.normal.clone().cross(cOrbit.tangent1).normalize();
     });
 
@@ -307,14 +359,23 @@ export class Character extends System {
   }
 
   async [createActivateMethod(EXTRA_LIFE)]() {
-    const {storage: {eventBus, gameSpace: {set}}} = this;
+    const {
+      storage: {
+        eventBus,
+        gameSpace: {set},
+      },
+    } = this;
 
     const result = {};
     eventBus.dispatchEvent({type: GET_INFO, result});
     const {
       effectFreeSpaceRef: {current: effectFreeSpace},
-      boostersRef: {current: {extraLife}},
-      topMenuElementsRef: {current: {lifesIcon}}
+      boostersRef: {
+        current: {extraLife},
+      },
+      topMenuElementsRef: {
+        current: {lifesIcon},
+      },
     } = result;
 
     set(({booster, gameData}) => {
@@ -324,10 +385,9 @@ export class Character extends System {
       gameData.lifes++;
     });
 
-    const isHasPrevTween = [
-      TWEENS.extraLifeTrailTween,
-      TWEENS.extraLifePulseTween
-    ].some(tweenId => gsap.localTimeline.isExist(BASKETBALL, tweenId));
+    const isHasPrevTween = [TWEENS.extraLifeTrailTween, TWEENS.extraLifePulseTween].some((tweenId) =>
+      gsap.localTimeline.isExist(BASKETBALL, tweenId),
+    );
 
     if (isHasPrevTween) return;
 
@@ -344,8 +404,13 @@ export class Character extends System {
       storage: {
         gameSpace: {set},
         world,
-        mainSceneSettings: {character: {throw: {angvel}}, boosters: {[CLEAR_HIT]: clearHit}}
-      }
+        mainSceneSettings: {
+          character: {
+            throw: {angvel},
+          },
+          boosters: {[CLEAR_HIT]: clearHit},
+        },
+      },
     } = this;
 
     const eCharacter = this.getFirstEntityByType(CHARACTER);
@@ -359,27 +424,33 @@ export class Character extends System {
     const zDiff = eMatrix4Ring.position.z - eMatrix4Character.position.z;
 
     const xV = xDiff / clearHit.time;
-    const yV = (yDiff - ((world.gravity.y * clearHit.time ** 2) / 2)) / clearHit.time;
+    const yV = (yDiff - (world.gravity.y * clearHit.time ** 2) / 2) / clearHit.time;
     const zV = zDiff / clearHit.time;
 
     const cBodyCharacter = eCharacter.get(Body);
     cBodyCharacter.object.setBodyType(RAPIER3D.RigidBodyType.Dynamic);
 
-    set(
-      ({serviceData: {clearFunctions}, characterMovement}) => {
-        const impulse = new THREE.Vector3(xV, yV, zV).multiplyScalar(cBodyCharacter.object.mass());
-        clearFunctions.push(createAnimationFrame(() => this.applyPhysicalPropertiesForThrow({impulse, angvel})));
-        characterMovement.thrown = true;
-        const {eventBus} = this;
-        eCharacter.add(new EventComponent({eventBus, type: THROWN}));
-      }
-    );
+    set(({serviceData: {clearFunctions}, characterMovement}) => {
+      const impulse = new THREE.Vector3(xV, yV, zV).multiplyScalar(cBodyCharacter.object.mass());
+      clearFunctions.push(createAnimationFrame(() => this.applyPhysicalPropertiesForThrow({impulse, angvel})));
+      characterMovement.thrown = true;
+      const {eventBus} = this;
+      eCharacter.add(new EventComponent({eventBus, type: THROWN}));
+    });
   }
 
   animateX2View() {
     const {
-      storage: {mainSceneSettings: {boosters: {[X2]: {angularVelocity}}}, eventBus, camera},
-      helpers: {raycaster}
+      storage: {
+        mainSceneSettings: {
+          boosters: {
+            [X2]: {angularVelocity},
+          },
+        },
+        eventBus,
+        camera,
+      },
+      helpers: {raycaster},
     } = this;
 
     const esX2 = this.getEntitiesByType(X2VIEW)?.list ?? [];
@@ -388,15 +459,17 @@ export class Character extends System {
     eventBus.dispatchEvent({type: GET_INFO, result});
     const {
       effectFreeSpaceRef: {current: freeSpace},
-      topMenuElementsRef: {current: {scoreIcon}}
+      topMenuElementsRef: {
+        current: {scoreIcon},
+      },
     } = result;
     const bounding = scoreIcon.getBoundingClientRect();
     const point = new THREE.Vector2(
       ((bounding.x + bounding.width / 2) / global.innerWidth) * 2 - 1,
-      -((bounding.y + bounding.height / 2) / global.innerHeight) * 2 + 1
+      -((bounding.y + bounding.height / 2) / global.innerHeight) * 2 + 1,
     );
 
-    esX2.forEach(entity => {
+    esX2.forEach((entity) => {
       const cMatrix4Component = entity.get(Matrix4Component);
       const cGSAPTween = entity.get(GSAPTween);
 
@@ -405,16 +478,9 @@ export class Character extends System {
       const target = new THREE.Vector3();
       raycaster.ray.intersectPlane(plane, target);
 
-      const tween = x2ViewTween(
-        cMatrix4Component,
-        target,
-        bounding,
-        freeSpace,
-        angularVelocity,
-        () => {
-          entity.destroy();
-        }
-      );
+      const tween = x2ViewTween(cMatrix4Component, target, bounding, freeSpace, angularVelocity, () => {
+        entity.destroy();
+      });
 
       cGSAPTween.add(tween);
     });
@@ -422,14 +488,22 @@ export class Character extends System {
 
   clearBoosterData() {
     const esX2 = this.getEntitiesByType(X2VIEW)?.list ?? [];
-    if (!!esX2.length && !esX2.some(entity => entity.get(GSAPTween).has(TWEENS.x2ViewTween))) {
-      while (esX2.length)
-        esX2[0].destroy();
+    if (!!esX2.length && !esX2.some((entity) => entity.get(GSAPTween).has(TWEENS.x2ViewTween))) {
+      while (esX2.length) esX2[0].destroy();
     }
   }
 
   updateX2View({eCharacter, deltaTime}) {
-    const {storage: {mainSceneSettings: {boosters: {[X2]: {angularVelocity}}}, gameSpace: {get}}} = this;
+    const {
+      storage: {
+        mainSceneSettings: {
+          boosters: {
+            [X2]: {angularVelocity},
+          },
+        },
+        gameSpace: {get},
+      },
+    } = this;
     const {booster} = get();
     if (booster.active !== X2) return;
 
@@ -437,9 +511,9 @@ export class Character extends System {
 
     const esX2 = this.getEntitiesByType(X2VIEW).list;
 
-    if (esX2.some(entity => entity.get(GSAPTween).has(TWEENS.x2ViewTween))) return;
+    if (esX2.some((entity) => entity.get(GSAPTween).has(TWEENS.x2ViewTween))) return;
 
-    esX2.forEach(entity => {
+    esX2.forEach((entity) => {
       const cMatrix4Component = entity.get(Matrix4Component);
 
       const cOrbit = entity.get(Orbit);
@@ -451,24 +525,23 @@ export class Character extends System {
       cMatrix4Component.position = {
         x: center.x + radius * (Math.cos(angle) * tangent1.x + Math.sin(angle) * tangent2.x),
         y: center.y + radius * (Math.cos(angle) * tangent1.y + Math.sin(angle) * tangent2.y),
-        z: center.z + radius * (Math.cos(angle) * tangent1.z + Math.sin(angle) * tangent2.z)
+        z: center.z + radius * (Math.cos(angle) * tangent1.z + Math.sin(angle) * tangent2.z),
       };
 
       const addedAngle = THREE.MathUtils.degToRad(angularVelocity) * deltaTime;
       cMatrix4Component.rotation = {
         x: cMatrix4Component.rotation.x + addedAngle,
         y: cMatrix4Component.rotation.y + addedAngle,
-        z: cMatrix4Component.rotation.z + addedAngle
+        z: cMatrix4Component.rotation.z + addedAngle,
       };
     });
   }
 
-  applyPhysicalPropertiesForThrow(
-    {
-      linvel = {x: 0, y: 0, z: 0},
-      impulse = {x: 0, y: 0, z: 0},
-      angvel = {x: 0, y: 0, z: 0}
-    }) {
+  applyPhysicalPropertiesForThrow({
+    linvel = {x: 0, y: 0, z: 0},
+    impulse = {x: 0, y: 0, z: 0},
+    angvel = {x: 0, y: 0, z: 0},
+  }) {
     const eCharacter = this.getFirstEntityByType(CHARACTER);
     const cBody = eCharacter.get(Body);
 
@@ -478,18 +551,26 @@ export class Character extends System {
     cBody.object.setAngvel(angvel);
   }
 
-
   checkCollisionWithRing({eCharacter}) {
-    const {storage: {gameSpace: {set}}} = this;
+    const {
+      storage: {
+        gameSpace: {set},
+      },
+    } = this;
 
     const collisions = eCharacter.getSome(EventComponent, COLLISION_START);
-    const isHasCollisionWithRing = collisions.some(({data: {collider}}) => [RING_BODY, RING_SHIELD, RING_GRID].includes(collider.userData.id));
-    if (isHasCollisionWithRing)
-      set(({characterMovement}) => characterMovement.isCollisionWithRing = true);
+    const isHasCollisionWithRing = collisions.some(({data: {collider}}) =>
+      [RING_BODY, RING_SHIELD, RING_GRID].includes(collider.userData.id),
+    );
+    if (isHasCollisionWithRing) set(({characterMovement}) => (characterMovement.isCollisionWithRing = true));
   }
 
   checkCollisionWithSensor({eCharacter, eRing}) {
-    const {storage: {gameSpace: {get, set}}} = this;
+    const {
+      storage: {
+        gameSpace: {get, set},
+      },
+    } = this;
     const gameSpace = get();
 
     const collisions = eCharacter.getSome(EventComponent, COLLISION_START);
@@ -518,14 +599,17 @@ export class Character extends System {
     action.stop();
     action.play();
 
-    if (isActiveBoosterX2)
-      this.animateX2View();
+    if (isActiveBoosterX2) this.animateX2View();
 
-    set(({characterMovement}) => characterMovement.isCollisionWithSensor = true);
+    set(({characterMovement}) => (characterMovement.isCollisionWithSensor = true));
   }
 
   checkCollisionWithGround({eCharacter}) {
-    const {storage: {gameSpace: {get, set}}} = this;
+    const {
+      storage: {
+        gameSpace: {get, set},
+      },
+    } = this;
 
     const collisions = eCharacter.getSome(EventComponent, COLLISION_START);
 
@@ -534,13 +618,22 @@ export class Character extends System {
 
     const gameSpace = get();
 
-    const isTruthCondition = gameSpace.booster.active !== CLEAR_HIT || gameSpace.characterMovement.isCollisionWithSensor;
+    const isTruthCondition =
+      gameSpace.booster.active !== CLEAR_HIT || gameSpace.characterMovement.isCollisionWithSensor;
     if (!isTruthCondition) return;
 
     const cTween = eCharacter.get(GSAPTween);
     if (cTween.has(TWEENS.teleportOnInitialPosition)) return;
 
-    const {storage: {mainSceneSettings: {character: {startData: {position, rotation}}}}} = this;
+    const {
+      storage: {
+        mainSceneSettings: {
+          character: {
+            startData: {position, rotation},
+          },
+        },
+      },
+    } = this;
     const cThreeComponent = eCharacter.get(ThreeComponent);
     const cBody = eCharacter.get(Body);
 
@@ -567,14 +660,18 @@ export class Character extends System {
       },
       () => {
         cTween.remove(teleportTween.vars.id);
-      }
+      },
     );
 
     cTween.add(teleportTween);
   }
 
   checkCollision({eGame, eCharacter, eRing}) {
-    const {storage: {gameSpace: {get}}} = this;
+    const {
+      storage: {
+        gameSpace: {get},
+      },
+    } = this;
 
     const gameSpace = get();
 
@@ -586,7 +683,11 @@ export class Character extends System {
   }
 
   updateFlight({eCharacter, eRing}) {
-    const {storage: {gameSpace: {get, set}}} = this;
+    const {
+      storage: {
+        gameSpace: {get, set},
+      },
+    } = this;
 
     const gameSpace = get();
 
@@ -614,7 +715,11 @@ export class Character extends System {
   }
 
   checkOnEnd({eCharacter, eGame}) {
-    const {storage: {gameSpace: {get}}} = this;
+    const {
+      storage: {
+        gameSpace: {get},
+      },
+    } = this;
 
     const gameSpace = get();
 

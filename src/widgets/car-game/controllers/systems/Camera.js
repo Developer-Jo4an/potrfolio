@@ -13,14 +13,20 @@ export class Camera extends System {
   }
 
   [`onCharacter${upperFirst(DEFAULT)}`](characterEntity) {
-    const {storage: {mainSceneSettings: {camera: {trackingBoundary}}}} = this;
+    const {
+      storage: {
+        mainSceneSettings: {
+          camera: {trackingBoundary},
+        },
+      },
+    } = this;
     const characterMatrix3Component = characterEntity.get(Matrix3Component);
     const mainContainerEntity = this.getFirstEntityByType(MAIN_CONTAINER);
     const mainContainerMatrix3Component = mainContainerEntity.get(Matrix3Component);
 
     const characterViewGlobalPosition = {
       x: mainContainerMatrix3Component.x + characterMatrix3Component.x,
-      y: mainContainerMatrix3Component.y + characterMatrix3Component.y
+      y: mainContainerMatrix3Component.y + characterMatrix3Component.y,
     };
 
     mainContainerMatrix3Component.y += Math.max(0, trackingBoundary - characterViewGlobalPosition.y);
@@ -31,7 +37,5 @@ export class Camera extends System {
     this.updateFromCharacter(...arguments);
   }
 
-  reset() {
-
-  }
+  reset() {}
 }

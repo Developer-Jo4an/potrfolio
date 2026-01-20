@@ -21,22 +21,14 @@ export function Canvas() {
     },
     initProps: {stateMachine: BASKETBALL_STATE_MACHINE, mainSceneSettings, preload},
     afterInit: setWrapper,
-    containerRef
+    containerRef,
   });
 
-  useStateControls(
-    wrapper,
-    BASKETBALL_STATE_MACHINE,
-    IGNORE_NEXT_STATES,
-    useRef({}).current,
-    setState
-  );
+  useStateControls(wrapper, BASKETBALL_STATE_MACHINE, IGNORE_NEXT_STATES, useRef({}).current, setState);
 
   useResetScene({wrapper});
 
   const isGameEnd = [WIN, LOSE].includes(state);
 
-  return (
-    <div ref={containerRef} className={cl(styles.canvas, {[styles.canvasDisabled]: isGameEnd})}/>
-  );
+  return <div ref={containerRef} className={cl(styles.canvas, {[styles.canvasDisabled]: isGameEnd})} />;
 }

@@ -10,30 +10,13 @@ export const CAR_STATE_MACHINE = {
     availableStates: [INITIALIZATION_LEVEL],
     nextState: INITIALIZATION_LEVEL,
     isDefault: true,
-    isLoad: true
+    isLoad: true,
   },
-  [INITIALIZATION_LEVEL]: {
-    availableStates: [PLAYING],
-    nextState: PLAYING,
-    isLoad: true
-  },
-  [PLAYING]: {
-    availableStates: [LOSE, WIN, PAUSED],
-    isAvailableUpdate: true
-  },
-  [PAUSED]: {
-    availableStates: [PLAYING]
-  },
-  [LOSE]: {
-    availableStates: [INITIALIZATION_LEVEL],
-    nextState: INITIALIZATION_LEVEL,
-    isEndGame: true
-  },
-  [WIN]: {
-    availableStates: [INITIALIZATION_LEVEL],
-    nextState: INITIALIZATION_LEVEL,
-    isEndGame: true
-  }
+  [INITIALIZATION_LEVEL]: {availableStates: [PLAYING], nextState: PLAYING, isLoad: true},
+  [PLAYING]: {availableStates: [LOSE, WIN, PAUSED], isAvailableUpdate: true},
+  [PAUSED]: {availableStates: [PLAYING]},
+  [LOSE]: {availableStates: [INITIALIZATION_LEVEL], nextState: INITIALIZATION_LEVEL, isEndGame: true},
+  [WIN]: {availableStates: [INITIALIZATION_LEVEL], nextState: INITIALIZATION_LEVEL, isEndGame: true},
 };
 
 export const IGNORE_NEXT_STATES = [PLAYING, PAUSED, LOSE, WIN];

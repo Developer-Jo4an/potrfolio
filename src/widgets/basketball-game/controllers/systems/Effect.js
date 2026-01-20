@@ -3,13 +3,14 @@ import {CHARACTER, TRAIL} from "../../constants/character";
 import {THROWN} from "../../constants/events";
 
 export class Effect extends System {
-
   characterTrailSystem;
 
   characterTrailRenderer;
 
   init() {
-    const {storage: {scene}} = this;
+    const {
+      storage: {scene},
+    } = this;
 
     const {
       ParticleSystem,
@@ -20,10 +21,10 @@ export class Effect extends System {
       Vector3,
       PointEmitter,
       ColorOverLife,
-      BatchedRenderer
+      BatchedRenderer,
     } = Quarks;
 
-    const characterTrailSystem = this.characterTrailSystem = new ParticleSystem({
+    const characterTrailSystem = (this.characterTrailSystem = new ParticleSystem({
       duration: 1,
       looping: false,
       shape: new PointEmitter(),
@@ -37,21 +38,27 @@ export class Effect extends System {
         map: assetsManager.getAssetFromSpace(THREE_SPACE, TEXTURE, TRAIL),
         blending: THREE.AdditiveBlending,
         transparent: true,
-        depthTest: false
+        depthTest: false,
       }),
       behaviors: [
         new ColorOverLife(
           new Gradient(
-            [[new Vector3(1, 1, 1), 0.1], [new Vector3(1, 1, 1), 0]],
-            [[1, 0], [0, 1]]
-          )
-        )
-      ]
-    });
+            [
+              [new Vector3(1, 1, 1), 0.1],
+              [new Vector3(1, 1, 1), 0],
+            ],
+            [
+              [1, 0],
+              [0, 1],
+            ],
+          ),
+        ),
+      ],
+    }));
     characterTrailSystem.stop();
     scene.add(characterTrailSystem.emitter);
 
-    const characterTrailRenderer = this.characterTrailRenderer = new BatchedRenderer();
+    const characterTrailRenderer = (this.characterTrailRenderer = new BatchedRenderer());
     characterTrailRenderer.addSystem(characterTrailSystem);
     scene.add(characterTrailRenderer);
   }

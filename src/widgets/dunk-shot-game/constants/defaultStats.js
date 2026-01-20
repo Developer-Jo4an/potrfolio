@@ -10,5 +10,5 @@ export const getDefaultStats = () => ({
   isCollectedBonus: false,
   score: 0,
   story: [],
-  lifes: 3
+  lifes: 3,
 });

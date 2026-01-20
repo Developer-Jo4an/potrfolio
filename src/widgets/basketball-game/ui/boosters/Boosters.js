@@ -17,15 +17,14 @@ export function Boosters({gameSpace, ref}) {
 
   useImperativeHandle(ref, () => elementsRef.current);
 
-  const isCanUse = (
+  const isCanUse =
     state === PLAYING &&
     !gameSpace.characterMovement.returnsBack &&
     !gameSpace.characterMovement.thrown &&
     !gameSpace.characterMovement.isCollisionWithRing &&
     !gameSpace.characterMovement.isCollisionWithSensor &&
     !gameSpace.characterMovement.isDrag &&
-    !gameSpace.booster.active
-  );
+    !gameSpace.booster.active;
 
   const boosterButtons = boosters.map(({type, timeout, background, img}) => {
     const count = gameSpace.booster[type];
@@ -38,14 +37,12 @@ export function Boosters({gameSpace, ref}) {
       value: count,
       child: (
         <div className={styles[background.className]}>
-          <Image src={background.src}/>
+          <Image src={background.src} />
         </div>
       ),
-      timeout
+      timeout,
     };
   });
 
-  return (
-    <BottomMenu ref={elementsRef} buttons={boosterButtons} mod={MODES.orange}/>
-  );
+  return <BottomMenu ref={elementsRef} buttons={boosterButtons} mod={MODES.orange} />;
 }
