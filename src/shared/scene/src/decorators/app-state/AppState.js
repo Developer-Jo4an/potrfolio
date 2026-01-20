@@ -3,7 +3,7 @@ import {getIsDebug} from "../../../../lib";
 import {STATE_CHANGED} from "../../constants/events/names";
 import {IDLE} from "../../constants/decorators/state/state";
 
-export class State extends BaseDecorator {
+export class AppState extends BaseDecorator {
   _state = IDLE;
 
   get state() {

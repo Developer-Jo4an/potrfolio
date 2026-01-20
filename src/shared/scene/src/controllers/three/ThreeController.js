@@ -1,6 +1,6 @@
 import {BaseController} from "../base/BaseController";
 import {Resize} from "../../decorators/resize/Resize";
-import {State} from "../../decorators/state/State";
+import {AppState as State} from "../../decorators/app-state/AppState";
 import {Performance} from "../../decorators/performance/Performance";
 import {ThreeUpdate} from "../../decorators/three/update/ThreeUpdate";
 import {getIsDebug} from "../../../../lib";

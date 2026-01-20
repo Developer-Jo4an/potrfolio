@@ -6,7 +6,7 @@ import {CollisionObserver} from "./controllers/CollisionObserver/CollisionObserv
 import {
   PIXIController,
   Resize,
-  State,
+  AppState as State,
   Performance,
   PIXIMatterUpdate,
   eventSubscription,

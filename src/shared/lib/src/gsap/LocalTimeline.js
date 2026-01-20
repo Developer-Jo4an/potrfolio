@@ -9,8 +9,8 @@ export class LocalTimeline {
   _spaces = {};
 
   static get instance() {
-    if (LocalTimeline._instance) return LocalTimeline._instance;
-    const localTimeline = (LocalTimeline._instance = new LocalTimeline());
+    if (this._instance) return this._instance;
+    const localTimeline = (this._instance = new LocalTimeline());
     localTimeline.register();
     return localTimeline;
   }

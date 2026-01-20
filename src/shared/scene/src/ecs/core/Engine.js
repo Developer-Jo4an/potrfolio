@@ -1,7 +1,7 @@
 import {Entity} from "./Entity";
 import {Component} from "./Component";
 import {v4 as uuidv4} from "uuid";
-import {Collection} from "../base/structures/Collection";
+import {Library as Collection} from "../base/library/Library";
 import {analysis} from "../../analytics/Analytics";
 
 export class Engine {

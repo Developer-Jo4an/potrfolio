@@ -3,6 +3,5 @@ import MotionPathPlugin from "gsap/MotionPathPlugin";
 import {LocalTimeline} from "../../../../../lib";
 
 global.gsap = gsap;
-
-gsap.localTimeline = LocalTimeline.instance;
-gsap.registerPlugin(MotionPathPlugin);
+global.gsap.localTimeline = LocalTimeline.instance;
+global.gsap.registerPlugin(MotionPathPlugin);

@@ -1,6 +1,6 @@
 import {AnimatePresence, motion} from "framer-motion";
 import {useEffect, useRef, useState} from "react";
-import {Image, Confetti, eventSubscription, START} from "@shared";
+import {Image, Confetti, eventSubscription, STATUSES} from "@shared";
 import {useDunkShotStore} from "../../model/state-manager/dunkShotStore";
 import {CONTROLLER_RESET, THROW_PURE_DATA} from "../../constants/events";
 import {pureHitAnimation} from "../../config/animations";
@@ -27,7 +27,7 @@ export function DunkShotPureHit() {
         {
           event: THROW_PURE_DATA,
           callback({pureData: {position, isActive, stage}}) {
-            if (stage === START) savedData.pureData.isShoot = false;
+            if (stage === STATUSES.start) savedData.pureData.isShoot = false;
 
             if (confettiController.current) {
               const {ref, callbacks} = confettiController.current;

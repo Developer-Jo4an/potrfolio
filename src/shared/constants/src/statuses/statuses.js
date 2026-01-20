@@ -1,3 +1,5 @@
-export const COMPLETE = "complete";
-export const UPDATE = "update";
-export const START = "start";
+export const STATUSES = {
+  complete: "complete",
+  update: "update",
+  start: "start",
+};

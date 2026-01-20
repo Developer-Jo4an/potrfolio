@@ -25,7 +25,7 @@ export * from "./src/decorators/performance/Performance";
 export * from "./src/decorators/pixi/update/PIXIUpdate";
 export * from "./src/decorators/pixi/matter-update/PIXIMatterUpdate";
 export * from "./src/decorators/resize/Resize";
-export * from "./src/decorators/state/State";
+export * from "./src/decorators/app-state/AppState";
 export * from "./src/decorators/three/update/ThreeUpdate";
 export * from "./src/decorators/update/Update";
 
@@ -37,7 +37,7 @@ export * from "./src/ecs/base/components/transform/Matrix3Component";
 export * from "./src/ecs/base/components/transform/Matrix4Component";
 export * from "./src/ecs/base/components/tween/GSAPTween";
 export * from "./src/ecs/base/components/event/EventComponent";
-export * from "./src/ecs/base/structures/Collection";
+export * from "./src/ecs/base/library/Library";
 export * from "./src/ecs/base/systems/Assets";
 export * from "./src/ecs/base/systems/Collector";
 export * from "./src/ecs/base/systems/MainGame";

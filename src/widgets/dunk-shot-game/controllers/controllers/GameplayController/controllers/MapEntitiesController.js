@@ -1,5 +1,5 @@
 import {BaseGameplayController} from "../BaseGameplayController";
-import {eventSubscription, velocity, gsapTimeout, COMPLETE, START, UPDATE, STATE_DECORATOR_FIELD} from "@shared";
+import {eventSubscription, velocity, gsapTimeout, STATUSES, STATE_DECORATOR_FIELD} from "@shared";
 import {dunkShotFactory} from "../../../factory/DunkShotFactory";
 import {dunkShotAnimationPlayer} from "../../../animations/DunkShotAnimationPlayer";
 import {dunkShotUtils} from "../../../utils/DunkShotUtils";
@@ -221,9 +221,9 @@ export class MapEntitiesController extends BaseGameplayController {
           timeout: 2,
           namespace: DUNK_SHOT_TWEEN,
           id: "dunkShot:pure-data",
-          onStart: throwEvent.bind({isActive: true, stage: START}),
-          onUpdate: throwEvent.bind({isActive: true, stage: UPDATE}),
-          onComplete: throwEvent.bind({isActive: false, stage: COMPLETE}),
+          onStart: throwEvent.bind({isActive: true, stage: STATUSES.start}),
+          onUpdate: throwEvent.bind({isActive: true, stage: STATUSES.update}),
+          onComplete: throwEvent.bind({isActive: false, stage: STATUSES.complete}),
         });
       } else eventBus.dispatchEvent({type: PROGRESS_RESET});
     } else if (basket === this.activeBasket) {
