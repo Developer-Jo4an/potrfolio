@@ -70,8 +70,7 @@ export function DunkShotPureHit() {
           <motion.div
             className={styles.pureHit}
             style={{"--x": `${pureHit?.x}px`, "--y": `${pureHit?.y}px`}}
-            {...motionSettings}
-          >
+            {...motionSettings}>
             <div className={styles.pureHitContainer}>
               <Image src={"widgets/dunk-shot-game/pure.png"} />
             </div>

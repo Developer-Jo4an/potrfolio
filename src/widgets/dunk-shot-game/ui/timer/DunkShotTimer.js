@@ -47,8 +47,7 @@ export function DunkShotTimer() {
         <motion.div
           className={styles.timerContainer}
           style={{"--x": `${basketTimer.position?.x}px`, "--y": `${basketTimer.position?.y}px`}}
-          {...motionSettings}
-        >
+          {...motionSettings}>
           <div className={styles.timerProgress} style={{"--progress": `${basketTimer.progress * 100 - 100}%`}} />
         </motion.div>
       )}

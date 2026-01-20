@@ -5,7 +5,7 @@
     "lineWidth": 120,
     "formatWithErrors": false,
     "lineEnding": "lf",
-    "bracketSameLine": false,
+    "bracketSameLine": true,
     "bracketSpacing": false,
     "expand": "auto"
   },

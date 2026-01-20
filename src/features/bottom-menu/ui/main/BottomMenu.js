@@ -22,8 +22,7 @@ export function BottomMenu({className, buttons, children, mod, ref}) {
             })}
             events={{onClick}}
             timeout={timeout}
-            isDisposable={isDisposable}
-          >
+            isDisposable={isDisposable}>
             {child && child}
             {img && <Image {...img} data-image={"menuImage"} />}
             {Icon && <Icon data-icon={"menuImage"} />}

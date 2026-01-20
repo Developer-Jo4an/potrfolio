@@ -17,8 +17,7 @@ export function DunkShotBoosters({navRefs}) {
             [styles.boosterInactive]: isDisabled || !value,
             [styles.boosterActive]: isActive,
           })}
-          events={{onClick: () => onClick({value, name, isDisabled: isDisabled || !value})}}
-        >
+          events={{onClick: () => onClick({value, name, isDisabled: isDisabled || !value})}}>
           <Icon />
           {isNumber(value) && <div className={styles.boosterCount}>{value}</div>}
         </Button>

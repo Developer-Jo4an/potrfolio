@@ -15,8 +15,7 @@ export function GameCardsNavigation() {
           key={id}
           className={cl(styles.gameCardsNavigationButton, styles[`gameCardsNavigationButton${upperFirst(activeGame)}`])}
           events={{onClick: () => onSwipe({direction: id})}}
-          {...otherProps}
-        >
+          {...otherProps}>
           <Icon />
         </Button>
       ))}

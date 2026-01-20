@@ -58,8 +58,7 @@ export function DunkShotStars({topMenuEls, progressBarEls}) {
               if (!isArray(elementRefs.current.stars[groupIndex])) elementRefs.current.stars[groupIndex] = [];
               elementRefs.current.stars[groupIndex][starIndex] = ref;
             }}
-            className={styles.star}
-          >
+            className={styles.star}>
             {StarComponent}
           </div>
         )),

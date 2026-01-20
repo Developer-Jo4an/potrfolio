@@ -20,8 +20,7 @@ export function GameCardsButtons() {
     <div className={styles.gameCardsButtons}>
       <Button
         className={cl(styles.gameCardButton, styles[`gameCardButton${upperFirst(activeGame)}`])}
-        events={{onClick}}
-      >
+        events={{onClick}}>
         <span className={styles.gameCardButtonText}>{buttonContent.text}</span>
       </Button>
     </div>

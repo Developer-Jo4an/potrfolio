@@ -33,8 +33,7 @@ export function Button({
       className={getTruthClasses(styles.button, className)}
       onClick={onClick}
       disabled={disabled}
-      {...otherEvents}
-    >
+      {...otherEvents}>
       {children}
     </button>
   );

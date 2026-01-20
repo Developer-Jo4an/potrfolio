@@ -36,14 +36,12 @@ export function ModalContainer({
         [styles.modalDisabled]: !isCanInteractive,
       })}
       {...backgroundAnimations[background]}
-      {...animationHandlers}
-    >
+      {...animationHandlers}>
       <motion.div
         className={styles.modalAnimationContainer}
         {...containerAnimations[container]}
         {...animationHandlers}
-        onClick={onClick}
-      >
+        onClick={onClick}>
         <div className={styles.modalParent}>
           <Component modalProps={props} id={id} />
         </div>
