@@ -10,7 +10,7 @@ const {useStore: useDunkShotStore, selectors} = createStore({
   state: {wrapper: null, gameData: {}, config: {}},
   syncActions: {
     setWrapper({state}, wrapper) {
-      if (!wrapper) debugger
+      if (!wrapper) debugger;
       state.wrapper = wrapper;
     },
 

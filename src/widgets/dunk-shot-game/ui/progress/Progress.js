@@ -8,5 +8,5 @@ export function Progress({progressBarEls}) {
     <div className={styles.progress}>
       <ProgressBar ref={progressBarEls} count={current} progress={current / (max - min)} mode={MODES.ocean} />
     </div>
-  )
+  );
 }

@@ -16,7 +16,11 @@ export function PauseModal({modalProps: {buttons = content.buttons, actions, mod
             eventFunctions={["stopPropagation"]}
             events={{onClick: actions[id]}}>
             {background && <Image {...background} className={cl(styles.buttonBackground, background.className)} />}
-            {text && <span className={styles.buttonText} data-mod={`i${i}`}>{text}</span>}
+            {text && (
+              <span className={styles.buttonText} data-mod={`i${i}`}>
+                {text}
+              </span>
+            )}
           </Button>
         ))}
       </div>
