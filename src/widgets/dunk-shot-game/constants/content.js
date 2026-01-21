@@ -10,4 +10,7 @@ export default {
     {booster: EXTRA_LIFE, Icon: FaHeartCirclePlus},
     {booster: WINGS, Icon: GiFluffyWing},
   ],
+  background: {
+    src: "widgets/dunk-shot-game/background.png",
+  }
 };
