@@ -1,6 +1,8 @@
 @use "@/application/styles/constants" as constants;
 @use "@/application/styles/mixins" as mixins;
 
+$root: "pauseModal";
+
 .pauseModal {
   width: 90%;
   max-width: 450px;
@@ -22,8 +24,12 @@
     }
   }
 
-  &[data-mod="basketball"] {
+  @include mixins.mod("orange") {
     background: radial-gradient(71.75% 71.75% at 50% 50%, #FFBC05 0%, #FF9933 13.94%, #4F0C0B 100%);
+  }
+
+  @include mixins.mod("ocean") {
+    background: rgba(189, 167, 143, 1);
   }
 }
 
@@ -89,11 +95,36 @@
 }
 
 .buttonText {
+  position: relative;
+  top: 2px;
+
+  font-family: Satoshi, Discovery, sans-serif;
+  font-weight: normal;
   font-size: 20px;
 
   @include mixins.device using($device) {
     @if $device == constants.$MOB-PORT {
       font-size: 16px;
+    }
+  }
+
+  @include mixins.mod("orange", $root) {
+    @include mixins.mod("i0") {
+      color: #FFEBD4;
+    }
+
+    @include mixins.mod("i1") {
+      color: #8B2703;
+    }
+  }
+
+  @include mixins.mod("ocean", $root) {
+    @include mixins.mod("i0") {
+      color: #FFFFFF;
+    }
+
+    @include mixins.mod("i1") {
+      color: #2C4855;
     }
   }
 }
@@ -107,40 +138,4 @@
   height: 100%;
 
   z-index: -1;
-}
-
-.pauseModal[data-mod="default"] {
-  .continueButton {
-    .buttonText {
-      background-color: constants.$GREEN;
-    }
-  }
-
-  .closeButton {
-    .buttonText {
-      background-color: constants.$VIOLET;
-    }
-  }
-}
-
-.pauseModal[data-mod="basketball"] {
-  .continueButton {
-    .buttonText {
-      position: relative;
-      top: 2px;
-      font-family: Satoshi, Discovery, sans-serif;
-      font-weight: normal;
-      color: #FFEBD4;
-    }
-  }
-
-  .closeButton {
-    .buttonText {
-      position: relative;
-      top: 2px;
-      font-family: Satoshi, Discovery, sans-serif;
-      font-weight: normal;
-      color: #8B2703;
-    }
-  }
 }

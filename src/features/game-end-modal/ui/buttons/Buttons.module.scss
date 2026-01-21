@@ -60,4 +60,11 @@ $root: "buttons";
       color: #FFEBD4;
     }
   }
+
+  @include mixins.mod("ocean", $root) {
+    color: #2C4855;
+    @include mixins.mod("i0") {
+      color: #FFEBD4;
+    }
+  }
 }

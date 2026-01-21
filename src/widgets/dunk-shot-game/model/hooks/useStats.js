@@ -4,15 +4,14 @@ import {useDunkShotStore} from "../state-manager/dunkShotStore";
 import {DUNK_SHOT_STATE_MACHINE} from "../../constants/stateMachine";
 import {PROGRESS_RESET, THROW_HIT, THROW_PURE} from "../../constants/events";
 
-export function useDunkShotStats() {
+export function useStats() {
   const {
     wrapper,
     setDunkShotScore,
     setDunkShotLifes,
     setDunkShotStory,
     setDunkShotProgress,
-    setDunkShotPure,
-    setDunkShotState,
+    setDunkShotPure, //TODO: убрать DUnkShot prefix
   } = useDunkShotStore();
 
   useEffect(() => {
@@ -50,8 +49,6 @@ export function useDunkShotStats() {
               setDunkShotLifes({action: SUBTRACT});
               setDunkShotStory({action: ADD, data: {value: false}});
             }
-
-            setDunkShotState(state);
           },
         },
       ],

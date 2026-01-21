@@ -4,7 +4,7 @@ import {starAnimation} from "../../config/animations";
 
 const {offset, scale, delayBetween, opacity} = starAnimation;
 
-export function useDunkShotStar() {
+export function useStar() {
   const tweenRefs = useRef({star: null});
 
   useKillGsapTweens(tweenRefs);

@@ -1,5 +1,5 @@
-import {GameEndModal} from "../../../../features/game-end-modal";
-import {PauseModal} from "../../../../features/pause-modal";
+import {GameEndModal} from "@features/game-end-modal";
+import {PauseModal} from "@features/pause-modal";
 
 export const MODAL_NAMES = {pauseModal: "pauseModal", gameEndModal: "gameEndModal"};
 

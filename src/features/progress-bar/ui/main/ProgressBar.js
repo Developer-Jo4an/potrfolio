@@ -3,13 +3,13 @@ import {FaStar} from "react-icons/fa6";
 import {isFinite} from "lodash";
 import styles from "./ProgressBar.module.scss";
 
-export function ProgressBar({count, progress, ref}) {
+export function ProgressBar({count, progress, mode, ref}) {
   const {current: elements} = useRef({scale: null, score: null, counter: null});
 
   useImperativeHandle(ref, () => elements);
 
   return (
-    <div className={styles.progressBar}>
+    <div className={styles.progressBar} data-mod={mode}>
       {isFinite(progress) && (
         <div ref={(ref) => (elements.scale = ref)} className={styles.progressScale} style={{"--progress": progress}} />
       )}

@@ -9,14 +9,14 @@ export function PauseModal({modalProps: {buttons = content.buttons, actions, mod
       <p className={styles.title}>{content.title}</p>
       <p className={styles.description}>{content.description}</p>
       <div className={styles.buttons}>
-        {buttons.map(({id, className, background, text}) => (
+        {buttons.map(({id, className, background, text}, i) => (
           <Button
             key={id}
             className={cl(styles.button, styles[className])}
             eventFunctions={["stopPropagation"]}
             events={{onClick: actions[id]}}>
             {background && <Image {...background} className={cl(styles.buttonBackground, background.className)} />}
-            {text && <span className={styles.buttonText}>{text}</span>}
+            {text && <span className={styles.buttonText} data-mod={`i${i}`}>{text}</span>}
           </Button>
         ))}
       </div>

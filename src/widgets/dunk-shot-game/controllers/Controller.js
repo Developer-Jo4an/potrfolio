@@ -5,7 +5,7 @@ import {EffectsController} from "./controllers/EffectsController/EffectsControll
 import {CollisionObserver} from "./controllers/CollisionObserver/CollisionObserver";
 import {
   PIXIController,
-  Resize,
+  PixiResize,
   AppState as State,
   Performance,
   PIXIMatterUpdate,
@@ -37,7 +37,7 @@ export class Controller extends PIXIController {
 
   DECORATORS = [
     {DecoratorClass: PIXIMatterUpdate, decoratorField: UPDATE_DECORATOR_FIELD},
-    {DecoratorClass: Resize, decoratorField: RESIZE_DECORATOR_FIELD},
+    {DecoratorClass: PixiResize, decoratorField: RESIZE_DECORATOR_FIELD},
     {DecoratorClass: State, decoratorField: STATE_DECORATOR_FIELD},
     getIsDebug() && {DecoratorClass: Performance, decoratorField: PERFORMANCE_DECORATOR_FIELD},
   ].filter(Boolean);
@@ -60,7 +60,7 @@ export class Controller extends PIXIController {
   }
 
   async initializationSelect() {
-    const {app, isInitialized} = this;
+    const {isInitialized} = this;
 
     if (!isInitialized) {
       this.onResized();

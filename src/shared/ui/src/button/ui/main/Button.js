@@ -1,4 +1,4 @@
-import {getTruthClasses} from "../../../../../lib";
+import {getTruthClasses} from "@shared";
 import {useButtonClickControls} from "../../model/hooks/useButtonClickControls";
 import styles from "./Button.module.scss";
 
@@ -13,6 +13,7 @@ export function Button({
   eventFunctions = [],
   callbacksData = {},
   modalsData = {},
+  attrs = {},
   children,
 }) {
   const {onClick: click, otherEvents = {}} = events;
@@ -28,6 +29,7 @@ export function Button({
 
   return (
     <button
+      {...attrs}
       ref={ref}
       style={style}
       className={getTruthClasses(styles.button, className)}

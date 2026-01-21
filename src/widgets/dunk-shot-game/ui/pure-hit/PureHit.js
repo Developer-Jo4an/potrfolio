@@ -4,11 +4,11 @@ import {Image, Confetti, eventSubscription, STATUSES} from "@shared";
 import {useDunkShotStore} from "../../model/state-manager/dunkShotStore";
 import {CONTROLLER_RESET, THROW_PURE_DATA} from "../../constants/events";
 import {pureHitAnimation} from "../../config/animations";
-import styles from "./DunkShotPureHit.module.scss";
+import styles from "./PureHit.module.scss";
 
 const {offset, confetti, motion: motionSettings} = pureHitAnimation;
 
-export function DunkShotPureHit() {
+export function PureHit() {
   const {wrapper} = useDunkShotStore();
   const [pureHit, setPureHit] = useState({x: null, y: null, isActive: false});
 

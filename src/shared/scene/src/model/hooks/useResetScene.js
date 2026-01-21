@@ -1,10 +1,12 @@
 import {useEffect} from "react";
-import {isFunction} from "lodash";
 
-export function useResetScene({wrapper}) {
+export function useResetScene({wrapper, extraCallback}) {
   useEffect(
     () => () => {
-      if (isFunction(wrapper?.reset)) wrapper.reset();
+      if (!wrapper) return;
+
+      wrapper.reset();
+      extraCallback?.();
     },
     [wrapper],
   );

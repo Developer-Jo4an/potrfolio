@@ -24,7 +24,7 @@ export function Canvas() {
     containerRef,
   });
 
-  useStateControls(wrapper, BASKETBALL_STATE_MACHINE, IGNORE_NEXT_STATES, useRef({}).current, setState);
+  useStateControls(wrapper, BASKETBALL_STATE_MACHINE, IGNORE_NEXT_STATES, null, setState);
 
   useResetScene({wrapper});
 

@@ -1,6 +1,8 @@
 @use "@/application/styles/mixins" as mixins;
 @use "@/application/styles/constants" as constants;
 
+$root: "imageContainer";
+
 .imageContainer {
   position: relative;
 
@@ -31,4 +33,8 @@
   width: 100%;
 
   object-fit: contain;
+
+  @include mixins.mod("ocean", $root) {
+    top: -40%;
+  }
 }

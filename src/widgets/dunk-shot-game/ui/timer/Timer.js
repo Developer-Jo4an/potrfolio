@@ -4,11 +4,11 @@ import {eventSubscription} from "@shared";
 import {useDunkShotStore} from "../../model/state-manager/dunkShotStore";
 import {BASKET_TIMER_END, BASKET_TIMER_START, BASKET_TIMER_UPDATE, CONTROLLER_RESET} from "../../constants/events";
 import {timerAnimation} from "../../config/animations";
-import styles from "./DunkShotTimer.module.scss";
+import styles from "./Timer.module.scss";
 
 const {offset, motion: motionSettings} = timerAnimation;
 
-export function DunkShotTimer() {
+export function Timer() {
   const {wrapper} = useDunkShotStore();
   const [basketTimer, setBasketTimer] = useState({progress: null, position: null, isActive: false});
 

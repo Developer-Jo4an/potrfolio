@@ -1,45 +1,51 @@
 import {useRef} from "react";
-import {useLoadDunkShotScene} from "../../model/hooks/useLoadDunkShotScene";
-import {Background} from "../walls/Background";
-import {DunkShotGameElements} from "../game-elements/DunkShotGameElements";
-import {ProgressBar} from "@features/progress-bar";
+import {Background} from "../background/Background";
 import {Loader} from "@shared";
-import {DunkShotBoosters} from "../boosters/DunkShotBoosters";
-import {TopMenu} from "../../../../features/top-menu";
+import {TopMenu} from "@features/top-menu";
+import {Boosters} from "../boosters/Boosters";
+import {Canvas} from "../canvas/Canvas";
+import {usePause} from "../../model/hooks/usePause";
+import {Elements} from "../elements/Elements";
+import {Progress} from "../progress/Progress";
+import {useEndGame} from "../../model/hooks/useEndGame";
 import {useDunkShotStore} from "../../model/state-manager/dunkShotStore";
 import {DUNK_SHOT_STATE_MACHINE} from "../../constants/stateMachine";
+import content from "../../constants/content";
 import styles from "./DunkShotGame.module.scss";
 
-export function DunkShotGame() {
-  const {gameData: {state, lifes, score, progress: {min, current, max} = {}} = {}} = useDunkShotStore();
-  const {containerRef, isCanPressPause, onPause} = useLoadDunkShotScene();
-  const topMenuEls = useRef();
-  const progressBarEls = useRef();
+const {
+  menu: {lifes: lifesContent, score: scoreContent, sound},
+} = content;
 
-  //TopMenu
-  //         ref={topMenuElementsRef}
-  //         lifes={{count: gameSpace.gameData.lifes, ...lifes}}
-  //         score={{count: gameSpace.gameData.score, ...score}}
-  //         sound={sound}
-  //         pause={pause}
-  //       />
+export function DunkShotGame() {
+  const {gameData: {state, lifes, score} = {}} = useDunkShotStore();
+  const topMenuElementsRef = useRef();
+  const progressBarEls = useRef();
+  const pause = usePause();
+
+  const fullProps = {
+    progressBarEls,
+    topMenuElementsRef,
+    isPending: !state || DUNK_SHOT_STATE_MACHINE[state]?.isLoad,
+  };
+
+  useEndGame();
 
   return (
-    <>
-      <div ref={containerRef} className={styles.dunkShotContainer}>
-        <TopMenu
-          ref={topMenuEls}
-          lifes={{count: lifes}}
-          pause={{events: {onClick: isCanPressPause && onPause}}}
-          sound={true}
-          score={{count: score}}
-        />
-        <ProgressBar count={current} progress={current / (max - min)} ref={progressBarEls} />
-        <DunkShotBoosters />
-      </div>
+    <div className={styles.dunkShotGame}>
       <Background />
-      <DunkShotGameElements topMenuEls={topMenuEls} progressBarEls={progressBarEls} />
-      <Loader isPending={!state || DUNK_SHOT_STATE_MACHINE[state]?.isLoad} />
-    </>
+      <Canvas />
+      <TopMenu
+        ref={topMenuElementsRef}
+        lifes={{count: lifes, ...lifesContent}}
+        score={{count: score, ...scoreContent}}
+        pause={pause}
+        sound={sound}
+      />
+      <Progress {...fullProps} />
+      <Boosters {...fullProps} />
+      <Elements {...fullProps} />
+      <Loader {...fullProps} />
+    </div>
   );
 }

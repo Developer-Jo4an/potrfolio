@@ -33,7 +33,11 @@ $root: "stat";
   }
 
   @include mixins.mod("velvet") {
-    color: constants.$VELVET;
+    color: #FFEDE0;
+  }
+
+  @include mixins.mod("ocean") {
+    color: #FFFFFF;
   }
 }
 

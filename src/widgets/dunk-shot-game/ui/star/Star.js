@@ -2,20 +2,20 @@ import {useEffect, useRef, useState} from "react";
 import {eventSubscription, createArrayWithMap} from "@shared";
 import {TbStarsFilled} from "react-icons/tb";
 import {FaStar} from "react-icons/fa6";
-import {useDunkShotStar} from "../../model/hooks/useDunkShotStar";
+import {useStar} from "../../model/hooks/useStar";
 import {useActiveBoosters} from "../../model/hooks/useActiveBoosters";
 import {useDunkShotStore} from "../../model/state-manager/dunkShotStore";
 import {THROW_HIT} from "../../constants/events";
 import {X2} from "../../constants/boosters";
-import styles from "./DunkShotStar.module.scss";
+import styles from "./Stars.module.scss";
 
-export function DunkShotStar({topMenuEls}) {
+export function Star({topMenuElementsRef}) {
   const {wrapper} = useDunkShotStore();
   const [StarComponent, setStarComponent] = useState(<FaStar />);
 
   const elementRefs = useRef({stars: []});
 
-  const starAnimation = useDunkShotStar();
+  const starAnimation = useStar();
 
   const {[X2]: isActiveX2} = useActiveBoosters() ?? {};
 
@@ -31,7 +31,7 @@ export function DunkShotStar({topMenuEls}) {
           event: THROW_HIT,
           callback({position: from}) {
             const {stars} = elementRefs.current;
-            const {scoreIcon: to} = topMenuEls.current;
+            const {scoreIcon: to} = topMenuElementsRef.current;
 
             setStarComponent(isActiveX2 ? <TbStarsFilled /> : <FaStar />);
 

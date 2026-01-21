@@ -1,11 +1,15 @@
-import {DUNK_SHOT_STATE_MACHINE, PAUSE, PLAYING} from "../../constants/stateMachine";
-import {useDunkShotStore} from "../state-manager/dunkShotStore";
+import {useAppCallbacks} from "@application/providers/callbacks";
 import {MODAL_NAMES, useModalStore} from "@application/providers/modal";
 import {INDEX, OFF, ON} from "@shared";
-import {DUNK_SHOT_GAME} from "../../constants";
-import {useAppCallbacks} from "@application/providers/callbacks";
+import {useDunkShotStore} from "../state-manager/dunkShotStore";
+import {DUNK_SHOT_STATE_MACHINE, PAUSE, PLAYING} from "../../constants/stateMachine";
+import {MODES} from "@features/pause-modal";
+import content from "../../constants/content";
+const {
+  menu: {pause},
+} = content;
 
-export function useDunkShotPause() {
+export function usePause() {
   const {
     gameData: {state},
     wrapper,
@@ -15,13 +19,17 @@ export function useDunkShotPause() {
 
   const isCanPressPause = DUNK_SHOT_STATE_MACHINE[state]?.availableStates?.includes?.(PAUSE);
 
-  const onPause = () => {
+  const {buttons, ...otherProps} = pause;
+
+  const onClick = () => {
     const {
       value: {id: modalId},
     } = add({
       type: MODAL_NAMES.pauseModal,
+      isCloseOnBackground: true,
       props: {
-        mod: DUNK_SHOT_GAME,
+        mod: MODES.ocean,
+        buttons,
         actions: {
           [ON]() {
             wrapper.state = PLAYING;
@@ -32,11 +40,15 @@ export function useDunkShotPause() {
             close({id: modalId});
           },
         },
+
+        onCloseOnBackground() {
+          wrapper.state = PLAYING;
+        },
       },
     });
 
     wrapper.state = PAUSE;
   };
 
-  return {onPause, isCanPressPause};
+  return {isDisabled: !isCanPressPause, events: {onClick}, ...otherProps};
 }

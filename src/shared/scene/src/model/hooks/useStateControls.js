@@ -3,7 +3,7 @@ import {eventSubscription} from "../../../../lib";
 import {getDefaultState} from "../../lib/state/getDefaultState";
 import {STATE_CHANGED} from "../../constants/events/names";
 
-export function useStateControls(wrapper, stateMachine, ignoreNextStates, reducers = {}, onChangedAnyState) {
+export function useStateControls(wrapper, stateMachine, ignoreNextStates, reducers, onChangedAnyState) {
   useEffect(() => {
     if (!wrapper) return;
 
@@ -21,8 +21,9 @@ export function useStateControls(wrapper, stateMachine, ignoreNextStates, reduce
 
             const nextState = stateMachine[state].nextState;
 
-            const onStateChange = reducers[state];
-            await onStateChange?.(changeStatePromise, (newState = nextState) => (controller.state = newState));
+            const onStateChange = reducers?.[state];
+            if (onStateChange)
+              await onStateChange(changeStatePromise, (newState = nextState) => (controller.state = newState));
 
             await changeStatePromise;
 

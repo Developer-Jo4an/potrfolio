@@ -4,7 +4,7 @@ import {starsAnimation} from "../../config/animations";
 
 const {offset, scale, delay, opacity} = starsAnimation;
 
-export const useDunkShotStars = () => {
+export function useStars() {
   const tweenRefs = useRef({stars: null});
 
   useResetOnResize(tweenRefs, {stars: null});
@@ -32,7 +32,7 @@ export const useDunkShotStars = () => {
         }
       },
       onComplete() {
-        tweenRefs.current.stars.kill();
+        tweenRefs.current.stars?.kill();
         tweenRefs.current.stars = null;
       },
     }));
@@ -65,4 +65,4 @@ export const useDunkShotStars = () => {
       });
     });
   };
-};
+}

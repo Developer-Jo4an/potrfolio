@@ -3,7 +3,7 @@ import {isFinite} from "lodash";
 import {useDunkShotStore} from "../state-manager/dunkShotStore";
 import {SET} from "@shared";
 
-export function useDunkShotProgressHandler() {
+export function useProgressHandler() {
   const {setDunkShotProgress, gameData: {progress: {current, max} = {}} = {}} = useDunkShotStore();
 
   useEffect(() => {

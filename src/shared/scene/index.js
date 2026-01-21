@@ -24,6 +24,7 @@ export * from "./src/decorators/base/BaseDecorator";
 export * from "./src/decorators/performance/Performance";
 export * from "./src/decorators/pixi/update/PIXIUpdate";
 export * from "./src/decorators/pixi/matter-update/PIXIMatterUpdate";
+export * from "./src/decorators/pixi/resize/PixiResize";
 export * from "./src/decorators/resize/Resize";
 export * from "./src/decorators/app-state/AppState";
 export * from "./src/decorators/three/update/ThreeUpdate";

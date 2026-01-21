@@ -1,23 +1,23 @@
 import {useEffect, useRef, useState} from "react";
 import {isArray, isFinite} from "lodash";
 import {eventSubscription, createArrayWithMap} from "@shared";
-import {useDunkShotStars} from "../../model/hooks/useDunkShotStars";
+import {useStars} from "../../model/hooks/useStars";
 import {TbStarsFilled} from "react-icons/tb";
 import {FaStar} from "react-icons/fa6";
 import {useActiveBoosters} from "../../model/hooks/useActiveBoosters";
 import {useDunkShotStore} from "../../model/state-manager/dunkShotStore";
 import {THROW_HIT} from "../../constants/events";
 import {X2} from "../../constants/boosters";
-import styles from "./DunkShotStars.module.scss";
+import styles from "./Stars.module.scss";
 
-export function DunkShotStars({topMenuEls, progressBarEls}) {
+export function Stars({topMenuElementsRef, progressBarEls}) {
   const {wrapper} = useDunkShotStore();
   const {gameData: {progress: {current, max} = {}} = {}} = useDunkShotStore();
   const [StarComponent, setStarComponent] = useState(<FaStar />);
 
   const elementRefs = useRef({stars: []});
 
-  const starsAnimation = useDunkShotStars();
+  const starsAnimation = useStars();
 
   const {[X2]: isActiveX2} = useActiveBoosters() ?? {};
 
@@ -42,7 +42,7 @@ export function DunkShotStars({topMenuEls, progressBarEls}) {
   useEffect(() => {
     if ([current, max].every(isFinite) && current === max) {
       const {stars} = elementRefs.current;
-      const {scoreIcon: to} = topMenuEls.current;
+      const {scoreIcon: to} = topMenuElementsRef.current;
       const {score: from} = progressBarEls.current;
       starsAnimation(stars, from, to);
     }
