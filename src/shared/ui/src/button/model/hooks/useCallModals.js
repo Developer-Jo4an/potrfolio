@@ -1,8 +1,8 @@
-import {useModalStore} from "../../../../../../application/providers/modal/model/state-manager/stores/modalStore";
+import {useModalProvider} from "../../../../../model";
 
 export function useCallModals({modalsData}) {
   //TODO: вынести бизнесс логику
-  const actions = useModalStore();
+  const actions = useModalProvider();
 
   return () => {
     for (const key in modalsData) {

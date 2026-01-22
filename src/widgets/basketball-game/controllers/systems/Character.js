@@ -8,6 +8,7 @@ import {
   ThreeComponent,
   Body,
   EventComponent,
+  State,
   add,
   resetMatrix,
   getIsDebug,
@@ -33,7 +34,6 @@ import {BASKETBALL, GAME} from "../../constants/game";
 import {LOSE as LOSE_STATE, WIN as WIN_STATE} from "../../constants/stateMachine";
 import {EXTRA_LIFE, X2} from "../../constants/boosters";
 import {X2VIEW} from "../../constants/x2View";
-import {State} from "@/shared/scene/src/ecs/base/components/state/State"; //TODO: поправить импорт
 
 export class Character extends System {
   uuid = UUIDS.character;
@@ -260,13 +260,8 @@ export class Character extends System {
             },
           },
         },
-        camera,
       },
-      helpers: {raycaster},
     } = this;
-
-    const cBody = eCharacter.get(Body);
-    const {z} = cBody.object.translation();
 
     const [{position3d: drag3d}, {position3d: end3d}] = [drag, end];
 

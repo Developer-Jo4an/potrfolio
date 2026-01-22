@@ -1,7 +1,7 @@
 import {upperFirst} from "lodash";
 import {GAME} from "../../constants/entities/game";
 import {CHARACTER} from "../../constants/entities/character";
-import {BONUSES_COLLISION, SPIKES_COLLISION} from "../../constants/events";
+import {BONUSES_COLLISION, BLOCKS_COLLISION} from "../../constants/events";
 import {EventComponent, System} from "@shared";
 
 export class Event extends System {
@@ -10,9 +10,9 @@ export class Event extends System {
     eventBus.dispatchEvent({type: BONUSES_COLLISION, count: data?.length});
   }
 
-  [`on${upperFirst(CHARACTER)}${upperFirst(SPIKES_COLLISION)}`]({event: {data}}) {
+  [`on${upperFirst(CHARACTER)}${upperFirst(BLOCKS_COLLISION)}`]({event: {data}}) {
     const {eventBus} = this;
-    eventBus.dispatchEvent({type: SPIKES_COLLISION, count: data?.length});
+    eventBus.dispatchEvent({type: BLOCKS_COLLISION, count: data?.length});
   }
 
   trackEvents({gameEntity, characterEntity}) {

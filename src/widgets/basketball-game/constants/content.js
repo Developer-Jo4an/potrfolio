@@ -1,7 +1,6 @@
 import {CLEAR_HIT, EXTRA_LIFE, X2} from "./boosters";
 import {OFF, ON, INDEX, getDefaultState} from "@shared";
-import {MODAL_NAMES} from "@application/providers/modal";
-import {MODS} from "../../../features/game-end-modal";
+import {MODS} from "@features/game-end-modal";
 import {BASKETBALL_STATE_MACHINE, LOSE, WIN} from "./stateMachine";
 
 export default {
@@ -58,9 +57,9 @@ export default {
     clearHit: {img: {src: "widgets/basketball-game/clearHit.png"}},
     miss: {img: {src: "widgets/basketball-game/miss.png"}},
   },
-  endModal({status, wrapper, score, story, pureCount, redirect}) {
+  endModal({status, wrapper, modalNames, score, story, pureCount, redirect}) {
     return {
-      type: MODAL_NAMES.gameEndModal,
+      type: modalNames.gameEndModal,
       props: {
         background: {src: "widgets/game-cards/backgrounds/basketball.png"},
         title: {text: {[WIN]: "Победа", [LOSE]: "Поражение"}[status], status, mod: MODS.velvet},

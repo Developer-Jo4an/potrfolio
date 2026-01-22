@@ -1,6 +1,5 @@
 import cl from "classnames";
-import {Button} from "@shared";
-import {useAppCallbacks} from "@application/providers/callbacks";
+import {Button, useAppCallbacks} from "@shared";
 import {upperFirst} from "lodash/string";
 import {useGamesStore} from "../../model/state-manager/gamesStore";
 import {buttonContent} from "../../constants/content/buttonContent";

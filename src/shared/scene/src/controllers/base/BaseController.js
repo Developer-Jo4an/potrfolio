@@ -17,6 +17,8 @@ export class BaseController {
     this.$container = $container;
   }
 
+  prepare() {}
+
   async loadAssets() {}
 
   async initScene() {}

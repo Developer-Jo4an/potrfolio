@@ -1,8 +1,6 @@
 import {useEffect} from "react";
-import {useAppCallbacks} from "@application/providers/callbacks";
-import {eventSubscription} from "@shared";
+import {eventSubscription, useAppCallbacks, useModalProvider} from "@shared";
 import {useBasketballStore} from "../state-manager/basketballStore";
-import {useModalStore} from "@application/providers/modal";
 import {LOSE, WIN} from "../../constants/events";
 import {gameSpaceStore} from "../storages/gameSpace";
 import content from "../../constants/content";
@@ -11,8 +9,8 @@ const {endModal} = content;
 
 export function useEndGame() {
   const {wrapper} = useBasketballStore();
-  const {add} = useModalStore();
   const {redirect} = useAppCallbacks();
+  const {names, add} = useModalProvider();
 
   useEffect(() => {
     if (!wrapper) return;
@@ -30,7 +28,7 @@ export function useEndGame() {
             const {
               gameData: {story, pureCount, score},
             } = gameSpaceStore.gameSpace;
-            const modalData = endModal({wrapper, redirect, score, pureCount, status, story});
+            const modalData = endModal({wrapper, modalNames: names, redirect, score, pureCount, status, story});
             add(modalData);
           },
         },

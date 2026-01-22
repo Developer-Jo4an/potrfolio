@@ -5,12 +5,10 @@ import {GAME} from "./game";
 import {MAIN_CONTAINER} from "./mainContainer";
 import {ROAD_CHUNK} from "./roadChunk";
 import {BONUS} from "./bonus";
-import {SPIKE} from "./spike";
+import {BLOCK} from "./block";
 import {CAR_STATE_MACHINE} from "../stateMachine";
 import {ROAD_CHUNKS_CONTAINER} from "./roadChunksContainer";
-import {getDefaultState, Collider, Matrix3Component, PixiComponent} from "@shared";
-import {State} from "@/shared/scene/src/ecs/base/components/state/State"; //TODO: поправить импорт
-import {Collection} from "@/shared/scene/src/ecs/base/components/data/Collection"; //TODO: поправить импорт
+import {getDefaultState, Collider, State, Collection, Matrix3Component, PixiComponent} from "@shared";
 
 export const types = {
   [GAME]: {components: [{Class: State, props: {states: CAR_STATE_MACHINE}}, {Class: Game}]},
@@ -35,5 +33,5 @@ export const types = {
     ],
   },
   [BONUS]: {components: [{Class: PixiComponent}, {Class: Collection}, {Class: Matrix3Component}, {Class: Collider}]},
-  [SPIKE]: {components: [{Class: PixiComponent}, {Class: Collection}, {Class: Matrix3Component}, {Class: Collider}]},
+  [BLOCK]: {components: [{Class: PixiComponent}, {Class: Collection}, {Class: Matrix3Component}, {Class: Collider}]},
 };

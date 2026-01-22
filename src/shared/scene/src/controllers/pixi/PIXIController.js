@@ -66,7 +66,6 @@ export class PIXIController extends BaseController {
   async init() {
     await super.init();
     await this.initDecorators();
-    this.prepare();
   }
 
   async initScene() {

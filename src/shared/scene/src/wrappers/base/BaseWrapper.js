@@ -28,7 +28,11 @@ export class BaseWrapper {
     if (!isInitialized) {
       this.isInitialized = true;
       await controller.init();
+      controller.prepare();
       return controller;
-    } else return controller;
+    } else {
+      controller.prepare();
+      return controller;
+    }
   }
 }

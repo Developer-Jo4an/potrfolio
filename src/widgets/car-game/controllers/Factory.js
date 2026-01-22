@@ -4,7 +4,7 @@ import {CHARACTER} from "../constants/entities/character";
 import {MAIN_CONTAINER} from "../constants/entities/mainContainer";
 import {ROAD_CHUNK} from "../constants/entities/roadChunk";
 import {BONUS} from "../constants/entities/bonus";
-import {SPIKE} from "../constants/entities/spike";
+import {BLOCK} from "../constants/entities/block";
 import {ROAD_CHUNKS_CONTAINER} from "../constants/entities/roadChunksContainer";
 import {PIXI_SPACE, TEXTURE, assetsManager, Factory} from "@shared";
 
@@ -199,42 +199,42 @@ export class CarFactory extends Factory {
   }
 
   /**
-   * spike
+   * block
    */
-  [`reset${upperFirst(SPIKE)}`](spikeSprite) {
-    resetPixiObject(spikeSprite);
+  [`reset${upperFirst(BLOCK)}`](blockSprite) {
+    resetPixiObject(blockSprite);
   }
 
-  [`prepare${upperFirst(SPIKE)}`](spikeSprite) {
+  [`prepare${upperFirst(BLOCK)}`](blockSprite) {
     const {
       defaultProperties: {
         storage: {
           mainSceneSettings: {
-            spike: {anchor},
+            block: {anchor},
           },
         },
       },
     } = this;
-    spikeSprite.label = SPIKE;
-    spikeSprite.texture = assetsManager.getAssetFromSpace(PIXI_SPACE, TEXTURE, SPIKE);
-    spikeSprite.anchor.set(...anchor);
+    blockSprite.label = BLOCK;
+    blockSprite.texture = assetsManager.getAssetFromSpace(PIXI_SPACE, TEXTURE, BLOCK);
+    blockSprite.anchor.set(...anchor);
   }
 
-  [`create${upperFirst(SPIKE)}`]() {
+  [`create${upperFirst(BLOCK)}`]() {
     const {
       defaultProperties: {
         storage: {
           mainSceneSettings: {
-            spike: {zIndex, anchor},
+            block: {zIndex, anchor},
           },
         },
       },
     } = this;
-    const texture = assetsManager.getAssetFromSpace(PIXI_SPACE, TEXTURE, SPIKE);
-    const spikeSprite = new PIXI.Sprite(texture);
-    spikeSprite.label = SPIKE;
-    spikeSprite.zIndex = zIndex;
-    spikeSprite.anchor.set(...anchor);
-    return spikeSprite;
+    const texture = assetsManager.getAssetFromSpace(PIXI_SPACE, TEXTURE, BLOCK);
+    const blockSprite = new PIXI.Sprite(texture);
+    blockSprite.label = BLOCK;
+    blockSprite.zIndex = zIndex;
+    blockSprite.anchor.set(...anchor);
+    return blockSprite;
   }
 }

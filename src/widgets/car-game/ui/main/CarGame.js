@@ -4,7 +4,7 @@ import {types} from "../../constants/entities";
 import {mainSceneSettings} from "../../constants/mainSceneSettings";
 import {preload} from "../../constants/preload";
 import {CAR_STATE_MACHINE, IGNORE_NEXT_STATES, LOSE} from "../../constants/stateMachine";
-import {BONUSES_COLLISION, SPIKES_COLLISION} from "../../constants/events";
+import {BONUSES_COLLISION, BLOCKS_COLLISION} from "../../constants/events";
 import {imports, Image, useResetScene, useStateControls, eventSubscription, useLoadScene} from "@shared";
 import styles from "./CarGame.module.scss";
 
@@ -46,7 +46,7 @@ export function CarGame() {
         target: wrapper.eventBus,
         callbacksBus: [
           {event: BONUSES_COLLISION, callback: ({count}) => {}},
-          {event: SPIKES_COLLISION, callback: ({count}) => {}},
+          {event: BLOCKS_COLLISION, callback: ({count}) => {}},
         ],
       });
   }, [wrapper]);

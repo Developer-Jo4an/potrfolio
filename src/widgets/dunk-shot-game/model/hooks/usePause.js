@@ -1,6 +1,4 @@
-import {useAppCallbacks} from "@application/providers/callbacks";
-import {MODAL_NAMES, useModalStore} from "@application/providers/modal";
-import {INDEX, OFF, ON} from "@shared";
+import {useAppCallbacks, useModalProvider, INDEX, OFF, ON} from "@shared";
 import {useDunkShotStore} from "../state-manager/dunkShotStore";
 import {DUNK_SHOT_STATE_MACHINE, PAUSE, PLAYING} from "../../constants/stateMachine";
 import {MODES} from "@features/pause-modal";
@@ -14,8 +12,8 @@ export function usePause() {
     gameData: {state},
     wrapper,
   } = useDunkShotStore();
-  const {add, close} = useModalStore();
   const {redirect} = useAppCallbacks();
+  const {names, add, close} = useModalProvider();
 
   const isCanPressPause = DUNK_SHOT_STATE_MACHINE[state]?.availableStates?.includes?.(PAUSE);
 
@@ -25,7 +23,7 @@ export function usePause() {
     const {
       value: {id: modalId},
     } = add({
-      type: MODAL_NAMES.pauseModal,
+      type: names.pauseModal,
       isCloseOnBackground: true,
       props: {
         mod: MODES.ocean,

@@ -1,9 +1,9 @@
 import {eventSubscription} from "../../../../../lib";
-import {MOUSE_ENTER, MOVE, TOUCH_START} from "../../../../../constants";
 import {importPixi} from "../../../../../scene";
+import {getEventPosition} from "../../../../../lib";
+import {MOUSE_ENTER, MOVE, TOUCH_START} from "../../../../../constants";
 import {sceneInitConfig} from "../../config/sceneInitConfig";
 import {trailTextureSrc} from "../../constants/assets";
-import {getEventPosition} from "../../../../../lib";
 
 export class BaseMouseTrailController {
   _isActive = false;

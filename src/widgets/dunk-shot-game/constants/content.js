@@ -1,5 +1,4 @@
 import {getDefaultState, INDEX, OFF, ON} from "@shared";
-import {MODAL_NAMES} from "@application/providers/modal";
 import {MODS} from "@features/game-end-modal";
 import {DUNK_SHOT_STATE_MACHINE, LOSE, WIN} from "./stateMachine";
 import {WINGS, EXTRA_LIFE, X2} from "./boosters";
@@ -56,9 +55,9 @@ export default {
     },
     sound: {background: {src: "widgets/dunk-shot-game/control-button-background.png"}},
   },
-  endModal({status, wrapper, score, story, pureCount, redirect}) {
+  endModal({status, modalNames, wrapper, score, story, pureCount, redirect}) {
     return {
-      type: MODAL_NAMES.gameEndModal,
+      type: modalNames.gameEndModal,
       props: {
         background: {src: "widgets/game-cards/backgrounds/dunkShot.png"},
         title: {text: {[WIN]: "Победа", [LOSE]: "Поражение"}[status], status, mod: MODS.ocean},

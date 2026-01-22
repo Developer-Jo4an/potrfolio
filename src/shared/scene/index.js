@@ -84,7 +84,6 @@ export * from "./src/loaders/three/ThreeLoader";
 
 export * from "./src/model/hooks/useLoadScene";
 export * from "./src/model/hooks/useResetScene";
-export * from "./src/model/hooks/useStateController";
 export * from "./src/model/hooks/useStateControls";
 
 export * from "./src/performance/ecs/ECSPlugin";

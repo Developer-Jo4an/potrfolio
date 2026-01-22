@@ -28,3 +28,5 @@ export * from "./src/random/chance";
 export * from "./src/random/getRandomIntFromRange";
 
 export * from "./src/styles/dataAttrs";
+
+export * from "./src/image/load";

@@ -23,5 +23,5 @@ export const mainSceneSettings = {
     anchor: [0.5, 1],
   },
   bonus: {chance: 1, zIndex: 1, width: 30, height: 30, anchor: [0.5, 0.5]},
-  spike: {chance: 1, zIndex: 1, width: 30, height: 30, anchor: [0.5, 0.5]},
+  block: {chance: 1, zIndex: 1, width: 30, height: 30, anchor: [0.5, 0.5]},
 };

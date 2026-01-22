@@ -1,7 +1,4 @@
-import {useAppCallbacks} from "@application/providers/callbacks";
-import {useModalStore} from "@application/providers/modal";
-import {MODAL_NAMES} from "@application/providers/modal";
-import {OFF, ON, INDEX} from "@shared";
+import {OFF, ON, INDEX, useAppCallbacks, useModalProvider} from "@shared";
 import content from "../../constants/content";
 import {BASKETBALL_STATE_MACHINE, PAUSED, PLAYING} from "../../constants/stateMachine";
 import {useBasketballStore} from "../state-manager/basketballStore";
@@ -13,8 +10,8 @@ const {
 
 export function usePause() {
   const {wrapper, state} = useBasketballStore();
-  const {add, close} = useModalStore();
   const {redirect} = useAppCallbacks();
+  const {names, add, close} = useModalProvider();
 
   const isCanPressPause = BASKETBALL_STATE_MACHINE[state]?.availableStates.includes(PAUSED);
 
@@ -24,7 +21,7 @@ export function usePause() {
     const {
       value: {id: modalId},
     } = add({
-      type: MODAL_NAMES.pauseModal,
+      type: names.pauseModal,
       isCloseOnBackground: true,
       props: {
         mod: MODES.orange,

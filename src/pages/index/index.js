@@ -1,5 +1,6 @@
 import {RootLayout} from "./ui/layout/RootLayout";
 import {Adjustable} from "./ui/main/Adjustable";
+import {Template} from "./ui/template/Template";
 
 const layoutMetadata = {
   title: "portfolio | main page",
@@ -19,4 +20,4 @@ const viewport = {
 
 const adjustableMetadata = {};
 
-export {layoutMetadata, adjustableMetadata, viewport, RootLayout, Adjustable};
+export {layoutMetadata, Template, adjustableMetadata, viewport, RootLayout, Adjustable};

@@ -4,9 +4,9 @@ import {getIsInsideCanvas} from "../../utils/helpers/getIsInsideCanvas";
 import {CHARACTER} from "../../constants/entities/character";
 import {MAIN_CONTAINER} from "../../constants/entities/mainContainer";
 import {ROAD_CHUNK} from "../../constants/entities/roadChunk";
-import {CHARACTER_WITH_BONUSES, CHARACTER_WITH_ROAD_CHUNK, CHARACTER_WITH_SPIKES} from "../../constants/collision";
+import {CHARACTER_WITH_BONUSES, CHARACTER_WITH_ROAD_CHUNK, CHARACTER_WITH_BLOCKS} from "../../constants/collision";
 import {BONUS} from "../../constants/entities/bonus";
-import {SPIKE} from "../../constants/entities/spike";
+import {BLOCK} from "../../constants/entities/block";
 import {ROAD_CHUNKS_CONTAINER} from "../../constants/entities/roadChunksContainer";
 import {Chunk} from "../components/Chunk";
 import {
@@ -258,47 +258,47 @@ export class Level extends System {
     ]);
   }
 
-  initSpike(roadChunkEntity) {
+  initBlock(roadChunkEntity) {
     const {
       eventBus,
       storage: {
         mainSceneSettings: {
-          spike: {width, height, chance: spikeChance},
+          block: {width, height, chance: blockChance},
         },
       },
     } = this;
 
-    if (!chance(spikeChance)) return;
+    if (!chance(blockChance)) return;
 
     const mainContainerEntity = this.getFirstEntityByType(MAIN_CONTAINER);
     const mainContainerPixiComponent = mainContainerEntity.get(PixiComponent);
-    const spikeEntity = new Entity({eventBus, type: SPIKE}).init();
-    const spikeMatrix3Component = spikeEntity.get(Matrix3Component);
-    const spikePixiComponent = spikeEntity.get(PixiComponent);
-    spikePixiComponent.pixiObject = this.getAsset(spikeEntity, SPIKE);
-    spikeMatrix3Component.scaleX = width / spikePixiComponent.pixiObject.width;
-    spikeMatrix3Component.scaleY = height / spikePixiComponent.pixiObject.height;
+    const blockEntity = new Entity({eventBus, type: BLOCK}).init();
+    const blockMatrix3Component = blockEntity.get(Matrix3Component);
+    const blockPixiComponent = blockEntity.get(PixiComponent);
+    blockPixiComponent.pixiObject = this.getAsset(blockEntity, BLOCK);
+    blockMatrix3Component.scaleX = width / blockPixiComponent.pixiObject.width;
+    blockMatrix3Component.scaleY = height / blockPixiComponent.pixiObject.height;
     const {
       points: {startPointFirst, startPointSecond, endPointFirst, endPointSecond},
     } = roadChunkEntity.get(Chunk);
-    const spikeViewWidthHalf = width / 2;
-    const spikeViewHeightHalf = height / 2;
+    const blockViewWidthHalf = width / 2;
+    const blockViewHeightHalf = height / 2;
     const allowedSpawnArea = [
-      {x: startPointFirst.x + spikeViewWidthHalf, y: startPointFirst.y - spikeViewHeightHalf},
-      {x: startPointSecond.x - spikeViewWidthHalf, y: startPointSecond.y - spikeViewHeightHalf},
-      {x: endPointFirst.x - spikeViewWidthHalf, y: endPointFirst.y + spikeViewHeightHalf},
-      {x: endPointSecond.x + spikeViewWidthHalf, y: endPointSecond.y + spikeViewHeightHalf},
+      {x: startPointFirst.x + blockViewWidthHalf, y: startPointFirst.y - blockViewHeightHalf},
+      {x: startPointSecond.x - blockViewWidthHalf, y: startPointSecond.y - blockViewHeightHalf},
+      {x: endPointFirst.x - blockViewWidthHalf, y: endPointFirst.y + blockViewHeightHalf},
+      {x: endPointSecond.x + blockViewWidthHalf, y: endPointSecond.y + blockViewHeightHalf},
     ];
     const spawnPosition = getRandomPointInQuadrilateralBilinear(...allowedSpawnArea);
-    spikeMatrix3Component.x = spawnPosition.x;
-    spikeMatrix3Component.y = spawnPosition.y;
-    mainContainerPixiComponent.pixiObject.addChild(spikePixiComponent.pixiObject);
-    const spikeSatColliderComponent = spikeEntity.get(Collider);
-    spikeSatColliderComponent.object = new SAT.Polygon(new SAT.Vector(0, 0), [
-      new SAT.Vector(spikeMatrix3Component.x - spikeViewWidthHalf, spikeMatrix3Component.y + spikeViewHeightHalf),
-      new SAT.Vector(spikeMatrix3Component.x + spikeViewWidthHalf, spikeMatrix3Component.y + spikeViewHeightHalf),
-      new SAT.Vector(spikeMatrix3Component.x + spikeViewWidthHalf, spikeMatrix3Component.y - spikeViewHeightHalf),
-      new SAT.Vector(spikeMatrix3Component.x - spikeViewWidthHalf, spikeMatrix3Component.y - spikeViewHeightHalf),
+    blockMatrix3Component.x = spawnPosition.x;
+    blockMatrix3Component.y = spawnPosition.y;
+    mainContainerPixiComponent.pixiObject.addChild(blockPixiComponent.pixiObject);
+    const blockSatColliderComponent = blockEntity.get(Collider);
+    blockSatColliderComponent.object = new SAT.Polygon(new SAT.Vector(0, 0), [
+      new SAT.Vector(blockMatrix3Component.x - blockViewWidthHalf, blockMatrix3Component.y + blockViewHeightHalf),
+      new SAT.Vector(blockMatrix3Component.x + blockViewWidthHalf, blockMatrix3Component.y + blockViewHeightHalf),
+      new SAT.Vector(blockMatrix3Component.x + blockViewWidthHalf, blockMatrix3Component.y - blockViewHeightHalf),
+      new SAT.Vector(blockMatrix3Component.x - blockViewWidthHalf, blockMatrix3Component.y - blockViewHeightHalf),
     ]);
   }
 
@@ -331,7 +331,7 @@ export class Level extends System {
       this.initRoadChunkSatComponent(props);
       this.initRoadChunkMatrix3Component(props);
       this.initBonus(roadChunkEntity);
-      this.initSpike(roadChunkEntity);
+      this.initBlock(roadChunkEntity);
     }
   }
 
@@ -425,14 +425,14 @@ export class Level extends System {
   }
 
   /**
-   * spike
+   * block
    */
-  checkOnCollisionWithSpikes({characterEntity}) {
+  checkOnCollisionWithBlocks({characterEntity}) {
     const characterCollisionComponents = characterEntity.getList(CollisionComponent);
-    const characterCollisionWithSpikes = characterCollisionComponents.find(
-      ({group}) => group === CHARACTER_WITH_SPIKES,
+    const characterCollisionWithBlocks = characterCollisionComponents.find(
+      ({group}) => group === CHARACTER_WITH_BLOCKS,
     );
-    if (characterCollisionWithSpikes) characterCollisionWithSpikes.collisionList.forEach((entity) => entity.destroy());
+    if (characterCollisionWithBlocks) characterCollisionWithBlocks.collisionList.forEach((entity) => entity.destroy());
   }
 
   updateRoadChunksContainerMask() {
@@ -464,7 +464,7 @@ export class Level extends System {
     const roadChunksContainerEntity = this.getFirstEntityByType(ROAD_CHUNKS_CONTAINER);
     const roadChunkEntities = this.getEntitiesByType(ROAD_CHUNK).list;
     const bonusEntities = this.getEntitiesByType(BONUS).list;
-    const spikeEntities = this.getEntitiesByType(SPIKE).list;
+    const blockEntities = this.getEntitiesByType(BLOCK).list;
 
     const fullArguments = {
       characterEntity,
@@ -475,10 +475,10 @@ export class Level extends System {
     };
 
     this.checkOnCollisionWithBonuses(fullArguments);
-    this.checkOnCollisionWithSpikes(fullArguments);
+    this.checkOnCollisionWithBlocks(fullArguments);
 
     const isDestroyedBonuses = this.checkOnIsInsideCanvasAndDestroy(bonusEntities);
-    const isDestroyedSpikes = this.checkOnIsInsideCanvasAndDestroy(spikeEntities);
+    const isDestroyedBlocks = this.checkOnIsInsideCanvasAndDestroy(blockEntities);
     const isDestroyedRoadChunks = this.checkOnRoadChunksIsInsideInCanvasAndDestroy(fullArguments);
 
     const isAddedEntities = this.checkOnAddEntities(fullArguments);

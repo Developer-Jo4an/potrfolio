@@ -1,10 +1,10 @@
 import {CHARACTER} from "../../constants/entities/character";
 import {ROAD_CHUNK} from "../../constants/entities/roadChunk";
-import {CHARACTER_WITH_BONUSES, CHARACTER_WITH_ROAD_CHUNK, CHARACTER_WITH_SPIKES} from "../../constants/collision";
-import {BONUSES_COLLISION, SPIKES_COLLISION} from "../../constants/events";
+import {CHARACTER_WITH_BONUSES, CHARACTER_WITH_ROAD_CHUNK, CHARACTER_WITH_BLOCKS} from "../../constants/collision";
+import {BONUSES_COLLISION, BLOCKS_COLLISION} from "../../constants/events";
 import {BONUS} from "../../constants/entities/bonus";
 import {GAME} from "../../constants/entities/game";
-import {SPIKE} from "../../constants/entities/spike";
+import {BLOCK} from "../../constants/entities/block";
 import {LOSE} from "../../constants/stateMachine";
 import {STATE_DECORATOR_FIELD, EventComponent, Collider, Matrix3Component, CollisionComponent, System} from "@shared";
 
@@ -27,7 +27,7 @@ export class Collision extends System {
 
   updateBonusCollider() {}
 
-  updateSpikeCollider() {}
+  updateBlockCollider() {}
 
   getCollisionEntities(characterPolygon, entities) {
     return entities.filter((entity) => {
@@ -36,7 +36,7 @@ export class Collision extends System {
     });
   }
 
-  checkCharacterCollision({characterEntity, roadChunkEntities, bonusEntities, spikeEntities}) {
+  checkCharacterCollision({characterEntity, roadChunkEntities, bonusEntities, blockEntities}) {
     const {
       eventBus,
       storage: {decorators},
@@ -68,14 +68,14 @@ export class Collision extends System {
       characterEntity.add(characterCollisionComponent);
     }
 
-    const collidedSpikes = this.getCollisionEntities(characterPolygon, spikeEntities);
-    if (!!collidedSpikes?.length) {
+    const collidedBlocks = this.getCollisionEntities(characterPolygon, blockEntities);
+    if (!!collidedBlocks?.length) {
       const characterCollisionComponent = new CollisionComponent({
         eventBus,
-        group: CHARACTER_WITH_SPIKES,
-        collision: {collisionList: collidedSpikes},
+        group: CHARACTER_WITH_BLOCKS,
+        collision: {collisionList: collidedBlocks},
       });
-      const event = new EventComponent({eventBus, type: SPIKES_COLLISION, data: collidedSpikes});
+      const event = new EventComponent({eventBus, type: BLOCKS_COLLISION, data: collidedBlocks});
       characterEntity.add(event);
       characterEntity.add(characterCollisionComponent);
     }
@@ -86,13 +86,13 @@ export class Collision extends System {
     const characterEntity = this.getFirstEntityByType(CHARACTER);
     const roadChunkEntities = this.getEntitiesByType(ROAD_CHUNK).list;
     const bonusEntities = this.getEntitiesByType(BONUS).list;
-    const spikeEntities = this.getEntitiesByType(SPIKE).list;
-    const fullArguments = {gameEntity, characterEntity, roadChunkEntities, bonusEntities, spikeEntities, arguments};
+    const blockEntities = this.getEntitiesByType(BLOCK).list;
+    const fullArguments = {gameEntity, characterEntity, roadChunkEntities, bonusEntities, blockEntities, arguments};
     this.clearCollisionComponents(fullArguments);
     this.updateCharacterCollider(fullArguments);
     this.updateRoadChunksCollider(fullArguments);
     this.updateBonusCollider(fullArguments);
-    this.updateSpikeCollider(fullArguments);
+    this.updateBlockCollider(fullArguments);
     this.checkCharacterCollision(fullArguments);
   }
 }
