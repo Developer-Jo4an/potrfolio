@@ -4,6 +4,7 @@ import {ProviderComposer, ApiProvider, SizeProvider, CallbacksProvider, ModalPro
 import {RequestsLoader} from "@entities/request-loader";
 import {MODAL_NAMES, modals} from "../../constants/providers/modals";
 import "@/shared/scene/src/lib/import/gsap/gsap-global";
+import "@/shared/scene/src/lib/import/pixi/pixi-global";
 
 export function MainLayout({children}) {
   const providers = useMemo(
