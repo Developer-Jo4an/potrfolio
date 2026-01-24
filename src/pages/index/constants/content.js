@@ -1,5 +1,9 @@
 export default {
-  background: {
-    src: "layouts/root/template-background.png",
-  },
+  notFound: {
+    error: "404",
+    button: {
+      text: "На главную",
+      isDisposable: true
+    }
+  }
 };

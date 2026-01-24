@@ -1,5 +1,5 @@
 "use client";
-import {GameCards} from "../../../../widgets/game-cards";
+import {GameCards} from "@widgets/game-cards";
 import styles from "./Adjustable.module.scss";
 
 function Adjustable() {

@@ -1,6 +1,7 @@
-import {RootLayout} from "./ui/layout/RootLayout";
-import {Adjustable} from "./ui/main/Adjustable";
-import {Template} from "./ui/template/Template";
+import {RootLayout} from "./next/layout/RootLayout";
+import {Adjustable} from "./next/page/Adjustable";
+import {Template} from "./next/template/Template";
+import {NotFound} from "./next/not-found/NotFound";
 
 const layoutMetadata = {
   title: "portfolio | main page",
@@ -20,4 +21,4 @@ const viewport = {
 
 const adjustableMetadata = {};
 
-export {layoutMetadata, Template, adjustableMetadata, viewport, RootLayout, Adjustable};
+export {layoutMetadata, Template, adjustableMetadata, viewport, NotFound, RootLayout, Adjustable};
