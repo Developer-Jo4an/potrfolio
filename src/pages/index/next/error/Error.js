@@ -10,14 +10,13 @@ export function Error() {
 
   useEffect(() => {
     return createInterval(() => {
-      setCounter(prev => Math.max(0, --prev));
+      setCounter((prev) => Math.max(0, --prev));
     }, 1000);
   }, []);
 
   useEffect(() => {
-    if (counter === 0)
-      window.location.reload();
+    if (counter === 0) window.location.reload();
   }, [counter]);
 
-  return <ErrorMessage message={error.message.replace(SPLITTER, counter.toString())}/>;
+  return <ErrorMessage message={error.message.replace(SPLITTER, counter.toString())} />;
 }

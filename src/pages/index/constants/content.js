@@ -5,11 +5,11 @@ export default {
     error: "404",
     button: {
       text: "На главную",
-      isDisposable: true
-    }
+      isDisposable: true,
+    },
   },
   error: {
     seconds: 5,
-    message: `ОШИБКА! Reload ${SPLITTER}с.`
-  }
+    message: `ОШИБКА! Reload ${SPLITTER}с.`,
+  },
 };

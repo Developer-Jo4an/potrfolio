@@ -6,7 +6,7 @@ import {Error} from "./next/error/Error";
 
 const layoutMetadata = {
   title: "portfolio | main page",
-  description: "portfolio"
+  description: "portfolio",
 };
 
 const viewport = {
@@ -17,7 +17,7 @@ const viewport = {
   minimumScale: 1,
   userScalable: false,
   viewportFit: "cover",
-  target: "densitydpi=medium-dpi"
+  target: "densitydpi=medium-dpi",
 };
 
 const adjustableMetadata = {};
