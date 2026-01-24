@@ -3,8 +3,8 @@ import {Image, Button} from "@shared";
 import {useRouter} from "next/navigation";
 import {motion} from "framer-motion";
 import {notFoundAnimation} from "../../constants/animations";
-import styles from "./NotFound.module.scss";
 import content from "../../constants/content";
+import styles from "./NotFound.module.scss";
 
 const {notFound: {error, button}} = content;
 
