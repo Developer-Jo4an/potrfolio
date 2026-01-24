@@ -2,10 +2,11 @@ import {RootLayout} from "./next/layout/RootLayout";
 import {Adjustable} from "./next/page/Adjustable";
 import {Template} from "./next/template/Template";
 import {NotFound} from "./next/not-found/NotFound";
+import {Error} from "./next/error/Error";
 
 const layoutMetadata = {
   title: "portfolio | main page",
-  description: "portfolio",
+  description: "portfolio"
 };
 
 const viewport = {
@@ -16,9 +17,9 @@ const viewport = {
   minimumScale: 1,
   userScalable: false,
   viewportFit: "cover",
-  target: "densitydpi=medium-dpi",
+  target: "densitydpi=medium-dpi"
 };
 
 const adjustableMetadata = {};
 
-export {layoutMetadata, Template, adjustableMetadata, viewport, NotFound, RootLayout, Adjustable};
+export {layoutMetadata, Template, adjustableMetadata, viewport, NotFound, Error, RootLayout, Adjustable};

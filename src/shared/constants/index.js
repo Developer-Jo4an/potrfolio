@@ -30,3 +30,5 @@ export * from "./src/statuses/statuses";
 export * from "./src/trigonometry/trigonometry";
 
 export * from "./src/urls/baseUrl";
+
+export * from "./src/string/format";
