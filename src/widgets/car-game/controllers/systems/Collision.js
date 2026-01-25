@@ -1,12 +1,12 @@
 import {CHARACTER} from "../../constants/entities/character";
 import {ROAD_CHUNK} from "../../constants/entities/roadChunk";
-import {CHARACTER_WITH_BONUSES, CHARACTER_WITH_ROAD_CHUNK, CHARACTER_WITH_BLOCKS} from "../../constants/collision";
-import {BONUSES_COLLISION, BLOCKS_COLLISION} from "../../constants/events";
+import {CHARACTER_WITH_BLOCKS, CHARACTER_WITH_BONUSES, CHARACTER_WITH_ROAD_CHUNK} from "../../constants/collision";
+import {BLOCKS_COLLISION, BONUSES_COLLISION} from "../../constants/events";
 import {BONUS} from "../../constants/entities/bonus";
 import {GAME} from "../../constants/entities/game";
 import {BLOCK} from "../../constants/entities/block";
 import {LOSE} from "../../constants/stateMachine";
-import {STATE_DECORATOR_FIELD, EventComponent, Collider, Matrix3Component, CollisionComponent, System} from "@shared";
+import {Collider, CollisionComponent, EventComponent, Matrix3Component, STATE_DECORATOR_FIELD, System} from "@shared";
 
 export class Collision extends System {
   clearCollisionComponents({characterEntity}) {
@@ -23,13 +23,16 @@ export class Collision extends System {
     characterPolygon.setAngle(characterMatrix3Component.rotation);
   }
 
-  updateRoadChunksCollider() {}
+  updateRoadChunksCollider() {
+  }
 
-  updateBonusCollider() {}
+  updateBonusCollider() {
+  }
 
-  updateBlockCollider() {}
+  updateBlockCollider() {
+  }
 
-  getCollisionEntities(characterPolygon, entities) {
+  getCollisionEntities(characterPolygon, entities, type) {
     return entities.filter((entity) => {
       const roadChunkPolygon = entity.get(Collider).object;
       return SAT.testPolygonPolygon(characterPolygon, roadChunkPolygon);
@@ -39,11 +42,11 @@ export class Collision extends System {
   checkCharacterCollision({characterEntity, roadChunkEntities, bonusEntities, blockEntities}) {
     const {
       eventBus,
-      storage: {decorators},
+      storage: {decorators}
     } = this;
     const characterPolygon = characterEntity.get(Collider).object;
 
-    const collidedRoads = this.getCollisionEntities(characterPolygon, roadChunkEntities);
+    const collidedRoads = this.getCollisionEntities(characterPolygon, roadChunkEntities, "road");
     if (!collidedRoads?.length) {
       const stateDecorator = decorators[STATE_DECORATOR_FIELD];
       stateDecorator.state = LOSE;
@@ -51,7 +54,7 @@ export class Collision extends System {
       const characterCollisionComponent = new CollisionComponent({
         eventBus,
         group: CHARACTER_WITH_ROAD_CHUNK,
-        collision: {collisionList: collidedRoads},
+        collision: {collisionList: collidedRoads}
       });
       characterEntity.add(characterCollisionComponent);
     }
@@ -61,7 +64,7 @@ export class Collision extends System {
       const characterCollisionComponent = new CollisionComponent({
         eventBus,
         group: CHARACTER_WITH_BONUSES,
-        collision: {collisionList: collidedBonuses},
+        collision: {collisionList: collidedBonuses}
       });
       const event = new EventComponent({eventBus, type: BONUSES_COLLISION, data: collidedBonuses});
       characterEntity.add(event);
@@ -73,7 +76,7 @@ export class Collision extends System {
       const characterCollisionComponent = new CollisionComponent({
         eventBus,
         group: CHARACTER_WITH_BLOCKS,
-        collision: {collisionList: collidedBlocks},
+        collision: {collisionList: collidedBlocks}
       });
       const event = new EventComponent({eventBus, type: BLOCKS_COLLISION, data: collidedBlocks});
       characterEntity.add(event);

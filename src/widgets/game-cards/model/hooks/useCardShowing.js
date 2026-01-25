@@ -1,5 +1,6 @@
-import {cardsAnimationSettings, cardsConfig, gameList} from "../../config/cardsConfig";
+import {cardsConfig, gameList} from "../../config/cardsConfig";
 import {useGamesStore} from "../state-manager/gamesStore";
+import {cardsAnimationSettings} from "../../constants/animations";
 import {useLayoutEffect} from "react";
 
 export function useCardShowing({gameCards}) {

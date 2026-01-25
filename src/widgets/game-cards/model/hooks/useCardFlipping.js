@@ -2,7 +2,8 @@ import {useEffect} from "react";
 import {useSwipeable} from "react-swipeable";
 import {CENTER, LEFT, RIGHT, ACTIVE, INACTIVE} from "@shared";
 import {useGamesStore} from "../state-manager/gamesStore";
-import {cardsAnimationSettings, cardsConfig, gameList} from "../../config/cardsConfig";
+import {cardsConfig, gameList} from "../../config/cardsConfig";
+import {cardsAnimationSettings} from "../../constants/animations";
 
 export function useCardFlipping({gameCards}) {
   const {activeGame, leftGame, rightGame, isShowing, lastSwipeDirection, onSwipe} = useGamesStore();

@@ -4,6 +4,6 @@ export const ROUTES = {
   dunkShot: "/dunk-shot",
   car: "/car",
   mario: "/mario",
-  fruits: "/fruits",
+  tileExplorer: "/tile-explorer",
   drive: "/drive"
 };

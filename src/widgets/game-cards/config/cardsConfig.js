@@ -7,11 +7,6 @@ export const cardsConfig = {
   inactiveGame: {translateX: 0, translateY: 0, translateZ: -1000, rotateX: 0, rotateY: 0, rotateZ: 0}
 };
 
-export const cardsAnimationSettings = {
-  showing: {activeGame: 0.3, leftGame: 0.55, rightGame: 0.8},
-  flipping: {leftcenter: {translateX: -200, translateZ: -250}, rightcenter: {translateX: 200, translateZ: -250}}
-};
-
 export const gameList = [
   {
     id: "dunkShot",
@@ -38,10 +33,10 @@ export const gameList = [
     description: "Машинка - что-то типо geometry dash, ecs, pixi.js, sat.js"
   },
   {
-    id: "fruits",
-    title: "Фрукты",
-    route: ROUTES.fruits,
-    description: "Фрукты - игра на pixi.js + matter.js"
+    id: "tileExplorer",
+    title: "Tile explorer",
+    route: ROUTES.tileExplorer,
+    description: "Tile explorer"
   },
   {
     id: "drive",

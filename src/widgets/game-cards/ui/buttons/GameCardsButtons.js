@@ -16,7 +16,7 @@ export function GameCardsButtons() {
 
   return (
     <div className={styles.gameCardsButtons}>
-      <Link prefetch={true} href={href} className={cl(styles.gameCardButton, styles[`gameCardButton${upperFirst(activeGame)}`])}>
+      <Link href={href} className={cl(styles.gameCardButton, styles[`gameCardButton${upperFirst(activeGame)}`])}>
         <span className={styles.gameCardButtonText}>{button.text}</span>
       </Link>
     </div>
