@@ -1,12 +1,13 @@
 import {useRef} from "react";
 import cl from "classnames";
-import {imports, useLoadScene, useStateControls} from "@shared";
+import {imports, useLoadScene, useResetScene, useStateControls} from "@shared";
 import {useTileExplorerStore} from "../../model/state-manager/tileExplorerStore";
 import {IGNORE_NEXT_STATES, STATE_MACHINE} from "../../constants/stateMachine";
 import {types} from "../../constants/types";
 import {MAIN_SCENE_SETTINGS} from "../../constants/mainSceneSettings";
 import {preload} from "../../constants/preload";
 import {LOSE, WIN} from "../../constants/stateMachine";
+import {config} from "../../config/config";
 import styles from "./Canvas.module.scss";
 
 export function Canvas() {
@@ -19,6 +20,7 @@ export function Canvas() {
     beforeInit(wrapper) {
       wrapper.controller.storage.states = STATE_MACHINE;
       wrapper.controller.storage.types = types;
+      wrapper.controller.storage.config = config;
     },
     initProps: {stateMachine: STATE_MACHINE, mainSceneSettings: MAIN_SCENE_SETTINGS, preload},
     afterInit: setWrapper,
@@ -26,6 +28,8 @@ export function Canvas() {
   });
 
   useStateControls(wrapper, STATE_MACHINE, IGNORE_NEXT_STATES, null, setState);
+
+  useResetScene({wrapper});
 
   const isGameEnd = [WIN, LOSE].includes(state);
 

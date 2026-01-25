@@ -1,7 +1,9 @@
 import {TileExplorerFactory} from "./Factory";
+import {Game} from "./systems/Game";
+import {Level} from "./systems/Level";
 import {gameSpaceStore} from "../model/storages/gameSpace";
 import {NOT_AVAILABLE_ENTITIES_TYPES_FOR_RESET} from "../constants/reset";
-import {TILE_EXPLORER} from "../constants/game";
+import {TILE_EXPLORER, GAME_SIZE} from "../constants/game";
 import {
   UPDATE_DECORATOR_FIELD,
   RESIZE,
@@ -61,13 +63,15 @@ export class Controller extends PIXIController {
     storage.eventBus = eventBus;
     storage.app = app;
     storage.decorators = decorators;
+    storage.gameSpace = gameSpaceStore;
     storage.renderer = renderer;
     storage.canvas = canvas;
-    storage.gameSpace = gameSpaceStore;
 
     engine
     .addSystem(new Assets({eventBus, storage, factory: new TileExplorerFactory({eventBus, storage})}))
-    .addSystem(new Collector({eventBus, storage}));
+    .addSystem(new Level({eventBus, storage}))
+    .addSystem(new Collector({eventBus, storage}))
+    .addSystem(new Game({eventBus, storage}));
   }
 
   updateEngine({deltaTime, deltaMS}) {
@@ -81,6 +85,16 @@ export class Controller extends PIXIController {
       state
     } = this;
     return !!states[state]?.isAvailableUpdate;
+  }
+
+  onResized() {
+    const {
+      stage,
+      $container: {offsetWidth: width, offsetHeight: height}
+    } = this;
+    const scale = width / GAME_SIZE.width;
+    stage.scale.set(scale);
+    stage.position.set((width - GAME_SIZE.width * scale) / 2, (height - GAME_SIZE.height * height) / 2);
   }
 
   onUpdated() {
