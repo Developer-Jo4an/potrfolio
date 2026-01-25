@@ -40,6 +40,11 @@ export class TileExplorerFactory extends Factory {
     return asset;
   }
 
+  [createMethod(METHODS.reset, CELL)](asset) {
+    asset.position.set(0, 0);
+    asset.scale.set(0, 0);
+  }
+
   /**
    * cell
    */
@@ -51,10 +56,10 @@ export class TileExplorerFactory extends Factory {
       defaultProperties: {
         storage: {
           mainSceneSettings: {
-            cell: {anchor},
-          },
-        },
-      },
+            cell: {anchor}
+          }
+        }
+      }
     } = this;
 
     const background = new PIXI.Sprite();
@@ -70,6 +75,15 @@ export class TileExplorerFactory extends Factory {
     asset.addChild(sprite);
 
     return asset;
+  }
+
+  [createMethod(METHODS.reset, CELL)](asset) {
+    asset.position.set(0, 0);
+    asset.scale.set(0, 0);
+    asset.children.forEach(child => {
+      child.position.set(0, 0);
+      child.scale.set(0, 0);
+    });
   }
 }
 
