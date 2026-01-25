@@ -2,8 +2,7 @@ import {upperFirst} from "lodash";
 import {MAIN_CONTAINER} from "../../constants/entities/mainContainer";
 import {CHARACTER, DEFAULT} from "../../constants/entities/character";
 import {GAME_SIZE} from "../../constants/game";
-import {Matrix3Component, System} from "@shared";
-import {State} from "@/shared/scene/src/ecs/base/components/state/State"; //TODO: поправить импорт
+import {Matrix3Component, State, System} from "@shared";
 
 export class Camera extends System {
   updateFromCharacter() {

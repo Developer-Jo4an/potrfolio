@@ -1,8 +1,7 @@
 import {CLICK_ON_WINDOW} from "../../constants/events";
 import {GAME} from "../../constants/entities/game";
 import {PLAYING} from "../../constants/stateMachine";
-import {eventSubscription, System, LEFT, RIGHT} from "@shared";
-import {State} from "@/shared/scene/src/ecs/base/components/state/State"; //TODO: поправить импорт
+import {eventSubscription, System, State, LEFT, RIGHT} from "@shared";
 
 export class Input extends System {
   constructor() {

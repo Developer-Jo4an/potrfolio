@@ -5,6 +5,7 @@ import {
   System,
   ThreeComponent,
   EventComponent,
+  State,
   DRAG_END,
   DRAG_MOVE,
   DRAG_START,
@@ -14,7 +15,6 @@ import {
 } from "@shared";
 import {CHARACTER} from "../../constants/character";
 import {GAME} from "../../constants/game";
-import {State} from "@/shared/scene/src/ecs/base/components/state/State"; //TODO: поправить импорт
 
 export class Interactive extends System {
   constructor() {

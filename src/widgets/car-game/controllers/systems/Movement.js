@@ -1,7 +1,6 @@
 import {upperFirst} from "lodash";
 import {CHARACTER, DEFAULT} from "../../constants/entities/character";
-import {LEFT, RIGHT, System, Matrix3Component} from "@shared";
-import {State} from "@/shared/scene/src/ecs/base/components/state/State"; //TODO: поправить импорт
+import {LEFT, RIGHT, System, State, Matrix3Component} from "@shared";
 
 export class Movement extends System {
   updateCharacterMovement() {

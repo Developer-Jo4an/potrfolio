@@ -1,6 +1,6 @@
 "use client";
-import {createInterval, Error as ErrorMessage, SPLITTER} from "@shared";
 import {useEffect, useState} from "react";
+import {createInterval, Error as ErrorMessage, SPLITTER} from "@shared";
 import content from "../../constants/content";
 
 const {error} = content;

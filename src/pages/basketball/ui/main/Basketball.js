@@ -2,12 +2,10 @@
 import {BasketballGame} from "@widgets/basketball-game";
 import styles from "./BasketballGame.module.scss";
 
-function Basketball() {
+export function Basketball() {
   return (
     <section className={styles.basketball}>
       <BasketballGame />
     </section>
   );
 }
-
-export {Basketball};

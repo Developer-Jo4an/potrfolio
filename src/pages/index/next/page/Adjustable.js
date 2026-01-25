@@ -2,12 +2,10 @@
 import {GameCards} from "@widgets/game-cards";
 import styles from "./Adjustable.module.scss";
 
-function Adjustable() {
+export function Adjustable() {
   return (
     <div className={styles.adjustable}>
-      <GameCards />
+      <GameCards/>
     </div>
   );
 }
-
-export {Adjustable};

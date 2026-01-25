@@ -7,7 +7,7 @@ import {Boosters} from "../boosters/Boosters";
 import {usePause} from "../../model/hooks/usePause";
 import {useGetInfo} from "../../model/hooks/useGetInfo";
 import {useEndGame} from "../../model/hooks/useEndGame";
-import {TopMenu} from "../../../../features/top-menu";
+import {TopMenu} from "@features/top-menu";
 import {useBasketballStore} from "../../model/state-manager/basketballStore";
 import {INITIALIZATION, INITIALIZATION_LEVEL} from "../../constants/stateMachine";
 import {gameSpaceStore} from "../../model/storages/gameSpace";

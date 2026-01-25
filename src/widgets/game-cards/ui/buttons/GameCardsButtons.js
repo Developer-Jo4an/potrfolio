@@ -1,10 +1,11 @@
 import cl from "classnames";
-import {Button, useAppCallbacks} from "@shared";
+import {ROUTES, Button, useAppCallbacks} from "@shared";
 import {upperFirst} from "lodash/string";
 import {useGamesStore} from "../../model/state-manager/gamesStore";
-import {buttonContent} from "../../constants/content/buttonContent";
-import {ROUTES} from "../../constants/routes";
+import content from "../../constants/content";
 import styles from "./GameCardsButtons.module.scss";
+
+const {button} = content;
 
 export function GameCardsButtons() {
   const {activeGame} = useGamesStore();
@@ -20,7 +21,7 @@ export function GameCardsButtons() {
       <Button
         className={cl(styles.gameCardButton, styles[`gameCardButton${upperFirst(activeGame)}`])}
         events={{onClick}}>
-        <span className={styles.gameCardButtonText}>{buttonContent.text}</span>
+        <span className={styles.gameCardButtonText}>{button.text}</span>
       </Button>
     </div>
   );

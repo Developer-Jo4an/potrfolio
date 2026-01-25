@@ -4,11 +4,14 @@ import {Button} from "../../button";
 import {Image} from "../../image";
 import {motion} from "framer-motion";
 import {notFoundAnimation} from "../constants/animations";
+import content from "../constants/content";
+
+const {background} = content;
 
 export function Error({error, message, button}) {
   return (
     <div className={styles.error}>
-      <Image src={"app/404.png"} className={styles.background} />
+      <Image {...background} className={styles.background}/>
 
       <div className={styles.messageWrapper}>
         <motion.div {...notFoundAnimation}>
