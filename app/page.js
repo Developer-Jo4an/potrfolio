@@ -1,1 +1,1 @@
-export {Adjustable as default, adjustableMetadata as metadata, viewport} from "@pages/index";
+export {Adjustable as default} from "@pages/index";

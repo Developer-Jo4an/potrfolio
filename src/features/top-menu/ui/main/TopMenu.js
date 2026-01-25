@@ -1,9 +1,9 @@
 import {useImperativeHandle, useRef} from "react";
+import {isNil, isObject} from "lodash";
+import cl from "classnames";
 import {PauseButton} from "@entities/pause-button";
 import {SoundButton} from "@entities/sound-button";
 import {Image} from "@shared";
-import cl from "classnames";
-import {isNil, isObject} from "lodash";
 import styles from "./TopMenu.module.scss";
 
 export function TopMenu({className, pause, sound, lifes, score, children, ref}) {

@@ -4,7 +4,7 @@ import styles from "./BasketballGame.module.scss";
 export function Basketball() {
   return (
     <section className={styles.basketball}>
-      <BasketballGame />
+      <BasketballGame/>
     </section>
   );
 }

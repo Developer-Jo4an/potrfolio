@@ -1,1 +1,1 @@
-export {Car as default, metadata} from "@pages/car";
+export {Car as default} from "@pages/car";

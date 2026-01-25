@@ -1,1 +1,1 @@
-export {RootLayout as default, layoutMetadata as metadata} from "@pages/index";
+export {RootLayout as default, metadata, viewport} from "@pages/index";

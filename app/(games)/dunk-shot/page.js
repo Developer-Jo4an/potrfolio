@@ -1,1 +1,1 @@
-export {DunkShot as default, metadata} from "@pages/dunk-shot";
+export {DunkShot as default} from "@pages/dunk-shot";

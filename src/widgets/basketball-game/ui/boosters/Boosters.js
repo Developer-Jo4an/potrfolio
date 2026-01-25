@@ -1,10 +1,9 @@
 import {useImperativeHandle, useRef} from "react";
 import {Image} from "@shared";
 import {useBoosters} from "../../model/hooks/useBoosters";
-import {BottomMenu} from "../../../../features/bottom-menu";
+import {BottomMenu, MODES} from "@features/bottom-menu";
 import {useBasketballStore} from "../../model/state-manager/basketballStore";
 import {PLAYING} from "../../constants/stateMachine";
-import {MODES} from "../../../../features/bottom-menu";
 import content from "../../constants/content";
 import styles from "./Boosters.module.scss";
 
@@ -37,12 +36,12 @@ export function Boosters({gameSpace, ref}) {
       value: count,
       child: (
         <div className={styles[background.className]}>
-          <Image src={background.src} />
+          <Image src={background.src}/>
         </div>
       ),
-      timeout,
+      timeout
     };
   });
 
-  return <BottomMenu ref={elementsRef} buttons={boosterButtons} mod={MODES.orange} />;
+  return <BottomMenu ref={elementsRef} buttons={boosterButtons} mod={MODES.orange}/>;
 }

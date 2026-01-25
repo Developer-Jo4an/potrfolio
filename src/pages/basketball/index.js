@@ -1,5 +1,1 @@
-import {Basketball} from "./next/page/Basketball";
-
-const metadata = {};
-
-export {metadata, Basketball};
+export {Basketball} from "./next/page/Basketball";

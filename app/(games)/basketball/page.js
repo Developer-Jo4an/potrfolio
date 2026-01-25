@@ -1,1 +1,1 @@
-export {Basketball as default, metadata} from "@pages/basketball";
+export {Basketball as default} from "@pages/basketball";
