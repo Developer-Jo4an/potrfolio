@@ -1,9 +1,9 @@
 import {createStore, ADD, APPLY, DISABLED, RECALCULATE, SET, SUBTRACT} from "@shared";
 import {getDefaultStats} from "../../constants/defaultStats";
-import {getGameConfig} from "../../api/requests";
 import {clamp} from "lodash";
 import {WINGS, EXTRA_LIFE, X2} from "../../constants/boosters";
 import {DUNK_SHOT} from "../../constants/stateManager";
+import {config} from "../../config/config";
 
 const {useStore: useDunkShotStore, selectors} = createStore({
   name: DUNK_SHOT,
@@ -44,7 +44,7 @@ const {useStore: useDunkShotStore, selectors} = createStore({
             gameData.bonusesCount++;
             originSyncActions.setDunkShotScore({state, globalStore}, {action: ADD, value: gameData.progress.max});
           }
-        },
+        }
       };
 
       actions[action]?.(data);
@@ -55,7 +55,7 @@ const {useStore: useDunkShotStore, selectors} = createStore({
       const actions = {
         [ADD]() {
           gameData.pureCount++;
-        },
+        }
       };
 
       actions[action]?.(data);
@@ -69,7 +69,7 @@ const {useStore: useDunkShotStore, selectors} = createStore({
       const actions = {
         [ADD]() {
           gameData.score += value * x2Multiplier;
-        },
+        }
       };
 
       actions[action]?.();
@@ -85,7 +85,7 @@ const {useStore: useDunkShotStore, selectors} = createStore({
         },
         [SUBTRACT]() {
           gameData.lifes = Math.max(0, gameData.lifes - 1);
-        },
+        }
       };
 
       actions[action]?.(data);
@@ -106,7 +106,7 @@ const {useStore: useDunkShotStore, selectors} = createStore({
             originSyncActions.setDunkShotBoosters({state, globalStore}, {action: APPLY, data: X2});
             originSyncActions.setDunkShotBoosters({state, globalStore}, {action: SUBTRACT, data: X2});
           }
-        },
+        }
       };
 
       actions[action]?.(data);
@@ -124,8 +124,8 @@ const {useStore: useDunkShotStore, selectors} = createStore({
             isDisabled: {
               [EXTRA_LIFE]: isDisabled || gameData.lifes >= defaultStats.lifes,
               [X2]: isDisabled,
-              [WINGS]: isDisabled,
-            }[boosterData.name],
+              [WINGS]: isDisabled
+            }[boosterData.name]
           }));
         },
         [RECALCULATE]() {
@@ -134,8 +134,8 @@ const {useStore: useDunkShotStore, selectors} = createStore({
             isDisabled: {
               [EXTRA_LIFE]: boosterData.isDisabled || gameData.lifes >= defaultStats.lifes,
               [X2]: boosterData.isDisabled,
-              [WINGS]: boosterData.isDisabled,
-            }[boosterData.name],
+              [WINGS]: boosterData.isDisabled
+            }[boosterData.name]
           }));
         },
         [APPLY](boosterName) {
@@ -146,48 +146,43 @@ const {useStore: useDunkShotStore, selectors} = createStore({
             },
             [X2]() {
               gameData.boosters = gameData.boosters.map((boosterData) =>
-                boosterData.name !== X2 ? boosterData : {...boosterData, isActive: !boosterData.isActive},
+                boosterData.name !== X2 ? boosterData : {...boosterData, isActive: !boosterData.isActive}
               );
             },
             [WINGS]() {
               actions[SUBTRACT](WINGS);
-            },
+            }
           })[boosterName]?.();
         },
         [SUBTRACT](boosterName) {
           gameData.boosters = gameData.boosters.map((boosterData) =>
             boosterData.name !== boosterName
               ? boosterData
-              : {...boosterData, value: Math.max(0, boosterData.value - 1)},
+              : {...boosterData, value: Math.max(0, boosterData.value - 1)}
           );
-        },
+        }
       };
 
       actions[action]?.(data);
+    },
+    setGameConfig({state}) {
+      state.config = config;
+
+      state.gameData = {
+        ...getDefaultStats(),
+        boosters: Object.entries(config.boosters).map(([key, value]) => ({
+          name: key,
+          value,
+          isActive: false,
+          isDisabled: false
+        }))
+      };
     },
     reset({state}) {
       state.wrapper = null;
       state.config = {};
       state.gameData = {};
-    },
-  },
-  asyncActions: {
-    getGameConfig: {
-      request: getGameConfig,
-      onFulfilled({state}, {data: config}) {
-        state.config = config;
-
-        state.gameData = {
-          ...getDefaultStats(),
-          boosters: Object.entries(config.boosters).map(([key, value]) => ({
-            name: key,
-            value,
-            isActive: false,
-            isDisabled: false,
-          })),
-        };
-      },
-    },
+    }
   },
   interceptors: {},
   selectors: {},
@@ -195,8 +190,8 @@ const {useStore: useDunkShotStore, selectors} = createStore({
     isActiveSomeBooster(state, boosterName) {
       const {gameData} = state;
       return gameData.boosters?.some(({name, isActive}) => isActive && name === boosterName);
-    },
-  },
+    }
+  }
 });
 
 export {useDunkShotStore};

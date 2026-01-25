@@ -1,5 +1,5 @@
 import {CLEAR_HIT, EXTRA_LIFE, X2} from "./boosters";
-import {OFF, ON, INDEX, getDefaultState} from "@shared";
+import {OFF, ON, ROUTES, getDefaultState} from "@shared";
 import {MODS} from "@features/game-end-modal";
 import {BASKETBALL_STATE_MACHINE, LOSE, WIN} from "./stateMachine";
 
@@ -98,7 +98,7 @@ export default {
               modalsData: {close: [{id: "active"}]},
               events: {
                 onClick() {
-                  redirect(INDEX);
+                  redirect(ROUTES.index);
                 },
               },
             },

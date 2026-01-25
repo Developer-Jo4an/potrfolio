@@ -2,13 +2,13 @@ import {useEffect} from "react";
 import {useSwipeable} from "react-swipeable";
 import {CENTER, LEFT, RIGHT, ACTIVE, INACTIVE} from "@shared";
 import {useGamesStore} from "../state-manager/gamesStore";
-import {cardsAnimationSettings, cardsConfig} from "../../config/cardsConfig";
+import {cardsAnimationSettings, cardsConfig, gameList} from "../../config/cardsConfig";
 
 export function useCardFlipping({gameCards}) {
-  const {gameList, activeGame, leftGame, rightGame, isShowing, lastSwipeDirection, onSwipe} = useGamesStore();
+  const {activeGame, leftGame, rightGame, isShowing, lastSwipeDirection, onSwipe} = useGamesStore();
 
   useEffect(() => {
-    if (isShowing || !gameList.length || !lastSwipeDirection) return;
+    if (isShowing || !lastSwipeDirection) return;
 
     const leftIndex = gameList.findIndex(({id}) => id === leftGame);
     const activeIndex = gameList.findIndex(({id}) => id === activeGame);
@@ -80,13 +80,13 @@ export function useCardFlipping({gameCards}) {
       flippingTween.progress(1);
       flippingTween.kill();
     };
-  }, [isShowing, gameList, activeGame, leftGame, rightGame, lastSwipeDirection]);
+  }, [isShowing, activeGame, leftGame, rightGame, lastSwipeDirection]);
 
   return useSwipeable({
     trackMouse: true,
     onSwiped({dir}) {
       const direction = dir.toLowerCase();
-      if (!isShowing && gameList.length && [RIGHT, LEFT].includes(direction)) onSwipe({direction});
+      if (!isShowing && [RIGHT, LEFT].includes(direction)) onSwipe({direction});
     },
   });
 }

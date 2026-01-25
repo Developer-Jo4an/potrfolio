@@ -1,6 +1,8 @@
-//TODO: сделать, если буду сервак поднимать все-таки
+"use client";
+import {Loader} from "@shared";
+
 export function Loading() {
   return (
-    <div></div>
+    <Loader isPending={true}/>
   );
 }

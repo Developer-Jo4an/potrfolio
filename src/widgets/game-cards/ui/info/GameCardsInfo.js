@@ -3,10 +3,11 @@ import cl from "classnames";
 import {ReactTyped} from "react-typed";
 import {useGamesStore} from "../../model/state-manager/gamesStore";
 import {upperFirst} from "lodash/string";
+import {gameList} from "../../config/cardsConfig";
 import styles from "./GameCardsInfo.module.scss";
 
 export function GameCardsInfo() {
-  const {activeGame, gameList} = useGamesStore();
+  const {activeGame} = useGamesStore();
   const {current: typed} = useRef({title: null, description: null});
 
   const {title, description} = gameList.find(({id}) => id === activeGame) ?? {};

@@ -1,3 +1,4 @@
+"use client";
 import {useEffect, useMemo, useRef} from "react";
 import {useCarStore} from "../../model/state-machine/carStore";
 import {types} from "../../constants/entities";
@@ -21,7 +22,7 @@ export function CarGame() {
     },
     initProps: {stateMachine: CAR_STATE_MACHINE, mainSceneSettings, preload},
     afterInit: setWrapper,
-    containerRef,
+    containerRef
   });
 
   useStateControls(
@@ -35,9 +36,9 @@ export function CarGame() {
           await promise;
           await wrapper.reset();
           toNextState();
-        },
+        }
       };
-    }, [wrapper]),
+    }, [wrapper])
   );
 
   useEffect(() => {
@@ -45,9 +46,15 @@ export function CarGame() {
       return eventSubscription({
         target: wrapper.eventBus,
         callbacksBus: [
-          {event: BONUSES_COLLISION, callback: ({count}) => {}},
-          {event: BLOCKS_COLLISION, callback: ({count}) => {}},
-        ],
+          {
+            event: BONUSES_COLLISION, callback: ({count}) => {
+            }
+          },
+          {
+            event: BLOCKS_COLLISION, callback: ({count}) => {
+            }
+          }
+        ]
       });
   }, [wrapper]);
 
@@ -55,8 +62,8 @@ export function CarGame() {
 
   return (
     <>
-      <Image className={styles.carGameBackground} src={"widgets/car-game/background.jpg"} />
-      <div className={styles.carGame} ref={containerRef} />
+      <Image className={styles.carGameBackground} src={"widgets/car-game/background.jpg"}/>
+      <div className={styles.carGame} ref={containerRef}/>
     </>
   );
 }

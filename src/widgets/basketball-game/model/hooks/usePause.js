@@ -1,4 +1,4 @@
-import {OFF, ON, INDEX, useAppCallbacks, useModalProvider} from "@shared";
+import {OFF, ON, ROUTES, useAppCallbacks, useModalProvider} from "@shared";
 import content from "../../constants/content";
 import {BASKETBALL_STATE_MACHINE, PAUSED, PLAYING} from "../../constants/stateMachine";
 import {useBasketballStore} from "../state-manager/basketballStore";
@@ -32,7 +32,7 @@ export function usePause() {
             close({id: modalId});
           },
           [OFF]() {
-            redirect(INDEX);
+            redirect(ROUTES.index);
             close({id: modalId});
           },
         },

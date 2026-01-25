@@ -1,4 +1,4 @@
-import {getDefaultState, INDEX, OFF, ON} from "@shared";
+import {getDefaultState, ROUTES, OFF, ON} from "@shared";
 import {MODS} from "@features/game-end-modal";
 import {DUNK_SHOT_STATE_MACHINE, LOSE, WIN} from "./stateMachine";
 import {WINGS, EXTRA_LIFE, X2} from "./boosters";
@@ -96,7 +96,7 @@ export default {
               modalsData: {close: [{id: "active"}]},
               events: {
                 onClick() {
-                  redirect(INDEX);
+                  redirect(ROUTES.index);
                 },
               },
             },

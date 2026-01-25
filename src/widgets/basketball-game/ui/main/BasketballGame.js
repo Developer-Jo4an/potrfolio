@@ -1,3 +1,4 @@
+"use client";
 import {useMemo, useRef} from "react";
 import {Loader, useGameSpaceStore} from "@shared";
 import {Canvas} from "../canvas/Canvas";

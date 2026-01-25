@@ -2,11 +2,10 @@ import {useRef} from "react";
 import {GameCard} from "../game-card/GameCard";
 import {useCardFlipping} from "../../model/hooks/useCardFlipping";
 import {useCardShowing} from "../../model/hooks/useCardShowing";
-import {useGamesStore} from "../../model/state-manager/gamesStore";
+import {gameList} from "../../config/cardsConfig";
 import styles from "./GameCardsList.module.scss";
 
 export function GameCardsList() {
-  const {gameList} = useGamesStore();
   const {current: gameCards} = useRef([]);
 
   useCardShowing({gameCards});

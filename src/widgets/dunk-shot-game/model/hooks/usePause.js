@@ -1,4 +1,4 @@
-import {useAppCallbacks, useModalProvider, INDEX, OFF, ON} from "@shared";
+import {useAppCallbacks, useModalProvider, ROUTES, OFF, ON} from "@shared";
 import {useDunkShotStore} from "../state-manager/dunkShotStore";
 import {DUNK_SHOT_STATE_MACHINE, PAUSE, PLAYING} from "../../constants/stateMachine";
 import {MODES} from "@features/pause-modal";
@@ -34,7 +34,7 @@ export function usePause() {
             close({id: modalId});
           },
           [OFF]() {
-            redirect(INDEX);
+            redirect(ROUTES.index);
             close({id: modalId});
           },
         },

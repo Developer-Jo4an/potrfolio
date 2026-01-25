@@ -1,13 +1,11 @@
-import {cardsAnimationSettings, cardsConfig} from "../../config/cardsConfig";
+import {cardsAnimationSettings, cardsConfig, gameList} from "../../config/cardsConfig";
 import {useGamesStore} from "../state-manager/gamesStore";
 import {useLayoutEffect} from "react";
 
 export function useCardShowing({gameCards}) {
-  const {gameList, activeGame, leftGame, rightGame, setIsShowing} = useGamesStore();
+  const {activeGame, leftGame, rightGame, setIsShowing} = useGamesStore();
 
   useLayoutEffect(() => {
-    if (!gameList.length) return;
-
     const showingTimeline = gsap.timeline({onComplete: () => setIsShowing(false)});
 
     const visibleGames = [leftGame, activeGame, rightGame];
@@ -37,5 +35,5 @@ export function useCardShowing({gameCards}) {
       setIsShowing(true);
       showingTimeline.kill();
     };
-  }, [gameList.length]);
+  }, []);
 }

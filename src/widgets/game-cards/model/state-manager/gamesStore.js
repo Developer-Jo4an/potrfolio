@@ -1,25 +1,23 @@
 import {LEFT, RIGHT, createStore} from "@shared";
-import {getGameList} from "../../api/requests";
+import {gameList} from "../../config/cardsConfig";
 
 const {useStore: useGamesStore, selectors} = createStore({
   name: "games",
   state: {
-    gameList: [],
-
-    activeGame: null,
-    leftGame: null,
-    rightGame: null,
+    leftGame: gameList[0].id,
+    activeGame: gameList[1].id,
+    rightGame: gameList[2].id,
 
     isShowing: true,
 
-    lastSwipeDirection: null,
+    lastSwipeDirection: null
   },
   syncActions: {
     setIsShowing({state}, isShowing) {
       state.isShowing = isShowing;
     },
     onSwipe({state}, {direction}) {
-      const {gameList, leftGame, activeGame, rightGame} = state;
+      const {leftGame, activeGame, rightGame} = state;
 
       const swipeAdd = {[LEFT]: 1, [RIGHT]: -1}[direction];
 
@@ -49,29 +47,11 @@ const {useStore: useGamesStore, selectors} = createStore({
       state.lastSwipeDirection = direction;
     },
     reset({state}) {
-      state.gameList = [];
-
       state.isShowing = true;
 
       state.lastSwipeDirection = null;
-    },
-  },
-  asyncActions: {
-    getGameList: {
-      request: getGameList,
-      onFulfilled({state}, {data: gameList}) {
-        state.gameList = gameList;
-
-        if (![state.leftGame, state.activeGame, state.rightGame].every(Boolean)) {
-          const [leftGame, activeGame, rightGame] = gameList;
-
-          state.leftGame = leftGame.id;
-          state.activeGame = activeGame.id;
-          state.rightGame = rightGame.id;
-        }
-      },
-    },
-  },
+    }
+  }
 });
 
 export {useGamesStore};

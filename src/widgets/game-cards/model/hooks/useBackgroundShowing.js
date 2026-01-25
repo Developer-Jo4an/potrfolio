@@ -2,10 +2,10 @@ import {useEffect} from "react";
 import {useGamesStore} from "../state-manager/gamesStore";
 
 export function useBackgroundShowing({cardsBackground}) {
-  const {gameList, isShowing} = useGamesStore();
+  const {isShowing} = useGamesStore();
 
   useEffect(() => {
-    if (!gameList?.length || isShowing) return;
+    if (isShowing) return;
 
     const showingTimeline = gsap.timeline();
 
@@ -15,5 +15,5 @@ export function useBackgroundShowing({cardsBackground}) {
     });
 
     return () => showingTimeline.kill();
-  }, [gameList, isShowing]);
+  }, [isShowing]);
 }

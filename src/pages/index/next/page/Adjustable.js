@@ -1,4 +1,3 @@
-"use client";
 import {GameCards} from "@widgets/game-cards";
 import styles from "./Adjustable.module.scss";
 

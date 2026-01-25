@@ -1,8 +1,9 @@
 import cl from "classnames";
-import {ROUTES, Button, useAppCallbacks} from "@shared";
+import {Button, useAppCallbacks} from "@shared";
 import {upperFirst} from "lodash/string";
 import {useGamesStore} from "../../model/state-manager/gamesStore";
 import content from "../../constants/content";
+import {gameList} from "../../config/cardsConfig";
 import styles from "./GameCardsButtons.module.scss";
 
 const {button} = content;
@@ -13,7 +14,10 @@ export function GameCardsButtons() {
   const allCallbacks = useAppCallbacks();
 
   const onClick = () => {
-    if (activeGame) allCallbacks.redirect(ROUTES[activeGame]);
+    if (activeGame) {
+      const route = gameList.find(({id}) => id === activeGame)?.route;
+      route && allCallbacks.redirect(route);
+    }
   };
 
   return (
