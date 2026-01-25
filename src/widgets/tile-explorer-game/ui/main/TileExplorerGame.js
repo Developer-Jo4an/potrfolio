@@ -5,7 +5,7 @@ import {Canvas} from "../canvas/Canvas";
 export function TileExplorerGame() {
   return (
     <div className={styles.tileExplorerGame}>
-      <Canvas/>
+      <Canvas />
     </div>
   );
 }

@@ -5,5 +5,5 @@ export const ROUTES = {
   car: "/car",
   mario: "/mario",
   tileExplorer: "/tile-explorer",
-  drive: "/drive"
+  drive: "/drive",
 };

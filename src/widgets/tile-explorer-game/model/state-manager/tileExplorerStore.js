@@ -10,8 +10,8 @@ const {useStore: useTileExplorerStore, selectors} = createStore({
     },
     setState({state}, newState) {
       state.state = newState;
-    }
-  }
+    },
+  },
 });
 
 export {useTileExplorerStore};

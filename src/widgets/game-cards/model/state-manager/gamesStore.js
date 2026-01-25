@@ -10,7 +10,7 @@ const {useStore: useGamesStore, selectors} = createStore({
 
     isShowing: true,
 
-    lastSwipeDirection: null
+    lastSwipeDirection: null,
   },
   syncActions: {
     setIsShowing({state}, isShowing) {
@@ -50,8 +50,8 @@ const {useStore: useGamesStore, selectors} = createStore({
       state.isShowing = true;
 
       state.lastSwipeDirection = null;
-    }
-  }
+    },
+  },
 });
 
 export {useGamesStore};

@@ -1,5 +1,8 @@
 import {upperFirst} from "lodash";
-import {Factory} from "@shared";
+import {assetsManager, Factory, PIXI_SPACE, TEXTURE} from "@shared";
+import {ABSTRACT_TREE} from "./entities/AbstractTree";
+import {CELL_BACKGROUND} from "../constants/preload";
+import {CELL} from "./entities/Cell";
 
 const METHODS = {create: "create", prepare: "prepare", reset: "reset"};
 
@@ -26,6 +29,47 @@ export class TileExplorerFactory extends Factory {
     const storage = this.getStorage(type);
     this[createMethod(METHODS.reset, type)]?.(item);
     storage.push(item);
+  }
+
+  /**
+   * abstract tree
+   */
+  [createMethod(METHODS.create, ABSTRACT_TREE)]() {
+    const asset = new PIXI.Container();
+    asset.label = ABSTRACT_TREE;
+    return asset;
+  }
+
+  /**
+   * cell
+   */
+  [createMethod(METHODS.create, CELL)]({type}) {
+    const asset = new PIXI.Container();
+    asset.label = CELL;
+
+    const {
+      defaultProperties: {
+        storage: {
+          mainSceneSettings: {
+            cell: {anchor},
+          },
+        },
+      },
+    } = this;
+
+    const background = new PIXI.Sprite();
+    background.label = CELL_BACKGROUND;
+    background.anchor.set(anchor);
+    background.texture = assetsManager.getAssetFromSpace(PIXI_SPACE, TEXTURE, CELL_BACKGROUND);
+    asset.addChild(background);
+
+    const sprite = new PIXI.Sprite();
+    sprite.label = type;
+    sprite.texture = assetsManager.getAssetFromSpace(PIXI_SPACE, TEXTURE, type);
+    sprite.anchor.set(anchor);
+    asset.addChild(sprite);
+
+    return asset;
   }
 }
 

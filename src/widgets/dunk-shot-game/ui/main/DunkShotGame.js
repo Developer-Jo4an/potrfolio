@@ -15,7 +15,7 @@ import content from "../../constants/content";
 import styles from "./DunkShotGame.module.scss";
 
 const {
-  menu: {lifes: lifesContent, score: scoreContent, sound}
+  menu: {lifes: lifesContent, score: scoreContent, sound},
 } = content;
 
 export function DunkShotGame() {
@@ -27,15 +27,15 @@ export function DunkShotGame() {
   const fullProps = {
     progressBarEls,
     topMenuElementsRef,
-    isPending: !state || DUNK_SHOT_STATE_MACHINE[state]?.isLoad
+    isPending: !state || DUNK_SHOT_STATE_MACHINE[state]?.isLoad,
   };
 
   useEndGame();
 
   return (
     <div className={styles.dunkShotGame}>
-      <Background/>
-      <Canvas/>
+      <Background />
+      <Canvas />
       <TopMenu
         ref={topMenuElementsRef}
         lifes={{count: lifes, ...lifesContent}}

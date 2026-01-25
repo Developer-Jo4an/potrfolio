@@ -23,14 +23,11 @@ export class Collision extends System {
     characterPolygon.setAngle(characterMatrix3Component.rotation);
   }
 
-  updateRoadChunksCollider() {
-  }
+  updateRoadChunksCollider() {}
 
-  updateBonusCollider() {
-  }
+  updateBonusCollider() {}
 
-  updateBlockCollider() {
-  }
+  updateBlockCollider() {}
 
   getCollisionEntities(characterPolygon, entities, type) {
     return entities.filter((entity) => {
@@ -42,7 +39,7 @@ export class Collision extends System {
   checkCharacterCollision({characterEntity, roadChunkEntities, bonusEntities, blockEntities}) {
     const {
       eventBus,
-      storage: {decorators}
+      storage: {decorators},
     } = this;
     const characterPolygon = characterEntity.get(Collider).object;
 
@@ -54,7 +51,7 @@ export class Collision extends System {
       const characterCollisionComponent = new CollisionComponent({
         eventBus,
         group: CHARACTER_WITH_ROAD_CHUNK,
-        collision: {collisionList: collidedRoads}
+        collision: {collisionList: collidedRoads},
       });
       characterEntity.add(characterCollisionComponent);
     }
@@ -64,7 +61,7 @@ export class Collision extends System {
       const characterCollisionComponent = new CollisionComponent({
         eventBus,
         group: CHARACTER_WITH_BONUSES,
-        collision: {collisionList: collidedBonuses}
+        collision: {collisionList: collidedBonuses},
       });
       const event = new EventComponent({eventBus, type: BONUSES_COLLISION, data: collidedBonuses});
       characterEntity.add(event);
@@ -76,7 +73,7 @@ export class Collision extends System {
       const characterCollisionComponent = new CollisionComponent({
         eventBus,
         group: CHARACTER_WITH_BLOCKS,
-        collision: {collisionList: collidedBlocks}
+        collision: {collisionList: collidedBlocks},
       });
       const event = new EventComponent({eventBus, type: BLOCKS_COLLISION, data: collidedBlocks});
       characterEntity.add(event);

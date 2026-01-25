@@ -10,13 +10,13 @@ export const STATE_MACHINE = {
     availableStates: [INITIALIZATION_LEVEL],
     nextState: INITIALIZATION_LEVEL,
     isDefault: true,
-    isLoad: true
+    isLoad: true,
   },
   [INITIALIZATION_LEVEL]: {availableStates: [PLAYING], nextState: PLAYING, isLoad: true},
   [PLAYING]: {availableStates: [LOSE, WIN, PAUSED], isAvailableUpdate: true, isAvailableInteractive: true},
   [PAUSED]: {availableStates: [PLAYING]},
   [LOSE]: {availableStates: [INITIALIZATION_LEVEL], nextState: INITIALIZATION_LEVEL},
-  [WIN]: {availableStates: [INITIALIZATION_LEVEL], nextState: INITIALIZATION_LEVEL}
+  [WIN]: {availableStates: [INITIALIZATION_LEVEL], nextState: INITIALIZATION_LEVEL},
 };
 
 export const IGNORE_NEXT_STATES = [PLAYING, PAUSED, LOSE, WIN];

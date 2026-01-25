@@ -11,7 +11,7 @@ const {background} = content;
 export function Error({error, message, button}) {
   return (
     <div className={styles.error}>
-      <Image {...background} className={styles.background}/>
+      <Image {...background} className={styles.background} />
 
       <div className={styles.messageWrapper}>
         <motion.div {...notFoundAnimation}>

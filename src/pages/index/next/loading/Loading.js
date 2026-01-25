@@ -2,7 +2,5 @@
 import {Loader} from "@shared";
 
 export function Loading() {
-  return (
-    <Loader isPending={true}/>
-  );
+  return <Loader isPending={true} />;
 }

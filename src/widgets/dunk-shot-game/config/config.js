@@ -1,103 +1,103 @@
 export const config = {
   id: "mock",
   level: {
-    id: 1
+    id: 1,
   },
   boosters: {
     x2: 2,
     extraLife: 2,
-    wings: 2
+    wings: 2,
   },
   configuration: {
     global_basket: {
       burning_time: 450,
-      swing_angle: 45
+      swing_angle: 45,
     },
     rows: [
       {
         num: 1,
         obj: "ethernal_basket",
         speed: 0,
-        init_pos: "center"
+        init_pos: "center",
       },
       {
         num: 2,
         obj: "spike",
         speed: 1,
-        init_pos: "right"
+        init_pos: "right",
       },
       {
         num: 3,
         obj: "burning_basket",
         speed: 0,
-        init_pos: "right"
+        init_pos: "right",
       },
       {
         num: 4,
         obj: "ethernal_basket",
         speed: 0,
-        init_pos: "center"
+        init_pos: "center",
       },
       {
         num: 5,
         obj: "spike",
         speed: 1,
-        init_pos: "center"
+        init_pos: "center",
       },
       {
         num: 6,
         obj: "ethernal_basket",
         speed: 0,
-        init_pos: "right"
+        init_pos: "right",
       },
       {
         num: 7,
         obj: "ethernal_basket",
         speed: 1,
-        init_pos: "left"
+        init_pos: "left",
       },
       {
         num: 8,
         obj: "spike",
         speed: 1,
-        init_pos: "center"
+        init_pos: "center",
       },
       {
         num: 9,
         obj: "ethernal_basket",
         speed: 1,
-        init_pos: "center"
+        init_pos: "center",
       },
       {
         num: 10,
         obj: "burning_basket",
         speed: 0,
-        init_pos: "right"
+        init_pos: "right",
       },
       {
         num: 11,
         obj: "ethernal_basket",
         speed: 1,
-        init_pos: "center"
+        init_pos: "center",
       },
       {
         num: 12,
         obj: "ethernal_basket",
         speed: 2,
-        init_pos: "left"
+        init_pos: "left",
       },
       {
         num: 14,
         obj: "burning_basket",
         speed: 1,
-        init_pos: "center"
+        init_pos: "center",
       },
       {
         num: 16,
         obj: "ethernal_basket",
         speed: 2,
-        init_pos: "right"
-      }
-    ]
-  }
+        init_pos: "right",
+      },
+    ],
+  },
 };
