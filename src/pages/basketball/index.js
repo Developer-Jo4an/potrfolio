@@ -1,4 +1,4 @@
-import {Basketball} from "./ui/main/Basketball";
+import {Basketball} from "./next/page/Basketball";
 
 const metadata = {};
 
