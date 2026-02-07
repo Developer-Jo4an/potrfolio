@@ -31,7 +31,7 @@ export function Canvas() {
 
   const reset = () => {
     wrapper.reset();
-    setState(INITIALIZATION);
+    wrapper.state = INITIALIZATION;
   };
 
   useStateControls(wrapper, STATE_MACHINE, IGNORE_NEXT_STATES, useMemo(() => ({

@@ -54,7 +54,7 @@ export class Factory {
     storage.onCreateItem(type, item, data);
   }
 
-  getItem(type, data) {
+  getItem(type, data = {}) {
     const {config} = this;
 
     const storage = this.getStorage(type);

@@ -48,7 +48,6 @@ export class Assets extends System {
       data
     } = event;
     const {factory} = this;
-
     const item = factory.getItem(name, data);
 
     data.result = factory.config[name] ? item.asset : item;
