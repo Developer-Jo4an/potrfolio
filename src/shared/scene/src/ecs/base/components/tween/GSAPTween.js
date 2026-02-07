@@ -1,7 +1,11 @@
 import {Component} from "../../../core/Component";
 
 export class GSAPTween extends Component {
-  tweens = new Map();
+  _tweens = new Map();
+
+  get tweens() {
+    return this._tweens;
+  }
 
   has(id) {
     const {tweens} = this;
@@ -30,6 +34,6 @@ export class GSAPTween extends Component {
 
   destroy() {
     super.destroy();
-    this.tweens = null;
+    this._tweens = null;
   }
 }

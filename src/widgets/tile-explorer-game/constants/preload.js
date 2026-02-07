@@ -2,12 +2,24 @@ import {SCENE, TEXTURE, assets} from "@shared";
 
 export const TILE_EXPLORER = "tileExplorer";
 export const CELL_BACKGROUND = "cellBackground";
+export const CAGE = "cage";
+export const SHELF = "shelf";
 
 export const preload = [
   {
     type: TEXTURE,
     name: CELL_BACKGROUND,
     src: assets("tile-explorer/cell-background.png")
+  },
+  {
+    type: TEXTURE,
+    name: CAGE,
+    src: assets("tile-explorer/cage.png")
+  },
+  {
+    type: TEXTURE,
+    name: SHELF,
+    src: assets("tile-explorer/shelf.png")
   },
   {
     type: SCENE,

@@ -1,31 +1,19 @@
-import {Collection} from "../base/components/data/Collection";
 import {v4 as uuidv4} from "uuid";
+import {Collection} from "../base/components/data/Collection";
 import {State} from "../base/components/state/State";
+import {Unit} from "./Unit";
 import {STATE_CHANGED} from "../../constants/events/names";
 
-export class System {
+export class System extends Unit {
   /**
    * Порядковый номер для сортировки обновления систем
    * @type {number}
    */
   updateOrder = 0;
 
-  /**
-   * Общий для всех элементов одного движка хаб событий
-   * @type  {EventDispatcher}
-   */
-  eventBus;
+  constructor() {
+    super(...arguments);
 
-  /**
-   * Ссылка на движок системы
-   * @type {Engine}
-   * @private
-   */
-  _engine;
-
-  constructor({eventBus, storage}) {
-    this.eventBus = eventBus;
-    this.storage = storage;
     this.uuid = uuidv4();
 
     this.eventBus.addEventListener(STATE_CHANGED, this.onStateChanged.bind(this));
@@ -42,9 +30,13 @@ export class System {
   /**
    * Инициализация системы
    */
-  init() {}
+  init() {
+    super.init();
+  }
 
-  onRemove() {}
+  onRemove() {
+    super.onRemove();
+  }
 
   /**
    * Добавление очищаемого действия в систему
@@ -56,8 +48,14 @@ export class System {
    */
   addSideEffect({entity, effect, name = uuidv4(), args = [], context = this}) {
     const collection = entity.getList(Collection)?.find(({group}) => group === "side-effects");
-    if (!collection) return console.error("'side-effects' collection not found");
+
+    if (!collection) {
+      console.error("'side-effects' collection not found");
+      return;
+    }
+
     const prevEffect = collection.list.find((effect) => effect.name === name);
+
     if (prevEffect) {
       prevEffect.cleanFunction?.();
       collection.list.splice(collection.list.indexOf(prevEffect), 1);
@@ -68,49 +66,11 @@ export class System {
   }
 
   /**
-   * Получение списка сущностей по типу
-   * @param type
-   * @returns {Array<Entity>}
-   */
-  getEntitiesByType(type) {
-    return this._engine.getEntitiesByType(type);
-  }
-
-  getFirstEntityByType(type) {
-    return this._engine.getEntitiesByType(type)?.list?.[0];
-  }
-
-  getEntityByUUID(type, uuid) {
-    const collection = this.getEntitiesByType(type);
-    return collection?.map?.[uuid];
-  }
-
-  getComponentByUUID(Class, uuid) {
-    return this._engine.getComponentByUUID(Class, uuid);
-  }
-
-  getEntitiesByComponent(component) {
-    return this._engine.getEntitiesByComponent(component);
-  }
-
-  filterEntitiesByClass(...classes) {
-    return this._engine.filterEntities(classes);
-  }
-
-  destroyEntitiesByTypes(types) {
-    return types.forEach((type) => [...this.getEntitiesByType(type)?.list]?.forEach((entity) => entity.destroy()));
-  }
-
-  /**
    * Получение всех компонентов
    * @returns {T|Collection<Component>}
    */
   get allComponents() {
     return this._engine.allComponents;
-  }
-
-  getAllComponentsByClass(ComponentClass) {
-    return this.allComponents.filter((component) => component instanceof ComponentClass);
   }
 
   /** Хелпер для добавление компонента в сущность
@@ -145,39 +105,31 @@ export class System {
   }
 
   /**
-   * Установка движка при добавлении системы в движок
-   * @param engine
-   */
-  set engine(engine) {
-    this._engine = engine;
-  }
-
-  get engine() {
-    return this._engine;
-  }
-
-  /**
    * Ленивое обновление системы
    * @param {{deltaTime: number, totalTime: number}} data
    */
-  lazyUpdate(data) {}
+  lazyUpdate(data) {
+  }
 
   /**
    * Обновление системы
    * @param {{deltaTime: number, totalTime: number}} data
    */
-  update(data) {}
+  update(data) {
+  }
 
   /**
    * Сброс системы
    */
-  reset() {}
+  reset() {
+  }
 
   /**
    * Функция конфигурирования систем
    * @param settings
    */
-  configure(settings) {}
+  configure(settings) {
+  }
 
   getAsset(entity, name, extraData = {}) {
     const {eventBus} = this;

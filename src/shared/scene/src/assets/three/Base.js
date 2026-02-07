@@ -1,4 +1,4 @@
-import {Asset} from "../1Asset";
+import {Asset} from "../Asset";
 import {isObject} from "lodash";
 
 export class Base extends Asset {

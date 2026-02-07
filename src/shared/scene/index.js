@@ -4,6 +4,12 @@ export * from "./src/analytics/Plugin";
 export * from "./src/animations/AnimationPlayer";
 
 export * from "./src/assets/AssetsManager";
+export * from "./src/assets/Asset";
+export * from "./src/assets/pixi/Base";
+export * from "./src/assets/pixi/Container";
+export * from "./src/assets/pixi/Sprite";
+export * from "./src/assets/pixi/TilingSprite";
+export * from "./src/assets/three/Base";
 
 export * from "./src/config/pixi";
 export * from "./src/config/three";
@@ -30,6 +36,8 @@ export * from "./src/decorators/app-state/AppState";
 export * from "./src/decorators/three/update/ThreeUpdate";
 export * from "./src/decorators/update/Update";
 
+export * from "./src/ecs/core/Decorator";
+export * from "./src/ecs/core/Unit";
 export * from "./src/ecs/base/components/collision/CollisionComponent";
 export * from "./src/ecs/base/components/collision/Collider";
 export * from "./src/ecs/base/components/data/Collection";

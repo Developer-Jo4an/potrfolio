@@ -1,8 +1,8 @@
 import {createStore} from "@shared";
-import {TILE_EXPLORER} from "../../constants/game";
+import {GAME} from "../../constants/game";
 
 const {useStore: useTileExplorerStore, selectors} = createStore({
-  name: TILE_EXPLORER,
+  name: GAME,
   state: {wrapper: null, state: null},
   syncActions: {
     setWrapper({state}, wrapper) {

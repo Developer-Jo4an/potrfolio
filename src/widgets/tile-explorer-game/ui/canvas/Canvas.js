@@ -3,7 +3,7 @@ import cl from "classnames";
 import {imports, useLoadScene, useResetScene, useStateControls} from "@shared";
 import {useTileExplorerStore} from "../../model/state-manager/tileExplorerStore";
 import {IGNORE_NEXT_STATES, STATE_MACHINE} from "../../constants/stateMachine";
-import {types} from "../../constants/types";
+import {types} from "../../constants/entities/types";
 import {MAIN_SCENE_SETTINGS} from "../../constants/mainSceneSettings";
 import {preload} from "../../constants/preload";
 import {LOSE, WIN} from "../../constants/stateMachine";

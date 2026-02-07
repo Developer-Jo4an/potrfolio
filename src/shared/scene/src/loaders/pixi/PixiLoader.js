@@ -2,17 +2,30 @@ import {BaseLoader} from "../base/BaseLoader";
 import {upperFirst} from "lodash";
 import {assetsManager} from "../../assets/AssetsManager";
 import {PIXI_SPACE, SCENE, TEXTURE} from "../../constants/loaders/assetsTypes";
+import {PIXI_APP_CONFIG} from "@shared";
 
 export class PIXILoader extends BaseLoader {
-  async init(dpr) {
-    if (this.isInitialized) return;
+  _isInitialized;
 
-    await PIXI.Assets.init({
-      texturePreference: {resolution: dpr, format: ["png"]},
+  _initPromise;
+
+  get isInitialized() {
+    return this._isInitialized;
+  }
+
+  get initPromise() {
+    return this._initPromise;
+  }
+
+  init() {
+    if (this.initPromise) return this.initPromise;
+
+    this._initPromise = PIXI.Assets.init({
+      texturePreference: {resolution: PIXI_APP_CONFIG.resolution, format: ["png", "webp"]},
       preferences: {crossOrigin: "anonymous"}
+    }).then(() => {
+      this._isInitialized = true;
     });
-
-    this.isInitialized = true;
   }
 
   loadAssets(assets) {

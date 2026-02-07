@@ -5,7 +5,7 @@ import {AbstractTree} from "./systems/AbstractTree";
 import {Interactive} from "./systems/Interactive";
 import {gameSpaceStore} from "../model/storages/gameSpace";
 import {NOT_AVAILABLE_ENTITIES_TYPES_FOR_RESET} from "../constants/reset";
-import {TILE_EXPLORER, GAME_SIZE} from "../constants/game";
+import {GAME, GAME_SIZE} from "../constants/game";
 import {
   UPDATE_DECORATOR_FIELD,
   RESIZE,

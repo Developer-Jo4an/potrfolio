@@ -40,6 +40,6 @@ export class Sprite extends Base {
   }
 
   _setTexture(value) {
-    this.asset.texture = assetsManager.getAssetFromSpace(PIXI_SPACE, value, TEXTURE);
+    this.asset.texture = assetsManager.getAssetFromSpace(PIXI_SPACE, TEXTURE, value);
   }
 }

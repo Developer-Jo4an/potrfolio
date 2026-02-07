@@ -1,6 +1,6 @@
+import {v4 as uuidv4} from "uuid";
 import {Entity} from "./Entity";
 import {Component} from "./Component";
-import {v4 as uuidv4} from "uuid";
 import {Library as Collection} from "../base/library/Library";
 import {analysis} from "../../analytics/Analytics";
 
@@ -10,6 +10,12 @@ export class Engine {
    * @type {Collection}
    */
   systems = new Collection({name: "systems"});
+
+  /**
+   * Список созданных декораторов
+   * @type {Collection}
+   */
+  decorators = new Collection({name: "decorators"});
 
   /**
    * группы сущностей
@@ -28,12 +34,28 @@ export class Engine {
 
   _ticks = 0;
 
-  constructor({eventBus}) {
+  constructor({eventBus, storage, decorators: decoratorClasses = []}) {
     this.eventBus = eventBus;
+    this.storage = storage;
     this.uuid = uuidv4();
 
     analysis.connect("ecs", this);
     this.addListeners();
+    this.initDecorators(decoratorClasses);
+  }
+
+  /**
+   * Инициализация декораторов
+   * @param decoratorClasses
+   */
+  initDecorators(decoratorClasses) {
+    const {decorators, storage, eventBus} = this;
+
+    decoratorClasses.forEach(DecoratorCls => {
+      const decorator = new DecoratorCls({eventBus, storage});
+      decorator.engine = this;
+      decorators.add(decorator);
+    });
   }
 
   /**
@@ -41,12 +63,16 @@ export class Engine {
    * @param system
    */
   addSystem(system) {
-    const {systems} = this;
+    const {systems, decorators} = this;
     systems.add(system);
     system.engine = this;
     system.init();
 
     systems.sort((a, b) => a.updateOrder - b.updateOrder);
+
+    decorators.list.forEach(decorator => {
+      decorator.rollDescriptors(system);
+    });
 
     return this;
   }
@@ -112,11 +138,11 @@ export class Engine {
    * @param type
    */
   onComponentAdded({
-    data: {
-      component,
-      component: {type},
-    },
-  }) {
+                     data: {
+                       component,
+                       component: {type}
+                     }
+                   }) {
     this.checkComponentCollection(type, component.constructor);
   }
 
@@ -126,11 +152,11 @@ export class Engine {
    * @param type
    */
   onComponentRemoved({
-    data: {
-      component,
-      component: {type},
-    },
-  }) {
+                       data: {
+                         component,
+                         component: {type}
+                       }
+                     }) {
     this.checkComponentCollection(type, component.constructor);
 
     this.components[type].remove(component);
@@ -149,11 +175,11 @@ export class Engine {
    * @param type
    */
   onComponentCreated({
-    data: {
-      component,
-      component: {type},
-    },
-  }) {
+                       data: {
+                         component,
+                         component: {type}
+                       }
+                     }) {
     this.checkComponentCollection(type, component.constructor);
 
     this.components[type].add(component);
@@ -190,11 +216,11 @@ export class Engine {
    * @param type
    */
   onEntityRemoved({
-    data: {
-      entity,
-      entity: {type},
-    },
-  }) {
+                    data: {
+                      entity,
+                      entity: {type}
+                    }
+                  }) {
     this.checkEntityCollection(type);
     this.entities[type].remove(entity);
   }
@@ -205,11 +231,11 @@ export class Engine {
    * @param type
    */
   onEntityCreated({
-    data: {
-      entity,
-      entity: {type},
-    },
-  }) {
+                    data: {
+                      entity,
+                      entity: {type}
+                    }
+                  }) {
     this.checkEntityCollection(type);
     this.entities[type].add(entity);
   }
@@ -263,9 +289,9 @@ export class Engine {
     const first = components[0];
     if (!this.componentsClasses.has(first)) return [];
     return this.componentsClasses
-      .get(first)
-      .list.filter((component) => component.entity.isInherits(components))
-      .map((component) => component.entity);
+    .get(first)
+    .list.filter((component) => component.entity.isInherits(components))
+    .map((component) => component.entity);
   }
 
   destroy() {

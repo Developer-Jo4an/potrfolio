@@ -30,3 +30,5 @@ export * from "./src/random/getRandomIntFromRange";
 export * from "./src/styles/dataAttrs";
 
 export * from "./src/image/load";
+
+export * from "./src/helpers/clone";
