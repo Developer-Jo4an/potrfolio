@@ -11,16 +11,16 @@ export class Assets extends System {
     const {
       factory,
       storage: {
-        mainSceneSettings: {factory: {prepareList = []} = {}},
-      },
+        mainSceneSettings: {factory: {prepareList = []} = {}}
+      }
     } = this;
 
-    factory.prepareItems(prepareList);
+    prepareList.forEach(({type, count}) => factory.prepareItems(type, count));
   }
 
   getAsset(event) {
     const {
-      data: {entity},
+      data: {entity}
     } = event;
     this.addSideEffect({entity, effect: this.getFactoryItem, args: [event], context: this});
   }
@@ -28,11 +28,13 @@ export class Assets extends System {
   getFactoryItem(event) {
     const {
       data: {name},
-      data,
+      data
     } = event;
     const {factory} = this;
 
-    const item = (data.result = factory.getItem(name, data));
+    const item = factory.getItem(name, data);
+
+    data.result = factory.config[name] ? item.asset : item;
 
     return () => {
       factory.pushItem(item);

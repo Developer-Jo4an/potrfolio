@@ -3,12 +3,11 @@ import {Game} from "../controllers/components/Game";
 import {AbstractTree} from "../controllers/components/AbstractTree";
 import {Cell} from "../controllers/components/Cell";
 import {STATE_MACHINE} from "./stateMachine";
-import {GAME} from "./game";
 import {ABSTRACT_TREE} from "../controllers/entities/AbstractTree";
 import {CELL} from "../controllers/entities/Cell";
 
 export const types = {
-  [GAME]: {
+  game: {
     components: [{Class: State, props: {states: STATE_MACHINE}}, {Class: Game}]
   },
   [ABSTRACT_TREE]: {

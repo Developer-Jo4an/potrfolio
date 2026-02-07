@@ -1,12 +1,17 @@
 import {FactoryStorage} from "./FactoryStorage";
 import {analysis} from "../analytics/Analytics";
+import {isFunction} from "lodash";
 
 export class Factory {
   storage = {};
 
   defaultProperties = {};
 
-  constructor() {
+  config = {};
+
+  constructor({defaultProperties, config} = {}) {
+    this.defaultProperties = defaultProperties ?? {};
+    this.config = config ?? {};
     analysis.connect("factory", this);
   }
 
@@ -14,20 +19,33 @@ export class Factory {
     this.defaultProperties = properties;
   }
 
-  getItemByType(type, data) {}
+  getItemByType(type, data) {
+  }
 
   createItem(type, data = {}) {
     const {
+      defaultProperties,
       defaultProperties: {args = []},
+      config
     } = this;
+
+    const fullData = {...defaultProperties, ...data};
+
     let item;
 
-    if (data.Cls) item = new data.Cls(...[...args, ...data.args]);
-    else item = this.getItemByType(type, data);
+    if (config[type]) {
+      const {Cls, baseSettings = {}} = config[type];
 
-    if (!item) throw new Error(`No item created`);
+      item = new Cls({baseSettings, defaultProperties, extraSettings: fullData.extraData});
+      item.create();
+    } else {
+      if (fullData.Cls) item = new fullData.Cls(...[...args, ...fullData.args]);
+      else item = this.getItemByType(type, fullData);
 
-    this.onCreateItem(type, item, data);
+      if (!item) throw new Error(`No item created`);
+    }
+
+    this.onCreateItem(type, item, fullData);
     return item;
   }
 
@@ -37,21 +55,24 @@ export class Factory {
   }
 
   getItem(type, data) {
+    const {config} = this;
+
     const storage = this.getStorage(type);
     let item = storage.pop();
 
     if (!item) item = this.createItem(type, data);
+    else if (config[type]) {
+      item.updateExtraSettings(data.extraData);
+      item.prepare();
+    }
 
     return item;
-  }
-
-  resetStorageItems(type) {
-    return this.getStorage(type).resetItems();
   }
 
   pushItem(item, type) {
     type = type || item._storageType || "unknown";
     const storage = this.getStorage(type);
+    isFunction(item.reset) && item.reset();
     storage.push(item);
   }
 
@@ -89,6 +110,10 @@ export class Factory {
       const item = storage.getItemByFactoryUid(uid);
       if (item) return item;
     }
+  }
+
+  resetStorageItems(type) {
+    return this.getStorage(type).resetItems();
   }
 
   prepareItems(data) {
