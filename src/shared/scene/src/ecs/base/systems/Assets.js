@@ -1,13 +1,21 @@
 import {System} from "../../core/System";
+import {eventSubscription} from "@shared";
 
 export class Assets extends System {
-  constructor(data) {
-    super(data);
-    this.factory = data.factory;
-    this.eventBus.addEventListener("get-asset", this.getAsset.bind(this));
+  constructor({factory}) {
+    super(...arguments);
+
+    this.factory = factory;
+
+    this.getAsset = this.getAsset.bind(this);
   }
 
   init() {
+    this.initEvents();
+    this.prepareItems();
+  }
+
+  prepareItems() {
     const {
       factory,
       storage: {
@@ -15,7 +23,18 @@ export class Assets extends System {
       }
     } = this;
 
-    prepareList.forEach(({type, count}) => factory.prepareItems(type, count));
+    factory.prepareItems(prepareList);
+  }
+
+  initEvents() {
+    const {eventBus} = this;
+
+    eventSubscription({
+      target: eventBus,
+      callbacksBus: [
+        {event: "get-asset", callback: this.getAsset}
+      ]
+    });
   }
 
   getAsset(event) {
