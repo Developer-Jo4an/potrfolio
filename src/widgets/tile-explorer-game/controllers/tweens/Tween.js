@@ -1,4 +1,4 @@
-import {GAME} from "../constants/game";
+import {GAME} from "../../constants/game";
 
 export class Tween {
   storage;
@@ -44,9 +44,9 @@ export class Tween {
     this._promise = new Promise(res => {
       this._resolve = () => {
         if (this.isResolved) return;
+        this._isResolved = true;
         onComplete?.();
         res();
-        this._isResolved = true;
       };
     });
   }

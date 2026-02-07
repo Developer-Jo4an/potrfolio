@@ -1,3 +1,5 @@
+import {PI2} from "@shared";
+
 export const MAIN_SCENE_SETTINGS = {
   shifts: {
     honest: [
@@ -45,5 +47,23 @@ export const MAIN_SCENE_SETTINGS = {
       size: 90
     }
   },
-  engGameWaiting: 2000
+  engGameWaiting: 2000,
+  snow: {
+    tween: {
+      duration: 12,
+      rotation: PI2 * 2,
+      ease: "none"
+    },
+    curveSettings: {
+      pointsCount: 4,
+      tension: 0.1,
+      closed: false,
+      curveType: "centripetal",
+      curviness: 30
+    },
+    sprite: {
+      size: 20,
+      count: 30
+    }
+  }
 };

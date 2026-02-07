@@ -15,7 +15,7 @@ import {
   UPDATE_DECORATOR_FIELD,
   RESIZE,
   UPDATED,
-  analysis,
+  analytics,
   eventSubscription,
   getIsDebug,
   CameraFlying,
@@ -210,6 +210,6 @@ export class Controller extends ThreeController {
       savedList.length = 0;
     }
 
-    if (getIsDebug()) analysis.logStatistics();
+    if (getIsDebug()) analytics.logStatistics();
   }
 }

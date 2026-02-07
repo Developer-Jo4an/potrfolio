@@ -33,11 +33,11 @@ export class CellToCage extends Tween {
           const progress = tween.progress();
 
           if (progress >= progressBorder && !isResolved) {
-            this.resolve();
             isResolved = true;
+            this.resolve();
           }
         },
-        onComplete: () => {
+        onComplete() {
           tween.delete(GAME);
         },
       })
@@ -72,11 +72,11 @@ export class CellToCage extends Tween {
           const progress = tween.progress();
 
           if (progress >= progressBorder && !isResolved) {
-            this.resolve();
             isResolved = true;
+            this.resolve();
           }
         },
-        onComplete: () => {
+        onComplete() {
           tween.delete(GAME);
         },
       })
@@ -100,6 +100,7 @@ export class CellToCage extends Tween {
     } = this;
 
     const distance = Math.hypot(x - animateObject.x, y - animateObject.y);
+
     return clamp(distance / speed, min, max);
   }
 }

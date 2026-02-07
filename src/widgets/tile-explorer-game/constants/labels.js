@@ -9,4 +9,9 @@ export const labels = {
     background: "shelfBackground",
     cage: "shelfCage",
   },
+
+  snow: {
+    container: "snows",
+    particle: "snow"
+  }
 };

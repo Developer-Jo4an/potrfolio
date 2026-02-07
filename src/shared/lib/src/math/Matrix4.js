@@ -1,5 +1,5 @@
-import {WebGPUCoordinateSystem, WebGLCoordinateSystem} from "../../../../constants";
-import {Vector3} from "./Vector3.js";
+import {WebGPUCoordinateSystem, WebGLCoordinateSystem} from "../../../constants";
+import {Vector3} from "./Vector3";
 
 /**
  * Represents a 4x4 matrix.

@@ -9,12 +9,12 @@ import {Tween} from "../components/Tween";
 import {Timer} from "../components/Timer";
 import {PixiComponent, Decorator, Matrix3Component} from "@shared";
 import {CELL} from "../entities/cell";
-import {BOUNDS} from "../../constants/entities/bounds";
-import {BOOSTER} from "../../constants/entities/booster";
-import {TREE} from "../../constants/entities/tree";
+import {BOUNDS} from "../entities/bounds";
+import {BOOSTER} from "../entities/booster";
+import {TREE} from "../entities/tree";
 import {SHELF} from "../../constants/preload";
-import {ANIMATION_TREE} from "../../constants/entities/animationTree";
-import {TIMER} from "../../constants/entities/timer";
+import {ANIMATION_TREE} from "../entities/animationTree";
+import {TIMER} from "../entities/timer";
 
 export class Utils extends Decorator {
   /**

@@ -1,7 +1,7 @@
 import {Component} from "../../../core/Component";
-import {Vector3} from "../../../math/Vector3";
-import {Euler} from "../../../math/Euler";
-import {Quaternion} from "../../../math/Quaternion";
+import {Vector3} from "../../../../../../lib/src/math/Vector3";
+import {Euler} from "../../../../../../lib/src/math/Euler";
+import {Quaternion} from "../../../../../../lib/src/math/Quaternion";
 import {isArray, isNumber, isObject} from "lodash";
 
 export class Matrix4Component extends Component {

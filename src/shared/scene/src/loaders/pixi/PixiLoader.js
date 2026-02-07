@@ -56,11 +56,13 @@ export class PIXILoader extends BaseLoader {
 
     const loadedData = await PIXI.Assets.load(loadedAliases);
 
-    const spineData = Object.keys(loadedData).reduce((acc, key) => {
+    const animations = Object.keys(loadedData).reduce((acc, key) => {
       if (!skeletons[key]) return acc;
       acc[key] = () => PIXI.SPINE.Spine.from({skeleton: key, atlas: atlasKey});
       return acc;
     }, {});
+
+    const spineData = {animations};
 
     assetsManager.setAssetsToSpace(PIXI_SPACE, SCENE, name, spineData);
   }

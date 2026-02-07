@@ -1,5 +1,5 @@
 import {FactoryStorage} from "./FactoryStorage";
-import {analysis} from "../analytics/Analytics";
+import {analytics} from "../analytics/Analytics";
 import {isFunction} from "lodash";
 
 export class Factory {
@@ -12,7 +12,7 @@ export class Factory {
   constructor({defaultProperties, config} = {}) {
     this.defaultProperties = defaultProperties ?? {};
     this.config = config ?? {};
-    analysis.connect("factory", this);
+    analytics.connect("factory", this);
   }
 
   setDefaultProperties(properties) {

@@ -1,11 +1,18 @@
 import {SCENE, TEXTURE, assets} from "@shared";
 
+export const SNOW = "snow";
 export const TILE_EXPLORER = "tileExplorer";
 export const CELL_BACKGROUND = "cellBackground";
 export const CAGE = "cage";
 export const SHELF = "shelf";
+export const SNOWS_CONTAINER = "snows";
 
 export const preload = [
+  {
+    type: TEXTURE,
+    name: SNOW,
+    src: assets("tile-explorer/snow.png")
+  },
   {
     type: TEXTURE,
     name: CELL_BACKGROUND,
@@ -30,7 +37,7 @@ export const preload = [
         "skeleton_Item_1_0": assets("tile-explorer/spine/Item_1_0.json"),
         "skeleton_Item_1_0_explosion": assets("tile-explorer/spine/Item_1_0_explosion.json"),
 
-        "skeleton_Item_1_1": assets("tile-explorer/spine/Item_1_1json"),
+        "skeleton_Item_1_1": assets("tile-explorer/spine/Item_1_1.json"),
         "skeleton_Item_1_1_explosion": assets("tile-explorer/spine/Item_1_1_explosion.json"),
 
         "skeleton_Item_1_2": assets("tile-explorer/spine/Item_1_2.json"),

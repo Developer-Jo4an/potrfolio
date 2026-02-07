@@ -51,4 +51,4 @@ export class Analytics {
   }
 }
 
-export const analysis = new Analytics();
+export const analytics = new Analytics();

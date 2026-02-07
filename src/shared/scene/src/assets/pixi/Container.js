@@ -1,6 +1,6 @@
-import {Base} from "./Base";
+import {BasePixiAsset} from "./BasePixiAsset";
 
-export class Container extends Base {
+export class Container extends BasePixiAsset {
   createAsset() {
     this.asset = new PIXI.Container();
   }

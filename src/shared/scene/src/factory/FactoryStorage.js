@@ -1,7 +1,4 @@
-import {createId} from "../../../lib";
-import {isFunction} from "lodash";
-
-const getId = createId();
+import {v4 as uuidv4} from "uuid";
 
 export class FactoryStorage {
   items = [];
@@ -53,7 +50,7 @@ export class FactoryStorage {
       return;
     }
     item._storageType = type;
-    item._factoryUUID = getId();
+    item._factoryUUID = uuidv4();
     item._isFactoryActiveItem = true;
 
     if (this.createdItems.indexOf(item) === -1) this.createdItems.push(item);
@@ -67,7 +64,6 @@ export class FactoryStorage {
       return;
     }
 
-    if (isFunction(item.reset)) item.reset();
     items.push(item);
     item._isFactoryActiveItem = false;
   }

@@ -1,9 +1,9 @@
-import {Base} from "./Base";
+import {BasePixiAsset} from "./BasePixiAsset";
 import {isObject, upperFirst} from "lodash";
 import {assetsManager} from "../AssetsManager";
 import {TEXTURE, PIXI_SPACE} from "../../constants/loaders/assetsTypes";
 
-export class Sprite extends Base {
+export class Sprite extends BasePixiAsset {
   createAsset() {
     this.asset = new PIXI.Sprite();
   }

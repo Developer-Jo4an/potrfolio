@@ -1,7 +1,7 @@
-import {isObject} from "lodash";
 import {Asset} from "../Asset";
+import {isObject} from "lodash";
 
-export class Base extends Asset {
+export class BaseThreeAsset extends Asset {
   create() {
     this.createAsset();
     const mergedData = this._getMergedData();
@@ -10,28 +10,21 @@ export class Base extends Asset {
   }
 
   createAsset() {
-    this.asset = new PIXI.DisplayObject();
+    this.asset = new THREE.Object3D();
   }
 
   reset() {
-    super.reset();
-
     const {asset} = this;
 
-    asset.position.set(0);
-    asset.scale.set(1);
-    asset.rotation = 0;
-    asset.skew.set(0);
-    asset.zIndex = 0;
-    asset.visible = true;
-    asset.renderable = true;
-    asset.alpha = 1;
-    asset.eventMode = "passive";
-    asset.cursor = null;
-    // ?label, ?id
-    asset.removeFromParent();
+    super.reset();
 
-    return asset;
+    asset.position.set(0, 0, 0);
+    asset.rotation.set(0, 0, 0);
+    asset.scale.set(1, 1, 1);
+
+    asset.visible = true;
+
+    asset.remove();
   }
 
   _setProperties(mergedData) {

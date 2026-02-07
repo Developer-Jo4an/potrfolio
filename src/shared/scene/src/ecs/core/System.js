@@ -11,9 +11,15 @@ export class System extends Unit {
    */
   updateOrder = 0;
 
-  constructor() {
+  /**
+   * Фабрика ассетов
+   */
+  factory;
+
+  constructor({factory}) {
     super(...arguments);
 
+    this.factory = factory;
     this.uuid = uuidv4();
 
     this.eventBus.addEventListener(STATE_CHANGED, this.onStateChanged.bind(this));

@@ -1,22 +1,28 @@
-import {TileExplorerFactory} from "./Factory";
 import {Game} from "./systems/Game";
 import {Level} from "./systems/Level";
-import {AbstractTree} from "./systems/AbstractTree";
+import {Tree} from "./systems/Tree";
 import {Interactive} from "./systems/Interactive";
-import {gameSpaceStore} from "../model/storages/gameSpace";
-import {NOT_AVAILABLE_ENTITIES_TYPES_FOR_RESET} from "../constants/reset";
-import {GAME, GAME_SIZE} from "../constants/game";
+import {Boosters} from "./systems/Boosters";
+import {Animations} from "./systems/Animations";
+import {Time} from "./systems/Time";
+import {Utils} from "./decorators/Utils";
+import {Effects} from "./systems/Effects";
+import {GAME_SIZE, GAME} from "../constants/game";
+import {statesData} from "../constants/state";
+import {config} from "./assets/config";
 import {
-  UPDATE_DECORATOR_FIELD,
-  RESIZE,
-  UPDATED,
-  analysis,
-  eventSubscription,
-  getIsDebug,
-  Collector,
-  Assets,
   Engine,
-  PIXIController
+  Factory,
+  PIXIController,
+  PixiRenderSystem,
+  Assets,
+  Collector,
+  getIsDebug,
+  eventSubscription,
+  analytics,
+  UPDATE_DECORATOR_FIELD,
+  UPDATED,
+  RESIZE
 } from "@shared";
 
 export class Controller extends PIXIController {
@@ -34,7 +40,6 @@ export class Controller extends PIXIController {
 
   initEvents() {
     const {eventBus} = this;
-
     eventSubscription({
       target: eventBus,
       callbacksBus: [
@@ -44,10 +49,24 @@ export class Controller extends PIXIController {
     });
   }
 
+  async loadManifestSelect() {
+    if (this._isLoadedManifest) return;
+    await super.loadManifestSelect();
+    this._isLoadedManifest = true;
+  }
+
+  async loadingSelect() {
+    if (this._isLoaded) return;
+    await super.loadingSelect();
+    this._isLoaded = true;
+  }
+
   async initializationSelect() {
-    if (this.isInitialized) return;
+    if (this._isInitialized) return;
+    this.initConfig();
     this.initEngine();
-    this.isInitialized = true;
+    this.initServiceData();
+    this._isInitialized = true;
   }
 
   playingSelect() {
@@ -58,26 +77,67 @@ export class Controller extends PIXIController {
     this.stop();
   }
 
-  initEngine() {
-    const {storage, app, stage, ticker, renderer, canvas, decorators, eventBus} = this;
+  losingSelect() {
+    return this.waitPromises();
+  }
 
-    const engine = (storage.engine = this.engine = new Engine({eventBus}));
+  winningSelect() {
+    return this.waitPromises();
+  }
+
+  waitPromises() {
+    const {
+      storage: {
+        mainSceneSettings: {engGameWaiting}
+      }
+    } = this;
+
+    return new Promise(res => setTimeout(res, engGameWaiting));
+  }
+
+  initConfig() {
+    const formattedConfig = window.location.search.replace(/&quot;/g, "\"");
+    const params = new URLSearchParams(formattedConfig);
+    const config = params.get("config");
+    if (config) this.storage.config = JSON.parse(config);
+  }
+
+  initEngine() {
+    const {storage, app, stage, decorators, renderer, canvas, eventBus} = this;
+
+    const engine = (storage.engine = this.engine = new Engine({eventBus, storage, decorators: [Utils]}));
     storage.eventBus = eventBus;
-    storage.decorators = decorators;
-    storage.gameSpace = gameSpaceStore;
     storage.app = app;
+    storage.decorators = decorators;
     storage.stage = stage;
-    storage.ticker = ticker;
     storage.renderer = renderer;
     storage.canvas = canvas;
 
-    engine
-    .addSystem(new Assets({eventBus, storage, factory: new TileExplorerFactory({eventBus, storage})}))
-    .addSystem(new AbstractTree({eventBus, storage}))
-    .addSystem(new Level({eventBus, storage}))
-    .addSystem(new Interactive({eventBus, storage}))
-    .addSystem(new Collector({eventBus, storage}))
-    .addSystem(new Game({eventBus, storage}));
+    const fullProps = {eventBus, storage, factory: new Factory({defaultProperties: {eventBus, storage}, config})};
+
+    const systemClasses = [
+      Assets,
+      Tree,
+      Level,
+      Interactive,
+      Boosters,
+      Animations,
+      Effects,
+      PixiRenderSystem,
+      Time,
+      Game,
+      Collector
+    ];
+
+    systemClasses.forEach(System => {
+      const system = new System(fullProps);
+      engine.addSystem(system);
+    });
+  }
+
+  initServiceData() {
+    const {storage} = this;
+    storage.serviceData = {clearFunctions: []};
   }
 
   updateEngine({deltaTime, deltaMS}) {
@@ -85,12 +145,29 @@ export class Controller extends PIXIController {
     engine.update({deltaTime, deltaMS});
   }
 
+  start() {
+    const {decorators} = this;
+    const updateDecorator = decorators[UPDATE_DECORATOR_FIELD];
+    updateDecorator.startUpdate();
+    gsap.localTimeline.play(GAME);
+  }
+
+  stop() {
+    const {decorators} = this;
+    const updateDecorator = decorators[UPDATE_DECORATOR_FIELD];
+    updateDecorator.stopUpdate();
+    gsap.localTimeline.play(GAME);
+  }
+
   get isAvailableUpdate() {
-    const {
-      storage: {states},
-      state
-    } = this;
-    return !!states[state]?.isAvailableUpdate;
+    const {state} = this;
+    return statesData.availableUpdate.includes(state);
+  }
+
+  onUpdated() {
+    if (this.isAvailableUpdate)
+      this.updateEngine(...arguments);
+    super.onUpdated();
   }
 
   onResized() {
@@ -98,62 +175,70 @@ export class Controller extends PIXIController {
       stage,
       $container: {offsetWidth: width, offsetHeight: height}
     } = this;
+
     const scale = Math.min(width / GAME_SIZE.width, height / GAME_SIZE.height);
     stage.scale.set(scale);
-    stage.position.set((width - GAME_SIZE.width * scale) / 2, (height - GAME_SIZE.height * scale) / 2);
+
+    const x = (width - GAME_SIZE.width * scale) / 2;
+    const y = (height - GAME_SIZE.height * scale) / 2;
+    stage.position.set(x, y);
   }
 
-  onUpdated() {
-    if (!this.isAvailableUpdate) return;
-    super.onUpdated(...arguments);
-    this.updateEngine(...arguments);
-  }
-
-  start() {
-    const {decorators} = this;
-    const updateDecorator = decorators[UPDATE_DECORATOR_FIELD];
-    updateDecorator.startUpdate();
-    gsap.localTimeline.play(TILE_EXPLORER);
-  }
-
-  stop() {
-    const {decorators} = this;
-    const updateDecorator = decorators[UPDATE_DECORATOR_FIELD];
-    updateDecorator.stopUpdate();
-    gsap.localTimeline.pause(TILE_EXPLORER);
-  }
-
-  reset() {
+  resetUpdate() {
     this.stop();
+    gsap.localTimeline.clear(GAME);
+  }
 
-    gsap.localTimeline.clear(TILE_EXPLORER);
-
+  resetServiceData() {
     const {
-      storage: {
-        gameSpace: {get, reset, set}
-      }
+      storage: {serviceData}
     } = this;
-    const gameSpace = get();
-    gameSpace.serviceData.clearFunctions.forEach((func) => func());
-    set(({serviceData: {clearFunctions}}) => (clearFunctions.length = 0));
-    reset();
 
+    if (serviceData) {
+      const {clearFunctions} = serviceData;
+      clearFunctions.forEach(func => func());
+      clearFunctions.length = 0;
+    }
+  }
+
+  resetGameStore() {
+    const {
+      storage,
+      storage: {gameStore}
+    } = this;
+
+    if (gameStore) {
+      gameStore.reset();
+      storage.gameSpace = gameStore.gameSpace;
+    }
+  }
+
+  resetEngine() {
     const {
       storage: {engine}
     } = this;
-    engine.reset();
 
+    if (!engine) return;
+
+    engine.reset();
     for (const key in engine.entities) {
-      if (NOT_AVAILABLE_ENTITIES_TYPES_FOR_RESET.includes(key)) continue;
+      if (key === "game") continue;
       const collection = engine.entities[key];
       const savedList = [...collection.list];
-      savedList.forEach((entity) => {
+      savedList.forEach(entity => {
         collection.remove(entity);
         entity.destroy();
       });
       savedList.length = 0;
     }
+  }
 
-    if (getIsDebug()) analysis.logStatistics();
+  reset() {
+    this.resetUpdate();
+    this.resetServiceData();
+    this.resetGameStore();
+    this.resetEngine();
+    getIsDebug() && analytics.logStatistics();
   }
 }
+

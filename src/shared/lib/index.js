@@ -13,6 +13,16 @@ export * from "./src/encoding/base64";
 export * from "./src/events/eventPosition";
 export * from "./src/events/eventListener";
 
+export * from "./src/math/CatmullRomCurve3";
+export * from "./src/math/SplineCurve";
+export * from "./src/math/Curve";
+export * from "./src/math/Euler";
+export * from "./src/math/Matrix4";
+export * from "./src/math/Quaternion";
+export * from "./src/math/Vector2";
+export * from "./src/math/Vector3";
+export * from "./src/math/Vector4";
+
 export * from "./src/gsap/helpers";
 export * from "./src/gsap/LocalTimeline";
 

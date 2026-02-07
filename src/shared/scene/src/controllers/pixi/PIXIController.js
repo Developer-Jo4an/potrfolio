@@ -90,7 +90,7 @@ export class PIXIController extends BaseController {
   }
 
   async initDevTools() {
-    const {renderer, stage} = this;
+    const {app: {stage, renderer}} = this;
     await initDevtools({renderer, stage});
     globalThis.__PIXI_STAGE__ = stage;
     globalThis.__PIXI_RENDERER__ = renderer;

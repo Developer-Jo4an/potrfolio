@@ -2,7 +2,7 @@ import {v4 as uuidv4} from "uuid";
 import {Entity} from "./Entity";
 import {Component} from "./Component";
 import {Library as Collection} from "../base/library/Library";
-import {analysis} from "../../analytics/Analytics";
+import {analytics} from "../../analytics/Analytics";
 
 export class Engine {
   /**
@@ -39,7 +39,7 @@ export class Engine {
     this.storage = storage;
     this.uuid = uuidv4();
 
-    analysis.connect("ecs", this);
+    analytics.connect("ecs", this);
     this.addListeners();
     this.initDecorators(decoratorClasses);
   }

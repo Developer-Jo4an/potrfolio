@@ -1,9 +1,9 @@
-import {useRef} from "react";
+import {useMemo, useRef} from "react";
 import cl from "classnames";
-import {imports, useLoadScene, useResetScene, useStateControls} from "@shared";
+import {imports, ProxyGameSpaceStore, useLoadScene, useResetScene, useStateControls} from "@shared";
 import {useTileExplorerStore} from "../../model/state-manager/tileExplorerStore";
-import {IGNORE_NEXT_STATES, STATE_MACHINE} from "../../constants/stateMachine";
-import {types} from "../../constants/entities/types";
+import {IGNORE_NEXT_STATES, INITIALIZATION, STATE_MACHINE} from "../../constants/stateMachine";
+import {types} from "../../controllers/entities/types";
 import {MAIN_SCENE_SETTINGS} from "../../constants/mainSceneSettings";
 import {preload} from "../../constants/preload";
 import {LOSE, WIN} from "../../constants/stateMachine";
@@ -20,18 +20,32 @@ export function Canvas() {
     beforeInit(wrapper) {
       wrapper.controller.storage.states = STATE_MACHINE;
       wrapper.controller.storage.types = types;
+      wrapper.controller.storage.gameStore = ProxyGameSpaceStore.get("tileExplorer");
+      wrapper.controller.storage.gameSpace = ProxyGameSpaceStore.get("tileExplorer").gameSpace;
       wrapper.controller.storage.config = config;
     },
     initProps: {stateMachine: STATE_MACHINE, mainSceneSettings: MAIN_SCENE_SETTINGS, preload},
     afterInit: setWrapper,
-    containerRef,
+    containerRef
   });
 
-  useStateControls(wrapper, STATE_MACHINE, IGNORE_NEXT_STATES, null, setState);
+  const reset = () => {
+    wrapper.reset();
+    setState(INITIALIZATION);
+  };
+
+  useStateControls(wrapper, STATE_MACHINE, IGNORE_NEXT_STATES, useMemo(() => ({
+    [LOSE]() {
+      reset();
+    },
+    [WIN]() {
+      reset();
+    }
+  }), [wrapper]), setState);
 
   useResetScene({wrapper});
 
   const isGameEnd = [WIN, LOSE].includes(state);
 
-  return <div ref={containerRef} className={cl(styles.canvas, {[styles.canvasDisabled]: isGameEnd})} />;
+  return <div ref={containerRef} className={cl(styles.canvas, {[styles.canvasDisabled]: isGameEnd})}/>;
 }

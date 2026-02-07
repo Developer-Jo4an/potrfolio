@@ -5,11 +5,11 @@ export * from "./src/animations/AnimationPlayer";
 
 export * from "./src/assets/AssetsManager";
 export * from "./src/assets/Asset";
-export * from "./src/assets/pixi/Base";
+export * from "./src/assets/pixi/BasePixiAsset";
 export * from "./src/assets/pixi/Container";
 export * from "./src/assets/pixi/Sprite";
 export * from "./src/assets/pixi/TilingSprite";
-export * from "./src/assets/three/Base";
+export * from "./src/assets/three/BaseThreeAsset";
 
 export * from "./src/config/pixi";
 export * from "./src/config/three";
@@ -55,10 +55,6 @@ export * from "./src/ecs/core/Engine";
 export * from "./src/ecs/core/Engine";
 export * from "./src/ecs/core/System";
 export * from "./src/ecs/core/Entity";
-export * from "./src/ecs/math/Euler";
-export * from "./src/ecs/math/Matrix4";
-export * from "./src/ecs/math/Quaternion";
-export * from "./src/ecs/math/Vector3";
 export * from "./src/ecs/pixi/components/PixiComponent";
 export * from "./src/ecs/pixi/systems/PixiRenderSystem";
 export * from "./src/ecs/rapier/components/Body";
@@ -104,3 +100,6 @@ export * from "./src/utils/GameUtils";
 export * from "./src/wrappers/base/BaseWrapper";
 export * from "./src/wrappers/pixi/PixiWrapper";
 export * from "./src/wrappers/three/ThreeWrapper";
+
+
+export * from "./src/helpers/pixi/spine";

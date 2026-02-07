@@ -1,10 +1,6 @@
 import {Tween} from "../Tween";
 import {GAME} from "../../../constants/game";
-import PS from "@PS";
-
-const {
-  pixi: {playAnimationOnce},
-} = PS;
+import {playAnimationOnce} from "@shared";
 
 export class HideCell extends Tween {
   settings = {
@@ -31,7 +27,7 @@ export class HideCell extends Tween {
 
     const tween = (this.tween = gsap
       .timeline({
-        onStart: () => {
+        onStart() {
           clip.alpha = 1;
           clip.state.timeScale = 1;
         },
@@ -42,7 +38,7 @@ export class HideCell extends Tween {
             this.resolve();
           }
         },
-        onComplete: () => {
+        onComplete() {
           view.alpha = 0;
           tween.delete(GAME);
         },

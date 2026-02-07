@@ -13,7 +13,7 @@ import {
   RESIZE,
   UPDATED,
   UPDATE_DECORATOR_FIELD,
-  analysis,
+  analytics,
   eventSubscription,
   getIsDebug,
   Engine,
@@ -137,6 +137,6 @@ export class Controller extends PIXIController {
       savedList.length = 0;
     }
 
-    getIsDebug() && analysis.logStatistics();
+    getIsDebug() && analytics.logStatistics();
   }
 }

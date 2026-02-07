@@ -1,5 +1,5 @@
 import {clamp} from "lodash";
-import {warn} from "../utils/warn";
+import {warn} from "../../../scene/src/ecs/utils/warn";
 
 /**
  * Class for representing a Quaternion. Quaternions are used in three.js to represent rotations.

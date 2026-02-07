@@ -1,5 +1,5 @@
-import {Controller} from "./Controller";
 import {PixiWrapper, STATE_DECORATOR_FIELD} from "@shared";
+import {Controller} from "./Controller";
 
 export class Wrapper extends PixiWrapper {
   static get instance() {
@@ -17,6 +17,19 @@ export class Wrapper extends PixiWrapper {
 
   set state(state) {
     this.controller.decorators[STATE_DECORATOR_FIELD].state = state;
+  }
+
+  applyBooster(type) {
+    const {
+      controller: {
+        engine: {
+          systems: {list},
+        },
+      },
+    } = this;
+
+    const boostersSystem = list.find(({uuid}) => uuid === "boosters");
+    boostersSystem.applyBooster(type);
   }
 
   reset() {

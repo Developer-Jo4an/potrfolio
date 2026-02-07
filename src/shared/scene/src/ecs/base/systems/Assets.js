@@ -2,10 +2,8 @@ import {System} from "../../core/System";
 import {eventSubscription} from "@shared";
 
 export class Assets extends System {
-  constructor({factory}) {
+  constructor() {
     super(...arguments);
-
-    this.factory = factory;
 
     this.getAsset = this.getAsset.bind(this);
   }

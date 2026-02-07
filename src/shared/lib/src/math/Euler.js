@@ -1,7 +1,7 @@
-import {Quaternion} from "./Quaternion.js";
-import {Matrix4} from "./Matrix4.js";
+import {Quaternion} from "./Quaternion";
+import {Matrix4} from "./Matrix4";
 import {clamp} from "lodash";
-import {warn} from "../utils/warn";
+import {warn} from "../../../scene/src/ecs/utils/warn";
 
 const _matrix = /*@__PURE__*/ new Matrix4();
 const _quaternion = /*@__PURE__*/ new Quaternion();
