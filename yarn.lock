@@ -68,6 +68,18 @@
   dependencies:
     tslib "^2.4.0"
 
+"@esotericsoftware/spine-core@4.2.100":
+  version "4.2.100"
+  resolved "https://registry.yarnpkg.com/@esotericsoftware/spine-core/-/spine-core-4.2.100.tgz#68bdca3983f182c58abe71599141b60eb8f1b4e0"
+  integrity sha512-ayThcSiYKaAVUVveiAIpCNm8AaamFJ62OsR0DUxZhp8I9GnDOYd0La+eFR4+1iRNsc6fkcN/ASdqvO6fyNXIEw==
+
+"@esotericsoftware/spine-pixi-v8@^4.2.100":
+  version "4.2.100"
+  resolved "https://registry.yarnpkg.com/@esotericsoftware/spine-pixi-v8/-/spine-pixi-v8-4.2.100.tgz#0295464d980989d75d9c65162c8da7ed849411b9"
+  integrity sha512-K288Tfjveh8Cgc10K/mKn4Y4Gb43xJXJZb6pPoVL0vRahdcQkee2sugug0zDVIAUStUClEpSWBFHgU/3GfnVsw==
+  dependencies:
+    "@esotericsoftware/spine-core" "4.2.100"
+
 "@img/sharp-darwin-arm64@0.34.3":
   version "0.34.3"
   resolved "https://registry.yarnpkg.com/@img/sharp-darwin-arm64/-/sharp-darwin-arm64-0.34.3.tgz#4850c8ace3c1dc13607fa07d43377b1f9aa774da"
@@ -752,6 +764,11 @@ node-addon-api@^7.0.0:
   version "7.1.1"
   resolved "https://registry.yarnpkg.com/node-addon-api/-/node-addon-api-7.1.1.tgz#1aba6693b0f255258a049d621329329322aad558"
   integrity sha512-5m3bsyrjFWE1xf7nz7YXdN4udnVtXK6/Yfgn5qnahL6bCkf2yKt4k3nuTKAtT4r3IG8JNR2ncsIMdZuAzJjHQQ==
+
+on-change@^6.0.1:
+  version "6.0.2"
+  resolved "https://registry.yarnpkg.com/on-change/-/on-change-6.0.2.tgz#8593ca2df07a9c33898fdc92aa15b1f5a86923d9"
+  integrity sha512-08+12qcOVEA0fS9g/VxKS27HaT94nRutUT77J2dr8zv/unzXopvhBuF8tNLWsoLQ5IgrQ6eptGeGqUYat82U1w==
 
 parse-svg-path@^0.1.2:
   version "0.1.2"

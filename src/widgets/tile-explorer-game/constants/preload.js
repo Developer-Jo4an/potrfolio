@@ -1,13 +1,35 @@
-import {TEXTURE, assets} from "@shared";
+import {SCENE, TEXTURE, assets} from "@shared";
 
+export const TILE_EXPLORER = "tileExplorer";
 export const CELL_BACKGROUND = "cellBackground";
-export const WATERMELON = "watermelon";
-export const ORANGE = "orange";
-export const CHERRY = "cherry";
 
 export const preload = [
-  {type: TEXTURE, name: CELL_BACKGROUND, src: assets("tile-explorer/cellBackground.png")},
-  {type: TEXTURE, name: WATERMELON, src: assets("tile-explorer/watermelon.png")},
-  {type: TEXTURE, name: ORANGE, src: assets("tile-explorer/orange.png")},
-  {type: TEXTURE, name: CHERRY, src: assets("tile-explorer/cherry.png")},
+  {
+    type: TEXTURE,
+    name: CELL_BACKGROUND,
+    src: assets("tile-explorer/cell-background.png")
+  },
+  {
+    type: SCENE,
+    name: TILE_EXPLORER,
+    src: {
+      atlas: assets("tile-explorer/spine/tele.atlas"),
+      skeletons: {
+        "skeleton_Item_1_0": assets("tile-explorer/spine/Item_1_0.json"),
+        "skeleton_Item_1_0_explosion": assets("tile-explorer/spine/Item_1_0_explosion.json"),
+
+        "skeleton_Item_1_1": assets("tile-explorer/spine/Item_1_1json"),
+        "skeleton_Item_1_1_explosion": assets("tile-explorer/spine/Item_1_1_explosion.json"),
+
+        "skeleton_Item_1_2": assets("tile-explorer/spine/Item_1_2.json"),
+        "skeleton_Item_1_2_explosion": assets("tile-explorer/spine/Item_1_2_explosion.json"),
+
+        "skeleton_Item_1_3": assets("tile-explorer/spine/Item_1_3.json"),
+        "skeleton_Item_1_3_explosion": assets("tile-explorer/spine/Item_1_3_explosion.json"),
+
+        "skeleton_Item_1_4": assets("tile-explorer/spine/Item_1_4.json"),
+        "skeleton_Item_1_4_explosion": assets("tile-explorer/spine/Item_1_4_explosion.json")
+      }
+    }
+  }
 ];

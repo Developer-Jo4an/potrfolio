@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@dimforge/rapier3d": "^0.19.3",
+    "@esotericsoftware/spine-pixi-v8": "^4.2.100",
     "@pixi/devtools": "^2.0.1",
     "axios": "^1.11.0",
     "classnames": "^2.5.1",
@@ -24,6 +25,7 @@
     "next": "15.5.4",
     "phaser": "^3.90.0",
     "pixi.js": "^8.14.3",
+    "on-change": "^6.0.1",
     "react": "19.1.0",
     "react-canvas-confetti": "^2.0.7",
     "react-dom": "19.1.0",

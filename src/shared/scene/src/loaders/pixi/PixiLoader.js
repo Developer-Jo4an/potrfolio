@@ -1,7 +1,7 @@
 import {BaseLoader} from "../base/BaseLoader";
 import {upperFirst} from "lodash";
 import {assetsManager} from "../../assets/AssetsManager";
-import {PIXI_SPACE, TEXTURE} from "../../constants/loaders/assetsTypes";
+import {PIXI_SPACE, SCENE, TEXTURE} from "../../constants/loaders/assetsTypes";
 
 export class PIXILoader extends BaseLoader {
   async init(dpr) {
@@ -9,7 +9,7 @@ export class PIXILoader extends BaseLoader {
 
     await PIXI.Assets.init({
       texturePreference: {resolution: dpr, format: ["png"]},
-      preferences: {crossOrigin: "anonymous"},
+      preferences: {crossOrigin: "anonymous"}
     });
 
     this.isInitialized = true;
@@ -19,13 +19,37 @@ export class PIXILoader extends BaseLoader {
     return Promise.all(
       assets.map(({name, type, src}) => {
         return this[`load${upperFirst(type)}`](name, src);
-      }),
+      })
     );
   }
 
   async loadTexture(name, src) {
     const texture = await PIXI.Assets.load({alias: name, src});
     assetsManager.setAssetsToSpace(PIXI_SPACE, TEXTURE, name, texture);
+  }
+
+  async loadScene(name, {atlas: atlasSrc, skeletons}) {
+    const loadedAliases = [];
+
+    const atlasKey = `${name}Atlas`;
+    PIXI.Assets.add({alias: atlasKey, src: atlasSrc});
+    loadedAliases.push(atlasKey);
+
+    for (const skeletonName in skeletons) {
+      const skeletonSrc = skeletons[skeletonName];
+      PIXI.Assets.add({alias: skeletonName, src: skeletonSrc});
+      loadedAliases.push(skeletonName);
+    }
+
+    const loadedData = await PIXI.Assets.load(loadedAliases);
+
+    const spineData = Object.keys(loadedData).reduce((acc, key) => {
+      if (!skeletons[key]) return acc;
+      acc[key] = () => PIXI.SPINE.Spine.from({skeleton: key, atlas: atlasKey});
+      return acc;
+    }, {});
+
+    assetsManager.setAssetsToSpace(PIXI_SPACE, SCENE, name, spineData);
   }
 }
 

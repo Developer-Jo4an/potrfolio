@@ -1,8 +1,12 @@
 import PixiPlugin from "gsap/PixiPlugin";
 import * as PIXI from "pixi.js";
+import * as SPINE from "@esotericsoftware/spine-pixi-v8";
 
-// TODO: убрать gsap
 global.PIXI = PIXI;
-gsap.PIXI = PIXI;
-gsap.registerPlugin(PixiPlugin);
-PixiPlugin.registerPIXI(PIXI);
+global.PIXI.SPINE = SPINE;
+
+if (global.gsap) {
+  gsap.PIXI = PIXI;
+  gsap.registerPlugin(PixiPlugin);
+  PixiPlugin.registerPIXI(PIXI);
+}

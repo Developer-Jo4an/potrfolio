@@ -1,23 +1,22 @@
-// biome-ignore format
 export const config = {
   grid: [
     [
-      [{type: "cherry"}, {type: "cherry"}, {type: "cherry"}, {type: "cherry"}, {type: "cherry"}],
-      [{type: "cherry"}, {type: "cherry"}, {type: "cherry"}, {type: "cherry"}, {type: "cherry"}],
-      [{type: "cherry"}, {type: "cherry"}, {type: "cherry"}, {type: "cherry"}, {type: "cherry"}],
-      [{type: "cherry"}, {type: "cherry"}, {type: "cherry"}, {type: "cherry"}, {type: "cherry"}],
-      [{type: "cherry"}, {type: "cherry"}, {type: "cherry"}, {type: "cherry"}, {type: "cherry"}],
+      [{type: "1"}, {type: "1"}, {type: "1"}, {type: "1"}, {type: "1"}],
+      [{type: "1"}, {type: "1"}, {type: "1"}, {type: "1"}, {type: "1"}],
+      [{type: "1"}, {type: "1"}, {type: "1"}, {type: "1"}, {type: "1"}],
+      [{type: "1"}, {type: "1"}, {type: "1"}, {type: "1"}, {type: "1"}],
+      [{type: "1"}, {type: "1"}, {type: "1"}, {type: "1"}, {type: "1"}],
     ],
     [
-      [{type: "orange"}, {type: "orange"}, {type: "orange"}, {type: "orange"}],
-      [{type: "orange"}, {type: "orange"}, {type: "orange"}, {type: "orange"}],
-      [{type: "orange"}, {type: "orange"}, {type: "orange"}, {type: "orange"}],
-      [{type: "orange"}, {type: "orange"}, {type: "orange"}, {type: "orange"}],
+      [{type: "2"}, {type: "2"}, {type: "2"}, {type: "2"}],
+      [{type: "2"}, {type: "2"}, {type: "2"}, {type: "2"}],
+      [{type: "2"}, {type: "2"}, {type: "2"}, {type: "2"}],
+      [{type: "2"}, {type: "2"}, {type: "2"}, {type: "2"}],
     ],
     [
-      [{type: "watermelon"}, {type: "watermelon"}, {type: "watermelon"}],
-      [{type: "watermelon"}, {type: "watermelon"}, {type: "watermelon"}],
-      [{type: "watermelon"}, {type: "watermelon"}, {type: "watermelon"}],
+      [{type: "3"}, {type: "3"}, {type: "3"}],
+      [{type: "3"}, {type: "3"}, {type: "3"}],
+      [{type: "3"}, {type: "3"}, {type: "3"}],
     ],
   ],
 };

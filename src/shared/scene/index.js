@@ -66,6 +66,7 @@ export * from "./src/factory/FactoryStorage";
 
 export * from "./src/gameSpace/GameSpaceStore";
 export * from "./src/gameSpace/useGameSpaceStore";
+export * from "./src/gameSpace/ProxyGameSpaceStore";
 
 export * from "./src/lib/event-dispatcher/EventDispatcher";
 export * from "./src/lib/import/matter/import-matter";

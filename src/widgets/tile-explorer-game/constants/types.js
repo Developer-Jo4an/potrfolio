@@ -9,10 +9,10 @@ import {CELL} from "../controllers/entities/Cell";
 
 export const types = {
   [GAME]: {
-    components: [{Class: State, props: {states: STATE_MACHINE}}, {Class: Game}],
+    components: [{Class: State, props: {states: STATE_MACHINE}}, {Class: Game}]
   },
   [ABSTRACT_TREE]: {
-    components: [{Class: AbstractTree}, {Class: PixiComponent}, {Class: Matrix3Component}, {Class: Collection}],
+    components: [{Class: AbstractTree}, {Class: PixiComponent}, {Class: Matrix3Component}, {Class: Collection}]
   },
   [CELL]: {
     components: [
@@ -20,14 +20,7 @@ export const types = {
       {Class: Matrix3Component},
       {Class: Collection},
       {Class: GSAPTween},
-      {Class: Cell},
-    ],
-  },
+      {Class: Cell}
+    ]
+  }
 };
-
-//{Class: State, props: {states: characterStates, state: getDefaultState(characterStates)}},
-//       {Class: ThreeComponent},
-//       {Class: Matrix4Component},
-//       {Class: Body},
-//       {Class: Collection},
-//       {Class: GSAPTween},
