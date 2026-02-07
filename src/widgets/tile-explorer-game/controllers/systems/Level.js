@@ -1,5 +1,5 @@
-import {Cell as AssetCell} from "../assets/Cell";
-import {Entity, System} from "@shared";
+import {Cell, Cell as AssetCell} from "../assets/Cell";
+import {Entity, playAnimationOnce, System} from "@shared";
 import {TREE} from "../entities/tree";
 import {CELL} from "../entities/cell";
 import {GAME_SIZE} from "../../constants/game";
@@ -41,6 +41,7 @@ export class Level extends System {
       this.prepareCellBackground(fullProps);
       this.prepareCellSign(fullProps);
       this.prepareCellExplosion(fullProps);
+      this.prepareCellBlocked(fullProps);
       this.prepareCellMatrix(fullProps);
     });
 
@@ -75,25 +76,19 @@ export class Level extends System {
   }
 
   preparePixiComponent({eCell, cell}) {
-    const {
-      storage: {
-        mainSceneSettings: {cell: cellSettings}
-      }
-    } = this;
-
     const {view} = this.getTreeInfo();
     const {cPixi, isBlocked} = this.getCellInfo(eCell);
 
     const aCell = (cPixi.pixiObject = this.getAsset(eCell, CELL, {extraData: {type: cell.type}}));
     aCell.zIndex = cell.z;
 
-    if (isBlocked) {
-      aCell.tint = cellSettings.tint.invisible;
-      this.disableCellView(aCell);
-    } else {
-      aCell.tint = cellSettings.tint.visible;
-      this.enableCellView(aCell);
-    }
+    const blockedSpineClip = aCell.getChildByLabel(Cell.types.blocked);
+    playAnimationOnce({spine: blockedSpineClip, name: "idle_1", pause: true});
+    blockedSpineClip.alpha = +isBlocked;
+
+    isBlocked
+      ? this.disableCellView(aCell)
+      : this.enableCellView(aCell);
 
     view.addChild(aCell);
   }
@@ -133,7 +128,7 @@ export class Level extends System {
   prepareCellExplosion({eCell, cell, width, height}) {
     const {view} = this.getCellInfo(eCell);
 
-    const cellSignExplosion = view.getChildByLabel(AssetCell.getSpineClipLabel(cell.type, true));
+    const cellSignExplosion = view.getChildByLabel(AssetCell.getSpineClipLabel(cell.type, AssetCell.types.explosion));
 
     const scaleSignExplosionX = width / cellSignExplosion.width;
     const scaleSignExplosionY = height / cellSignExplosion.height;
@@ -141,6 +136,19 @@ export class Level extends System {
     const scaleSignExplosion = Math.min(scaleSignExplosionX, scaleSignExplosionY);
 
     cellSignExplosion.scale.set(scaleSignExplosion);
+  }
+
+  prepareCellBlocked({eCell, cell, width, height}) {
+    const {view} = this.getCellInfo(eCell);
+
+    const cellSignBlocked = view.getChildByLabel(AssetCell.getSpineClipLabel(cell.type, AssetCell.types.blocked));
+
+    const scaleSignExplosionX = width / cellSignBlocked.width;
+    const scaleSignExplosionY = height / cellSignBlocked.height;
+
+    const scaleSignExplosion = Math.min(scaleSignExplosionX, scaleSignExplosionY);
+
+    cellSignBlocked.scale.set(scaleSignExplosion);
   }
 
   prepareCellMatrix({eCell, cell, width, height}) {

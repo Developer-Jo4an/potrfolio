@@ -6,8 +6,6 @@ import {tweens} from "../../constants/tweens";
 export class Mix extends Booster {
   static boosterName = "mix";
 
-  static limit = 10;
-
   actionData = {};
 
   async apply() {
@@ -42,7 +40,7 @@ export class Mix extends Booster {
   async animate() {
     const {
       actionData: {animatedData},
-      system,
+      system
     } = this;
 
     const {cTween, cPromise} = system.getBoosterInfo();
@@ -52,8 +50,8 @@ export class Mix extends Booster {
         animateObjects: animatedData,
         onComplete() {
           cTween.remove(shuffleTween, tweens.shuffle);
-        },
-      },
+        }
+      }
     });
     cTween.add(shuffleTween, tweens.shuffle);
     cPromise.add(shuffleTween.promise);
@@ -69,7 +67,7 @@ export class Mix extends Booster {
   setToOriginalTree() {
     const {
       actionData: {shuffledTree},
-      system,
+      system
     } = this;
 
     const {cTree} = system.getTreeInfo();
@@ -120,12 +118,7 @@ export class Mix extends Booster {
     const {
       actionData,
       actionData: {shuffledTree},
-      storage: {
-        mainSceneSettings: {
-          cell: {tint},
-        },
-      },
-      system,
+      system
     } = this;
 
     actionData.animatedData = [];
@@ -149,11 +142,11 @@ export class Mix extends Booster {
         animateObject: currentCMatrix3,
         view: currentView,
         vars: {
-          tint: isBlocked ? tint.invisible : tint.visible,
+          isBlocked,
           x: targetCMatrix3.x,
           y: targetCMatrix3.y,
-          zIndex: z,
-        },
+          zIndex: z
+        }
       };
 
       actionData.animatedData.push(animationSettings);

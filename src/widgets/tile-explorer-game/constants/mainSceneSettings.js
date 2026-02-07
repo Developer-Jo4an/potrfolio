@@ -19,10 +19,6 @@ export const MAIN_SCENE_SETTINGS = {
     anchor: 0.5,
     size: 80,
     signSizeMultiplier: 0.8,
-    tint: {
-      visible: "#ffffff",
-      invisible: "#bcbbbb"
-    },
     animations: {
       idle: {
         s: 1000,

@@ -1,6 +1,6 @@
 import {CellToCage} from "../tweens/tweens/CellToCage";
 import {HideCell} from "../tweens/tweens/HideCell";
-import {ChangeTint} from "../tweens/tweens/ChangeTint";
+import {ChangeBlocked} from "../tweens/tweens/ChangeBlocked";
 import {Enter} from "../tweens/tweens/Enter";
 import {ReturnCell} from "../tweens/tweens/ReturnCell";
 import {Cell} from "../assets/Cell";
@@ -46,7 +46,7 @@ export class Animations extends System {
     const cells = this.getEntitiesByType(CELL).list;
     const {entity: eAnimationTree} = this.getAnimationTreeInfo();
 
-    const playIdle = spine => playAnimationOnce(spine, "idle", 0);
+    const playIdle = spine => playAnimationOnce({spine, name: "idle"});
 
     this.addSideEffect({
       entity: eAnimationTree,
@@ -256,7 +256,7 @@ export class Animations extends System {
 
       const hideTweens = chunk.map(eCell => {
         const {type, view, cTween, cMatrix3, cPromise} = this.getCellInfo(eCell);
-        const clip = view.getChildByLabel(Cell.getSpineClipLabel(type, true));
+        const clip = view.getChildByLabel(Cell.getSpineClipLabel(type, Cell.types.explosion));
 
         const enterTween = cTween.get(tweens.enter);
         if (enterTween) {
@@ -304,16 +304,6 @@ export class Animations extends System {
   }
 
   applyShowAnimations() {
-    const {
-      storage: {
-        mainSceneSettings: {
-          cell: {
-            tint: {visible, invisible}
-          }
-        }
-      }
-    } = this;
-
     const {tree, prevTrees} = this.getTreeInfo();
     const lastTree = prevTrees[prevTrees.length - 1];
 
@@ -325,21 +315,21 @@ export class Animations extends System {
 
       if (isReturn) return;
 
-      const prevTween = cTween.get(tweens.changeTint);
+      const prevTween = cTween.get(tweens.changeBlocked);
       prevTween && prevTween.destroy();
 
-      const changeTintTween = new ChangeTint({
+      const changeBlockedTween = new ChangeBlocked({
         vars: {
-          animateObject: view,
-          tint: isBlocked ? invisible : visible,
+          animateObject: view.getChildByLabel(Cell.types.blocked),
+          isBlocked,
           onComplete() {
-            cTween.remove(tweens.changeTint);
+            cTween.remove(tweens.changeBlocked);
           }
         }
       });
 
-      cTween.add(changeTintTween, tweens.changeTint);
-      cPromise.add(changeTintTween.promise);
+      cTween.add(changeBlockedTween, tweens.changeBlocked);
+      cPromise.add(changeBlockedTween.promise);
     });
   }
 

@@ -20,7 +20,7 @@ export class HideCell extends Tween {
       vars: {animateObject, view, clip, alpha},
     } = this;
 
-    playAnimationOnce(clip, "explosion");
+    playAnimationOnce({spine: clip, name: "explosion"});
     clip.state.timeScale = 0;
 
     let isResolved = false;

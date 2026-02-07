@@ -1,6 +1,6 @@
-import {PLAYING, LOSE, WIN} from "./stateMachine";
+import {PLAYING, LOSING, WINNING} from "./stateMachine";
 
 export const statesData = {
-  availableUpdate: [PLAYING],
+  availableUpdate: [PLAYING, LOSING, WINNING],
   availableInteractive: [PLAYING]
 };

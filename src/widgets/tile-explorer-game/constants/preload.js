@@ -47,7 +47,9 @@ export const preload = [
         "skeleton_Item_1_3_explosion": assets("tile-explorer/spine/Item_1_3_explosion.json"),
 
         "skeleton_Item_1_4": assets("tile-explorer/spine/Item_1_4.json"),
-        "skeleton_Item_1_4_explosion": assets("tile-explorer/spine/Item_1_4_explosion.json")
+        "skeleton_Item_1_4_explosion": assets("tile-explorer/spine/Item_1_4_explosion.json"),
+
+        "ice": assets("tile-explorer/spine/ice.json")
       }
     }
   }

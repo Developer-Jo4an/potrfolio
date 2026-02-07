@@ -4,5 +4,5 @@ export const tweens = {
   hideCell: "hideCell",
   shuffle: "shuffle",
   returnCell: "returnCell",
-  changeTint: "changeTint",
+  changeBlocked: "changeBlocked",
 };
