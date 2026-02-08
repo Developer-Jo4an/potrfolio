@@ -20,8 +20,11 @@ export function Canvas() {
     beforeInit(wrapper) {
       wrapper.controller.storage.states = STATE_MACHINE;
       wrapper.controller.storage.types = types;
-      wrapper.controller.storage.gameStore = ProxyGameSpaceStore.get("tileExplorer");
-      wrapper.controller.storage.gameSpace = ProxyGameSpaceStore.get("tileExplorer").gameSpace;
+
+      const gameStore = ProxyGameSpaceStore.get("tileExplorer");
+      wrapper.controller.storage.gameStore = gameStore;
+      wrapper.controller.storage.gameSpace = gameStore.gameSpace;
+
       wrapper.controller.storage.config = config;
     },
     initProps: {stateMachine: STATE_MACHINE, mainSceneSettings: MAIN_SCENE_SETTINGS, preload},

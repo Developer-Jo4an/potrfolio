@@ -1,6 +1,6 @@
-import styles from "./Background.module.scss";
 import {Image} from "@shared";
 import content from "../../constants/content";
+import styles from "./Background.module.scss";
 
 const {background} = content;
 

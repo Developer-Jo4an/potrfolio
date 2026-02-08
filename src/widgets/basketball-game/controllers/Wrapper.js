@@ -1,5 +1,4 @@
 import {Controller} from "./Controller";
-import {UUIDS} from "../constants/systems";
 import {STATE_DECORATOR_FIELD, ThreeWrapper} from "@shared";
 
 export class Wrapper extends ThreeWrapper {
@@ -32,7 +31,7 @@ export class Wrapper extends ThreeWrapper {
         },
       },
     } = this;
-    const characterSystem = systems.get(UUIDS.character);
+    const characterSystem = systems.get("character");
     characterSystem.activateBooster(type);
   }
 

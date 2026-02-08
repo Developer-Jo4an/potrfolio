@@ -29,14 +29,13 @@ import {CLEAR_HIT, COLLISION_START, GET_INFO, LOSE, MISS, THROWN, WIN} from "../
 import {GROUND} from "../../constants/ground";
 import {TWEENS} from "../../constants/tweens";
 import {ANIMATIONS, RING, RING_BODY, RING_GRID, RING_SHIELD, SENSOR} from "../../constants/ring";
-import {UUIDS} from "../../constants/systems";
 import {BASKETBALL, GAME} from "../../constants/game";
 import {LOSE as LOSE_STATE, WIN as WIN_STATE} from "../../constants/stateMachine";
 import {EXTRA_LIFE, X2} from "../../constants/boosters";
 import {X2VIEW} from "../../constants/x2View";
 
 export class Character extends System {
-  uuid = UUIDS.character;
+  uuid = "character";
 
   helpers = {raycaster: new THREE.Raycaster()};
 

@@ -23,12 +23,12 @@ export class Wrapper extends PixiWrapper {
     const {
       controller: {
         engine: {
-          systems: {list},
-        },
-      },
+          systems
+        }
+      }
     } = this;
 
-    const boostersSystem = list.find(({uuid}) => uuid === "boosters");
+    const boostersSystem = systems.get("boosters");
     boostersSystem.applyBooster(type);
   }
 
