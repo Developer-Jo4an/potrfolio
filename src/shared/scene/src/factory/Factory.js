@@ -54,7 +54,7 @@ export class Factory {
     storage.onCreateItem(type, item, data);
   }
 
-  getItem(type, data = {}) {
+  getItem(type, data) {
     const {config} = this;
 
     const storage = this.getStorage(type);
@@ -67,6 +67,14 @@ export class Factory {
     }
 
     return item;
+  }
+
+  pushItems(type) {
+    const {items, createdItems} = this.getStorage(type);
+    createdItems.forEach((item) => {
+      if (items.indexOf(item) !== -1) return;
+      this.pushItem(item, type);
+    });
   }
 
   pushItem(item, type) {
@@ -82,38 +90,6 @@ export class Factory {
     this.storage[type] = new FactoryStorage({type});
 
     return this.storage[type];
-  }
-
-  getItemByIdFromActive(id) {
-    for (const storage of Object.values(this.storage)) {
-      const item = storage.getItemByIdFromActive(id);
-      if (item) return item;
-    }
-  }
-
-  getItemByFactoryUidFromActive(uid) {
-    for (const storage of Object.values(this.storage)) {
-      const item = storage.getItemByFactoryUidFromActive(uid);
-      if (item) return item;
-    }
-  }
-
-  getItemById(id) {
-    for (const storage of Object.values(this.storage)) {
-      const item = storage.getItemById(id);
-      if (item) return item;
-    }
-  }
-
-  getItemByFactoryUid(uid) {
-    for (const storage of Object.values(this.storage)) {
-      const item = storage.getItemByFactoryUid(uid);
-      if (item) return item;
-    }
-  }
-
-  resetStorageItems(type) {
-    return this.getStorage(type).resetItems();
   }
 
   prepareItems(data) {

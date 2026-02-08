@@ -13,35 +13,11 @@ export class FactoryStorage {
     return this.createdItems.filter((item) => !this.items.includes(item));
   }
 
-  getItemByIdFromActive(id) {
-    return this.activeItems.find((item) => item.id === id);
-  }
-
-  getItemByFactoryUidFromActive(uid) {
-    return this.activeItems.find((item) => item._factoryUUID === uid);
-  }
-
-  getItemById(id) {
-    return this.items.find((item) => item.id === id);
-  }
-
-  getItemByFactoryUid(id) {
-    return this.items.find((item) => item._factoryUUID === id);
-  }
-
   pop() {
     if (!this.items.length) return;
     const item = this.items.splice(this.items.length - 1, 1)[0];
     item._isFactoryActiveItem = true;
     return item;
-  }
-
-  resetItems() {
-    const {items, createdItems} = this;
-    createdItems.forEach((item) => {
-      if (items.indexOf(item) !== -1) return;
-      this.push(item);
-    });
   }
 
   onCreateItem(type, item) {
