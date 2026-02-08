@@ -108,12 +108,25 @@ export class PIXIController extends BaseController {
     );
   }
 
+  updateDecoratorFields() {
+    const {$container, decorators} = this;
+
+    const updatedProps = {$container};
+
+    for (const key in decorators) {
+      const decorator = decorators[key];
+      decorator.updateProperties(updatedProps);
+    }
+  }
+
   prepare() {
-    const {$container, canvas} = this;
+    const {$container, decorators, canvas} = this;
 
     $container.appendChild(canvas);
 
-    const resizeDecorator = this.decorators[RESIZE_DECORATOR_FIELD];
+    this.updateDecoratorFields();
+
+    const resizeDecorator = decorators[RESIZE_DECORATOR_FIELD];
     resizeDecorator.onResized();
   }
 

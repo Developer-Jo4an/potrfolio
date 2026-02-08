@@ -1,9 +1,16 @@
 export class BaseDecorator {
   constructor(data) {
-    for (const key in data) this[key] = data[key];
+    this.updateProperties(data);
   }
 
-  initDecorator() {}
+  initDecorator() {
+  }
 
-  reset() {}
+  updateProperties(props) {
+    for (const key in props)
+      this[key] = props[key];
+  }
+
+  reset() {
+  }
 }
