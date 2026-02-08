@@ -1,6 +1,6 @@
 import {CatmullRomCurve3, System, Vector3} from "@shared";
 import {GAME, GAME_SIZE} from "../../constants/game";
-import {SNOW, SNOWS_CONTAINER} from "../../constants/preload";
+import {SNOWS_CONTAINER} from "../../constants/preload";
 
 export class Effects extends System {
   initializationLevelSelect() {
@@ -12,7 +12,7 @@ export class Effects extends System {
       storage: {
         stage,
         mainSceneSettings: {
-          snow: {sprite: {count}}
+          snow: {particles: {count}}
         }
       }
     } = this;
@@ -21,12 +21,13 @@ export class Effects extends System {
     stage.addChild(snowsContainer);
 
     for (let index = 0; index < count; index++) {
-      const {asset: particle} = this.getSnowParticleAsset();
-      snowsContainer.addChild(particle);
+      const currentParticle = snowsContainer.particleChildren[index];
+
+      this.prepareSnowParticle(currentParticle);
 
       const curve = this.getSnowParticleCurve(index, count);
 
-      const tween = this.getSnowParticleTween(particle, curve, index);
+      const tween = this.getSnowParticleTween(currentParticle, curve, index);
       tween.progress(Math.random());
     }
   }
@@ -40,26 +41,26 @@ export class Effects extends System {
     return containerAsset;
   }
 
-  getSnowParticleAsset() {
+  prepareSnowParticle(currentParticle) {
     const {
-      factory, storage: {
+      storage: {
         mainSceneSettings: {
           snow: {
-            sprite: {size}
+            particles: {size}
           }
         }
       }
     } = this;
 
-    const particleAsset = factory.getItem(SNOW);
-    this.toFactory(particleAsset);
+    const scale = Math.min(
+      size / currentParticle.texture.width,
+      size / currentParticle.texture.height
+    );
 
-    const {asset: particle} = particleAsset;
+    currentParticle.scaleX = scale;
+    currentParticle.scaleY = scale;
 
-    const scale = Math.min(size / particle.width, size / particle.height);
-    particle.scale.set(scale);
-
-    return particleAsset;
+    return currentParticle;
   }
 
   getSnowParticleCurve(index, length) {
@@ -68,7 +69,7 @@ export class Effects extends System {
         mainSceneSettings: {
           snow: {
             curveSettings: {pointsCount, closed, curviness, curveType, tension},
-            sprite: {size}
+            particles: {size}
           }
         }
       }
@@ -81,8 +82,11 @@ export class Effects extends System {
     for (let index = 0; index < pointsCount; index++) {
       const multiplier = this.getMultiplier(index);
 
-      const x = startPosition.x + curviness * multiplier;
-      const y = startPosition.y + (GAME_SIZE.height + size) * ((index + 1) / pointsCount);
+      const shiftX = curviness * multiplier;
+      const shiftY = (GAME_SIZE.height + size) * ((index + 1) / pointsCount);
+
+      const x = startPosition.x + shiftX;
+      const y = startPosition.y + shiftY;
 
       points.push(new Vector3(x, y, 0));
     }
@@ -106,7 +110,9 @@ export class Effects extends System {
       onUpdate() {
         const progress = this.progress();
         const point = curve.getPointAt(progress);
-        particle.position.set(point.x, point.y);
+
+        particle.x = point.x;
+        particle.y = point.y;
       },
       onComplete() {
         particleTween.delete(GAME);

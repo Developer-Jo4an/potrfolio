@@ -9,6 +9,8 @@ import {Utils} from "./decorators/Utils";
 import {Effects} from "./systems/Effects";
 import {GAME_SIZE, GAME} from "../constants/game";
 import {statesData} from "../constants/state";
+import {LOSE, WIN} from "../constants/stateMachine";
+import {events} from "../constants/events";
 import {config} from "./assets/config";
 import {
   Engine,
@@ -63,7 +65,6 @@ export class Controller extends PIXIController {
 
   async initializationSelect() {
     if (this._isInitialized) return;
-    this.initConfig();
     this.initEngine();
     this.initServiceData();
     this._isInitialized = true;
@@ -81,8 +82,16 @@ export class Controller extends PIXIController {
     return this.waitPromises();
   }
 
+  loseSelect() {
+    this.eventBus.dispatchEvent({type: events.lose, status: LOSE});
+  }
+
   winningSelect() {
     return this.waitPromises();
+  }
+
+  winSelect() {
+    this.eventBus.dispatchEvent({type: events.win, status: WIN});
   }
 
   waitPromises() {
@@ -93,13 +102,6 @@ export class Controller extends PIXIController {
     } = this;
 
     return new Promise(res => setTimeout(res, engGameWaiting));
-  }
-
-  initConfig() {
-    const formattedConfig = window.location.search.replace(/&quot;/g, "\"");
-    const params = new URLSearchParams(formattedConfig);
-    const config = params.get("config");
-    if (config) this.storage.config = JSON.parse(config);
   }
 
   initEngine() {
@@ -165,9 +167,10 @@ export class Controller extends PIXIController {
   }
 
   onUpdated() {
-    if (this.isAvailableUpdate)
+    if (this.isAvailableUpdate) {
       this.updateEngine(...arguments);
-    super.onUpdated();
+      super.onUpdated();
+    }
   }
 
   onResized() {

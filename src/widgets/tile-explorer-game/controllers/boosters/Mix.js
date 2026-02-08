@@ -2,9 +2,10 @@ import {Booster} from "./Booster";
 import {Shuffle} from "../tweens/tweens/Shuffle";
 import {clone, isEqual, shuffle} from "lodash";
 import {tweens} from "../../constants/tweens";
+import {MIX} from "../../constants/boosters";
 
 export class Mix extends Booster {
-  static boosterName = "mix";
+  static boosterName = MIX;
 
   actionData = {};
 

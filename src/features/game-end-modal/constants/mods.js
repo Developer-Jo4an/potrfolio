@@ -1,1 +1,1 @@
-export const MODS = {velvet: "velvet", ocean: "ocean"};
+export const MODS = {velvet: "velvet", ocean: "ocean", blue: "blue"};

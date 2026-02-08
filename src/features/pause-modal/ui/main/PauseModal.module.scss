@@ -31,6 +31,10 @@ $root: "pauseModal";
   @include mixins.mod("ocean") {
     background: rgba(189, 167, 143, 1);
   }
+
+  @include mixins.mod("blue") {
+    background: rgb(19, 213, 248);
+  }
 }
 
 .title {
@@ -125,6 +129,16 @@ $root: "pauseModal";
 
     @include mixins.mod("i1") {
       color: #2C4855;
+    }
+  }
+
+  @include mixins.mod("blue", $root) {
+    @include mixins.mod("i0") {
+      color: #FFFFFF;
+    }
+
+    @include mixins.mod("i1") {
+      color: #78A4D8;
     }
   }
 }

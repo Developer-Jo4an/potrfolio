@@ -1,11 +1,12 @@
 import {Cell} from "./Cell";
 import {Shelf} from "./Shelf";
-import {Container, Sprite} from "@shared";
+import {Container} from "@shared";
+import {SnowsContainer} from "./SnowsContainer";
 import {labels} from "../../constants/labels";
 import {TREE} from "../entities/tree";
 import {CELL} from "../entities/cell";
 import {SHELF} from "../entities/shelf";
-import {SNOW, SNOWS_CONTAINER} from "../../constants/preload";
+import {SNOWS_CONTAINER} from "../../constants/preload";
 
 export const config = {
   [TREE]: {
@@ -28,16 +29,8 @@ export const config = {
       zIndex: 1
     }
   },
-  [SNOW]: {
-    Cls: Sprite,
-    baseSettings: {
-      label: labels.snow.particle,
-      anchor: {x: 0.5, y: 0.5},
-      texture: SNOW
-    }
-  },
   [SNOWS_CONTAINER]: {
-    Cls: Container,
+    Cls: SnowsContainer,
     baseSettings: {
       label: labels.snow.container
     }

@@ -42,5 +42,9 @@ $root: "title";
   @include mixins.mod("ocean", $root) {
     color: #FFFFFF
   }
+
+  @include mixins.mod("blue", $root) {
+    color: #FFFFFF
+  }
 }
 

@@ -1,31 +1,48 @@
 "use client";
+import {useMemo} from "react";
+import {useEndGame} from "../../model/hooks/useEndGame";
 import {Canvas} from "../canvas/Canvas";
-import {ProxyGameSpaceStore, useGameSpaceStore} from "@shared";
+import {Background} from "../background/Background";
+import {TopMenu} from "@features/top-menu";
+import {Boosters} from "../boosters/Boosters";
+import {Loader, ProxyGameSpaceStore, useGameSpaceStore} from "@shared";
+import {usePause} from "../../model/hooks/usePause";
 import {gameSpace as gameSpaceConfig} from "../../constants/gameSpace";
-import styles from "./TileExplorerGame.module.scss";
-import content from "../../constants/content";
 import {useTileExplorerStore} from "../../model/state-manager/tileExplorerStore";
-import {PLAYING} from "../../constants/stateMachine";
+import {INITIALIZATION, INITIALIZATION_LEVEL, PREPARE} from "../../constants/stateMachine";
+import content from "../../constants/content";
+import styles from "./TileExplorerGame.module.scss";
+
+const {menu: {lifes, score, sound}} = content;
 
 export function TileExplorerGame() {
-  const {state, wrapper} = useTileExplorerStore();
+  const {state} = useTileExplorerStore();
+  const pause = usePause();
 
   const gameSpace = useGameSpaceStore(ProxyGameSpaceStore.get("tileExplorer"), gameSpaceConfig);
 
-  const onClick = (type) => {
-    state === PLAYING && wrapper.applyBooster(type);
-  };
+  const fullProps = useMemo(
+    () => ({
+      gameSpace,
+      isPending: !state || [INITIALIZATION_LEVEL, PREPARE, INITIALIZATION].includes(state)
+    }),
+    [gameSpace, state]
+  );
+
+  useEndGame(fullProps);
 
   return (
     <div className={styles.tileExplorerGame}>
-      <Canvas/>
-      <div className={styles.boosters}>
-        {content.boosters.map(({type}, i) => (
-          <button key={i} className={styles.booster} onClick={() => onClick(type)}>
-            {type}
-          </button>
-        ))}
-      </div>
+      <Background {...fullProps}/>
+      <Canvas {...fullProps}/>
+      <TopMenu
+        lifes={{count: gameSpace?.currentTime, ...lifes}}
+        score={{count: gameSpace?.score, ...score}}
+        sound={sound}
+        pause={pause}
+      />
+      <Boosters {...fullProps} />
+      <Loader isPending={fullProps.isPending}/>
     </div>
   );
 }

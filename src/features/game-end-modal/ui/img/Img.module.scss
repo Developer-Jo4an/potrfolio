@@ -30,7 +30,16 @@ $root: "imageContainer";
 
   transform: translateX(-50%);
 
-  width: 100%;
+  @include mixins.device using($device) {
+    @if ($device == constants.$MOB-PORT) {
+      max-height: 200px;
+    } @else if ($device == constants.$MOB-LAND) {
+      max-height: 100px;
+    } @else {
+      max-height: 230px;
+    }
+  }
+
 
   object-fit: contain;
 

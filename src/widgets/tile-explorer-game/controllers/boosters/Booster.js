@@ -18,25 +18,28 @@ export class Booster {
   enable() {
     const {
       storage: {gameSpace},
-      system,
+      system
     } = this;
 
     const {cBooster} = system.getBoosterInfo();
 
+    const {boosterName: name} = this.constructor;
+
     cBooster.isActive = true;
-    cBooster.type = gameSpace.booster = this.constructor.boosterName;
+    cBooster.type = gameSpace.booster.active = name;
+    gameSpace.booster[name]--;
   }
 
   disable() {
     const {
       storage: {gameSpace},
-      system,
+      system
     } = this;
 
     const {cBooster} = system.getBoosterInfo();
 
     cBooster.isActive = false;
-    cBooster.type = gameSpace.booster = null;
+    cBooster.type = gameSpace.booster.active = null;
   }
 
   reset() {

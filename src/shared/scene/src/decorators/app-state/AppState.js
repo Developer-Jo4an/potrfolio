@@ -14,6 +14,11 @@ export class AppState extends BaseDecorator {
     const {state: currentState, eventBus, stateMachine} = this;
     const {availableStates} = stateMachine[currentState] ?? {};
 
+    if (currentState === state) {
+      if (getIsDebug()) throw new Error(`currentState === state: ${state}`);
+      return;
+    }
+
     if (currentState || availableStates.includes(state)) {
       this._state = state;
       eventBus.dispatchEvent({type: STATE_CHANGED, state});

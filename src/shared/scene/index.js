@@ -9,6 +9,8 @@ export * from "./src/assets/pixi/BasePixiAsset";
 export * from "./src/assets/pixi/Container";
 export * from "./src/assets/pixi/Sprite";
 export * from "./src/assets/pixi/TilingSprite";
+export * from "./src/assets/pixi/Particle";
+export * from "./src/assets/pixi/ParticleContainer";
 export * from "./src/assets/three/BaseThreeAsset";
 
 export * from "./src/config/pixi";

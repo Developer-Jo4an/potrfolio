@@ -1,8 +1,8 @@
-import {useMemo, useRef} from "react";
+import {useRef} from "react";
 import cl from "classnames";
 import {imports, ProxyGameSpaceStore, useLoadScene, useResetScene, useStateControls} from "@shared";
 import {useTileExplorerStore} from "../../model/state-manager/tileExplorerStore";
-import {IGNORE_NEXT_STATES, INITIALIZATION, STATE_MACHINE} from "../../constants/stateMachine";
+import {IGNORE_NEXT_STATES, STATE_MACHINE} from "../../constants/stateMachine";
 import {types} from "../../controllers/entities/types";
 import {MAIN_SCENE_SETTINGS} from "../../constants/mainSceneSettings";
 import {preload} from "../../constants/preload";
@@ -29,19 +29,7 @@ export function Canvas() {
     containerRef
   });
 
-  const reset = () => {
-    wrapper.reset();
-    wrapper.state = INITIALIZATION;
-  };
-
-  useStateControls(wrapper, STATE_MACHINE, IGNORE_NEXT_STATES, useMemo(() => ({
-    [LOSE]() {
-      reset();
-    },
-    [WIN]() {
-      reset();
-    }
-  }), [wrapper]), setState);
+  useStateControls(wrapper, STATE_MACHINE, IGNORE_NEXT_STATES, null, setState);
 
   useResetScene({wrapper});
 

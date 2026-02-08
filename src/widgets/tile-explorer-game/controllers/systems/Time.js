@@ -1,4 +1,4 @@
-import {System, Entity, STATE_DECORATOR_FIELD} from "@shared";
+import {System, Entity, STATE_DECORATOR_FIELD, State} from "@shared";
 import {TIMER} from "../entities/timer";
 import {LOSING} from "../../constants/stateMachine";
 
@@ -38,6 +38,9 @@ export class Time extends System {
 
   checkOnLose(formatedTime) {
     if (formatedTime !== 0) return;
+
+    const {state} = this.getFirstEntityByType("game").get(State);
+    if (state === LOSING) return;
 
     const {storage: {decorators}} = this;
 

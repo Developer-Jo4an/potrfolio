@@ -57,7 +57,7 @@ export const MAIN_SCENE_SETTINGS = {
       curveType: "centripetal",
       curviness: 30
     },
-    sprite: {
+    particles: {
       size: 20,
       count: 30
     }

@@ -2,9 +2,10 @@ import {Booster} from "./Booster";
 import {events, treeActions} from "../entities/tree";
 import {GAME} from "../../constants/game";
 import {clone} from "lodash";
+import {HELP} from "../../constants/boosters";
 
 export class Help extends Booster {
-  static boosterName = "help";
+  static boosterName = HELP;
 
   actionData = {};
 

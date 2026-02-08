@@ -89,6 +89,7 @@ export class Tree extends System {
   [createMethod(TREE, treeActions.addToPool)]({entity}) {
     const {
       storage: {
+        gameSpace,
         mainSceneSettings: {
           shelf: {target}
         }
@@ -113,13 +114,17 @@ export class Tree extends System {
 
     const resolvedEntities = Object.values(groupedEntities).find(({length}) => length === target);
 
-    if (resolvedEntities)
+    if (resolvedEntities) {
       resolvedEntities.forEach(eCell => {
         const {cCell} = this.getCellInfo(eCell);
         const cellData = {...this.getFromTree(tree, cCell.x, cCell.y, cCell.z), isInsidePool: true, isResolved: true};
         Object.assign(cCell, cellData);
         this.setToTree(updatedTree, cellData);
       });
+
+      gameSpace.score += resolvedEntities.length;
+    }
+
 
     cTree.tree = this.recalculateCellsProperties(updatedTree);
   }

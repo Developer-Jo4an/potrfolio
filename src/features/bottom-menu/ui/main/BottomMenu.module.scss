@@ -56,6 +56,12 @@ $root: "bottomMenu";
     background-color: #FF9933;
     border: 2px solid constants.$WHITE;
   }
+
+  @include mixins.mod("blue", $root) {
+    color: constants.$WHITE;
+    background-color: #13D5F8;
+    border: 2px solid constants.$WHITE;
+  }
 }
 
 .buttonActive {

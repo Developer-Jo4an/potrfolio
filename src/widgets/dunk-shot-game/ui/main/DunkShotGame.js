@@ -1,5 +1,5 @@
 "use client";
-import {useRef} from "react";
+import {useMemo, useRef} from "react";
 import {Background} from "../background/Background";
 import {Loader} from "@shared";
 import {TopMenu} from "@features/top-menu";
@@ -15,7 +15,7 @@ import content from "../../constants/content";
 import styles from "./DunkShotGame.module.scss";
 
 const {
-  menu: {lifes: lifesContent, score: scoreContent, sound},
+  menu: {lifes: lifesContent, score: scoreContent, sound}
 } = content;
 
 export function DunkShotGame() {
@@ -24,18 +24,18 @@ export function DunkShotGame() {
   const progressBarEls = useRef();
   const pause = usePause();
 
-  const fullProps = {
+  const fullProps = useMemo(() => ({
     progressBarEls,
     topMenuElementsRef,
-    isPending: !state || DUNK_SHOT_STATE_MACHINE[state]?.isLoad,
-  };
+    isPending: !state || DUNK_SHOT_STATE_MACHINE[state]?.isLoad
+  }), [state]);
 
   useEndGame();
 
   return (
     <div className={styles.dunkShotGame}>
-      <Background />
-      <Canvas />
+      <Background/>
+      <Canvas/>
       <TopMenu
         ref={topMenuElementsRef}
         lifes={{count: lifes, ...lifesContent}}
