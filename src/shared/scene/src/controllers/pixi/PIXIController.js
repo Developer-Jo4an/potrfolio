@@ -5,7 +5,6 @@ import {Performance} from "../../decorators/performance/Performance";
 import {PIXIUpdate} from "../../decorators/pixi/update/PIXIUpdate";
 import {getIsDebug} from "../../../../lib";
 import {cloneDeep} from "lodash";
-import {initDevtools} from "@pixi/devtools";
 import {pixiLoader} from "../../loaders/pixi/PixiLoader";
 import {PIXI_APP_CONFIG} from "../../config/pixi";
 import {
@@ -27,7 +26,8 @@ export class PIXIController extends BaseController {
   static async loadRenderer() {
     if (this._loadRendererPromise) return this._loadRendererPromise;
     const renderer = new PIXI.WebGLRenderer();
-    this._loadRendererPromise = await renderer.init(PIXI_APP_CONFIG).then(() => (this.renderer = renderer));
+    this._loadRendererPromise = await renderer.init(PIXI_APP_CONFIG);
+    this.renderer = renderer;
   }
 
   DECORATORS = [
@@ -71,7 +71,7 @@ export class PIXIController extends BaseController {
   async initScene() {
     await this.initRenderer();
     await this.initApp();
-    if (getIsDebug()) await this.initDevTools();
+    this.initDevTools();
   }
 
   async initRenderer() {
@@ -89,9 +89,8 @@ export class PIXIController extends BaseController {
     app.ticker = new PIXI.Ticker();
   }
 
-  async initDevTools() {
+  initDevTools() {
     const {app: {stage, renderer}} = this;
-    await initDevtools({renderer, stage});
     globalThis.__PIXI_STAGE__ = stage;
     globalThis.__PIXI_RENDERER__ = renderer;
   }
