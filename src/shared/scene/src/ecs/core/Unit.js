@@ -36,17 +36,10 @@ export class Unit {
   /**
    * Инициализация юнита
    */
-  init() {
-  }
+  init() {}
 
-  onRemove() {
-  }
+  onRemove() {}
 
-  /**
-   * Получение списка сущностей по типу
-   * @param type
-   * @returns {Array<Entity>}
-   */
   /**
    * Получение списка сущностей по типу
    * @param type
@@ -60,9 +53,27 @@ export class Unit {
     return this._engine.getEntitiesByType(type)?.list?.[0];
   }
 
+  getFirstEntityOrCreate(type) {
+    const {eventBus} = this;
+    const entity = this.getFirstEntityByType(type);
+    return entity ?? new Entity({eventBus, type}).init();
+  }
+
   getEntityByUUID(type, uuid) {
-    const collection = this.getEntitiesByType(type);
-    return collection?.map?.[uuid];
+    if (arguments.length === 1) {
+      uuid = type;
+
+      const {entities} = this._engine;
+
+      for (const type in entities) {
+        const collection = entities[type];
+        const entity = collection.get(uuid);
+        if (entity) return entity;
+      }
+    } else {
+      const collection = this.getEntitiesByType(type);
+      return collection?.map?.[uuid];
+    }
   }
 
   getComponentByUUID(Class, uuid) {
@@ -79,12 +90,6 @@ export class Unit {
 
   destroyEntitiesByTypes(types) {
     return types.forEach((type) => [...this.getEntitiesByType(type)?.list]?.forEach((entity) => entity.destroy()));
-  }
-
-  getFirstEntityOrCreate(type) {
-    const {eventBus} = this;
-    const entity = this.getFirstEntityByType(type);
-    return entity ?? new Entity({eventBus, type}).init();
   }
 
   getComponentsByClasses(...classes) {

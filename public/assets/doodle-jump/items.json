@@ -1,0 +1,77 @@
+{
+  "frames": {
+    "jetpack0": {
+      "frame": {
+        "x": 0,
+        "y": 0,
+        "w": 48,
+        "h": 70
+      },
+      "sourceSize": {
+        "w": 48,
+        "h": 70
+      }
+    },
+    "propeller0": {
+      "frame": {
+        "x": 80,
+        "y": 16,
+        "w": 59,
+        "h": 37
+      },
+      "sourceSize": {
+        "w": 59,
+        "h": 37
+      }
+    },
+    "bullet0": {
+      "frame": {
+        "x": 170,
+        "y": 24,
+        "w": 22,
+        "h": 22
+      },
+      "sourceSize": {
+        "w": 22,
+        "h": 22
+      }
+    },
+    "spring0": {
+      "frame": {
+        "x": 223,
+        "y": 8,
+        "w": 75,
+        "h": 55
+      },
+      "sourceSize": {
+        "w": 75,
+        "h": 55
+      }
+    },
+    "trampoline0": {
+      "frame": {
+        "x": 330,
+        "y": 17,
+        "w": 100,
+        "h": 35
+      },
+      "sourceSize": {
+        "w": 100,
+        "h": 35
+      }
+    }
+  },
+  "animations" : {
+    "jetpack": ["jetpack0"],
+    "propeller": ["propeller0"],
+    "bullet": ["bullet0"],
+    "spring": ["spring0"],
+    "trampoline": ["trampoline0"]
+  },
+  "meta": {
+    "image": "items.webp",
+    "format": "RGBA8888",
+    "size": { "w": 430, "h": 70 },
+    "scale": 1
+  }
+}

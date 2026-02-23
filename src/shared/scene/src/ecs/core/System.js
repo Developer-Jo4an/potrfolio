@@ -71,14 +71,6 @@ export class System extends Unit {
     collection.list.push({name, cleanFunction, effect, args});
   }
 
-  /**
-   * Получение всех компонентов
-   * @returns {T|Collection<Component>}
-   */
-  get allComponents() {
-    return this._engine.allComponents;
-  }
-
   /** Хелпер для добавление компонента в сущность
    *
    * @param entity {Entity}

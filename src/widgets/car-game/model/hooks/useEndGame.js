@@ -11,6 +11,7 @@ export function useEndGame({gameSpace}) {
   const {names, add} = useModalProvider();
 
   return useCallback(({status}) => {
+    wrapper.state = status;
     const {score, currentTime} = gameSpace;
     const modalData = endModal({wrapper, modalNames: names, currentTime, redirect, score, status});
     add(modalData);

@@ -21,6 +21,12 @@ export const gameList = [
     description: "ecs, three, rapier3d, gsap"
   },
   {
+    id: "doodle-jump",
+    route: ROUTES.doodleJump,
+    title: "DoodleJump",
+    description: "ecs, pixi, sat, gsap"
+  },
+  {
     id: "car",
     title: "Geometry dash vertical",
     route: ROUTES.car,

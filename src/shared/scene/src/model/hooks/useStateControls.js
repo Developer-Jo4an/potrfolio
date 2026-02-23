@@ -1,6 +1,6 @@
 import {useEffect} from "react";
 import {eventSubscription} from "../../../../lib";
-import {getDefaultState} from "../../lib/state/getDefaultState";
+import {getDefaultState} from "../../lib/state/stateControls";
 import {STATE_CHANGED} from "../../constants/events/names";
 
 export function useStateControls(wrapper, stateMachine, ignoreNextStates, reducers, onChangedAnyState) {

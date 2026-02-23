@@ -2,12 +2,10 @@ import {Game} from "../components/Game";
 import {Tree} from "../components/Tree";
 import {Cell} from "../components/Cell";
 import {Queue} from "../components/Queue";
-import {Promise} from "../components/Promise";
 import {Booster} from "../components/Booster";
 import {Bounds} from "../components/Bounds";
-import {Tween} from "../components/Tween";
 import {Timer} from "../components/Timer";
-import {Collection, Matrix3Component, PixiComponent, State} from "@shared";
+import {Collection, Matrix3Component, PixiComponent, State, Promise, Tween} from "@shared";
 import {STATE_MACHINE} from "../constants/stateMachine";
 import {TREE} from "./tree";
 import {CELL} from "./cell";
@@ -16,7 +14,6 @@ import {BOOSTER} from "./booster";
 import {ANIMATION_TREE} from "./animationTree";
 import {BOUNDS} from "./bounds";
 import {TIMER} from "./timer";
-
 
 export const types = {
   game: {

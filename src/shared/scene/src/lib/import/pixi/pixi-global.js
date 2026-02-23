@@ -8,7 +8,7 @@ global.PIXI.SPINE = SPINE;
 global.PIXI.filters = filters;
 
 if (global.gsap) {
-  gsap.PIXI = PIXI;
-  gsap.registerPlugin(PixiPlugin);
+  global.gsap.PIXI = PIXI;
+  global.gsap.registerPlugin(PixiPlugin);
   PixiPlugin.registerPIXI(PIXI);
 }

@@ -34,6 +34,12 @@ export class Component {
    */
   _entity = null;
 
+  /**
+   * Прочие утилитарные данные
+   * @type {null, object}
+   */
+  serviceData = {};
+
   constructor({eventBus, type, group}) {
     this.type = type ?? this.type;
     this.group = group ?? this.group;
@@ -106,6 +112,7 @@ export class Component {
   destroy() {
     this.entity = null;
     this.eventBus = null;
+    this.serviceData = null;
     this.type = null;
     this.group = null;
   }

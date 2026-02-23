@@ -1,7 +1,7 @@
 import {BaseLoader} from "../base/BaseLoader";
 import {upperFirst} from "lodash";
 import {assetsManager} from "../../assets/AssetsManager";
-import {PIXI_SPACE, SCENE, TEXTURE} from "../../constants/loaders/assetsTypes";
+import {PIXI_SPACE, SCENE, SPRITESHEET, TEXTURE} from "../../constants/loaders/assetsTypes";
 import {PIXI_APP_CONFIG} from "@shared";
 
 export class PIXILoader extends BaseLoader {
@@ -65,6 +65,13 @@ export class PIXILoader extends BaseLoader {
     const spineData = {animations};
 
     assetsManager.setAssetsToSpace(PIXI_SPACE, SCENE, name, spineData);
+  }
+
+  async loadSpritesheet(name, src) {
+    const spritesheet = await PIXI.Assets.load({alias: name, src});
+    await spritesheet.parse();
+
+    assetsManager.setAssetsToSpace(PIXI_SPACE, SPRITESHEET, name, spritesheet);
   }
 }
 

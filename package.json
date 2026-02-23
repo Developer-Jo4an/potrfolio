@@ -13,6 +13,7 @@
     "@dimforge/rapier3d": "^0.19.3",
     "@esotericsoftware/spine-pixi-v8": "^4.2.100",
     "axios": "^1.11.0",
+    "bowser": "^2.14.1",
     "classnames": "^2.5.1",
     "framer-motion": "^12.23.9",
     "gsap": "^3.13.0",

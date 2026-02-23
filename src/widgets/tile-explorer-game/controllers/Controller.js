@@ -51,18 +51,6 @@ export class Controller extends PIXIController {
     });
   }
 
-  async loadManifestSelect() {
-    if (this._isLoadedManifest) return;
-    await super.loadManifestSelect();
-    this._isLoadedManifest = true;
-  }
-
-  async loadingSelect() {
-    if (this._isLoaded) return;
-    await super.loadingSelect();
-    this._isLoaded = true;
-  }
-
   async initializationSelect() {
     if (this._isInitialized) return;
     this.initEngine();
@@ -223,17 +211,18 @@ export class Controller extends PIXIController {
 
     if (!engine) return;
 
-    engine.reset();
     for (const key in engine.entities) {
       if (key === "game") continue;
       const collection = engine.entities[key];
       const savedList = [...collection.list];
       savedList.forEach(entity => {
-        collection.remove(entity);
         entity.destroy();
+        collection.remove(entity);
       });
       savedList.length = 0;
     }
+    engine._ticks = 0;
+    engine.reset();
   }
 
   reset() {

@@ -3,7 +3,6 @@ export const ROUTES = {
   basketball: "/basketball",
   dunkShot: "/dunk-shot",
   car: "/car",
-  mario: "/mario",
   tileExplorer: "/tile-explorer",
-  drive: "/drive",
+  doodleJump: "/doodle-jump"
 };

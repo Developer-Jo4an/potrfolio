@@ -1,0 +1,150 @@
+{
+  "frames": {
+    "idle": {
+      "frame": {
+        "x": 0,
+        "y": 0,
+        "w": 92,
+        "h": 90
+      },
+      "sourceSize": {
+        "w": 92,
+        "h": 90
+      }
+    },
+    "shoot": {
+      "frame": {
+        "x": 149,
+        "y": 1,
+        "w": 61,
+        "h": 89
+      },
+      "sourceSize": {
+        "w": 61,
+        "h": 89
+      }
+    },
+    "propeller0": {
+      "frame": {
+        "x": 0,
+        "y": 130,
+        "w": 93,
+        "h": 116
+      },
+      "sourceSize": {
+        "w": 93,
+        "h": 116
+      }
+    },
+    "propeller1": {
+      "frame": {
+        "x": 119,
+        "y": 122,
+        "w": 93,
+        "h": 124
+      },
+      "sourceSize": {
+        "w": 93,
+        "h": 124
+      }
+    },
+    "propeller2": {
+      "frame": {
+        "x": 240,
+        "y": 123,
+        "w": 93,
+        "h": 123
+      },
+      "sourceSize": {
+        "w": 93,
+        "h": 123
+      }
+    },
+    "jetpack0": {
+      "frame": {
+        "x": 0,
+        "y": 306,
+        "w": 128,
+        "h": 123
+      },
+      "sourceSize": {
+        "w": 128,
+        "h": 123
+      }
+    },
+    "jetpack1": {
+      "frame": {
+        "x": 240,
+        "y": 309,
+        "w": 126,
+        "h": 120
+      },
+      "sourceSize": {
+        "w": 126,
+        "h": 120
+      }
+    },
+    "spring": {
+      "frame": {
+        "x": 0,
+        "y": 458,
+        "w": 92,
+        "h": 116
+      },
+      "sourceSize": {
+        "w": 92,
+        "h": 116
+      }
+    },
+    "lose0": {
+      "frame": {
+        "x": 0,
+        "y": 603,
+        "w": 99,
+        "h": 122
+      },
+      "sourceSize": {
+        "w": 99,
+        "h": 122
+      }
+    },
+    "lose1": {
+      "frame": {
+        "x": 126,
+        "y": 608,
+        "w": 107,
+        "h": 117
+      },
+      "sourceSize": {
+        "w": 107,
+        "h": 117
+      }
+    },
+    "lose2": {
+      "frame": {
+        "x": 253,
+        "y": 611,
+        "w": 99,
+        "h": 114
+      },
+      "sourceSize": {
+        "w": 99,
+        "h": 114
+      }
+    }
+  },
+  "animations" : {
+    "idle": ["idle"],
+    "shoot": ["shoot"],
+    "propeller": ["propeller0", "propeller1", "propeller2"],
+    "jetpack": ["jetpack0", "jetpack1"],
+    "spring": ["spring"],
+    "lose": ["lose0", "lose1", "lose2"]
+  },
+  "meta": {
+    "image": "character.webp",
+    "format": "RGBA8888",
+    "size": { "w": 366, "h": 429 },
+    "scale": 1
+  }
+}
