@@ -1,7 +1,7 @@
 import {useEffect} from "react";
 import {eventSubscription, getDefaultState, STATE_CHANGED} from "@shared";
 import {useCarStore} from "../state-machine/carStore";
-import {STATE_MACHINE, IGNORE_NEXT_STATES} from "../../constants/stateMachine";
+import {STATE_MACHINE, IGNORE_NEXT_STATES} from "../../controllers/constants/stateMachine";
 
 export function useStateControls() {
   const {wrapper} = useCarStore();

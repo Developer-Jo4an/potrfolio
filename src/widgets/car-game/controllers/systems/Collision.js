@@ -1,11 +1,11 @@
-import {CHARACTER} from "../../constants/entities/character";
-import {ROAD_CHUNK} from "../../constants/entities/roadChunk";
-import {CHARACTER_WITH_BLOCKS, CHARACTER_WITH_BONUSES, CHARACTER_WITH_ROAD_CHUNK} from "../../constants/collision";
-import {BLOCKS_COLLISION, BONUSES_COLLISION} from "../../constants/events";
-import {BONUS} from "../../constants/entities/bonus";
-import {GAME} from "../../constants/entities/game";
-import {BLOCK} from "../../constants/entities/block";
-import {LOSE} from "../../constants/stateMachine";
+import {CHARACTER} from "../constants/entities/character";
+import {ROAD_CHUNK} from "../constants/entities/roadChunk";
+import {CHARACTER_WITH_BLOCKS, CHARACTER_WITH_BONUSES, CHARACTER_WITH_ROAD_CHUNK} from "../constants/collision";
+import {BLOCKS_COLLISION, BONUSES_COLLISION} from "../constants/events";
+import {BONUS} from "../constants/entities/bonus";
+import {GAME} from "../constants/entities/game";
+import {BLOCK} from "../constants/entities/block";
+import {LOSE} from "../constants/stateMachine";
 import {Collider, CollisionComponent, EventComponent, Matrix3Component, STATE_DECORATOR_FIELD, System} from "@shared";
 
 export class Collision extends System {

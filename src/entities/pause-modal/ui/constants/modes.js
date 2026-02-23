@@ -1,1 +1,1 @@
-export const MODES = {orange: "orange", ocean: "ocean", blue: "blue"};
+export const MODES = {orange: "orange", ocean: "ocean", blue: "blue", sand: "sand"};

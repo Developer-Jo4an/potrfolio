@@ -1,7 +1,7 @@
 import {upperFirst} from "lodash";
-import {GAME} from "../../constants/entities/game";
-import {CHARACTER} from "../../constants/entities/character";
-import {BONUSES_COLLISION, BLOCKS_COLLISION} from "../../constants/events";
+import {GAME} from "../constants/entities/game";
+import {CHARACTER} from "../constants/entities/character";
+import {BONUSES_COLLISION, BLOCKS_COLLISION} from "../constants/events";
 import {EventComponent, System} from "@shared";
 
 export class Event extends System {

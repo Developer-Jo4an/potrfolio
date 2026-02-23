@@ -1,13 +1,13 @@
 import {cloneDeep} from "lodash";
 import {getRandomPointInQuadrilateralBilinear} from "../../utils/helpers/getRandomPointInQuadrilateralBilinear";
 import {getIsInsideCanvas} from "../../utils/helpers/getIsInsideCanvas";
-import {CHARACTER} from "../../constants/entities/character";
-import {MAIN_CONTAINER} from "../../constants/entities/mainContainer";
-import {ROAD_CHUNK} from "../../constants/entities/roadChunk";
-import {CHARACTER_WITH_BONUSES, CHARACTER_WITH_ROAD_CHUNK, CHARACTER_WITH_BLOCKS} from "../../constants/collision";
-import {BONUS} from "../../constants/entities/bonus";
-import {BLOCK} from "../../constants/entities/block";
-import {ROAD_CHUNKS_CONTAINER} from "../../constants/entities/roadChunksContainer";
+import {CHARACTER} from "../constants/entities/character";
+import {MAIN_CONTAINER} from "../constants/entities/mainContainer";
+import {ROAD_CHUNK} from "../constants/entities/roadChunk";
+import {CHARACTER_WITH_BONUSES, CHARACTER_WITH_ROAD_CHUNK, CHARACTER_WITH_BLOCKS} from "../constants/collision";
+import {BONUS} from "../constants/entities/bonus";
+import {BLOCK} from "../constants/entities/block";
+import {ROAD_CHUNKS_CONTAINER} from "../constants/entities/roadChunksContainer";
 import {Chunk} from "../components/Chunk";
 import {
   getRandomIntFromRange,

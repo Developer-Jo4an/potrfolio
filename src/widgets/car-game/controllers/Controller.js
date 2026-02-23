@@ -7,8 +7,8 @@ import {Collision} from "./systems/Collision";
 import {Event} from "./systems/Event";
 import {CarFactory} from "./Factory";
 import {cloneDeep} from "lodash";
-import {GAME_SIZE, GAME_SPACE} from "../constants/game";
-import {NOT_AVAILABLE_ENTITIES_TYPES_FOR_RESET} from "../constants/reset";
+import {GAME_SIZE, GAME_SPACE} from "./constants/game";
+import {NOT_AVAILABLE_ENTITIES_TYPES_FOR_RESET} from "./constants/reset";
 import {
   RESIZE,
   UPDATED,

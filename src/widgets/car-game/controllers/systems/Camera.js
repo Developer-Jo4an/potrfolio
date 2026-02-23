@@ -1,7 +1,7 @@
 import {upperFirst} from "lodash";
-import {MAIN_CONTAINER} from "../../constants/entities/mainContainer";
-import {CHARACTER, DEFAULT} from "../../constants/entities/character";
-import {GAME_SIZE} from "../../constants/game";
+import {MAIN_CONTAINER} from "../constants/entities/mainContainer";
+import {CHARACTER, DEFAULT} from "../constants/entities/character";
+import {GAME_SIZE} from "../constants/game";
 import {Matrix3Component, State, System} from "@shared";
 
 export class Camera extends System {

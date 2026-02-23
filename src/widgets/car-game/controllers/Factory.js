@@ -1,11 +1,11 @@
 import {upperFirst} from "lodash";
 import {resetPixiObject} from "../utils/helpers/resetPixiObject";
-import {CHARACTER} from "../constants/entities/character";
-import {MAIN_CONTAINER} from "../constants/entities/mainContainer";
-import {ROAD_CHUNK} from "../constants/entities/roadChunk";
-import {BONUS} from "../constants/entities/bonus";
-import {BLOCK} from "../constants/entities/block";
-import {ROAD_CHUNKS_CONTAINER} from "../constants/entities/roadChunksContainer";
+import {CHARACTER} from "./constants/entities/character";
+import {MAIN_CONTAINER} from "./constants/entities/mainContainer";
+import {ROAD_CHUNK} from "./constants/entities/roadChunk";
+import {BONUS} from "./constants/entities/bonus";
+import {BLOCK} from "./constants/entities/block";
+import {ROAD_CHUNKS_CONTAINER} from "./constants/entities/roadChunksContainer";
 import {PIXI_SPACE, TEXTURE, assetsManager, Factory} from "@shared";
 
 export class CarFactory extends Factory {

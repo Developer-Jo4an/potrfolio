@@ -1,5 +1,5 @@
 import {upperFirst} from "lodash";
-import {CHARACTER, DEFAULT} from "../../constants/entities/character";
+import {CHARACTER, DEFAULT} from "../constants/entities/character";
 import {LEFT, RIGHT, System, State, Matrix3Component} from "@shared";
 
 export class Movement extends System {

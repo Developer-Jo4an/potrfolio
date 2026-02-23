@@ -1,5 +1,5 @@
-import {Chunk} from "../../controllers/components/Chunk";
-import {Game} from "../../controllers/components/Game";
+import {Chunk} from "../../components/Chunk";
+import {Game} from "../../components/Game";
 import {CHARACTER, states as characterStates} from "./character";
 import {GAME} from "./game";
 import {MAIN_CONTAINER} from "./mainContainer";

@@ -16,8 +16,8 @@ export function TopMenu({className, content, gameSpace, pause, sound, updateProp
     sound: null
   });
 
-  const lifes = {count: gameSpace.gameData?.lifes ?? 0, ...content.menu.lifes};
-  const score = {count: gameSpace.gameData?.score ?? 0, ...content.menu.score};
+  const lifes = isFinite(gameSpace.gameData?.lifes) && {count: gameSpace.gameData?.lifes, ...content.menu.lifes};
+  const score = isFinite(gameSpace.gameData?.score) && {count: gameSpace.gameData?.score, ...content.menu.score};
 
   useEffect(() => {
     updateProps({topMenu: elements});
