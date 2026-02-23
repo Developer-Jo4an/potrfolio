@@ -1,6 +1,6 @@
 import {useImperativeHandle, useRef} from "react";
 import {Image} from "@shared";
-import {BottomMenu, MODES} from "@features/bottom-menu";
+import {BottomMenu, MODES} from "@entities/bottom-menu";
 import {useBoosters} from "../../model/hooks/useBoosters";
 import {useTileExplorerStore} from "../../model/state-manager/tileExplorerStore";
 import {PLAYING} from "../../constants/stateMachine";

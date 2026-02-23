@@ -1,0 +1,155 @@
+@use "@application/styles/constants" as constants;
+@use "@application/styles/mixins" as mixins;
+
+$root: "pauseModal";
+
+.pauseModal {
+  width: 90%;
+  max-width: 450px;
+
+  padding: 20px;
+
+  border-radius: 20px;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+
+  @include mixins.device using($device) {
+    @if $device == constants.$MOB-PORT {
+      padding: 20px 10px;
+      gap: 16px;
+    }
+  }
+
+  @include mixins.mod("orange") {
+    background: radial-gradient(71.75% 71.75% at 50% 50%, #FFBC05 0%, #FF9933 13.94%, #4F0C0B 100%);
+  }
+
+  @include mixins.mod("ocean") {
+    background: rgba(189, 167, 143, 1);
+  }
+
+  @include mixins.mod("blue") {
+    background: rgb(19, 213, 248);
+  }
+}
+
+.title {
+  font-size: 24px;
+  font-weight: bold;
+  font-family: KogniGear, Discovery, sans-serif;
+  color: constants.$WHITE;
+
+  @include mixins.device using($device) {
+    @if $device == constants.$MOB-PORT {
+      font-size: 20px;
+    }
+  }
+}
+
+.description {
+  font-size: 20px;
+  font-family: Discovery, KogniGear, sans-serif;
+  color: constants.$WHITE;
+  text-align: center;
+
+  @include mixins.device using($device) {
+    @if $device == constants.$MOB-PORT {
+      font-size: 18px;
+    }
+  }
+}
+
+.buttons {
+  width: 100%;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+
+.button {
+  width: 90%;
+  height: 60px;
+
+  position: relative;
+  z-index: 0;
+
+  font-size: 20px;
+  font-family: Discovery, KogniGear, sans-serif;
+  font-weight: bold;
+
+  padding: 10px;
+
+  transition: .3s transform ease-in-out;
+
+  @include mixins.button-hover;
+
+  @include mixins.device using($device) {
+    @if $device == constants.$MOB-PORT {
+      width: 80%;
+      height: 42px;
+    }
+  }
+}
+
+.buttonText {
+  position: relative;
+  top: 2px;
+
+  font-family: Satoshi, Discovery, sans-serif;
+  font-weight: normal;
+  font-size: 20px;
+
+  @include mixins.device using($device) {
+    @if $device == constants.$MOB-PORT {
+      font-size: 16px;
+    }
+  }
+
+  @include mixins.mod("orange", $root) {
+    @include mixins.mod("i0") {
+      color: #FFEBD4;
+    }
+
+    @include mixins.mod("i1") {
+      color: #8B2703;
+    }
+  }
+
+  @include mixins.mod("ocean", $root) {
+    @include mixins.mod("i0") {
+      color: #FFFFFF;
+    }
+
+    @include mixins.mod("i1") {
+      color: #2C4855;
+    }
+  }
+
+  @include mixins.mod("blue", $root) {
+    @include mixins.mod("i0") {
+      color: #FFFFFF;
+    }
+
+    @include mixins.mod("i1") {
+      color: #78A4D8;
+    }
+  }
+}
+
+.buttonBackground {
+  position: absolute;
+  top: 0;
+  left: 0;
+
+  width: 100%;
+  height: 100%;
+
+  z-index: -1;
+}

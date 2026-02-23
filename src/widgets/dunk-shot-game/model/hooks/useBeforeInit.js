@@ -1,5 +1,5 @@
 import {useDunkShotStore} from "../state-manager/dunkShotStore";
-import {DUNK_SHOT_CONFIG_EVENT, DUNK_SHOT_GAME_DATA_EVENT} from "../../constants/events";
+import {DUNK_SHOT_CONFIG_EVENT, DUNK_SHOT_GAME_DATA_EVENT} from "../../controllers/constants/events";
 
 export function useBeforeInit() {
   const {setGameConfig} = useDunkShotStore();

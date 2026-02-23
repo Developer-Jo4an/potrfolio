@@ -1,0 +1,80 @@
+@use "@application/styles/constants" as constants;
+@use "@application/styles/mixins" as mixins;
+
+$root: "progressBar";
+
+.progressBar {
+  width: 55px;
+  height: 300px;
+
+  mask-image: url("/images/features/progress-bar/progress-bar-mask.png");
+  mask-size: 100%;
+  mask-position: center;
+  mask-repeat: no-repeat;
+
+  background-image: url("/images/features/progress-bar/progress-bar-background.png");
+  background-size: 100% 100%;
+  background-position: center center;
+  background-repeat: no-repeat;
+
+  background-color: rgba(constants.$WHITE, 0.3);
+
+  position: absolute;
+  top: 30%;
+  left: 10px;
+}
+
+.progressBarScore {
+  position: absolute;
+  top: 0;
+  left: 0;
+
+  width: 55px;
+  height: 55px;
+
+  display: flex;
+  justify-content: center;
+  align-self: center;
+
+  svg {
+    width: 30px;
+    color: constants.$YELLOW;
+  }
+}
+
+.progressBarCounter {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+
+  transform: translateX(-50%);
+
+  width: 34px;
+  height: 34px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  font-family: InterBlack, Discovery, sans-serif;
+  font-size: 16px;
+  color: constants.$WHITE;
+}
+
+.progressScale {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+
+  transition: .3s transform ease-in-out;
+
+  transform-origin: center bottom;
+  transform: translateX(-50%) scaleY(var(--progress));
+
+  width: 100%;
+  height: 100%;
+
+  @include mixins.mod("ocean", $root) {
+    background: linear-gradient(45deg, rgb(44, 72, 85) 20%, rgb(255, 153, 51) 47%, rgb(44, 72, 85) 89%);
+  }
+}

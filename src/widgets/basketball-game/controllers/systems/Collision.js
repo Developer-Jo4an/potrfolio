@@ -1,5 +1,5 @@
 import {EventComponent, Body, System} from "@shared";
-import {COLLISION_END, COLLISION_START} from "../../constants/events";
+import {COLLISION_END, COLLISION_START} from "../constants/events";
 
 export class Collision extends System {
   constructor() {

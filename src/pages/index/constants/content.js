@@ -9,7 +9,10 @@ export default {
     }
   },
   error: {
-    seconds: 5,
+    seconds: {
+      prod: 5,
+      dev: 99999
+    },
     message: `ОШИБКА! Reload ${SPLITTER}с.`
   },
   loading: {

@@ -22,13 +22,13 @@ import {
   UPDATE_DECORATOR_FIELD,
   PAUSED
 } from "@shared";
-import {DUNK_SHOT_TWEEN, GAME_SIZE} from "../constants";
-import {DUNK_SHOT_STATE_MACHINE} from "../constants/stateMachine";
-import {CONTROLLER_RESET, DUNK_SHOT_CONFIG_EVENT, DUNK_SHOT_GAME_DATA_EVENT} from "../constants/events";
-import {dunkShotFactory} from "./factory/DunkShotFactory";
-import {dunkShotAnimationPlayer} from "./animations/DunkShotAnimationPlayer";
-import {dunkShotUtils} from "./utils/DunkShotUtils";
-import {RESET_ITEMS} from "../constants/factoryVariables";
+import {DUNK_SHOT_TWEEN, GAME_SIZE} from "./constants";
+import {STATE_MACHINE} from "./constants/stateMachine";
+import {CONTROLLER_RESET, DUNK_SHOT_CONFIG_EVENT, DUNK_SHOT_GAME_DATA_EVENT} from "./constants/events";
+import {factory} from "./factory/Factory";
+import {animationPlayer} from "./animations/AnimationPlayer";
+import {utils} from "./utils/Utils";
+import {RESET_ITEMS} from "./constants/factoryVariables";
 
 export class Controller extends PIXIController {
   CONTROLLERS = [GameplayController, InteractionController, CameraController, EffectsController];
@@ -52,7 +52,7 @@ export class Controller extends PIXIController {
 
     this.initEvents();
 
-    return addControllerStateHandler(this, DUNK_SHOT_STATE_MACHINE);
+    return addControllerStateHandler(this, STATE_MACHINE);
   }
 
   async init() {
@@ -139,20 +139,20 @@ export class Controller extends PIXIController {
   initHelpers() {
     const {generalData} = this;
 
-    dunkShotFactory.setDefaultProperties(generalData);
-    dunkShotUtils.setDefaultProperties(generalData);
-    dunkShotAnimationPlayer.setDefaultProperties(generalData);
+    factory.setDefaultProperties(generalData);
+    utils.setDefaultProperties(generalData);
+    animationPlayer.setDefaultProperties(generalData);
   }
 
   initWalls() {
     [LEFT, RIGHT].forEach((direction) => {
-      const wall = dunkShotFactory.createItem("wall", {direction});
+      const wall = factory.createItem("wall", {direction});
       wall.addToSpaces();
     });
   }
 
   initMainContainer() {
-    const mainContainer = dunkShotFactory.createItem("mainContainer");
+    const mainContainer = factory.createItem("mainContainer");
     mainContainer.addToSpaces();
   }
 
@@ -226,11 +226,12 @@ export class Controller extends PIXIController {
       $container: {offsetWidth: width, offsetHeight: height}
     } = this;
 
-    const scale = width / GAME_SIZE.width; // Игра вписана по ширине
-
+    const scale = Math.min(width, GAME_SIZE.limits.width) / GAME_SIZE.width;
     stage.scale.set(scale);
 
-    stage.position.set((width - GAME_SIZE.width * scale) / 2, (height - GAME_SIZE.height * scale) / 2);
+    const x = (width - GAME_SIZE.width * scale) / 2;
+    const y = (height - GAME_SIZE.height * scale) / 2;
+    stage.position.set(x, y);
   }
 
   onUpdated({deltaMS, deltaTime}) {
@@ -246,12 +247,12 @@ export class Controller extends PIXIController {
 
   async reset() {
     const {eventBus, decorators, controllers} = this;
-    const {storage} = dunkShotFactory;
+    const {storage} = factory;
 
     gsap.localTimeline.clear(DUNK_SHOT_TWEEN);
 
     for (const key in storage) {
-      if (RESET_ITEMS.includes(key)) dunkShotFactory.pushItems(key);
+      if (RESET_ITEMS.includes(key)) factory.pushItems(key);
     }
 
     const arrayDecorators = Object.values(decorators);

@@ -1,27 +1,29 @@
-import {useEffect, useImperativeHandle, useRef, useState} from "react";
-import {hitTween} from "../../utils/animations/hitTween";
+import {useEffect, useRef, useState} from "react";
+import {hitTween} from "../../controllers/tweens/hitTween";
 import {eventSubscription, Image} from "@shared";
 import {useBasketballStore} from "../../model/state-manager/basketballStore";
-import {CLEAR_HIT, MISS} from "../../constants/events";
+import {CLEAR_HIT, MISS} from "../../controllers/constants/events";
 import content from "../../constants/content";
-import {BASKETBALL} from "../../constants/game";
-import {PLAYING} from "../../constants/stateMachine";
+import {BASKETBALL} from "../../controllers/constants/game";
+import {PLAYING} from "../../controllers/constants/stateMachine";
 import styles from "./Effects.module.scss";
 
 const {
-  effects: {clearHit, miss},
+  effects: {clearHit, miss}
 } = content;
 
-export function Effects({ref}) {
+export function Effects({updateProps}) {
   const {wrapper, state} = useBasketballStore();
   const [{isVisibleClearHitEffect, isVisibleMissEffect}, setVisibleEffects] = useState({
     isVisibleClearHitEffect: false,
-    isVisibleMissEffect: false,
+    isVisibleMissEffect: false
   });
   const animatedElements = useRef({clearHitEffect: null, missEffect: null});
   const effectsFreeSpaceRef = useRef();
 
-  useImperativeHandle(ref, () => effectsFreeSpaceRef.current);
+  useEffect(() => {
+    updateProps({effectsFreeSpace: effectsFreeSpaceRef.current});
+  }, []);
 
   useEffect(() => {
     if (!wrapper) return;
@@ -33,15 +35,15 @@ export function Effects({ref}) {
           event: CLEAR_HIT,
           callback() {
             setVisibleEffects((prev) => ({...prev, isVisibleClearHitEffect: true}));
-          },
+          }
         },
         {
           event: MISS,
           callback() {
             setVisibleEffects((prev) => ({...prev, isVisibleMissEffect: true}));
-          },
-        },
-      ],
+          }
+        }
+      ]
     });
   }, [wrapper]);
 
@@ -63,12 +65,12 @@ export function Effects({ref}) {
     const animatedData = [
       isVisibleClearHitEffect && {
         DOMElement: clearHitEffect,
-        clear: () => setVisibleEffects((prev) => ({...prev, isVisibleClearHitEffect: false})),
+        clear: () => setVisibleEffects((prev) => ({...prev, isVisibleClearHitEffect: false}))
       },
       isVisibleMissEffect && {
         DOMElement: missEffect,
-        clear: () => setVisibleEffects((prev) => ({...prev, isVisibleMissEffect: false})),
-      },
+        clear: () => setVisibleEffects((prev) => ({...prev, isVisibleMissEffect: false}))
+      }
     ].filter(Boolean);
 
     const clearFunctions = animatedData.map(({DOMElement, clear}) => {
@@ -93,7 +95,7 @@ export function Effects({ref}) {
         </div>
       )}
 
-      <div ref={effectsFreeSpaceRef} className={styles.effectsFreeSpace} />
+      <div ref={effectsFreeSpaceRef} className={styles.effectsFreeSpace}/>
     </div>
   );
 }

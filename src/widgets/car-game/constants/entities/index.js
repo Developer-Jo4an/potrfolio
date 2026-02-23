@@ -6,12 +6,12 @@ import {MAIN_CONTAINER} from "./mainContainer";
 import {ROAD_CHUNK} from "./roadChunk";
 import {BONUS} from "./bonus";
 import {BLOCK} from "./block";
-import {CAR_STATE_MACHINE} from "../stateMachine";
+import {STATE_MACHINE} from "../stateMachine";
 import {ROAD_CHUNKS_CONTAINER} from "./roadChunksContainer";
 import {getDefaultState, Collider, State, Collection, Matrix3Component, PixiComponent} from "@shared";
 
 export const types = {
-  [GAME]: {components: [{Class: State, props: {states: CAR_STATE_MACHINE}}, {Class: Game}]},
+  [GAME]: {components: [{Class: State, props: {states: STATE_MACHINE}}, {Class: Game}]},
   [CHARACTER]: {
     components: [
       {Class: PixiComponent},

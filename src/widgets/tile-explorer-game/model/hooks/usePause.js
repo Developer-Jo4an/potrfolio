@@ -1,7 +1,7 @@
 import {useTileExplorerStore} from "../state-manager/tileExplorerStore";
 import {OFF, ON, ROUTES, useAppCallbacks, useModalProvider} from "@shared";
 import {PAUSED, PLAYING, STATE_MACHINE} from "../../constants/stateMachine";
-import {MODES} from "@features/pause-modal";
+import {MODES} from "@entities/pause-modal";
 import content from "../../constants/content";
 
 const {

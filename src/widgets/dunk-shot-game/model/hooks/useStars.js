@@ -1,6 +1,6 @@
 import {useRef} from "react";
 import {useKillGsapTweens, useResetOnResize} from "@shared";
-import {starsAnimation} from "../../config/animations";
+import {starsAnimation} from "../../controllers/constants/animations";
 
 const {offset, scale, delay, opacity} = starsAnimation;
 

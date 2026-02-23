@@ -4,13 +4,13 @@ import {Star} from "../star/Star";
 import {Stars} from "../stars/Stars";
 import styles from "./Elements.module.scss";
 
-export function Elements({topMenuElementsRef, progressBarEls}) {
+export function Elements() {
   return (
     <div className={styles.elements}>
-      <Timer />
-      <PureHit />
-      <Star topMenuElementsRef={topMenuElementsRef} />
-      <Stars topMenuElementsRef={topMenuElementsRef} progressBarEls={progressBarEls} />
+      <Timer {...arguments[0]}/>
+      <PureHit {...arguments[0]}/>
+      <Star {...arguments[0]} />
+      <Stars {...arguments[0]}/>
     </div>
   );
 }

@@ -2,8 +2,8 @@ import {AnimatePresence, motion} from "framer-motion";
 import {useEffect, useRef, useState} from "react";
 import {Image, Confetti, eventSubscription, STATUSES} from "@shared";
 import {useDunkShotStore} from "../../model/state-manager/dunkShotStore";
-import {CONTROLLER_RESET, THROW_PURE_DATA} from "../../constants/events";
-import {pureHitAnimation} from "../../config/animations";
+import {CONTROLLER_RESET, THROW_PURE_DATA} from "../../controllers/constants/events";
+import {pureHitAnimation} from "../../controllers/constants/animations";
 import styles from "./PureHit.module.scss";
 
 const {offset, confetti, motion: motionSettings} = pureHitAnimation;

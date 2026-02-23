@@ -1,5 +1,5 @@
 export const INITIALIZATION = "initialization";
-export const PREPARE = "prepare";
+export const APPLY = "apply";
 export const INITIALIZATION_LEVEL = "initializationLevel";
 export const PLAYING = "playing";
 export const PAUSED = "paused";
@@ -10,12 +10,12 @@ export const WIN = "win";
 
 export const STATE_MACHINE = {
   [INITIALIZATION]: {
-    availableStates: [PREPARE],
-    nextState: PREPARE,
+    availableStates: [APPLY],
+    nextState: APPLY,
     isDefault: true,
     isLoad: true
   },
-  [PREPARE]: {availableStates: [INITIALIZATION_LEVEL], nextState: INITIALIZATION_LEVEL, isLoad: true},
+  [APPLY]: {availableStates: [INITIALIZATION_LEVEL], nextState: INITIALIZATION_LEVEL, isLoad: true},
   [INITIALIZATION_LEVEL]: {availableStates: [PLAYING], nextState: PLAYING, isLoad: true},
   [PLAYING]: {availableStates: [LOSING, WINNING, PAUSED], isAvailableUpdate: true, isAvailableInteractive: true},
   [PAUSED]: {availableStates: [PLAYING]},

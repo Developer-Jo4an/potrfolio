@@ -1,6 +1,6 @@
 import {BaseEntity} from "../base/BaseEntity";
 import {LEFT, RIGHT, PIXI_SPACE, TEXTURE, assetsManager} from "@shared";
-import {WING} from "../../../config/preload";
+import {WING} from "../../constants/preload";
 
 export class Wing extends BaseEntity {
   _side = RIGHT;

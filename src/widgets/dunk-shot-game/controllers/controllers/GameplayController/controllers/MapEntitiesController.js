@@ -1,19 +1,19 @@
 import {BaseGameplayController} from "../BaseGameplayController";
 import {eventSubscription, velocity, gsapTimeout, STATUSES, STATE_DECORATOR_FIELD} from "@shared";
-import {dunkShotFactory} from "../../../factory/DunkShotFactory";
-import {dunkShotAnimationPlayer} from "../../../animations/DunkShotAnimationPlayer";
-import {dunkShotUtils} from "../../../utils/DunkShotUtils";
-import {DUNK_SHOT_TWEEN} from "../../../../constants";
-import {ACTIVE, FREE, INACTIVE, INSIDE_BASKET, NEXT, PROTECTED, TO_DOWN, TO_UP} from "../../../../constants/statuses";
+import {factory} from "../../../factory/Factory";
+import {animationPlayer} from "../../../animations/AnimationPlayer";
+import {utils} from "../../../utils/Utils";
+import {DUNK_SHOT_TWEEN} from "../../../constants";
+import {ACTIVE, FREE, INACTIVE, INSIDE_BASKET, NEXT, PROTECTED, TO_DOWN, TO_UP} from "../../../constants/statuses";
 import {
   BASKET_COLLISION,
   BASKET_SENSOR_COLLISION,
   PROGRESS_RESET,
   THROW_HIT,
   THROW_PURE,
-  THROW_PURE_DATA,
-} from "../../../../constants/events";
-import {DUNK_SHOT_STATE_MACHINE, PLAYING, PREPARE, WIN} from "../../../../constants/stateMachine";
+  THROW_PURE_DATA, WIN
+} from "../../../constants/events";
+import {STATE_MACHINE, PLAYING, PREPARE, WIN as WIN_STATUS} from "../../../constants/stateMachine";
 
 export class MapEntitiesController extends BaseGameplayController {
   constructor(data) {
@@ -32,14 +32,15 @@ export class MapEntitiesController extends BaseGameplayController {
       target: eventBus,
       callbacksBus: [
         {event: BASKET_COLLISION, callback: this.onBasketCollision},
-        {event: BASKET_SENSOR_COLLISION, callback: this.onBasketSensorCollision},
-      ],
+        {event: BASKET_SENSOR_COLLISION, callback: this.onBasketSensorCollision}
+      ]
     });
   }
 
-  init() {}
+  init() {
+  }
 
-  initLevelSelect() {
+  initializationLevelSelect() {
     this.initBaskets();
     this.initSpikes();
     this.initFinish();
@@ -52,37 +53,37 @@ export class MapEntitiesController extends BaseGameplayController {
   initBaskets() {
     const {
       config: {
-        configuration: {rows},
+        configuration: {rows}
       },
       storage: {
         mainSceneSettings: {
-          basket: {entitiesTypes},
-        },
-      },
+          basket: {entitiesTypes}
+        }
+      }
     } = this;
 
     const basketsRows = rows.filter(({obj}) => Object.keys(entitiesTypes).includes(obj));
 
     basketsRows.forEach(({num: row, obj, speed, init_pos: position}, index, {length}) => {
-      const basket = dunkShotFactory.createItem("basket", {type: entitiesTypes[obj], speed});
+      const basket = factory.createItem("basket", {type: entitiesTypes[obj], speed});
 
       basket.status = !index ? NEXT : INACTIVE;
       basket.isLast = index === length - 1;
       basket.order = index;
       basket.row = row;
-      basket.position = dunkShotUtils.getPositionFromRowPosition(row, position);
+      basket.position = utils.getPositionFromRowPosition(row, position);
       basket.positionLabel = position;
 
       basket.addToSpaces();
 
       ({
         [INACTIVE]() {
-          dunkShotAnimationPlayer.basketInactiveAnimation(basket, true).then(() => (basket.view.visible = false));
+          animationPlayer.basketInactiveAnimation(basket, true).then(() => (basket.view.visible = false));
         },
         [NEXT]() {
           basket.view.visible = true;
-          dunkShotAnimationPlayer.basketNextAnimation(basket);
-        },
+          animationPlayer.basketNextAnimation(basket);
+        }
       })[basket.status]?.call(this);
     });
   }
@@ -90,40 +91,40 @@ export class MapEntitiesController extends BaseGameplayController {
   initSpikes() {
     const {
       config: {
-        configuration: {rows},
+        configuration: {rows}
       },
       storage: {
         mainSceneSettings: {
-          spike: {entitiesTypes},
-        },
-      },
+          spike: {entitiesTypes}
+        }
+      }
     } = this;
 
     const spikeRows = rows.filter(({obj}) => Object.keys(entitiesTypes).includes(obj));
 
     spikeRows.forEach(({num: row, obj, speed, init_pos: position}) => {
-      const spike = dunkShotFactory.createItem("spike", {type: entitiesTypes[obj], speed});
+      const spike = factory.createItem("spike", {type: entitiesTypes[obj], speed});
 
       spike.status = INACTIVE;
-      spike.position = dunkShotUtils.getPositionFromRowPosition(row, position);
+      spike.position = utils.getPositionFromRowPosition(row, position);
       spike.positionLabel = position;
       spike.row = row;
       spike.addToSpaces();
 
-      dunkShotAnimationPlayer.spikeInactiveAnimation(spike, true).then(() => (spike.view.visible = false));
+      animationPlayer.spikeInactiveAnimation(spike, true).then(() => (spike.view.visible = false));
     });
   }
 
   initFinish() {
-    const {lastBasket} = dunkShotFactory;
+    const {lastBasket} = factory;
 
-    const finish = dunkShotFactory.createItem("finish", {target: lastBasket});
+    const finish = factory.createItem("finish", {target: lastBasket});
     finish.addToSpaces();
     finish.view.visible = false;
   }
 
   isGoalToBasket(collisionBody) {
-    const {ball} = dunkShotFactory;
+    const {ball} = factory;
 
     const {wrapper: basket} = collisionBody;
 
@@ -131,13 +132,13 @@ export class MapEntitiesController extends BaseGameplayController {
       [ACTIVE]: ball.status === TO_DOWN,
       [NEXT]:
         (ball.status === TO_DOWN || ball.status === FREE || ball.status === PROTECTED) &&
-        (ball.position.y <= collisionBody.position.y || ball.status === PROTECTED),
+        (ball.position.y <= collisionBody.position.y || ball.status === PROTECTED)
     }[basket.status];
   }
 
   async onBasketSensorCollision({collisionBody}) {
-    const {decorators} = this;
-    const {ball, nextBasket} = dunkShotFactory;
+    const {decorators, eventBus} = this;
+    const {ball, nextBasket} = factory;
     const {wrapper: basket} = collisionBody;
 
     if (!this.isGoalToBasket(collisionBody)) return;
@@ -146,11 +147,11 @@ export class MapEntitiesController extends BaseGameplayController {
 
     if (basket === nextBasket) this.clearSpecificBehaviour();
 
-    const ballTarget = dunkShotUtils.getBallTarget(basket);
+    const ballTarget = utils.getBallTarget(basket);
     const velocityValue = velocity(ball.velocity.x, ball.velocity.y);
-    await dunkShotAnimationPlayer.ballMagnetToBasket(ball, ballTarget.x, ballTarget.y, velocityValue);
-    await dunkShotAnimationPlayer.basketCaughtAnimation(basket, velocityValue, () => {
-      const {x, y} = dunkShotUtils.getBallTarget(basket);
+    await animationPlayer.ballMagnetToBasket(ball, ballTarget.x, ballTarget.y, velocityValue);
+    await animationPlayer.basketCaughtAnimation(basket, velocityValue, () => {
+      const {x, y} = utils.getBallTarget(basket);
       ball.position = {x, y};
     });
 
@@ -165,27 +166,27 @@ export class MapEntitiesController extends BaseGameplayController {
 
       const rotationTween = gsap.localTimeline.getTweenByNamespaceAndId(
         DUNK_SHOT_TWEEN,
-        `basketRotation${_factoryUUID}`,
+        `basketRotation${_factoryUUID}`
       );
       if (rotationTween) {
         rotationTween.delete(DUNK_SHOT_TWEEN);
-        await dunkShotAnimationPlayer.basketDefaultAnimation(basket, {rotation: true});
+        await animationPlayer.basketDefaultAnimation(basket, {rotation: true});
       }
 
       this.callSpecificBehaviour();
 
       const stateDecorator = decorators[STATE_DECORATOR_FIELD];
 
-      if (dunkShotUtils.isNextStateWin) stateDecorator.state = WIN;
+      if (utils.isNextStateWin) eventBus.dispatchEvent({type: WIN, status: WIN_STATUS});
       else if (stateDecorator.state !== PLAYING) stateDecorator.state = PLAYING;
     }
   }
 
   onBasketCollision({collisionBody}) {
     const {
-      idealThrowData: {collisions},
+      idealThrowData: {collisions}
     } = this;
-    const {ball} = dunkShotFactory;
+    const {ball} = factory;
 
     if (ball.status === TO_UP || ball.status === TO_DOWN) collisions.push(collisionBody);
   }
@@ -195,15 +196,15 @@ export class MapEntitiesController extends BaseGameplayController {
       state,
       decorators,
       eventBus,
-      idealThrowData: {collisions},
+      idealThrowData: {collisions}
     } = this;
-    const {nextBasket} = dunkShotFactory;
+    const {nextBasket} = factory;
 
     if (state === PREPARE) {
       const stateDecorator = decorators[STATE_DECORATOR_FIELD];
-      stateDecorator.state = DUNK_SHOT_STATE_MACHINE[state].nextState;
+      stateDecorator.state = STATE_MACHINE[state].nextState;
     } else if (basket === nextBasket) {
-      eventBus.dispatchEvent({type: THROW_HIT, position: dunkShotUtils.getViewportPosition(basket.view)});
+      eventBus.dispatchEvent({type: THROW_HIT, position: utils.getViewportPosition(basket.view)});
 
       if (!collisions.length) {
         eventBus.dispatchEvent({type: THROW_PURE});
@@ -213,7 +214,7 @@ export class MapEntitiesController extends BaseGameplayController {
         if (prevTimeout) prevTimeout.delete(DUNK_SHOT_TWEEN);
 
         const throwEvent = function () {
-          const position = dunkShotUtils.getViewportPosition(nextBasket.view);
+          const position = utils.getViewportPosition(nextBasket.view);
           eventBus.dispatchEvent({type: THROW_PURE_DATA, pureData: {position, ...this}});
         };
 
@@ -223,7 +224,7 @@ export class MapEntitiesController extends BaseGameplayController {
           id: "dunkShot:pure-data",
           onStart: throwEvent.bind({isActive: true, stage: STATUSES.start}),
           onUpdate: throwEvent.bind({isActive: true, stage: STATUSES.update}),
-          onComplete: throwEvent.bind({isActive: false, stage: STATUSES.complete}),
+          onComplete: throwEvent.bind({isActive: false, stage: STATUSES.complete})
         });
       } else eventBus.dispatchEvent({type: PROGRESS_RESET});
     } else if (basket === this.activeBasket) {
@@ -234,14 +235,14 @@ export class MapEntitiesController extends BaseGameplayController {
   }
 
   update(milliseconds, deltaTime) {
-    const {baskets, spikes, activeBasket} = dunkShotFactory;
+    const {baskets, spikes, activeBasket} = factory;
     const {
       throwData: {currentData, startData},
       storage: {
         mainSceneSettings: {
-          throw: {stretch: stretchSettings},
-        },
-      },
+          throw: {stretch: stretchSettings}
+        }
+      }
     } = this;
 
     baskets?.forEach((basket) => basket.update(deltaTime));

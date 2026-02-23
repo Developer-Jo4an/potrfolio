@@ -1,9 +1,9 @@
 import {BasePhysicsEntity} from "../base/BasePhysicsEntity";
 import {isFunction, upperFirst, cloneDeep} from "lodash";
 import {assetsManager, PIXI_SPACE, TEXTURE} from "@shared";
-import {FREE, TO_DOWN} from "../../../constants/statuses";
-import {COLLISION_FILTERS} from "../../../constants/collision";
-import {BALL_2D} from "../../../config/preload";
+import {FREE, TO_DOWN} from "../../constants/statuses";
+import {COLLISION_FILTERS} from "../../constants/collision";
+import {BALL_2D} from "../../constants/preload";
 
 export class Ball extends BasePhysicsEntity {
   _status = FREE; // free | toUp | toDown | insideBasket | damage | protected

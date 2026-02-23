@@ -1,5 +1,5 @@
 import {GameSpaceStore} from "@shared";
-import {CLEAR_HIT, EXTRA_LIFE, X2} from "../../constants/boosters";
+import {CLEAR_HIT, EXTRA_LIFE, X2} from "../../controllers/constants/boosters";
 
 export const gameSpaceStore = new GameSpaceStore({
   gameData: {balls: 10, score: 0, target: 15, lifes: 3, story: [], pureCount: 0},

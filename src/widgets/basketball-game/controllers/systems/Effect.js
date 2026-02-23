@@ -1,6 +1,6 @@
 import {TEXTURE, THREE_SPACE, assetsManager, EventComponent, Body, System} from "@shared";
-import {CHARACTER, TRAIL} from "../../constants/character";
-import {THROWN} from "../../constants/events";
+import {CHARACTER, TRAIL} from "../constants/character";
+import {THROWN} from "../constants/events";
 
 export class Effect extends System {
   characterTrailSystem;

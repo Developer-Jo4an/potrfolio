@@ -1,5 +1,5 @@
 import {createStore} from "@shared";
-import {BASKETBALL} from "../../constants/game";
+import {BASKETBALL} from "../../controllers/constants/game";
 
 const {useStore: useBasketballStore, selectors} = createStore({
   name: BASKETBALL,

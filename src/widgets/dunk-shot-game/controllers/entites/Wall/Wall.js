@@ -1,6 +1,6 @@
 import {BasePhysicsEntity} from "../base/BasePhysicsEntity";
 import {cloneDeep} from "lodash";
-import {COLLISION_FILTERS} from "../../../constants/collision";
+import {COLLISION_FILTERS} from "../../constants/collision";
 
 export class Wall extends BasePhysicsEntity {
   constructor(data) {

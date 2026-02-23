@@ -3,13 +3,13 @@ import {useMemo} from "react";
 import {useEndGame} from "../../model/hooks/useEndGame";
 import {Canvas} from "../canvas/Canvas";
 import {Background} from "../background/Background";
-import {TopMenu} from "@features/top-menu";
+import {TopMenu} from "@entities/top-menu";
 import {Boosters} from "../boosters/Boosters";
 import {Loader, ProxyGameSpaceStore, useGameSpaceStore} from "@shared";
 import {usePause} from "../../model/hooks/usePause";
 import {gameSpace as gameSpaceConfig} from "../../constants/gameSpace";
 import {useTileExplorerStore} from "../../model/state-manager/tileExplorerStore";
-import {INITIALIZATION, INITIALIZATION_LEVEL, PREPARE} from "../../constants/stateMachine";
+import {INITIALIZATION, INITIALIZATION_LEVEL, APPLY} from "../../constants/stateMachine";
 import content from "../../constants/content";
 import styles from "./TileExplorerGame.module.scss";
 
@@ -24,7 +24,7 @@ export function TileExplorerGame() {
   const fullProps = useMemo(
     () => ({
       gameSpace,
-      isPending: !state || [INITIALIZATION_LEVEL, PREPARE, INITIALIZATION].includes(state)
+      isPending: !state || [INITIALIZATION_LEVEL, APPLY, INITIALIZATION].includes(state)
     }),
     [gameSpace, state]
   );

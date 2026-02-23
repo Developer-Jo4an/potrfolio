@@ -1,7 +1,7 @@
 import {useEffect} from "react";
 import {eventSubscription, getDefaultState, STATE_CHANGED} from "@shared";
 import {useCarStore} from "../state-machine/carStore";
-import {CAR_STATE_MACHINE, IGNORE_NEXT_STATES} from "../../constants/stateMachine";
+import {STATE_MACHINE, IGNORE_NEXT_STATES} from "../../constants/stateMachine";
 
 export function useStateControls() {
   const {wrapper} = useCarStore();
@@ -18,13 +18,13 @@ export function useStateControls() {
           event: STATE_CHANGED,
           async callback({state}) {
             await controller[`${state}Select`]?.();
-            if (!IGNORE_NEXT_STATES.includes(state)) controller.state = CAR_STATE_MACHINE[state].nextState;
+            if (!IGNORE_NEXT_STATES.includes(state)) controller.state = STATE_MACHINE[state].nextState;
           },
         },
       ],
     });
 
-    controller.state = getDefaultState(CAR_STATE_MACHINE);
+    controller.state = getDefaultState(STATE_MACHINE);
 
     return clear;
   }, [wrapper]);

@@ -1,52 +1,42 @@
 "use client";
-import {useMemo, useRef} from "react";
-import {Background} from "../background/Background";
-import {Loader} from "@shared";
-import {TopMenu} from "@features/top-menu";
+import {useState} from "react";
 import {Boosters} from "../boosters/Boosters";
 import {Canvas} from "../canvas/Canvas";
-import {usePause} from "../../model/hooks/usePause";
 import {Elements} from "../elements/Elements";
 import {Progress} from "../progress/Progress";
 import {useEndGame} from "../../model/hooks/useEndGame";
+import {ComponentTypes, GameWrapper} from "@features/game-wrapper";
 import {useDunkShotStore} from "../../model/state-manager/dunkShotStore";
-import {DUNK_SHOT_STATE_MACHINE} from "../../constants/stateMachine";
-import content from "../../constants/content";
-import styles from "./DunkShotGame.module.scss";
-
-const {
-  menu: {lifes: lifesContent, score: scoreContent, sound}
-} = content;
+import content from "../../controllers/constants/content";
+import * as statesData from "../../controllers/constants/stateMachine";
 
 export function DunkShotGame() {
-  const {gameData: {state, lifes, score} = {}} = useDunkShotStore();
-  const topMenuElementsRef = useRef();
-  const progressBarEls = useRef();
-  const pause = usePause();
+  const {wrapper, gameData, gameData: {state} = {}} = useDunkShotStore();
+  const [fullProps, setFullProps] = useState({});
 
-  const fullProps = useMemo(() => ({
-    progressBarEls,
-    topMenuElementsRef,
-    isPending: !state || DUNK_SHOT_STATE_MACHINE[state]?.isLoad
-  }), [state]);
+  const onEnd = useEndGame();
 
-  useEndGame();
+  const totalProps = {
+    ...fullProps, wrapper, state, content, gameSpace: {gameData}, onEnd,
+    isPending: !state || (statesData.STATE_MACHINE[state]?.isLoad ?? false),
+    statesData
+  };
 
   return (
-    <div className={styles.dunkShotGame}>
-      <Background/>
-      <Canvas/>
-      <TopMenu
-        ref={topMenuElementsRef}
-        lifes={{count: lifes, ...lifesContent}}
-        score={{count: score, ...scoreContent}}
-        pause={pause}
-        sound={sound}
-      />
-      <Progress {...fullProps} />
-      <Boosters {...fullProps} />
-      <Elements {...fullProps} />
-      <Loader {...fullProps} />
-    </div>
+    <GameWrapper
+      fullProps={totalProps}
+      setFullProps={setFullProps}
+      list={[
+        {type: ComponentTypes.BACKGROUND},
+        {Component: Canvas},
+        {type: ComponentTypes.TOP_MENU},
+        {Component: Progress},
+        {Component: Boosters},
+        {Component: Elements},
+        {type: ComponentTypes.LOADER}
+      ]}
+    />
   );
 }
+
+

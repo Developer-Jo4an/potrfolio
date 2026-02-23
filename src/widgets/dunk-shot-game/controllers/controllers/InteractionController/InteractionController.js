@@ -12,7 +12,7 @@ import {
   POINTER_UP,
   POINTER_UP_OUTSIDE,
 } from "@shared";
-import {DUNK_SHOT_STATE_MACHINE} from "../../../constants/stateMachine";
+import {STATE_MACHINE} from "../../constants/stateMachine";
 
 export class InteractionController extends BaseController {
   dragData = {isDragging: false, start: null, current: null, angle: null, stretch: null, path: []};
@@ -94,6 +94,6 @@ export class InteractionController extends BaseController {
   onStateChanged(state) {
     const {stage} = this;
 
-    stage.interactive = !!DUNK_SHOT_STATE_MACHINE[state].isAvailableInteraction;
+    stage.interactive = !!STATE_MACHINE[state].isAvailableInteraction;
   }
 }

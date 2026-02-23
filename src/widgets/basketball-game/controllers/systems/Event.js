@@ -1,8 +1,8 @@
 import {System, EventComponent} from "shared";
-import {CHARACTER} from "../../constants/character";
-import {CLEAR_HIT, COLLISION_END, COLLISION_START, LOSE, MISS, THROWN, WIN} from "../../constants/events";
-import {WIN as WIN_STATUS, LOSE as LOSE_STATUS} from "../../constants/stateMachine";
-import {GROUND} from "../../constants/ground";
+import {CHARACTER} from "../constants/character";
+import {CLEAR_HIT, COLLISION_END, COLLISION_START, LOSE, MISS, THROWN, WIN} from "../constants/events";
+import {WIN as WIN_STATUS, LOSE as LOSE_STATUS} from "../constants/stateMachine";
+import {GROUND} from "../constants/ground";
 
 export class Event extends System {
   updateCharacterEvents({eCharacter}) {

@@ -1,10 +1,10 @@
 import {BaseController} from "../BaseController/BaseController";
 import {isInsideRectangle} from "@shared";
 import {clamp} from "lodash";
-import {dunkShotFactory} from "../../factory/DunkShotFactory";
-import {DUNK_SHOT_STATE_MACHINE} from "../../../constants/stateMachine";
+import {factory} from "../../factory/Factory";
+import {STATE_MACHINE} from "../../constants/stateMachine";
 import {MAX, MIN} from "@shared";
-import {INSIDE_BASKET} from "../../../constants/statuses";
+import {INSIDE_BASKET} from "../../constants/statuses";
 
 export class CameraController extends BaseController {
   constructor(data) {
@@ -21,7 +21,7 @@ export class CameraController extends BaseController {
         },
       },
     } = this;
-    const {mainContainer, ball} = dunkShotFactory;
+    const {mainContainer, ball} = factory;
 
     const ballGlobalPosition = {x: mainContainer.view.position.x + ball.x, y: mainContainer.view.position.y + ball.y};
 
@@ -50,7 +50,7 @@ export class CameraController extends BaseController {
   }
 
   moveCamera(mathFunction, deltaTime) {
-    const {mainContainer} = dunkShotFactory;
+    const {mainContainer} = factory;
 
     mainContainer.view.position.y =
       mainContainer.view.position.y + this.speed * deltaTime * {[MIN]: 1, [MAX]: -1}[mathFunction];
@@ -64,7 +64,7 @@ export class CameraController extends BaseController {
         },
       },
     } = this;
-    const {ball, mainContainer} = dunkShotFactory;
+    const {ball, mainContainer} = factory;
 
     if (!ball) return;
 
@@ -92,13 +92,13 @@ export class CameraController extends BaseController {
   update(milliseconds, deltaTime) {
     const {state} = this;
 
-    if (!DUNK_SHOT_STATE_MACHINE[state]?.isAvailableCameraUpdate) return;
+    if (!STATE_MACHINE[state]?.isAvailableCameraUpdate) return;
 
     this.updateCamera(milliseconds, deltaTime);
   }
 
   reset() {
-    const {mainContainer} = dunkShotFactory;
+    const {mainContainer} = factory;
     mainContainer.view.position.set(0, 0);
   }
 }

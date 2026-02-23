@@ -5,7 +5,7 @@ export const PAUSED = "paused";
 export const LOSE = "lose";
 export const WIN = "win";
 
-export const CAR_STATE_MACHINE = {
+export const STATE_MACHINE = {
   [INITIALIZATION]: {
     availableStates: [INITIALIZATION_LEVEL],
     nextState: INITIALIZATION_LEVEL,

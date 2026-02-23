@@ -1,8 +1,8 @@
 import {upperFirst} from "lodash";
 import {Factory, assetsManager, GLTF, THREE_SPACE} from "@shared";
-import {CHARACTER, CHARACTER_BODY, CHARACTER_VIEW_NAME} from "../constants/character";
-import {SCENE_FROM_BLENDER} from "../constants/preload";
-import {GROUND, GROUND_BODY} from "../constants/ground";
+import {CHARACTER, CHARACTER_BODY, CHARACTER_VIEW_NAME} from "./constants/character";
+import {SCENE_FROM_BLENDER} from "./constants/preload";
+import {GROUND, GROUND_BODY} from "./constants/ground";
 import {
   RING,
   RING_BODY,
@@ -12,8 +12,8 @@ import {
   RING_SHIELD_VIEW_NAME,
   RING_VIEW_NAME,
   SENSOR,
-} from "../constants/ring";
-import {X2VIEW} from "../constants/x2View";
+} from "./constants/ring";
+import {X2VIEW} from "./constants/x2View";
 
 const METHODS = {create: "create", prepare: "prepare", reset: "reset"};
 

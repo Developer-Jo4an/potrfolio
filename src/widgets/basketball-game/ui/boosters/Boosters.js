@@ -1,20 +1,22 @@
-import {useImperativeHandle, useRef} from "react";
+import {useEffect, useRef} from "react";
 import {Image} from "@shared";
 import {useBoosters} from "../../model/hooks/useBoosters";
-import {BottomMenu, MODES} from "@features/bottom-menu";
+import {BottomMenu, MODES} from "@entities/bottom-menu";
 import {useBasketballStore} from "../../model/state-manager/basketballStore";
-import {PLAYING} from "../../constants/stateMachine";
+import {PLAYING} from "../../controllers/constants/stateMachine";
 import content from "../../constants/content";
 import styles from "./Boosters.module.scss";
 
 const {boosters} = content;
 
-export function Boosters({gameSpace, ref}) {
+export function Boosters({gameSpace, updateProps}) {
   const {state} = useBasketballStore();
   const onClick = useBoosters();
   const elementsRef = useRef();
 
-  useImperativeHandle(ref, () => elementsRef.current);
+  useEffect(() => {
+    updateProps({boosters: elementsRef.current});
+  }, []);
 
   const isCanUse =
     state === PLAYING &&
@@ -26,22 +28,26 @@ export function Boosters({gameSpace, ref}) {
     !gameSpace.booster.active;
 
   const boosterButtons = boosters.map(({type, timeout, background, img}) => {
-    const count = gameSpace.booster[type];
+    const {booster} = gameSpace;
+    const count = booster[type];
+    const isActive = booster.active && type === booster.active;
+
     return {
       id: type,
       className: styles.booster,
       onClick: () => onClick(type),
+      isActive,
       isDisabled: !isCanUse || !count,
       img: {...img, className: styles[img.className]},
       value: count,
       child: (
         <div className={styles[background.className]}>
-          <Image src={background.src} />
+          <Image src={background.src}/>
         </div>
       ),
-      timeout,
+      timeout
     };
   });
 
-  return <BottomMenu ref={elementsRef} buttons={boosterButtons} mod={MODES.orange} />;
+  return <BottomMenu ref={elementsRef} buttons={boosterButtons} mod={MODES.orange}/>;
 }

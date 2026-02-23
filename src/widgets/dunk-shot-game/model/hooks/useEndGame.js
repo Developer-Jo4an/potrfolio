@@ -1,8 +1,6 @@
-import {useEffect} from "react";
-import {useAppCallbacks, eventSubscription, STATE_CHANGED, useModalProvider} from "@shared";
+import {useAppCallbacks, useModalProvider} from "@shared";
 import {useDunkShotStore} from "../state-manager/dunkShotStore";
-import {LOSE, WIN} from "../../constants/stateMachine";
-import content from "../../constants/content";
+import content from "../../controllers/constants/content";
 
 const {endModal} = content;
 
@@ -11,28 +9,15 @@ export function useEndGame() {
   const {redirect} = useAppCallbacks();
   const {names, add} = useModalProvider();
 
-  useEffect(() => {
-    if (!wrapper) return;
+  return ({status}) => {
+    wrapper.state = status;
 
-    const {eventBus} = wrapper;
+    const {
+      gameData: {story, pureCount, score}
+    } = useDunkShotStore.getState();
 
-    return eventSubscription({
-      target: eventBus,
-      callbacksBus: [
-        {
-          event: STATE_CHANGED,
-          callback({state}) {
-            if (![LOSE, WIN].includes(state)) return;
+    const modalData = endModal({wrapper, modalNames: names, redirect, score, pureCount, status, story});
 
-            const {
-              gameData: {story, pureCount, score},
-            } = useDunkShotStore.getState();
-
-            const modalData = endModal({wrapper, modalNames: names, redirect, score, pureCount, status: state, story});
-            add(modalData);
-          },
-        },
-      ],
-    });
-  }, [wrapper]);
+    add(modalData);
+  };
 }

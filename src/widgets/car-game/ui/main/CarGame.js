@@ -4,7 +4,7 @@ import {useCarStore} from "../../model/state-machine/carStore";
 import {types} from "../../constants/entities";
 import {mainSceneSettings} from "../../constants/mainSceneSettings";
 import {preload} from "../../constants/preload";
-import {CAR_STATE_MACHINE, IGNORE_NEXT_STATES, LOSE} from "../../constants/stateMachine";
+import {STATE_MACHINE, IGNORE_NEXT_STATES, LOSE} from "../../constants/stateMachine";
 import {BONUSES_COLLISION, BLOCKS_COLLISION} from "../../constants/events";
 import {imports, Image, useResetScene, useStateControls, eventSubscription, useLoadScene} from "@shared";
 import styles from "./CarGame.module.scss";
@@ -17,17 +17,17 @@ export function CarGame() {
     libraries: [imports.pixi, imports.sat],
     loadWrapper: () => import("../../controllers/Wrapper"),
     beforeInit(wrapper) {
-      wrapper.controller.storage.states = CAR_STATE_MACHINE;
+      wrapper.controller.storage.states = STATE_MACHINE;
       wrapper.controller.storage.types = types;
     },
-    initProps: {stateMachine: CAR_STATE_MACHINE, mainSceneSettings, preload},
+    initProps: {stateMachine: STATE_MACHINE, mainSceneSettings, preload},
     afterInit: setWrapper,
     containerRef,
   });
 
   useStateControls(
     wrapper,
-    CAR_STATE_MACHINE,
+    STATE_MACHINE,
     IGNORE_NEXT_STATES,
     useMemo(() => {
       if (!wrapper) return {};

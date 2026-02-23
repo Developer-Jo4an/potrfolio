@@ -1,7 +1,7 @@
 import {getDefaultState, OFF, ON, ROUTES} from "@shared";
 import {BACK, HELP, MIX} from "./boosters";
 import {LOSE, STATE_MACHINE, WIN} from "./stateMachine";
-import {MODS} from "@features/game-end-modal";
+import {MODS} from "@entities/game-end-modal";
 import {config} from "../config/config";
 
 export default {

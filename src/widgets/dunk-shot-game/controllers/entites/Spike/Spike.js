@@ -1,8 +1,8 @@
 import {BasePhysicsEntity} from "../base/BasePhysicsEntity";
 import {upperFirst, cloneDeep} from "lodash";
 import {PIXI_SPACE, TEXTURE, assetsManager} from "@shared";
-import {COLLISION_FILTERS} from "../../../constants/collision";
-import {INACTIVE} from "../../../constants/statuses";
+import {COLLISION_FILTERS} from "../../constants/collision";
+import {INACTIVE} from "../../constants/statuses";
 
 export class Spike extends BasePhysicsEntity {
   _status = INACTIVE;

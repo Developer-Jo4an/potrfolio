@@ -5,13 +5,13 @@ import {FaStar} from "react-icons/fa6";
 import {useStar} from "../../model/hooks/useStar";
 import {useActiveBoosters} from "../../model/hooks/useActiveBoosters";
 import {useDunkShotStore} from "../../model/state-manager/dunkShotStore";
-import {THROW_HIT} from "../../constants/events";
-import {X2} from "../../constants/boosters";
+import {THROW_HIT} from "../../controllers/constants/events";
+import {X2} from "../../controllers/constants/boosters";
 import styles from "./Stars.module.scss";
 
-export function Star({topMenuElementsRef}) {
+export function Star({topMenu}) {
   const {wrapper} = useDunkShotStore();
-  const [StarComponent, setStarComponent] = useState(<FaStar />);
+  const [StarComponent, setStarComponent] = useState(<FaStar/>);
 
   const elementRefs = useRef({stars: []});
 
@@ -31,16 +31,16 @@ export function Star({topMenuElementsRef}) {
           event: THROW_HIT,
           callback({position: from}) {
             const {stars} = elementRefs.current;
-            const {scoreIcon: to} = topMenuElementsRef.current;
+            const {scoreIcon: to} = topMenu;
 
-            setStarComponent(isActiveX2 ? <TbStarsFilled /> : <FaStar />);
+            setStarComponent(isActiveX2 ? <TbStarsFilled/> : <FaStar/>);
 
             starAnimation(stars, from, to);
-          },
-        },
-      ],
+          }
+        }
+      ]
     });
-  }, [wrapper, isActiveX2]);
+  }, [wrapper, topMenu, isActiveX2]);
 
   return (
     <>

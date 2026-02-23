@@ -1,4 +1,4 @@
-import {dunkShotFactory} from "../../factory/DunkShotFactory";
+import {factory} from "../../factory/Factory";
 import {setNecessaryListeners} from "../../utils/setNecessaryListeners";
 
 export class BaseEntity {
@@ -23,7 +23,7 @@ export class BaseEntity {
 
   addToStage() {
     const {view} = this;
-    const {mainContainer} = dunkShotFactory;
+    const {mainContainer} = factory;
     mainContainer.view.addChild(view);
   }
 

@@ -1,6 +1,6 @@
 import {BaseEntity} from "../base/BaseEntity";
 import {PIXI_SPACE, TEXTURE, assetsManager} from "@shared";
-import {FINISH} from "../../../config/preload";
+import {FINISH} from "../../constants/preload";
 
 export class Finish extends BaseEntity {
   constructor(data) {

@@ -13,8 +13,8 @@ import {
   MOVE,
   START,
 } from "@shared";
-import {CHARACTER} from "../../constants/character";
-import {GAME} from "../../constants/game";
+import {CHARACTER} from "../constants/character";
+import {GAME} from "../constants/game";
 
 export class Interactive extends System {
   constructor() {

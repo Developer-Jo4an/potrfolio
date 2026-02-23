@@ -5,10 +5,10 @@ export class EventComponent extends Component {
 
   data;
 
-  constructor(data) {
+  constructor({type, data}) {
     super(...arguments);
-    this.type = data.type;
-    this.data = data.data;
+    this.type = type;
+    this.data = data;
   }
 
   destroy() {

@@ -14,7 +14,7 @@ export class PixiRenderSystem extends System {
     this.update = this.update.bind(this);
   }
 
-  prepareSelect() {
+  applySelect() {
     this.initEvents();
   }
 

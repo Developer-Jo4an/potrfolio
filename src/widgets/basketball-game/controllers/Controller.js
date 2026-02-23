@@ -9,8 +9,8 @@ import {Light} from "./systems/Light";
 import {Collision} from "./systems/Collision";
 import {Effect} from "./systems/Effect";
 import {gameSpaceStore} from "../model/storages/gameSpace";
-import {NOT_AVAILABLE_ENTITIES_TYPES_FOR_RESET} from "../constants/reset";
-import {BASKETBALL} from "../constants/game";
+import {NOT_AVAILABLE_ENTITIES_TYPES_FOR_RESET} from "./constants/reset";
+import {BASKETBALL} from "./constants/game";
 import {
   UPDATE_DECORATOR_FIELD,
   RESIZE,
@@ -24,7 +24,7 @@ import {
   Collector,
   Assets,
   ThreeController,
-  Engine,
+  Engine
 } from "@shared";
 
 export class Controller extends ThreeController {
@@ -47,8 +47,8 @@ export class Controller extends ThreeController {
       target: eventBus,
       callbacksBus: [
         {event: UPDATED, callback: this.onUpdated},
-        {event: RESIZE, callback: this.onResized},
-      ],
+        {event: RESIZE, callback: this.onResized}
+      ]
     });
   }
 
@@ -82,18 +82,18 @@ export class Controller extends ThreeController {
     storage.eventQueue = new RAPIER3D.EventQueue(true);
 
     engine
-      .addSystem(new Assets({eventBus, storage, factory: new BasketballFactory({eventBus, storage})}))
-      .addSystem(new Level({eventBus, storage}))
-      .addSystem(new Interactive({eventBus, storage}))
-      .addSystem(new Collision({eventBus, storage}))
-      .addSystem(new Character({eventBus, storage}))
-      .addSystem(new Effect({eventBus, storage}))
-      .addSystem(new Light({eventBus, storage}))
-      .addSystem(new ThreeRapierRenderSystem({eventBus, storage}))
-      .addSystem(new Camera({eventBus, storage}))
-      .addSystem(new Event({eventBus, storage}))
-      .addSystem(new Collector({eventBus, storage}))
-      .addSystem(new Game({eventBus, storage}));
+    .addSystem(new Assets({eventBus, storage, factory: new BasketballFactory({eventBus, storage})}))
+    .addSystem(new Level({eventBus, storage}))
+    .addSystem(new Interactive({eventBus, storage}))
+    .addSystem(new Collision({eventBus, storage}))
+    .addSystem(new Character({eventBus, storage}))
+    .addSystem(new Effect({eventBus, storage}))
+    .addSystem(new Light({eventBus, storage}))
+    .addSystem(new ThreeRapierRenderSystem({eventBus, storage}))
+    .addSystem(new Camera({eventBus, storage}))
+    .addSystem(new Event({eventBus, storage}))
+    .addSystem(new Collector({eventBus, storage}))
+    .addSystem(new Game({eventBus, storage}));
   }
 
   initWorld() {
@@ -101,9 +101,9 @@ export class Controller extends ThreeController {
       storage,
       storage: {
         mainSceneSettings: {
-          world: {gravity},
-        },
-      },
+          world: {gravity}
+        }
+      }
     } = this;
     storage.world = new RAPIER3D.World(gravity);
   }
@@ -126,9 +126,9 @@ export class Controller extends ThreeController {
         world,
         eventQueue,
         mainSceneSettings: {
-          world: {maxDeltaTime},
-        },
-      },
+          world: {maxDeltaTime}
+        }
+      }
     } = this;
     world.timestep = Math.min(maxDeltaTime, deltaTime);
     world.step(eventQueue);
@@ -137,7 +137,7 @@ export class Controller extends ThreeController {
   get isAvailableUpdate() {
     const {
       storage: {states},
-      state,
+      state
     } = this;
     return !!states[state]?.isAvailableUpdate;
   }
@@ -182,8 +182,8 @@ export class Controller extends ThreeController {
 
     const {
       storage: {
-        gameSpace: {get, reset, set},
-      },
+        gameSpace: {get, reset, set}
+      }
     } = this;
     const gameSpace = get();
     gameSpace.serviceData.clearFunctions.forEach((func) => func());
@@ -191,21 +191,23 @@ export class Controller extends ThreeController {
     reset();
 
     const {
-      storage: {eventQueue},
+      storage: {eventQueue}
     } = this;
     eventQueue.clear();
 
     const {
-      storage: {engine},
+      storage: {engine}
     } = this;
+
     engine.reset();
+
     for (const key in engine.entities) {
       if (NOT_AVAILABLE_ENTITIES_TYPES_FOR_RESET.includes(key)) continue;
       const collection = engine.entities[key];
       const savedList = [...collection.list];
       savedList.forEach((entity) => {
-        collection.remove(entity);
         entity.destroy();
+        collection.remove(entity);
       });
       savedList.length = 0;
     }

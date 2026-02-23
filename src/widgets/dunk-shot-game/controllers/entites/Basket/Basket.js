@@ -1,11 +1,11 @@
 import {BasePhysicsEntity} from "../base/BasePhysicsEntity";
 import {upperFirst, cloneDeep} from "lodash";
 import {getIsDebug, PIXI_SPACE, TEXTURE, assetsManager, RED, WHITE} from "@shared";
-import {dunkShotFactory} from "../../factory/DunkShotFactory";
-import {COLLISION_FILTERS} from "../../../constants/collision";
-import {INACTIVE} from "../../../constants/statuses";
-import {VISIBLE} from "../../../constants/modes";
-import {BASKET_GRID_BACK} from "../../../config/preload";
+import {factory} from "../../factory/Factory";
+import {COLLISION_FILTERS} from "../../constants/collision";
+import {INACTIVE} from "../../constants/statuses";
+import {VISIBLE} from "../../constants/modes";
+import {BASKET_GRID_BACK} from "../../constants/preload";
 
 export class Basket extends BasePhysicsEntity {
   _position = {x: 0, y: 0};
@@ -296,7 +296,7 @@ export class Basket extends BasePhysicsEntity {
       },
     } = this;
 
-    const {mainContainer} = dunkShotFactory;
+    const {mainContainer} = factory;
 
     bodies.forEach(({position, label}, index) => {
       const debugCircle = (debug.circles[index] ??= new PIXI.Graphics());

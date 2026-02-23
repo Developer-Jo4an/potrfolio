@@ -1,7 +1,7 @@
 import {BaseEntity} from "../base/BaseEntity";
 import {createArrayWithMap, assetsManager, PIXI_SPACE, TEXTURE} from "@shared";
-import {dunkShotFactory} from "../../factory/DunkShotFactory";
-import {AIM} from "../../../config/preload";
+import {factory} from "../../factory/Factory";
+import {AIM} from "../../constants/preload";
 
 export class Aim extends BaseEntity {
   constructor(data) {
@@ -43,7 +43,7 @@ export class Aim extends BaseEntity {
 
   addToSpaces() {
     const {views} = this;
-    const {mainContainer} = dunkShotFactory;
+    const {mainContainer} = factory;
     views.forEach((view) => mainContainer.view.addChild(view));
   }
 

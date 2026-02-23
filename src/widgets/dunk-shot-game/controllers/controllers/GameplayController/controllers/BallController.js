@@ -1,12 +1,12 @@
 import {BaseGameplayController} from "../BaseGameplayController";
 import {eventSubscription, DRAG_END, DRAG_MOVE, DRAG_START, HALF_PI, STATE_DECORATOR_FIELD} from "@shared";
-import {dunkShotFactory} from "../../../factory/DunkShotFactory";
-import {dunkShotAnimationPlayer} from "../../../animations/DunkShotAnimationPlayer";
-import {dunkShotUtils} from "../../../utils/DunkShotUtils";
-import {DUNK_SHOT_TWEEN, GAME_SIZE} from "../../../../constants";
-import {PROGRESS_RESET, SPIKE_COLLISION} from "../../../../constants/events";
-import {DAMAGE, FREE, INSIDE_BASKET, TO_UP} from "../../../../constants/statuses";
-import {FELL, LOSE} from "../../../../constants/stateMachine";
+import {factory} from "../../../factory/Factory";
+import {animationPlayer} from "../../../animations/AnimationPlayer";
+import {utils} from "../../../utils/Utils";
+import {DUNK_SHOT_TWEEN, GAME_SIZE} from "../../../constants";
+import {LOSE, PROGRESS_RESET, SPIKE_COLLISION} from "../../../constants/events";
+import {DAMAGE, FREE, INSIDE_BASKET, TO_UP} from "../../../constants/statuses";
+import {FELL, LOSE as LOSE_STATUS} from "../../../constants/stateMachine";
 
 export class BallController extends BaseGameplayController {
   constructor(data) {
@@ -30,15 +30,16 @@ export class BallController extends BaseGameplayController {
         {event: DRAG_START, callback: this.onStart},
         {event: DRAG_MOVE, callback: this.onMove},
         {event: DRAG_END, callback: this.onEnd},
-        {event: SPIKE_COLLISION, callback: this.onSpikeCollision},
-      ],
+        {event: SPIKE_COLLISION, callback: this.onSpikeCollision}
+      ]
     });
   }
 
-  init() {}
+  init() {
+  }
 
-  initLevelSelect() {
-    const ball = dunkShotFactory.createItem("ball");
+  initializationLevelSelect() {
+    const ball = factory.createItem("ball");
     ball.addToSpaces();
   }
 
@@ -47,12 +48,12 @@ export class BallController extends BaseGameplayController {
       storage: {
         mainSceneSettings: {
           states: {
-            prepare: {showingOffset},
-          },
-        },
-      },
+            prepare: {showingOffset}
+          }
+        }
+      }
     } = this;
-    const {ball, nextBasket} = dunkShotFactory;
+    const {ball, nextBasket} = factory;
 
     ball.isGravity = false;
     ball.position = {x: nextBasket.x + showingOffset.x, y: nextBasket.y + showingOffset.y};
@@ -61,7 +62,7 @@ export class BallController extends BaseGameplayController {
 
   get isCanStart() {
     const {throwData} = this;
-    const {ball, activeBasket} = dunkShotFactory;
+    const {ball, activeBasket} = factory;
 
     return (
       activeBasket &&
@@ -74,7 +75,7 @@ export class BallController extends BaseGameplayController {
 
   onStart() {
     const {isCanStart, throwData} = this;
-    const {activeBasket} = dunkShotFactory;
+    const {activeBasket} = factory;
 
     if (!isCanStart) return;
 
@@ -84,14 +85,14 @@ export class BallController extends BaseGameplayController {
       scale: {
         front: {x: basketGridFront.scale.x, y: basketGridFront.scale.y},
         back: {x: basketGridBack.scale.x, y: basketGridBack.scale.y},
-        view: {x: view.scale.x, y: view.scale.y},
-      },
+        view: {x: view.scale.x, y: view.scale.y}
+      }
     };
   }
 
   get isCanMove() {
     const {throwData} = this;
-    const {activeBasket, ball} = dunkShotFactory;
+    const {activeBasket, ball} = factory;
 
     return (
       activeBasket &&
@@ -108,9 +109,9 @@ export class BallController extends BaseGameplayController {
       throwData,
       storage: {
         mainSceneSettings: {
-          throw: {stretch: stretchSettings},
-        },
-      },
+          throw: {stretch: stretchSettings}
+        }
+      }
     } = this;
 
     if (!isCanMove) return;
@@ -124,7 +125,7 @@ export class BallController extends BaseGameplayController {
 
   get isCanEnd() {
     const {throwData} = this;
-    const {ball, activeBasket} = dunkShotFactory;
+    const {ball, activeBasket} = factory;
 
     return (
       activeBasket &&
@@ -141,16 +142,16 @@ export class BallController extends BaseGameplayController {
       isCanEnd,
       throwData,
       storage: {
-        mainSceneSettings: {throw: throwSettings},
-      },
+        mainSceneSettings: {throw: throwSettings}
+      }
     } = this;
-    const {activeBasket} = dunkShotFactory;
+    const {activeBasket} = factory;
 
     if (!isCanEnd) return;
 
     const {startData, currentData} = throwData;
     const {
-      scale: {front, back, view: viewScale},
+      scale: {front, back, view: viewScale}
     } = startData;
     const {basketGridBack, basketGridFront, view} = activeBasket;
     const scaleData = [viewScale, back, front];
@@ -158,53 +159,53 @@ export class BallController extends BaseGameplayController {
     let isThrow = false;
 
     const throwBall = gsap
-      .to([view.scale, basketGridBack.scale, basketGridFront.scale], {
-        x: (i) => scaleData[i].x,
-        y: (i) => scaleData[i].y,
-        ease: `back.out(${currentData?.isCanThrow ? 2.5 : 5})`,
-        duration: currentData?.isCanThrow ? 0.15 : 0.25,
-        onUpdate: () => {
-          if (!currentData?.isCanThrow) return;
+    .to([view.scale, basketGridBack.scale, basketGridFront.scale], {
+      x: (i) => scaleData[i].x,
+      y: (i) => scaleData[i].y,
+      ease: `back.out(${currentData?.isCanThrow ? 2.5 : 5})`,
+      duration: currentData?.isCanThrow ? 0.15 : 0.25,
+      onUpdate: () => {
+        if (!currentData?.isCanThrow) return;
 
-          const progress = throwBall.progress();
+        const progress = throwBall.progress();
 
-          if (progress < 0.3 || isThrow) return;
+        if (progress < 0.3 || isThrow) return;
 
-          isThrow = true;
+        isThrow = true;
 
-          const {angle, stretchMultiplier: power} = currentData;
+        const {angle, stretchMultiplier: power} = currentData;
 
-          this.throwBall(+angle.toFixed(throwSettings.accuracy), +power.toFixed(throwSettings.accuracy));
-        },
-        onComplete: () => {
-          throwBall.delete(DUNK_SHOT_TWEEN);
-        },
-      })
-      .save(DUNK_SHOT_TWEEN, "throwBall");
+        this.throwBall(+angle.toFixed(throwSettings.accuracy), +power.toFixed(throwSettings.accuracy));
+      },
+      onComplete: () => {
+        throwBall.delete(DUNK_SHOT_TWEEN);
+      }
+    })
+    .save(DUNK_SHOT_TWEEN, "throwBall");
 
     throwData.startData = null;
     throwData.currentData = null;
   }
 
   onSpikeCollision() {
-    const {decorators} = this;
-    const {ball} = dunkShotFactory;
-    const stateDecorator = decorators[STATE_DECORATOR_FIELD];
+    const {eventBus} = this;
+    const {ball} = factory;
 
-    if (dunkShotUtils.isNextStateLose) stateDecorator.state = LOSE;
+    if (utils.isNextStateLose)
+      eventBus.dispatchEvent({type: LOSE, status: LOSE_STATUS});
     else {
       ball.status = DAMAGE;
-      dunkShotAnimationPlayer.ballDamageAnimation(ball);
+      animationPlayer.ballDamageAnimation(ball);
     }
   }
 
   throwBall(angle, power) {
     const {
       storage: {
-        mainSceneSettings: {throw: throwSettings},
-      },
+        mainSceneSettings: {throw: throwSettings}
+      }
     } = this;
-    const {ball} = dunkShotFactory;
+    const {ball} = factory;
 
     ball.isGravity = true;
 
@@ -213,7 +214,7 @@ export class BallController extends BaseGameplayController {
 
     Matter.Body.applyForce(ball.body, ball.position, {
       x: Math.cos(formattedAngle) * speed,
-      y: Math.sin(formattedAngle) * speed,
+      y: Math.sin(formattedAngle) * speed
     });
     Matter.Body.setAngularVelocity(ball.body, (angle > 0 ? -1 : 1) * (power * throwSettings.power.angular));
 
@@ -221,36 +222,38 @@ export class BallController extends BaseGameplayController {
   }
 
   followBasket() {
-    const {ball, activeBasket} = dunkShotFactory;
+    const {ball, activeBasket} = factory;
 
     if (activeBasket && ball.status === INSIDE_BASKET) {
-      const {angle, x, y} = dunkShotUtils.getBallTarget(activeBasket);
+      const {angle, x, y} = utils.getBallTarget(activeBasket);
       ball.position = {x, y};
       ball.angle = angle;
     }
   }
 
   checkFell() {
-    const {ball, mainContainer} = dunkShotFactory;
+    const {ball, mainContainer} = factory;
     const {
       eventBus,
       decorators,
       storage: {
         mainSceneSettings: {
-          ball: {radius},
-        },
-      },
+          ball: {radius}
+        }
+      }
     } = this;
     const stateDecorator = decorators[STATE_DECORATOR_FIELD];
 
     if (ball.position.y + mainContainer.view.position.y + radius >= GAME_SIZE.height) {
       eventBus.dispatchEvent({type: PROGRESS_RESET});
-      stateDecorator.state = dunkShotUtils.isNextStateLose ? LOSE : FELL;
+      if (utils.isNextStateLose)
+        eventBus.dispatchEvent({type: LOSE, status: LOSE_STATUS});
+      else stateDecorator.state = FELL;
     }
   }
 
   update() {
-    const {ball} = dunkShotFactory;
+    const {ball} = factory;
 
     ball.update();
 

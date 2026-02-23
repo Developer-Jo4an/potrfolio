@@ -5,13 +5,13 @@ import {AimController} from "./controllers/AimController";
 import {BoostersController} from "./controllers/BoostersController";
 import {cloneDeep} from "lodash";
 import {WHITE, addControllerStateHandler} from "@shared";
-import {COLLISION_FILTERS} from "../../../constants/collision";
-import {DUNK_SHOT_TWEEN} from "../../../constants";
-import {DUNK_SHOT_STATE_MACHINE} from "../../../constants/stateMachine";
-import {dunkShotFactory} from "../../factory/DunkShotFactory";
-import {VISIBLE} from "../../../constants/modes";
-import {TO_DOWN} from "../../../constants/statuses";
-import {dunkShotAnimationPlayer} from "../../animations/DunkShotAnimationPlayer";
+import {COLLISION_FILTERS} from "../../constants/collision";
+import {DUNK_SHOT_TWEEN} from "../../constants";
+import {STATE_MACHINE} from "../../constants/stateMachine";
+import {factory} from "../../factory/Factory";
+import {VISIBLE} from "../../constants/modes";
+import {TO_DOWN} from "../../constants/statuses";
+import {animationPlayer} from "../../animations/AnimationPlayer";
 
 export class GameplayController extends BaseGameplayController {
   static CONTROLLERS = [BallController, MapEntitiesController, AimController, BoostersController];
@@ -25,7 +25,7 @@ export class GameplayController extends BaseGameplayController {
   constructor(data) {
     super(data);
 
-    return addControllerStateHandler(this, DUNK_SHOT_STATE_MACHINE);
+    return addControllerStateHandler(this, STATE_MACHINE);
   }
 
   init() {
@@ -83,7 +83,7 @@ export class GameplayController extends BaseGameplayController {
         },
       },
     } = this;
-    const {activeBasket, nextBasket, ball} = dunkShotFactory;
+    const {activeBasket, nextBasket, ball} = factory;
 
     this.resetThrowData();
     this.resetIdealThrowData();
@@ -98,9 +98,9 @@ export class GameplayController extends BaseGameplayController {
 
     this.clearSpecificBehaviour();
 
-    await dunkShotAnimationPlayer.ballShowAnimation(ball);
+    await animationPlayer.ballShowAnimation(ball);
 
-    await dunkShotAnimationPlayer.basketDefaultAnimation(activeBasket, {
+    await animationPlayer.basketDefaultAnimation(activeBasket, {
       rotation: true,
       scale: {isImmediate: true},
       alpha: true,
@@ -108,13 +108,13 @@ export class GameplayController extends BaseGameplayController {
 
     ball.isGravity = true;
 
-    await dunkShotAnimationPlayer.basketNextAnimation(nextBasket);
+    await animationPlayer.basketNextAnimation(nextBasket);
   }
 
   deleteDamageAnimation() {
     const {
       ball: {_factoryUUID, view},
-    } = dunkShotFactory;
+    } = factory;
 
     const damageAnimation = gsap.localTimeline.getTweenByNamespaceAndId(DUNK_SHOT_TWEEN, `ballDamage${_factoryUUID}`);
 

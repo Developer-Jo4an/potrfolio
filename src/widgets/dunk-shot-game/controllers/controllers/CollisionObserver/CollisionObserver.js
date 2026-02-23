@@ -1,5 +1,5 @@
 import {BaseController} from "../BaseController/BaseController";
-import {COLLISION_START} from "../../../constants/events";
+import {COLLISION_START} from "../../constants/events";
 
 export class CollisionObserver extends BaseController {
   constructor(data) {

@@ -1,5 +1,5 @@
 import {STATE_CHANGED, eventSubscription} from "@shared";
-import {DUNK_SHOT_CONFIG_EVENT, DUNK_SHOT_GAME_DATA_EVENT} from "../../constants/events";
+import {DUNK_SHOT_CONFIG_EVENT, DUNK_SHOT_GAME_DATA_EVENT} from "../constants/events";
 
 export function setNecessaryListeners(context) {
   const {eventBus} = context;

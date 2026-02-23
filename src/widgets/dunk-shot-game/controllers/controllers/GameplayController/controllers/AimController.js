@@ -1,7 +1,7 @@
 import {BaseGameplayController} from "../BaseGameplayController";
 import {createArrayWithMap, LEFT, RIGHT} from "@shared";
-import {dunkShotFactory} from "../../../factory/DunkShotFactory";
-import {INSIDE_BASKET} from "../../../../constants/statuses";
+import {factory} from "../../../factory/Factory";
+import {INSIDE_BASKET} from "../../../constants/statuses";
 
 export class AimController extends BaseGameplayController {
   cashedData = {prevPositions: {}};
@@ -16,8 +16,8 @@ export class AimController extends BaseGameplayController {
     this.initShadowBall();
   }
 
-  initLevelSelect() {
-    const aim = dunkShotFactory.createItem("aim");
+  initializationLevelSelect() {
+    const aim = factory.createItem("aim");
     aim.addToSpaces();
   }
 
@@ -30,7 +30,7 @@ export class AimController extends BaseGameplayController {
     const {shadowEngine, shadowWorld} = this;
 
     [LEFT, RIGHT].forEach((direction) => {
-      const wall = dunkShotFactory.createItem("shadowWall", {direction, engine: shadowEngine, world: shadowWorld});
+      const wall = factory.createItem("shadowWall", {direction, engine: shadowEngine, world: shadowWorld});
       wall.addToSpaces();
     });
   }
@@ -38,7 +38,7 @@ export class AimController extends BaseGameplayController {
   initShadowBall() {
     const {shadowEngine, shadowWorld} = this;
 
-    const shadowBall = dunkShotFactory.createItem("shadowBall", {engine: shadowEngine, world: shadowWorld});
+    const shadowBall = factory.createItem("shadowBall", {engine: shadowEngine, world: shadowWorld});
     shadowBall.isGravity = false;
     shadowBall.addToSpaces();
   }
@@ -49,7 +49,7 @@ export class AimController extends BaseGameplayController {
         mainSceneSettings: {throw: throwSettings},
       },
     } = this;
-    const {ball, shadowBall} = dunkShotFactory;
+    const {ball, shadowBall} = factory;
 
     shadowBall.isGravity = false;
     shadowBall.position = {x: ball.x, y: ball.y};
@@ -79,7 +79,7 @@ export class AimController extends BaseGameplayController {
         },
       },
     } = this;
-    const {shadowBall} = dunkShotFactory;
+    const {shadowBall} = factory;
 
     angle = +angle.toFixed(throwSettings.accuracy);
     power = +power.toFixed(throwSettings.accuracy);
@@ -113,7 +113,7 @@ export class AimController extends BaseGameplayController {
 
   updateAim() {
     const {throwData} = this;
-    const {ball, aim} = dunkShotFactory;
+    const {ball, aim} = factory;
 
     if (
       !Object.values(throwData).every(Boolean) ||

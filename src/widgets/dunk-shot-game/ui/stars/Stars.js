@@ -6,14 +6,14 @@ import {TbStarsFilled} from "react-icons/tb";
 import {FaStar} from "react-icons/fa6";
 import {useActiveBoosters} from "../../model/hooks/useActiveBoosters";
 import {useDunkShotStore} from "../../model/state-manager/dunkShotStore";
-import {THROW_HIT} from "../../constants/events";
-import {X2} from "../../constants/boosters";
+import {THROW_HIT} from "../../controllers/constants/events";
+import {X2} from "../../controllers/constants/boosters";
 import styles from "./Stars.module.scss";
 
-export function Stars({topMenuElementsRef, progressBarEls}) {
+export function Stars({topMenu, progressBar}) {
   const {wrapper} = useDunkShotStore();
   const {gameData: {progress: {current, max} = {}} = {}} = useDunkShotStore();
-  const [StarComponent, setStarComponent] = useState(<FaStar />);
+  const [StarComponent, setStarComponent] = useState(<FaStar/>);
 
   const elementRefs = useRef({stars: []});
 
@@ -32,21 +32,21 @@ export function Stars({topMenuElementsRef, progressBarEls}) {
         {
           event: THROW_HIT,
           callback() {
-            setStarComponent(isActiveX2 ? <TbStarsFilled /> : <FaStar />);
-          },
-        },
-      ],
+            setStarComponent(isActiveX2 ? <TbStarsFilled/> : <FaStar/>);
+          }
+        }
+      ]
     });
   }, [wrapper, isActiveX2]);
 
   useEffect(() => {
     if ([current, max].every(isFinite) && current === max) {
       const {stars} = elementRefs.current;
-      const {scoreIcon: to} = topMenuElementsRef.current;
-      const {score: from} = progressBarEls.current;
+      const {scoreIcon: to} = topMenu;
+      const {score: from} = progressBar;
       starsAnimation(stars, from, to);
     }
-  }, [current, max]);
+  }, [current, progressBar, topMenu, max]);
 
   return (
     <>
@@ -61,7 +61,7 @@ export function Stars({topMenuElementsRef, progressBarEls}) {
             className={styles.star}>
             {StarComponent}
           </div>
-        )),
+        ))
       )}
     </>
   );

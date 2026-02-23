@@ -1,8 +1,8 @@
 import {Mixer, System, Body, ThreeComponent, Entity, add, GLTF, THREE_SPACE, assetsManager, X, Y, Z} from "@shared";
 import {getVerticesWithDeep} from "../../utils/getVerticesWithDeep";
 import {mean} from "lodash";
-import {CHARACTER, CHARACTER_BODY} from "../../constants/character";
-import {GROUND, GROUND_BODY} from "../../constants/ground";
+import {CHARACTER, CHARACTER_BODY} from "../constants/character";
+import {GROUND, GROUND_BODY} from "../constants/ground";
 import {
   ANIMATIONS,
   RING,
@@ -10,8 +10,8 @@ import {
   RING_GRID_VIEW_NAME,
   RING_SHIELD_VIEW_NAME,
   RING_VIEW_NAME,
-} from "../../constants/ring";
-import {SCENE_FROM_BLENDER} from "../../constants/preload";
+} from "../constants/ring";
+import {SCENE_FROM_BLENDER} from "../constants/preload";
 
 export class Level extends System {
   initializationLevelSelect() {
