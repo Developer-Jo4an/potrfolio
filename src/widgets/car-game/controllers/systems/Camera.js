@@ -1,40 +1,47 @@
-import {upperFirst} from "lodash";
 import {MAIN_CONTAINER} from "../constants/entities/mainContainer";
 import {CHARACTER, DEFAULT} from "../constants/entities/character";
 import {GAME_SIZE} from "../constants/game";
 import {Matrix3Component, State, System} from "@shared";
 
 export class Camera extends System {
-  updateFromCharacter() {
+  updateCamera() {
     const characterEntity = this.getFirstEntityByType(CHARACTER);
     const characterStateComponent = characterEntity.get(State);
-    this[`onCharacter${upperFirst(characterStateComponent.state)}`]?.(characterEntity, ...arguments);
+
+    const functions = {
+      [DEFAULT]: this.defaultMovement
+    };
+
+    functions[characterStateComponent.state]?.call(this, ...arguments);
   }
 
-  [`onCharacter${upperFirst(DEFAULT)}`](characterEntity) {
+  defaultMovement() {
+    const characterEntity = this.getFirstEntityByType(CHARACTER);
     const {
       storage: {
         mainSceneSettings: {
-          camera: {trackingBoundary},
-        },
-      },
+          camera: {trackingBoundary}
+        }
+      }
     } = this;
-    const characterMatrix3Component = characterEntity.get(Matrix3Component);
-    const mainContainerEntity = this.getFirstEntityByType(MAIN_CONTAINER);
-    const mainContainerMatrix3Component = mainContainerEntity.get(Matrix3Component);
+
+    const cMatrix3Character = characterEntity.get(Matrix3Component);
+    const eMainContainer = this.getFirstEntityByType(MAIN_CONTAINER);
+    const cMatrix3MainContainer = eMainContainer.get(Matrix3Component);
 
     const characterViewGlobalPosition = {
-      x: mainContainerMatrix3Component.x + characterMatrix3Component.x,
-      y: mainContainerMatrix3Component.y + characterMatrix3Component.y,
+      x: cMatrix3MainContainer.x + cMatrix3Character.x,
+      y: cMatrix3MainContainer.y + cMatrix3Character.y
     };
 
-    mainContainerMatrix3Component.y += Math.max(0, trackingBoundary - characterViewGlobalPosition.y);
-    mainContainerMatrix3Component.x = GAME_SIZE.width / 2 - characterMatrix3Component.x;
+    cMatrix3MainContainer.y += Math.max(0, trackingBoundary - characterViewGlobalPosition.y);
+    cMatrix3MainContainer.x = GAME_SIZE.width / 2 - cMatrix3Character.x;
   }
 
   update() {
-    this.updateFromCharacter(...arguments);
+    this.updateCamera(...arguments);
   }
 
-  reset() {}
+  reset() {
+  }
 }

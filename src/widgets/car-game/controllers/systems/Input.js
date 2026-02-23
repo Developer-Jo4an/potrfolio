@@ -17,15 +17,15 @@ export class Input extends System {
     const {
       storage: {
         gameSpace: {
-          serviceData: {clearFunctions},
-        },
-      },
+          serviceData: {clearFunctions}
+        }
+      }
     } = this;
 
     clearFunctions.push(
       eventSubscription({
-        callbacksBus: [{event: CLICK_ON_WINDOW, callback: this.onClick, options: {passive: true, capture: true}}],
-      }),
+        callbacksBus: [{event: CLICK_ON_WINDOW, callback: this.onClick, options: {passive: true, capture: true}}]
+      })
     );
   }
 
@@ -37,9 +37,10 @@ export class Input extends System {
 
     const {
       storage: {
-        gameSpace: {characterMovement},
-      },
+        gameSpace: {characterMovement}
+      }
     } = this;
+
     characterMovement.currentDirection = {[LEFT]: RIGHT, [RIGHT]: [LEFT]}[characterMovement.currentDirection];
   }
 }
