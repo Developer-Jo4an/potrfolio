@@ -13,10 +13,10 @@ export function Boosters({gameSpace: {gameData}}) {
 
   const {onClick} = useBoosters();
 
-  const isCanUse = state === PLAYING && !gameData.booster.active;
+  const isCanUse = state === PLAYING && !gameData.booster?.active;
 
   const boosterButtons = boosters.map(({type, timeout, background, img}) => {
-    const count = gameData?.booster[type];
+    const count = gameData?.booster?.[type];
 
     return {
       id: type,

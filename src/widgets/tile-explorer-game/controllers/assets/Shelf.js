@@ -33,7 +33,7 @@ export class Shelf extends Container {
     } = this;
 
     for (let i = 0; i < cagesCount; i++) {
-      const texture = assetsManager.getAssetFromSpace(PIXI_SPACE, TEXTURE, CAGE)
+      const texture = assetsManager.getAssetFromSpace(PIXI_SPACE, TEXTURE, CAGE);
       const cage = new PIXI.Sprite(texture);
       cage.label = labels.shelf.cage;
       asset.addChild(cage);

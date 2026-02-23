@@ -206,6 +206,7 @@ export class Level extends System {
 
     const {entity: eShelf, cMatrix3, cPixi} = this.getShelfInfo();
     const aShelf = (cPixi.pixiObject = this.getAsset(eShelf, SHELF));
+
     stage.addChild(aShelf);
 
     const cageSize = this.calculateCageSize();
@@ -223,21 +224,21 @@ export class Level extends System {
     const {
       storage: {
         mainSceneSettings: {
-          shelf: {cage, margin, padding, gap}
+          shelf: {cage, margin, padding: {x: paddingX}, gap}
         }
       }
     } = this;
 
     const {max} = this.getShelfInfo();
 
-    return Math.min((GAME_SIZE.width - margin * 2 - (padding * 2 + gap * (max - 1))) / max, cage.size);
+    return Math.min((GAME_SIZE.width - margin * 2 - (paddingX * 2 + gap * (max - 1))) / max, cage.size);
   }
 
   prepareCages({cageSize}) {
     const {
       storage: {
         mainSceneSettings: {
-          shelf: {padding, gap}
+          shelf: {padding: {x: paddingX, y: paddingY}, gap, cageOffset}
         }
       }
     } = this;
@@ -253,8 +254,8 @@ export class Level extends System {
       const scale = Math.min(scaleX, cageSize / scaleY);
       cage.scale.set(scale);
 
-      const x = padding + (cage.width + gap) * index;
-      const y = padding;
+      const x = paddingX + (cage.width + gap) * index + cageOffset.x;
+      const y = paddingY + cageOffset.y;
       cage.position.set(x, y);
     });
   }
@@ -263,7 +264,7 @@ export class Level extends System {
     const {
       storage: {
         mainSceneSettings: {
-          shelf: {margin, padding}
+          shelf: {margin, padding: {y: paddingY}}
         }
       }
     } = this;
@@ -273,11 +274,10 @@ export class Level extends System {
     const background = view.getChildByLabel(labels.shelf.background);
 
     const width = GAME_SIZE.width - margin * 2;
-    const height = cageSize + padding * 2;
+    const height = cageSize + paddingY * 2;
 
     const scaleX = width / background.width;
     const scaleY = height / background.height;
-
     background.scale.set(scaleX, scaleY);
   }
 

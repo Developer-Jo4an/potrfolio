@@ -21,12 +21,6 @@ export const gameList = [
     description: "Баскетболл - игра на three.js+rapier, закидывание мячика в кольцо",
   },
   {
-    id: "mario",
-    title: "Марио",
-    route: ROUTES.mario,
-    description: "Mario - игра созданная по референсу оригинального Mario с помощью 2d фреймворка phaser",
-  },
-  {
     id: "car",
     title: "Машинка",
     route: ROUTES.car,
@@ -37,11 +31,5 @@ export const gameList = [
     title: "Tile explorer",
     route: ROUTES.tileExplorer,
     description: "Tile explorer",
-  },
-  {
-    id: "drive",
-    title: "Drive",
-    route: ROUTES.drive,
-    description: "Drive - игра, похожая механикой на flappy bird, только тут машинка, pixi.js",
   },
 ];

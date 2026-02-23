@@ -33,12 +33,13 @@ export const MAIN_SCENE_SETTINGS = {
     paddingTop: 120
   },
   shelf: {
-    margin: 10,
-    padding: 10,
+    margin: 5,
+    padding: {x: 45, y: 30},
     gap: 5,
     cagesCount: 7,
-    position: {x: 10, y: 600},
+    position: {x: 5, y: 600},
     target: 3,
+    cageOffset: {x: 0, y: 5},
     cage: {
       size: 90
     }

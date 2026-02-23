@@ -81,7 +81,7 @@ export class Controller extends PIXIController {
     this.startUpdate();
   }
 
-  pauseSelect() {
+  pausedSelect() {
     this.stopUpdate();
   }
 

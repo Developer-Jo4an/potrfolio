@@ -25,7 +25,7 @@ import {extraLifeTrailTween} from "../tweens/extraLifeTrailTween";
 import {extraLifePulseTween} from "../tweens/extraLifePulseTween";
 import {x2ViewTween} from "../tweens/x2ViewTween";
 import {CHARACTER} from "../constants/character";
-import {CLEAR_HIT, COLLISION_START, LOSE, MISS, THROWN, WIN} from "../constants/events";
+import {CLEAR_HIT, COLLISION_START, MISS, THROWN} from "../constants/events";
 import {GROUND} from "../constants/ground";
 import {TWEENS} from "../constants/tweens";
 import {ANIMATIONS, RING, RING_BODY, RING_GRID, RING_SHIELD, SENSOR} from "../constants/ring";
@@ -33,7 +33,7 @@ import {BASKETBALL, GAME} from "../constants/game";
 import {LOSE as LOSE_STATE, WIN as WIN_STATE} from "../constants/stateMachine";
 import {EXTRA_LIFE, X2} from "../constants/boosters";
 import {X2VIEW} from "../constants/x2View";
-import {Events} from "@features/game-wrapper/model/hooks/useGetInfo";
+import {Events} from "@features/game-wrapper";
 
 export class Character extends System {
   uuid = "character";
@@ -723,14 +723,14 @@ export class Character extends System {
     const isWin = gameSpace.gameData.score >= gameSpace.gameData.target;
     if (isWin && cState.state !== WIN_STATE) {
       const {eventBus} = this;
-      eCharacter.add(new EventComponent({eventBus, type: WIN}));
+      eCharacter.add(new EventComponent({eventBus, type: Events.WIN}));
       return;
     }
 
     const isLose = gameSpace.gameData.lifes <= 0;
     if (isLose && cState.state !== LOSE_STATE) {
       const {eventBus} = this;
-      eCharacter.add(new EventComponent({eventBus, type: LOSE}));
+      eCharacter.add(new EventComponent({eventBus, type: Events.LOSE}));
       return;
     }
   }

@@ -5,7 +5,4 @@ export const CLEAR_HIT = "clearHit";
 
 export const MISS = "miss";
 
-export const WIN = "win";
-export const LOSE = "lose";
-
 export const THROWN = "thrown";

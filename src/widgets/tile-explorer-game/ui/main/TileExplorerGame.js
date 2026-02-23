@@ -14,11 +14,15 @@ export function TileExplorerGame() {
   const {wrapper, state} = useTileExplorerStore();
   const [fullProps, setFullProps] = useState({});
   const gameSpace = useGameSpaceStore(ProxyGameSpaceStore.get("tileExplorer"), gameSpaceConfig);
-
   const onEnd = useEndGame({gameSpace});
 
   const totalProps = {
-    ...fullProps, wrapper, content, gameSpace: {gameData: gameSpace}, state, onEnd,
+    ...fullProps,
+    wrapper,
+    content,
+    gameSpace: {gameData: {...gameSpace, score: gameSpace?.score, lifes: gameSpace?.currentTime}},
+    state,
+    onEnd,
     isPending: !state || (statesData.STATE_MACHINE[state]?.isLoad ?? false),
     statesData
   };

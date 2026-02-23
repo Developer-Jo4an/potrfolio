@@ -4,9 +4,10 @@ import {factory} from "../../../factory/Factory";
 import {animationPlayer} from "../../../animations/AnimationPlayer";
 import {utils} from "../../../utils/Utils";
 import {DUNK_SHOT_TWEEN, GAME_SIZE} from "../../../constants";
-import {LOSE, PROGRESS_RESET, SPIKE_COLLISION} from "../../../constants/events";
+import {PROGRESS_RESET, SPIKE_COLLISION} from "../../../constants/events";
 import {DAMAGE, FREE, INSIDE_BASKET, TO_UP} from "../../../constants/statuses";
 import {FELL, LOSE as LOSE_STATUS} from "../../../constants/stateMachine";
+import {Events} from "@features/game-wrapper";
 
 export class BallController extends BaseGameplayController {
   constructor(data) {
@@ -192,7 +193,7 @@ export class BallController extends BaseGameplayController {
     const {ball} = factory;
 
     if (utils.isNextStateLose)
-      eventBus.dispatchEvent({type: LOSE, status: LOSE_STATUS});
+      eventBus.dispatchEvent({type: Events.LOSE, status: LOSE_STATUS});
     else {
       ball.status = DAMAGE;
       animationPlayer.ballDamageAnimation(ball);
@@ -247,7 +248,7 @@ export class BallController extends BaseGameplayController {
     if (ball.position.y + mainContainer.view.position.y + radius >= GAME_SIZE.height) {
       eventBus.dispatchEvent({type: PROGRESS_RESET});
       if (utils.isNextStateLose)
-        eventBus.dispatchEvent({type: LOSE, status: LOSE_STATUS});
+        eventBus.dispatchEvent({type: Events.LOSE, status: LOSE_STATUS});
       else stateDecorator.state = FELL;
     }
   }

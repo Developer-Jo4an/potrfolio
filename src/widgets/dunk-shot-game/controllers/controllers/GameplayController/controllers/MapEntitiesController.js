@@ -11,9 +11,10 @@ import {
   PROGRESS_RESET,
   THROW_HIT,
   THROW_PURE,
-  THROW_PURE_DATA, WIN
+  THROW_PURE_DATA
 } from "../../../constants/events";
 import {STATE_MACHINE, PLAYING, PREPARE, WIN as WIN_STATUS} from "../../../constants/stateMachine";
+import {Events} from "@features/game-wrapper";
 
 export class MapEntitiesController extends BaseGameplayController {
   constructor(data) {
@@ -177,7 +178,7 @@ export class MapEntitiesController extends BaseGameplayController {
 
       const stateDecorator = decorators[STATE_DECORATOR_FIELD];
 
-      if (utils.isNextStateWin) eventBus.dispatchEvent({type: WIN, status: WIN_STATUS});
+      if (utils.isNextStateWin) eventBus.dispatchEvent({type: Events.WIN, status: WIN_STATUS});
       else if (stateDecorator.state !== PLAYING) stateDecorator.state = PLAYING;
     }
   }

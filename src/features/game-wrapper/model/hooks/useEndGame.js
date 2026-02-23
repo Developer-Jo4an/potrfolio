@@ -1,5 +1,6 @@
 import {useEffect} from "react";
 import {eventSubscription} from "@shared";
+import {Events} from "../../constants/events";
 
 export function useEndGame({wrapper, onEnd}) {
   useEffect(() => {
@@ -9,7 +10,7 @@ export function useEndGame({wrapper, onEnd}) {
 
     return eventSubscription({
       target: eventBus,
-      callbacksBus: [{event: ["win", "lose"], callback: onEnd}]
+      callbacksBus: [{event: [Events.WIN, Events.LOSE], callback: onEnd}]
     });
   }, [wrapper]);
 }

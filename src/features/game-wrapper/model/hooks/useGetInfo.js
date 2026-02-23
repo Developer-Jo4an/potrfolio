@@ -1,9 +1,6 @@
 import {useEffect} from "react";
 import {eventSubscription} from "@shared";
-
-export const Events = {
-  GET_INFO: "info:get"
-};
+import {Events} from "../../constants/events";
 
 export function useGetInfo(fullProps) {
   useEffect(() => {

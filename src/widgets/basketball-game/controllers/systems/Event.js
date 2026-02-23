@@ -1,8 +1,9 @@
 import {System, EventComponent} from "shared";
 import {CHARACTER} from "../constants/character";
-import {CLEAR_HIT, COLLISION_END, COLLISION_START, LOSE, MISS, THROWN, WIN} from "../constants/events";
+import {CLEAR_HIT, COLLISION_END, COLLISION_START, MISS, THROWN} from "../constants/events";
 import {WIN as WIN_STATUS, LOSE as LOSE_STATUS} from "../constants/stateMachine";
 import {GROUND} from "../constants/ground";
+import {Events} from "@features/game-wrapper";
 
 export class Event extends System {
   updateCharacterEvents({eCharacter}) {
@@ -26,17 +27,17 @@ export class Event extends System {
     const csThrownEvent = eCharacter.getSome(EventComponent, THROWN);
     if (!!csThrownEvent.length) csThrownEvent.forEach((cThrownEvent) => eCharacter.remove(cThrownEvent));
 
-    const csWin = eCharacter.getSome(EventComponent, WIN);
+    const csWin = eCharacter.getSome(EventComponent, Events.WIN);
     if (!!csWin?.length) {
       const {eventBus} = this;
-      eventBus.dispatchEvent({type: WIN, status: WIN_STATUS});
+      eventBus.dispatchEvent({type: Events.WIN, status: WIN_STATUS});
       csWin.forEach((cWinEvent) => eCharacter.remove(cWinEvent));
     }
 
-    const csLose = eCharacter.getSome(EventComponent, LOSE);
+    const csLose = eCharacter.getSome(EventComponent, Events.LOSE);
     if (!!csLose?.length) {
       const {eventBus} = this;
-      eventBus.dispatchEvent({type: LOSE, status: LOSE_STATUS});
+      eventBus.dispatchEvent({type: Events.LOSE, status: LOSE_STATUS});
       csLose.forEach((cLoseEvent) => eCharacter.remove(cLoseEvent));
     }
   }
