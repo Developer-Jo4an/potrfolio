@@ -2,11 +2,11 @@ import {Cell} from "./Cell";
 import {Shelf} from "./Shelf";
 import {Container} from "@shared";
 import {SnowsContainer} from "./SnowsContainer";
-import {labels} from "../../constants/labels";
+import {labels} from "../constants/labels";
 import {TREE} from "../entities/tree";
 import {CELL} from "../entities/cell";
 import {SHELF} from "../entities/shelf";
-import {SNOWS_CONTAINER} from "../../constants/preload";
+import {SNOWS_CONTAINER} from "../constants/preload";
 
 export const config = {
   [TREE]: {

@@ -1,6 +1,6 @@
 import {assetsManager, ParticleContainer, PIXI_SPACE, TEXTURE} from "@shared";
-import {SNOW} from "../../constants/preload";
-import {labels} from "../../constants/labels";
+import {SNOW} from "../constants/preload";
+import {labels} from "../constants/labels";
 
 export class SnowsContainer extends ParticleContainer {
   create() {

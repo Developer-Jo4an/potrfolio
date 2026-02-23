@@ -1,6 +1,6 @@
 import {System, Entity, STATE_DECORATOR_FIELD, State} from "@shared";
 import {TIMER} from "../entities/timer";
-import {LOSING} from "../../constants/stateMachine";
+import {LOSING} from "../constants/stateMachine";
 
 export class Time extends System {
   initializationLevelSelect() {

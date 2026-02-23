@@ -1,4 +1,4 @@
-import {GAME} from "../../constants/game";
+import {GAME} from "../constants/game";
 import {Component} from "@shared";
 
 export class Game extends Component {

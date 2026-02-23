@@ -1,5 +1,5 @@
-import {labels} from "../../constants/labels";
-import {CAGE, SHELF} from "../../constants/preload";
+import {labels} from "../constants/labels";
+import {CAGE, SHELF} from "../constants/preload";
 import {assetsManager, Container, PIXI_SPACE, TEXTURE} from "@shared";
 
 export class Shelf extends Container {

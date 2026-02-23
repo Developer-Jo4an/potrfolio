@@ -2,11 +2,11 @@ import {useRef} from "react";
 import cl from "classnames";
 import {imports, ProxyGameSpaceStore, useLoadScene, useResetScene, useStateControls} from "@shared";
 import {useTileExplorerStore} from "../../model/state-manager/tileExplorerStore";
-import {IGNORE_NEXT_STATES, STATE_MACHINE} from "../../constants/stateMachine";
+import {IGNORE_NEXT_STATES, STATE_MACHINE} from "../../controllers/constants/stateMachine";
 import {types} from "../../controllers/entities/types";
-import {MAIN_SCENE_SETTINGS} from "../../constants/mainSceneSettings";
-import {preload} from "../../constants/preload";
-import {LOSE, WIN} from "../../constants/stateMachine";
+import {MAIN_SCENE_SETTINGS} from "../../controllers/constants/mainSceneSettings";
+import {preload} from "../../controllers/constants/preload";
+import {LOSE, WIN} from "../../controllers/constants/stateMachine";
 import {config} from "../../config/config";
 import styles from "./Canvas.module.scss";
 

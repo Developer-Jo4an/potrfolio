@@ -1,6 +1,6 @@
 import {Tween} from "../Tween";
 import {clamp} from "lodash";
-import {GAME} from "../../../constants/game";
+import {GAME} from "../../constants/game";
 
 export class CellToCage extends Tween {
   settings = {

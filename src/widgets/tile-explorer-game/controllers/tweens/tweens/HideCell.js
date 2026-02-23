@@ -1,5 +1,5 @@
 import {Tween} from "../Tween";
-import {GAME} from "../../../constants/game";
+import {GAME} from "../../constants/game";
 import {playAnimationOnce} from "@shared";
 
 export class HideCell extends Tween {

@@ -8,7 +8,7 @@ import {Bounds} from "../components/Bounds";
 import {Tween} from "../components/Tween";
 import {Timer} from "../components/Timer";
 import {Collection, Matrix3Component, PixiComponent, State} from "@shared";
-import {STATE_MACHINE} from "../../constants/stateMachine";
+import {STATE_MACHINE} from "../constants/stateMachine";
 import {TREE} from "./tree";
 import {CELL} from "./cell";
 import {SHELF} from "./shelf";

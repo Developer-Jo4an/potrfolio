@@ -7,10 +7,10 @@ import {Animations} from "./systems/Animations";
 import {Time} from "./systems/Time";
 import {Utils} from "./decorators/Utils";
 import {Effects} from "./systems/Effects";
-import {GAME_SIZE, GAME} from "../constants/game";
-import {statesData} from "../constants/state";
-import {LOSE, WIN} from "../constants/stateMachine";
-import {events} from "../constants/events";
+import {GAME_SIZE, GAME} from "./constants/game";
+import {statesData} from "./constants/state";
+import {LOSE, WIN} from "./constants/stateMachine";
+import {Events} from "./constants/events";
 import {config} from "./assets/config";
 import {
   Engine,
@@ -83,7 +83,7 @@ export class Controller extends PIXIController {
   }
 
   loseSelect() {
-    this.eventBus.dispatchEvent({type: events.lose, status: LOSE});
+    this.eventBus.dispatchEvent({type: Events.LOSE, status: LOSE});
   }
 
   winningSelect() {
@@ -91,7 +91,7 @@ export class Controller extends PIXIController {
   }
 
   winSelect() {
-    this.eventBus.dispatchEvent({type: events.win, status: WIN});
+    this.eventBus.dispatchEvent({type: Events.WIN, status: WIN});
   }
 
   waitPromises() {

@@ -1,6 +1,6 @@
 import {CatmullRomCurve3, System, Vector3} from "@shared";
-import {GAME, GAME_SIZE} from "../../constants/game";
-import {SNOWS_CONTAINER} from "../../constants/preload";
+import {GAME, GAME_SIZE} from "../constants/game";
+import {SNOWS_CONTAINER} from "../constants/preload";
 
 export class Effects extends System {
   initializationLevelSelect() {

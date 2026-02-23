@@ -5,11 +5,11 @@ import {Canvas} from "../canvas/Canvas";
 import {Effects} from "../effects/Effects";
 import {Boosters} from "../boosters/Boosters";
 import {useEndGame} from "../../model/hooks/useEndGame";
+import * as statesData from "../../controllers/constants/stateMachine";
 import {ComponentTypes, GameWrapper} from "@features/game-wrapper";
 import {useBasketballStore} from "../../model/state-manager/basketballStore";
 import {gameSpaceStore} from "../../model/storages/gameSpace";
 import content from "../../constants/content";
-import * as statesData from "../../controllers/constants/stateMachine";
 
 export function BasketballGame() {
   const {wrapper, state} = useBasketballStore();

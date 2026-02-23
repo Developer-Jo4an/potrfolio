@@ -1,7 +1,7 @@
 import {eventSubscription, ON_OFF_MODE, State, System} from "@shared";
 import {CELL} from "../entities/cell";
 import {treeActions, events} from "../entities/tree";
-import {statesData} from "../../constants/state";
+import {statesData} from "../constants/state";
 
 export class Interactive extends System {
   initializationLevelSelect() {

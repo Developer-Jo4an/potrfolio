@@ -6,7 +6,7 @@ import {ReturnCell} from "../tweens/tweens/ReturnCell";
 import {Cell} from "../assets/Cell";
 import {random, upperFirst} from "lodash";
 import {treeActions, events} from "../entities/tree";
-import {tweens} from "../../constants/tweens";
+import {tweens} from "../constants/tweens";
 import {CELL} from "../entities/cell";
 import {ANIMATION_TREE} from "../entities/animationTree";
 import {System, Entity, eventSubscription, playAnimationOnce} from "@shared";

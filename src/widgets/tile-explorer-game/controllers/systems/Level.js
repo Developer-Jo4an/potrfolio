@@ -2,9 +2,9 @@ import {Cell, Cell as AssetCell} from "../assets/Cell";
 import {Entity, playAnimationOnce, System} from "@shared";
 import {TREE} from "../entities/tree";
 import {CELL} from "../entities/cell";
-import {GAME_SIZE} from "../../constants/game";
+import {GAME_SIZE} from "../constants/game";
 import {SHELF} from "../entities/shelf";
-import {labels} from "../../constants/labels";
+import {labels} from "../constants/labels";
 
 export class Level extends System {
   initializationLevelSelect() {

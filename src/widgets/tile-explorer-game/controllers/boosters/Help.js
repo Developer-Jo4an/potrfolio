@@ -1,8 +1,8 @@
 import {Booster} from "./Booster";
 import {events, treeActions} from "../entities/tree";
-import {GAME} from "../../constants/game";
+import {GAME} from "../constants/game";
 import {clone} from "lodash";
-import {HELP} from "../../constants/boosters";
+import {HELP} from "../constants/boosters";
 
 export class Help extends Booster {
   static boosterName = HELP;

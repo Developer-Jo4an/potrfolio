@@ -1,6 +1,7 @@
 import {useAppCallbacks, useModalProvider} from "@shared";
 import {useDunkShotStore} from "../state-manager/dunkShotStore";
 import content from "../../controllers/constants/content";
+import {useCallback} from "react";
 
 const {endModal} = content;
 
@@ -9,7 +10,7 @@ export function useEndGame() {
   const {redirect} = useAppCallbacks();
   const {names, add} = useModalProvider();
 
-  return ({status}) => {
+  return useCallback(({status}) => {
     wrapper.state = status;
 
     const {
@@ -19,5 +20,5 @@ export function useEndGame() {
     const modalData = endModal({wrapper, modalNames: names, redirect, score, pureCount, status, story});
 
     add(modalData);
-  };
+  }, [wrapper]);
 }

@@ -1,7 +1,7 @@
 import {Tween} from "../Tween";
 import {Cell} from "../../assets/Cell";
 import {playAnimationOnce} from "@shared";
-import {GAME} from "../../../constants/game";
+import {GAME} from "../../constants/game";
 
 export class Shuffle extends Tween {
   constructor() {

@@ -1,6 +1,6 @@
 import {Booster} from "./Booster";
 import {events, treeActions} from "../entities/tree";
-import {BACK} from "../../constants/boosters";
+import {BACK} from "../constants/boosters";
 
 export class Back extends Booster {
   static boosterName = BACK;

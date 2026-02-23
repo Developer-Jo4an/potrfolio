@@ -1,26 +1,22 @@
-import {useImperativeHandle, useRef} from "react";
 import {Image} from "@shared";
 import {BottomMenu, MODES} from "@entities/bottom-menu";
 import {useBoosters} from "../../model/hooks/useBoosters";
 import {useTileExplorerStore} from "../../model/state-manager/tileExplorerStore";
-import {PLAYING} from "../../constants/stateMachine";
+import {PLAYING} from "../../controllers/constants/stateMachine";
 import content from "../../constants/content";
 import styles from "./Boosters.module.scss";
 
 const {boosters} = content;
 
-export function Boosters({gameSpace, ref}) {
+export function Boosters({gameSpace: {gameData}}) {
   const {state} = useTileExplorerStore();
-  const elementsRef = useRef();
 
   const {onClick} = useBoosters();
 
-  useImperativeHandle(ref, () => elementsRef.current);
-
-  const isCanUse = state === PLAYING && !gameSpace.booster.active;
+  const isCanUse = state === PLAYING && !gameData.booster.active;
 
   const boosterButtons = boosters.map(({type, timeout, background, img}) => {
-    const count = gameSpace?.booster[type];
+    const count = gameData?.booster[type];
 
     return {
       id: type,
@@ -38,5 +34,5 @@ export function Boosters({gameSpace, ref}) {
     };
   });
 
-  return <BottomMenu ref={elementsRef} buttons={boosterButtons} mod={MODES.blue}/>;
+  return <BottomMenu buttons={boosterButtons} mod={MODES.blue}/>;
 }

@@ -1,5 +1,5 @@
 import {createStore} from "@shared";
-import {GAME} from "../../constants/game";
+import {GAME} from "../../controllers/constants/game";
 
 const {useStore: useTileExplorerStore, selectors} = createStore({
   name: GAME,

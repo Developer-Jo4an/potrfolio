@@ -1,6 +1,6 @@
-import {labels} from "../../constants/labels";
-import {ids} from "../../constants/ids";
-import {CELL_BACKGROUND, TILE_EXPLORER} from "../../constants/preload";
+import {labels} from "../constants/labels";
+import {ids} from "../constants/ids";
+import {CELL_BACKGROUND, TILE_EXPLORER} from "../constants/preload";
 import {Container, assetsManager, PIXI_SPACE, SCENE, TEXTURE} from "@shared";
 
 export class Cell extends Container {

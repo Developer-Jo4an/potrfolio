@@ -12,7 +12,7 @@ import {CELL} from "../entities/cell";
 import {BOUNDS} from "../entities/bounds";
 import {BOOSTER} from "../entities/booster";
 import {TREE} from "../entities/tree";
-import {SHELF} from "../../constants/preload";
+import {SHELF} from "../constants/preload";
 import {ANIMATION_TREE} from "../entities/animationTree";
 import {TIMER} from "../entities/timer";
 

@@ -1,8 +1,9 @@
 import {getDefaultState, OFF, ON, ROUTES} from "@shared";
-import {BACK, HELP, MIX} from "./boosters";
-import {LOSE, STATE_MACHINE, WIN} from "./stateMachine";
+import {BACK, HELP, MIX} from "../controllers/constants/boosters";
+import {LOSE, STATE_MACHINE, WIN} from "../controllers/constants/stateMachine";
 import {MODS} from "@entities/game-end-modal";
 import {config} from "../config/config";
+import {MODES} from "@entities/pause-modal";
 
 export default {
   background: {src: "widgets/tile-explorer-game/background.png"},
@@ -45,6 +46,7 @@ export default {
     },
     pause: {
       background: {src: "widgets/tile-explorer-game/control-button-background.png"},
+      mod: MODES.blue,
       buttons: [
         {
           id: ON,
@@ -73,7 +75,11 @@ export default {
           mod: MODS.blue,
           list: [
             {label: "Количество очко", img: "widgets/tile-explorer-game/stats/star.png", value: `+${score}`},
-            {label: "Время", img: "widgets/tile-explorer-game/stats/lifes.png", value: `${config.timer - currentTime} c`}
+            {
+              label: "Время",
+              img: "widgets/tile-explorer-game/stats/lifes.png",
+              value: `${config.timer - currentTime} c`
+            }
           ]
         },
         buttons: {

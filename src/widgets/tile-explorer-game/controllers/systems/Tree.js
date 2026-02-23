@@ -3,7 +3,7 @@ import {upperFirst} from "lodash";
 import {eventSubscription, System, clone, Entity, STATE_DECORATOR_FIELD} from "@shared";
 import {TREE, treeActions, events as treeEvents} from "../entities/tree";
 import {SHELF} from "../entities/shelf";
-import {LOSING, WINNING} from "../../constants/stateMachine";
+import {LOSING, WINNING} from "../constants/stateMachine";
 
 export class Tree extends System {
   constructor() {

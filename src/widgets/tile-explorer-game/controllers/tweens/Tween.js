@@ -1,4 +1,4 @@
-import {GAME} from "../../constants/game";
+import {GAME} from "../constants/game";
 
 export class Tween {
   storage;
