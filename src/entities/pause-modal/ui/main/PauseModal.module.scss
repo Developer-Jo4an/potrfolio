@@ -29,11 +29,15 @@ $root: "pauseModal";
   }
 
   @include mixins.mod("ocean") {
-    background: rgba(189, 167, 143, 1);
+    background-color: rgb(189, 167, 143);
   }
 
   @include mixins.mod("blue") {
-    background: rgb(19, 213, 248);
+    background-color: rgb(19, 213, 248);
+  }
+
+  @include mixins.mod("beige") {
+    background-color: rgb(255, 255, 255);
   }
 }
 
@@ -48,6 +52,10 @@ $root: "pauseModal";
       font-size: 20px;
     }
   }
+
+  @include mixins.mod("beige", $root) {
+    color: constants.$BLACK
+  }
 }
 
 .description {
@@ -60,6 +68,10 @@ $root: "pauseModal";
     @if $device == constants.$MOB-PORT {
       font-size: 18px;
     }
+  }
+
+  @include mixins.mod("beige", $root) {
+    color: constants.$BLACK
   }
 }
 
@@ -124,7 +136,7 @@ $root: "pauseModal";
 
   @include mixins.mod("ocean", $root) {
     @include mixins.mod("i0") {
-      color: #FFFFFF;
+      color: constants.$WHITE;
     }
 
     @include mixins.mod("i1") {
@@ -134,11 +146,21 @@ $root: "pauseModal";
 
   @include mixins.mod("blue", $root) {
     @include mixins.mod("i0") {
-      color: #FFFFFF;
+      color: constants.$WHITE;
     }
 
     @include mixins.mod("i1") {
       color: #78A4D8;
+    }
+  }
+
+  @include mixins.mod("beige", $root) {
+    @include mixins.mod("i0") {
+      color: constants.$WHITE;
+    }
+
+    @include mixins.mod("i1") {
+      color: #A3CE60;
     }
   }
 }

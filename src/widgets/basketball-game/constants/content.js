@@ -1,6 +1,6 @@
 import {CLEAR_HIT, EXTRA_LIFE, X2} from "../controllers/constants/boosters";
 import {OFF, ON, ROUTES, getDefaultState} from "@shared";
-import {MODS} from "@entities/game-end-modal";
+import {MODES as GAME_END_MODES} from "@entities/game-end-modal";
 import {STATE_MACHINE, LOSE, WIN} from "../controllers/constants/stateMachine";
 import {MODES} from "@entities/pause-modal";
 
@@ -64,10 +64,10 @@ export default {
       type: modalNames.gameEndModal,
       props: {
         background: {src: "widgets/game-cards/backgrounds/basketball.png"},
-        title: {text: {[WIN]: "Победа", [LOSE]: "Поражение"}[status], status, mod: MODS.velvet},
+        title: {text: {[WIN]: "Победа", [LOSE]: "Поражение"}[status], status, mod: GAME_END_MODES.velvet},
         img: {src: `widgets/basketball-game/end-game/${status}.png`},
         stats: {
-          mod: MODS.velvet,
+          mod: GAME_END_MODES.velvet,
           list: [
             {label: "Количество очко", img: "widgets/basketball-game/stats/star.png", value: `+${score}`},
             {
@@ -79,7 +79,7 @@ export default {
           ]
         },
         buttons: {
-          mod: MODS.velvet,
+          mod: GAME_END_MODES.velvet,
           list: [
             {
               isDisposable: true,

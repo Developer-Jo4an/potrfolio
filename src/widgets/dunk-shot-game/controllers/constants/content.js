@@ -1,5 +1,5 @@
 import {getDefaultState, ROUTES, OFF, ON} from "@shared";
-import {MODS} from "@entities/game-end-modal";
+import {MODES as GAME_END_MODES} from "@entities/game-end-modal";
 import {STATE_MACHINE, LOSE, WIN} from "./stateMachine";
 import {WINGS, EXTRA_LIFE, X2} from "./boosters";
 import {MODES} from "@entities/pause-modal";
@@ -62,10 +62,10 @@ export default {
       type: modalNames.gameEndModal,
       props: {
         background: {src: "widgets/game-cards/backgrounds/dunkShot.png"},
-        title: {text: {[WIN]: "Победа", [LOSE]: "Поражение"}[status], status, mod: MODS.ocean},
-        img: {src: `widgets/dunk-shot-game/end-game/${status}.png`, mod: MODS.ocean},
+        title: {text: {[WIN]: "Победа", [LOSE]: "Поражение"}[status], status, mod: GAME_END_MODES.ocean},
+        img: {src: `widgets/dunk-shot-game/end-game/${status}.png`, mod: GAME_END_MODES.ocean},
         stats: {
-          mod: MODS.ocean,
+          mod: GAME_END_MODES.ocean,
           list: [
             {label: "Количество очко", img: "widgets/dunk-shot-game/stats/star.png", value: `+${score}`},
             {
@@ -77,7 +77,7 @@ export default {
           ],
         },
         buttons: {
-          mod: MODS.ocean,
+          mod: GAME_END_MODES.ocean,
           list: [
             {
               isDisposable: true,

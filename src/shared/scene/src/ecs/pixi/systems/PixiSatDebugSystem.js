@@ -1,7 +1,7 @@
 import {eventSubscription} from "../../../../../lib/src/events/eventListener";
 import {PixiComponent} from "../components/PixiComponent";
 import {SatDebugSystem} from "../../sat/systems/SatDebugSystem";
-import {PixiDebugComponent} from "../components/PixiDebugComponent";
+import {PixiDebug} from "../components/PixiDebug";
 
 class PixiSatDebugSystem extends SatDebugSystem {
   constructor() {
@@ -16,7 +16,7 @@ class PixiSatDebugSystem extends SatDebugSystem {
     debugContainer.zIndex = Number.MAX_VALUE;
   }
 
-  initializationSelect() {
+  initializationLevelSelect() {
     const {
       storage: {stage},
       debugContainer,
@@ -26,7 +26,7 @@ class PixiSatDebugSystem extends SatDebugSystem {
   }
 
   paint(entity, vertices) {
-    const cPixiDebug = entity.get(PixiDebugComponent);
+    const cPixiDebug = entity.get(PixiDebug);
     const cPixi = entity.get(PixiComponent);
 
     if (cPixiDebug && cPixi?.pixiObject) {
@@ -55,7 +55,7 @@ class PixiSatDebugSystem extends SatDebugSystem {
       target: eventBus,
       callbacksBus: [
         {
-          event: `${PixiDebugComponent.EVENTS.REMOVE}-${cPixiDebug.type}`,
+          event: `${PixiDebug.EVENTS.REMOVE}-${cPixiDebug.type}`,
           callback: ({data: {component}}) => {
             if (component === cPixiDebug) {
               component.graphics.destroy();

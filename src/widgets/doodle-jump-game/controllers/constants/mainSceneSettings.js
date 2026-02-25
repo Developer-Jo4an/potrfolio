@@ -12,6 +12,7 @@ export const mainSceneSettings = {
     jetpackSize: {width: 70, height: 72},
     loseSize: {width: 55, height: 62},
     jumpForce: -960,
+    updateScoreBorder: 30,
 
     speed: {
       tap: {

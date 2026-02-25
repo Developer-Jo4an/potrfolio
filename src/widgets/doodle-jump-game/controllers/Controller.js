@@ -38,8 +38,6 @@ import {
   UPDATED,
   RESIZE, UPDATE_DECORATOR_FIELD
 } from "@shared";
-import {Events} from "../../tile-explorer-game/controllers/constants/events";
-import {LOSE, WIN} from "../../tile-explorer-game/controllers/constants/stateMachine";
 
 export class Controller extends PIXIController {
   constructor() {
@@ -75,14 +73,6 @@ export class Controller extends PIXIController {
 
   playingSelect() {
     this.start();
-  }
-
-  winSelect() {
-    this.eventBus.dispatchEvent({type: Events.WIN, status: WIN});
-  }
-
-  loseSelect() {
-    this.eventBus.dispatchEvent({type: Events.LOSE, status: LOSE});
   }
 
   initProperties() {

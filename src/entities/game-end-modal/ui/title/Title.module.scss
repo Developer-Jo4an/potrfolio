@@ -40,11 +40,15 @@ $root: "title";
   }
 
   @include mixins.mod("ocean", $root) {
-    color: #FFFFFF
+    color: constants.$WHITE;
   }
 
   @include mixins.mod("blue", $root) {
-    color: #FFFFFF
+    color: constants.$WHITE;
+  }
+
+  @include mixins.mod("beige", $root) {
+    color: constants.$BLACK;
   }
 }
 

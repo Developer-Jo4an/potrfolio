@@ -1,7 +1,7 @@
 import {Component} from "@shared";
 
 export class Target extends Component {
-  type = "child";
+  type = "target";
 
   /**
    * @type {TargetValue | null | undefined}

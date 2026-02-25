@@ -33,7 +33,9 @@ export function DoodleJumpGame() {
       setFullProps={setFullProps}
       list={[
         {type: ComponentTypes.BACKGROUND},
-        {Component: Canvas}
+        {Component: Canvas},
+        {type: ComponentTypes.TOP_MENU},
+        {type: ComponentTypes.LOADER}
       ]}
     />
   );

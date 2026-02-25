@@ -1,7 +1,7 @@
 import {getDefaultState, OFF, ON, ROUTES} from "@shared";
 import {BACK, HELP, MIX} from "../controllers/constants/boosters";
 import {LOSE, STATE_MACHINE, WIN} from "../controllers/constants/stateMachine";
-import {MODS} from "@entities/game-end-modal";
+import {MODES as GAME_END_MODES} from "@entities/game-end-modal";
 import {config} from "../config/config";
 import {MODES} from "@entities/pause-modal";
 
@@ -69,10 +69,10 @@ export default {
       type: modalNames.gameEndModal,
       props: {
         background: {src: "widgets/game-cards/backgrounds/tileExplorer.png"},
-        title: {text: {[WIN]: "Победа", [LOSE]: "Поражение"}[status], status, mod: MODS.blue},
+        title: {text: {[WIN]: "Победа", [LOSE]: "Поражение"}[status], status, mod: GAME_END_MODES.blue},
         img: {src: `widgets/tile-explorer-game/end-game/${status}.png`},
         stats: {
-          mod: MODS.blue,
+          mod: GAME_END_MODES.blue,
           list: [
             {label: "Количество очко", img: "widgets/tile-explorer-game/stats/star.png", value: `+${score}`},
             {
@@ -83,7 +83,7 @@ export default {
           ]
         },
         buttons: {
-          mod: MODS.blue,
+          mod: GAME_END_MODES.blue,
           list: [
             {
               isDisposable: true,

@@ -1,2 +1,2 @@
 export {GameEndModal} from "./ui/main/GameEndModal";
-export {MODS} from "./constants/mods";
+export {MODES} from "./constants/modes";

@@ -15,5 +15,5 @@ export function useEndGame({gameSpace}) {
     const {score, currentTime} = gameSpace;
     const modalData = endModal({wrapper, modalNames: names, currentTime, redirect, score, status});
     add(modalData);
-  }, [wrapper]);
+  }, [wrapper, gameSpace]);
 }

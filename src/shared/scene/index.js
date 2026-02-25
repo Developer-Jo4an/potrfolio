@@ -61,7 +61,7 @@ export * from "./src/ecs/core/Engine";
 export * from "./src/ecs/core/System";
 export * from "./src/ecs/core/Entity";
 export * from "./src/ecs/pixi/components/PixiComponent";
-export * from "./src/ecs/pixi/components/PixiDebugComponent";
+export * from "./src/ecs/pixi/components/PixiDebug";
 export * from "./src/ecs/pixi/systems/PixiRenderSystem";
 export * from "./src/ecs/pixi/systems/PixiSatDebugSystem";
 export * from "./src/ecs/rapier/components/Body";

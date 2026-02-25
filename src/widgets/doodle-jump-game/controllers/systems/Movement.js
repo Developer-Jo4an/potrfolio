@@ -3,6 +3,7 @@ import {Gyroscope} from "../plugins/controls/Gyroscope";
 import {Keyboard} from "../plugins/controls/Keyboard";
 import {Tap} from "../plugins/controls/Tap";
 import {getPluginType, initPlugins} from "../utils/utils";
+import {clamp} from "lodash";
 import {CollisionGroups} from "../config/collision";
 import {PLATFORM} from "../entities/platform";
 import {Events} from "../constants/events";
@@ -19,7 +20,7 @@ export class Movement extends System {
     const {
       storage,
       storage: {engine},
-      eventBus,
+      eventBus
     } = this;
 
     initPlugins(
@@ -27,7 +28,7 @@ export class Movement extends System {
       [
         [Input.Processes.GYROSCOPE, Gyroscope],
         [Input.Processes.TAP, Tap],
-        [Input.Processes.KEYBOARD, Keyboard],
+        [Input.Processes.KEYBOARD, Keyboard]
       ],
       {storage, eventBus, system: this, engine}
     );
@@ -60,7 +61,7 @@ export class Movement extends System {
 
         eventBus.dispatchEvent({
           type: Events.CHARACTER_COLLIDE_WITH_PLATFORM,
-          platform: collidedPlatform,
+          platform: collidedPlatform
         });
 
         if (cCollider.isTrackCollision) {
@@ -84,7 +85,7 @@ export class Movement extends System {
       if (isCahThrow) {
         eventBus.dispatchEvent({
           type: Events.CHARACTER_KICK_ENEMY,
-          enemy: this.getEntityByUUID(ENEMY, enemyUUID),
+          enemy: this.getEntityByUUID(ENEMY, enemyUUID)
         });
 
         return (isCanJump = true);
@@ -106,7 +107,7 @@ export class Movement extends System {
       if (isCahThrow) {
         eventBus.dispatchEvent({
           type: Events.CHARACTER_COLLIDE_WITH_HELPER,
-          helper: this.getEntityByUUID(HELPER, helperUUID),
+          helper: this.getEntityByUUID(HELPER, helperUUID)
         });
 
         return (isCanJump = true);
@@ -125,20 +126,32 @@ export class Movement extends System {
   }
 
   updateVectorRoad() {
+    const {storage: {gameSpace}} = this;
     const {
       cVectorRoad,
       cCollider: {prevX, x, prevY, y},
+      settings: {
+        updateScoreBorder
+      }
     } = this.getCharacterInfo();
+    const {cComplexity: {config: {target}}} = this.getGameInfo();
+
+    if (![prevX, x, prevY, y].every(Number)) return;
 
     cVectorRoad.x += x - prevX;
     cVectorRoad.y += y - prevY;
+
+    const currentScore = -cVectorRoad.y;
+
+    if (currentScore - gameSpace.score > updateScoreBorder)
+      gameSpace.score = clamp(Math.ceil(currentScore), 0, target);
   }
 
   getIsTruthCollision(entityType, data) {
     const functions = {
       [ENEMY]: this.onCharacterKickEnemy,
       [PLATFORM]: this.onCharacterCollideWithPlatform,
-      [HELPER]: this.onCharacterCollideWithHelper,
+      [HELPER]: this.onCharacterCollideWithHelper
     }[entityType];
 
     return functions?.call(this, data);
@@ -170,12 +183,12 @@ export class Movement extends System {
     const {
       settings: {
         collision: {
-          platform: {overlapLength},
-        },
+          platform: {overlapLength}
+        }
       },
       cCollider: characterCollider,
       cPhysics,
-      response,
+      response
     } = this.getCharacterInfo();
 
     const {response: collisionData} = response[CollisionGroups.PLATFORM][platformUUID];
@@ -196,7 +209,7 @@ export class Movement extends System {
     const eHelper = this.getEntityByUUID(HELPER, helperUUID);
     const {
       cBehaviour: {group},
-      cCollider: cHelperCollider,
+      cCollider: cHelperCollider
     } = this.getHelperInfo(eHelper);
 
     switch (group) {

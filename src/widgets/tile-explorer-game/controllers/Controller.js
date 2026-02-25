@@ -10,8 +10,8 @@ import {Effects} from "./systems/Effects";
 import {GAME_SIZE, GAME} from "./constants/game";
 import {statesData} from "./constants/state";
 import {LOSE, WIN} from "./constants/stateMachine";
-import {Events} from "./constants/events";
 import {config} from "./assets/config";
+import {Events} from "@features/game-wrapper";
 import {
   Engine,
   Factory,

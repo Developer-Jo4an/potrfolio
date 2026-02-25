@@ -4,7 +4,6 @@ import {useTileExplorerStore} from "../state-manager/tileExplorerStore";
 import content from "../../constants/content";
 
 const {endModal} = content;
-
 //TODO: посмотреть, как проигрываются игры
 
 export function useEndGame({gameSpace}) {
@@ -13,8 +12,9 @@ export function useEndGame({gameSpace}) {
   const {names, add} = useModalProvider();
 
   return useCallback(({status}) => {
+    wrapper.state = status;
     const {score, currentTime} = gameSpace;
     const modalData = endModal({wrapper, modalNames: names, currentTime, redirect, score, status});
     add(modalData);
-  }, [wrapper]);
+  }, [wrapper, gameSpace]);
 }

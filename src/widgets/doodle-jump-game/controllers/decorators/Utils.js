@@ -3,7 +3,8 @@ import {Complexity} from "../components/Complexity";
 import {Parent} from "../components/Parent";
 import {Child} from "../components/Child";
 import {Target} from "../components/Target";
-import {isArray} from "lodash";
+import {Game} from "../components/Game";
+import {isArray, upperFirst} from "lodash";
 import {CHARACTER} from "../entities/character";
 import {MAIN_CONTAINER} from "../entities/mainContainer";
 import {GAME} from "../constants/game";
@@ -81,8 +82,13 @@ export class Utils extends Decorator {
             return acc;
           }
 
+          case Game: {
+            acc.cGame = child;
+            return acc;
+          }
+
           default: {
-            const field = `c${ParentClass.name}`;
+            const field = `c${upperFirst(child.type)}`;
             acc[field] = child;
             return acc;
           }

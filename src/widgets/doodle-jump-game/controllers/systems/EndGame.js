@@ -3,14 +3,27 @@ import {Events} from "../constants/events";
 import {CollisionGroups} from "../config/collision";
 import {ENEMY} from "../entities/enemy";
 import {Behaviours} from "../constants/behaviours";
-import {STATE_DECORATOR_FIELD, System} from "@shared";
-import {LOSE} from "../constants/stateMachine";
+import {LOSE, WIN} from "../constants/stateMachine";
+import {Events as WrapperEvents} from "@features/game-wrapper";
+import {System} from "@shared";
 
 export class EndGame extends System {
   constructor() {
     super(...arguments);
 
     this.setLose = this.setLose.bind(this);
+    this.setWin = this.setWin.bind(this);
+  }
+
+  checkWin() {
+    const {storage: {gameSpace}} = this;
+    const {cComplexity: {config}} = this.getGameInfo();
+    if (gameSpace.score >= config.target) this.setWin();
+  }
+
+  setWin() {
+    const {eventBus} = this;
+    eventBus.dispatchEvent({type: WrapperEvents.WIN, status: WIN});
   }
 
   checkLose() {
@@ -86,12 +99,13 @@ export class EndGame extends System {
   }
 
   setLose() {
-    const {storage: {decorators}} = this;
-    const stateDecorator = decorators[STATE_DECORATOR_FIELD];
-    stateDecorator.state = LOSE;
+    const {eventBus, storage: {gameSpace}} = this;
+    eventBus.dispatchEvent({type: WrapperEvents.LOSE, status: LOSE});
+    gameSpace.lifes--;
   }
 
   update() {
+    this.checkWin(...arguments);
     this.checkLose(...arguments);
   }
 }

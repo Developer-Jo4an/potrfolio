@@ -74,4 +74,11 @@ $root: "buttons";
       color: #FFEBD4;
     }
   }
+
+  @include mixins.mod("beige", $root) {
+    color: #A3CE60;
+    @include mixins.mod("i0") {
+      color: constants.$WHITE;
+    }
+  }
 }

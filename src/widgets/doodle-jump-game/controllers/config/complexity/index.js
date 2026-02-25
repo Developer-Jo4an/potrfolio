@@ -8,6 +8,7 @@ import {PLATFORM, PlatformTextures} from "../../entities/platform";
 import {ENEMY, EnemyBehaviours, EnemyTextures} from "../../entities/enemy";
 
 const complexityConfig = {
+  target: 10000,
   waves: [
     {
       length: Infinity,
@@ -26,9 +27,9 @@ const complexityConfig = {
               x: [0, 1],
               yOffset: 0,
               size: {width: 90, height: 20},
-              count: 8,
-            },
-          ],
+              count: 8
+            }
+          ]
         },
         {
           weight: 1,
@@ -41,9 +42,9 @@ const complexityConfig = {
               x: {min: 0, max: 1, speed: 200},
               yOffset: 0,
               size: {width: 90, height: 20},
-              count: 8,
-            },
-          ],
+              count: 8
+            }
+          ]
         },
         {
           weight: 1,
@@ -56,7 +57,7 @@ const complexityConfig = {
               yOffset: 0,
               x: [0, 0.33],
               size: {width: 90, height: 20},
-              count: 1,
+              count: 1
             },
             {
               type: PLATFORM,
@@ -65,9 +66,9 @@ const complexityConfig = {
               x: [0.66, 1],
               yOffset: 0,
               size: {width: 90, height: 20},
-              count: 1,
-            },
-          ],
+              count: 1
+            }
+          ]
         },
         {
           weight: 1,
@@ -80,9 +81,9 @@ const complexityConfig = {
               x: [0, 1],
               yOffset: 0,
               size: {width: 90, height: 20},
-              count: 1,
-            },
-          ],
+              count: 1
+            }
+          ]
         },
         /**
          * Платформы с хелперами
@@ -99,9 +100,9 @@ const complexityConfig = {
               yOffset: 0,
               size: {width: 90, height: 20},
               count: 8,
-              children: [trampoline()],
-            },
-          ],
+              children: [trampoline()]
+            }
+          ]
         },
         /**
          * Платформы с бустерами
@@ -118,9 +119,9 @@ const complexityConfig = {
               yOffset: 0,
               size: {width: 90, height: 20},
               count: 8,
-              children: [spring()],
-            },
-          ],
+              children: [spring()]
+            }
+          ]
         },
         {
           weight: 0.1,
@@ -134,9 +135,9 @@ const complexityConfig = {
               yOffset: 0,
               size: {width: 90, height: 20},
               count: 8,
-              children: [propeller()],
-            },
-          ],
+              children: [propeller()]
+            }
+          ]
         },
         {
           weight: 0.1,
@@ -150,9 +151,9 @@ const complexityConfig = {
               yOffset: 0,
               size: {width: 90, height: 20},
               count: 8,
-              children: [jetpack()],
-            },
-          ],
+              children: [jetpack()]
+            }
+          ]
         },
         /**
          * Платформы с врагами
@@ -174,9 +175,9 @@ const complexityConfig = {
                 type: EnemyBehaviours.STATIC,
                 props: {
                   x: [0.1, 0.2],
-                  yOffset: -37,
-                },
-              },
+                  yOffset: -37
+                }
+              }
             },
             {
               type: PLATFORM,
@@ -185,9 +186,9 @@ const complexityConfig = {
               x: [0.65, 1],
               yOffset: 0,
               size: {width: 90, height: 20},
-              count: 8,
-            },
-          ],
+              count: 8
+            }
+          ]
         },
         {
           weight: 0.05,
@@ -203,9 +204,9 @@ const complexityConfig = {
                 type: EnemyBehaviours.STATIC,
                 props: {
                   x: [0.8, 0.9],
-                  yOffset: -37,
-                },
-              },
+                  yOffset: -37
+                }
+              }
             },
             {
               type: PLATFORM,
@@ -214,9 +215,9 @@ const complexityConfig = {
               x: [0, 0.35],
               yOffset: 0,
               size: {width: 90, height: 20},
-              count: 8,
-            },
-          ],
+              count: 8
+            }
+          ]
         },
         /**
          * Синяя муха
@@ -232,7 +233,7 @@ const complexityConfig = {
               x: [0, 0.4],
               yOffset: 0,
               size: {width: 90, height: 20},
-              count: 1,
+              count: 1
             },
             {
               type: ENEMY,
@@ -244,11 +245,11 @@ const complexityConfig = {
                 type: EnemyBehaviours.MOVE,
                 props: {
                   x: {min: 0.7, max: 1, speed: 200},
-                  yOffset: -20,
-                },
-              },
-            },
-          ],
+                  yOffset: -20
+                }
+              }
+            }
+          ]
         },
         {
           weight: 0.05,
@@ -261,7 +262,7 @@ const complexityConfig = {
               x: [0.6, 1],
               yOffset: 0,
               size: {width: 90, height: 20},
-              count: 1,
+              count: 1
             },
             {
               type: ENEMY,
@@ -273,11 +274,11 @@ const complexityConfig = {
                 type: EnemyBehaviours.MOVE,
                 props: {
                   x: {min: 0, max: 0.3, speed: 200},
-                  yOffset: -20,
-                },
-              },
-            },
-          ],
+                  yOffset: -20
+                }
+              }
+            }
+          ]
         },
         /**
          * Фиолетовая муха
@@ -293,7 +294,7 @@ const complexityConfig = {
               x: {min: 0, max: 0.5, speed: 100},
               yOffset: 0,
               size: {width: 90, height: 20},
-              count: 8,
+              count: 8
             },
             {
               type: ENEMY,
@@ -308,11 +309,11 @@ const complexityConfig = {
                   yOffset: 0,
                   radius: 25,
                   pointsCount: 10,
-                  speed: 350,
-                },
-              },
-            },
-          ],
+                  speed: 350
+                }
+              }
+            }
+          ]
         },
         {
           weight: 0.05,
@@ -325,7 +326,7 @@ const complexityConfig = {
               x: {min: 0.5, max: 1, speed: 100},
               yOffset: 0,
               size: {width: 90, height: 20},
-              count: 8,
+              count: 8
             },
             {
               type: ENEMY,
@@ -340,11 +341,11 @@ const complexityConfig = {
                   yOffset: 0,
                   radius: 25,
                   pointsCount: 10,
-                  speed: 350,
-                },
-              },
-            },
-          ],
+                  speed: 350
+                }
+              }
+            }
+          ]
         },
         /**
          * Микроб
@@ -373,12 +374,12 @@ const complexityConfig = {
                     props: {
                       offset: {
                         x: 0,
-                        y: -36,
-                      },
-                    },
-                  },
-                },
-              ],
+                        y: -36
+                      }
+                    }
+                  }
+                }
+              ]
             },
             {
               type: PLATFORM,
@@ -387,9 +388,9 @@ const complexityConfig = {
               x: {min: 0.7, max: 1, speed: 100},
               yOffset: 0,
               size: {width: 90, height: 20},
-              count: 8,
-            },
-          ],
+              count: 8
+            }
+          ]
         },
         {
           weight: 0.05,
@@ -415,12 +416,12 @@ const complexityConfig = {
                     props: {
                       offset: {
                         x: 0,
-                        y: -36,
-                      },
-                    },
-                  },
-                },
-              ],
+                        y: -36
+                      }
+                    }
+                  }
+                }
+              ]
             },
             {
               type: PLATFORM,
@@ -429,12 +430,12 @@ const complexityConfig = {
               x: {min: 0, max: 0.3, speed: 100},
               yOffset: 0,
               size: {width: 90, height: 20},
-              count: 8,
-            },
-          ],
-        },
-      ],
-    },
+              count: 8
+            }
+          ]
+        }
+      ]
+    }
   ],
   wiredCombinations: [
     {
@@ -448,9 +449,9 @@ const complexityConfig = {
           yOffset: 0,
           isTrackCollision: true,
           size: {width: 90, height: 20},
-          count: Number.MAX_VALUE,
-        },
-      ],
+          count: Number.MAX_VALUE
+        }
+      ]
     },
     {
       order: 2,
@@ -463,9 +464,9 @@ const complexityConfig = {
           yOffset: 0,
           isTrackCollision: true,
           size: {width: 90, height: 20},
-          count: 8,
-        },
-      ],
+          count: 8
+        }
+      ]
     },
     {
       order: 3,
@@ -478,11 +479,11 @@ const complexityConfig = {
           yOffset: 0,
           isTrackCollision: true,
           size: {width: 90, height: 20},
-          count: 1,
-        },
-      ],
-    },
-  ],
+          count: 1
+        }
+      ]
+    }
+  ]
 };
 
 export const complexity = cloneDeep(
@@ -493,7 +494,7 @@ export const complexity = cloneDeep(
           const {combinations} = waveData;
           return {
             ...waveData,
-            combinations: combinations.map(combination => ({...combination, id: uuidv4()})),
+            combinations: combinations.map(combination => ({...combination, id: uuidv4()}))
           };
         });
         break;
@@ -502,6 +503,10 @@ export const complexity = cloneDeep(
       case "wiredCombinations": {
         acc[key] = value.map(combination => ({...combination, id: uuidv4()}));
         break;
+      }
+
+      default: {
+        acc[key] = value;
       }
     }
     return acc;

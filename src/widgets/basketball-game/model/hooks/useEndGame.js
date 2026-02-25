@@ -13,13 +13,10 @@ export function useEndGame() {
 
   return useCallback(({status}) => {
     wrapper.state = status;
-
     const {
       gameData: {story, pureCount, score}
     } = gameSpaceStore.gameSpace;
-
     const modalData = endModal({wrapper, modalNames: names, redirect, score, pureCount, status, story});
-
     add(modalData);
   }, [wrapper]);
 }

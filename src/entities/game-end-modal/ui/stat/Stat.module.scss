@@ -37,11 +37,15 @@ $root: "stat";
   }
 
   @include mixins.mod("ocean") {
-    color: #FFFFFF;
+    color: constants.$WHITE;
   }
 
   @include mixins.mod("blue") {
-    color: #FFFFFF;
+    color: constants.$WHITE;
+  }
+
+  @include mixins.mod("beige") {
+    color: constants.$BLACK;
   }
 }
 

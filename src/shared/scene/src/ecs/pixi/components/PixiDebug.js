@@ -1,7 +1,7 @@
 import {Component} from "../../core/Component";
 
-class PixiDebugComponent extends Component {
-  type = "pixiDebugComponent";
+class PixiDebug extends Component {
+  type = "pixiDebug";
 
   graphics;
 
@@ -20,4 +20,4 @@ class PixiDebugComponent extends Component {
   }
 }
 
-export {PixiDebugComponent};
+export {PixiDebug};
