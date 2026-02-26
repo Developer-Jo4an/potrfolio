@@ -1,6 +1,6 @@
 import {Button, Image, OFF, ON} from "@shared";
-import {FaVolumeOff} from "react-icons/fa";
-import {AiFillSound} from "react-icons/ai";
+import {IoVolumeHigh} from "react-icons/io5";
+import {IoMdVolumeOff} from "react-icons/io";
 import cl from "classnames";
 import styles from "./SoundButton.module.scss";
 
@@ -10,7 +10,7 @@ export function SoundButton({background, ref, className, ...otherProps}) {
   return (
     <Button ref={ref} className={cl(styles.soundButton, className)} {...otherProps}>
       {background && <Image {...background} className={cl(styles.background, background.className)} />}
-      {{[ON]: <AiFillSound />, [OFF]: <FaVolumeOff />}[status]}
+      {{[ON]: <IoVolumeHigh />, [OFF]: <IoMdVolumeOff />}[status]}
     </Button>
   );
 }
