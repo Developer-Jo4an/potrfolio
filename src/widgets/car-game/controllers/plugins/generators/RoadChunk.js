@@ -1,5 +1,6 @@
 import {Generator} from "./Generator";
 import {Entity, lerpArray, randFromArray} from "@shared";
+import {chunk, cloneDeep} from "lodash";
 import {ROAD_CHUNK} from "../../constants/entities";
 import {GAME_SIZE} from "../../constants/game";
 
@@ -18,51 +19,95 @@ export class RoadChunk extends Generator {
 
   initMatrix(eRoadChunk) {
     const {system} = this;
-    const prevRoadChunk = this.getRoadChunkByIndex(-2);
+    const ePrevRoadChunk = system.getRoadChunkByIndex(-2);
     const {cMatrix: cCurrentMatrix} = system.getRoadChunkInfo(eRoadChunk);
 
-    if (!prevRoadChunk) {
+    if (!ePrevRoadChunk) {
       cCurrentMatrix.x = GAME_SIZE.width / 2;
       cCurrentMatrix.y = GAME_SIZE.height;
     } else {
-      const {cMatrix: cPrevMatrix} = system.getRoadChunkInfo(prevRoadChunk);
+      const {
+        cPolygon: {yEnd},
+      } = system.getRoadChunkInfo(ePrevRoadChunk);
       cCurrentMatrix.x = GAME_SIZE.width / 2;
-      cCurrentMatrix.y = cPrevMatrix.y - cPrevMatrix.height;
+      cCurrentMatrix.y = yEnd;
     }
   }
 
   initPolygon(eRoadChunk) {
     const {system} = this;
+    const {cPolygon} = system.getRoadChunkInfo(eRoadChunk);
+
+    const polygonData = this.calculatePolygonData(eRoadChunk);
+    for (const key in polygonData) cPolygon[key] = polygonData[key];
+  }
+
+  calculatePolygonData(eRoadChunk) {
+    const {system} = this;
     const {
       cPolygon,
-      settings: {angle, length, size},
+      settings: {angle: directionAngle, length: chunkLength, size},
     } = system.getRoadChunkInfo(eRoadChunk);
 
-    const prevRoadChunk = this.getRoadChunkByIndex(-2);
+    const ePrevRoadChunk = system.getRoadChunkByIndex(-2);
 
-    if (!prevRoadChunk) {
-      const startSize = lerpArray(size);
-      const endSize = lerpArray(size);
+    let startSize;
+    let endSize;
+    let length;
+    let angle;
+    let xStart;
+    let yStart;
+    let xEnd;
+    let yEnd;
 
-      const chunkLength = lerpArray(length);
-      const chunkAngle = randFromArray(angle);
+    if (!ePrevRoadChunk) {
+      startSize = lerpArray(size);
+      endSize = lerpArray(size);
 
-      const xStart = GAME_SIZE.width / 2;
-      const yStart = GAME_SIZE.height;
-      const xEnd = xStart + Math.cos(chunkAngle) * chunkLength;
-      const yEnd = yStart - Math.sin(chunkAngle) * chunkLength;
+      length = lerpArray(chunkLength);
+      angle = randFromArray(directionAngle);
 
-      cPolygon.angle = chunkAngle;
+      xStart = GAME_SIZE.width / 2;
+      yStart = GAME_SIZE.height;
 
-      cPolygon.polygon = new PIXI.Polygon([
-        new PIXI.Point(xStart - startSize / 2, yStart),
-        new PIXI.Point(xStart, yStart),
-        new PIXI.Point(xStart + startSize / 2, yStart),
-        new PIXI.Point(xEnd + endSize / 2, yEnd),
-        new PIXI.Point(xEnd, yEnd),
-        new PIXI.Point(xEnd - endSize / 2, yEnd),
-      ]);
+      xEnd = xStart + Math.cos(angle) * length;
+      yEnd = yStart - Math.sin(angle) * length;
+    } else {
+      const {cPolygon: cPrevPolygon} = system.getRoadChunkInfo(ePrevRoadChunk);
+
+      startSize = cloneDeep(cPrevPolygon.endSize);
+      endSize = lerpArray(size);
+
+      length = cPolygon.length = lerpArray(chunkLength);
+      angle = cPrevPolygon.angle === directionAngle[0] ? directionAngle[1] : directionAngle[0];
+
+      xStart = cPrevPolygon.xEnd;
+      yStart = cPrevPolygon.yEnd;
+
+      xEnd = xStart + Math.cos(angle) * length;
+      yEnd = yStart - Math.sin(angle) * length;
     }
+
+    const polygon = this.createPolygon(
+      xStart - startSize / 2,
+      yStart,
+      xStart,
+      yStart,
+      xStart + startSize / 2,
+      yStart,
+      xEnd + endSize / 2,
+      yEnd,
+      xEnd,
+      yEnd,
+      xEnd - endSize / 2,
+      yEnd,
+    );
+
+    return {polygon, startSize, endSize, length, angle, xStart, yStart, xEnd, yEnd};
+  }
+
+  createPolygon(...points) {
+    return new PIXI.Polygon(chunk(points, 2).map(([x, y]) => new PIXI.Point(x, y)));
   }
 
   initView(eRoadChunk) {
@@ -83,14 +128,5 @@ export class RoadChunk extends Generator {
 
     asset.x = cMatrix.x;
     asset.y = cMatrix.y;
-  }
-
-  getRoadChunkByIndex(index) {
-    const {roadChunks} = this;
-    return index >= 0 ? roadChunks[index] : roadChunks[roadChunks.length + index];
-  }
-
-  get roadChunks() {
-    return this.system.getEntitiesByType(ROAD_CHUNK)?.list ?? [];
   }
 }

@@ -3,6 +3,7 @@ import {Utils} from "./decorators/Utils";
 import {Game} from "./systems/Game";
 import {Spawn} from "./systems/Spawn";
 import {CollisionUtils} from "./decorators/CollisionUtils";
+import {RoadChunkUtils} from "./decorators/RoadChunkUtils";
 import {cloneDeep} from "lodash";
 import {GAME_SIZE} from "./constants/game";
 import {gameSpace} from "./constants/gameSpace";
@@ -82,7 +83,7 @@ export class Controller extends PIXIController {
         new Engine({
           eventBus,
           storage,
-          decorators: [Utils, CollisionUtils],
+          decorators: [Utils, CollisionUtils, RoadChunkUtils],
         }));
     storage.app = app;
     storage.eventBus = eventBus;

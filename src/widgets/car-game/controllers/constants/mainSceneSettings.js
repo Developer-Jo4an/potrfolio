@@ -8,7 +8,7 @@ export const mainSceneSettings = {
   roadChunk: {
     angle: [Math.PI / 4, (Math.PI / 4) * 3],
     length: [500, 800],
-    size: [100, 300],
+    size: [150, 300],
     tileScale: 0.3,
   },
   camera: {trackingBoundary: 600},

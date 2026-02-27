@@ -374,8 +374,8 @@ function lerp(x, y, t) {
   return (1 - t) * x + t * y;
 }
 
-function lerpArray(arr) {
-  return lerp(arr[0], arr[1], Math.random());
+function lerpArray(arr, k) {
+  return lerp(arr[0], arr[1], k ?? Math.random());
 }
 
 /**

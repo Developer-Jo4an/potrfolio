@@ -49,30 +49,31 @@ export class Spawn extends System {
     const {mask} = roadChunkContainer;
     mask.clear();
 
-    this.drawMask(roadChunks, [0, 1, 4, 5, 6, 7]);
-    this.drawMask([...roadChunks].reverse(), [6, 7, 10, 11, 0, 1]);
+    this.drawMask(roadChunks, [0, 1, 4, 5, 6, 7], false);
+    this.drawMask([...roadChunks].reverse(), [10, 11, 0, 1], true);
 
     mask.closePath().fill(0xffffff);
   }
 
-  drawMask(roadChunks, pointIndexes) {
-    const {view: roadChunkContainer} = this.getRoadChunksContainerInfo();
-    const {mask} = roadChunkContainer;
+  drawMask(roadChunks, [x0, y0, x1, y1, x2, y2], isReversed) {
+    const {
+      view: {mask},
+    } = this.getRoadChunksContainerInfo();
 
     roadChunks.forEach((eRoadChunk, index) => {
-      const {cPolygon} = this.getRoadChunkInfo(eRoadChunk);
       const {
-        polygon: {points},
-      } = cPolygon;
+        cPolygon: {
+          polygon: {points},
+        },
+      } = this.getRoadChunkInfo(eRoadChunk);
 
-      const [x0, y0, x1, y1, x2, y2] = pointIndexes;
-
-      if (!index) {
-        mask.moveTo(points[x0], points[y0]).lineTo(points[x1], points[y1]).lineTo(points[x2], points[y2]);
-        return;
+      if (!isReversed) {
+        if (!index) mask.moveTo(points[x0], points[y0]).lineTo(points[x1], points[y1]).lineTo(points[x2], points[y2]);
+        else mask.lineTo(points[x2], points[y2]);
+      } else {
+        if (!index) mask.lineTo(points[x0], points[y0]).lineTo(points[x1], points[y1]);
+        else mask.lineTo(points[x1], points[y1]);
       }
-
-      mask.lineTo(points[x2], points[y2]);
     });
   }
 
@@ -83,8 +84,18 @@ export class Spawn extends System {
   }
 
   getIsNeedSpawn() {
-    const roadChunks = this.getEntitiesByType(ROAD_CHUNK)?.list ?? [];
-    return !roadChunks.length;
+    const roadChunks = this.getRoadChunks();
+    if (!roadChunks.length) return true;
+
+    const lastRoadChunk = this.getRoadChunkByIndex(-1);
+    const {
+      cPolygon: {xEnd, yEnd},
+    } = this.getRoadChunkInfo(lastRoadChunk);
+
+    const {view: roadChunksContainerView} = this.getRoadChunksContainerInfo();
+
+    const position = roadChunksContainerView.toGlobal({x: xEnd, y: yEnd}, undefined, true);
+    return position.y > 0;
   }
 
   update() {
