@@ -39,7 +39,7 @@ export class Spawn extends System {
 
   updateMask() {
     const {view: roadChunkContainer} = this.getRoadChunksContainerInfo();
-    const roadChunks = this.getEntitiesByType(ROAD_CHUNK).list;
+    const roadChunks = this.getRoadChunks();
 
     if (!roadChunkContainer.mask) {
       const mask = (roadChunkContainer.mask = new PIXI.Graphics());
@@ -98,7 +98,25 @@ export class Spawn extends System {
     return position.y > 0;
   }
 
+  checkDeleteRoad() {
+    const roadChunks = this.getRoadChunks();
+    const {view: roadChunksContainerView} = this.getRoadChunksContainerInfo();
+
+    const removeEntities = roadChunks.filter((eRoadChunk) => {
+      const {
+        cPolygon: {xEnd, yEnd},
+      } = this.getRoadChunkInfo(eRoadChunk);
+
+      const position = roadChunksContainerView.toGlobal({x: xEnd, y: yEnd}, undefined, true);
+
+      return position.y > global.innerHeight;
+    });
+
+    removeEntities.forEach((eRoadChunk) => eRoadChunk.destroy());
+  }
+
   update() {
     this.checkSpawnRoad(...arguments);
+    this.checkDeleteRoad(...arguments);
   }
 }
