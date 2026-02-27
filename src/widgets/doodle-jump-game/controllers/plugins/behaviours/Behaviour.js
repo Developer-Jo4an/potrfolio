@@ -1,4 +1,4 @@
-import {Plugin} from "../Plugin";
+import {Plugin} from "@shared";
 
 export class Behaviour extends Plugin {
   apply() {

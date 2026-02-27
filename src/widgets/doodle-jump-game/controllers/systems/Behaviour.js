@@ -5,10 +5,9 @@ import {DisableCollisions} from "../plugins/behaviours/DisableCollisions";
 import {JetpackTexture} from "../plugins/behaviours/JetpackTexture";
 import {LoseTexture} from "../plugins/behaviours/LoseTexture";
 import {v4 as uuidv4} from "uuid";
-import {getPluginType, initPlugins} from "../utils/utils";
 import {Events} from "../constants/events";
 import {Behaviours} from "../constants/behaviours";
-import {System, eventSubscription} from "@shared"
+import {System, getPluginType, initPlugins, eventSubscription} from "@shared"
 
 export class Behaviour extends System {
   behavioursData = {};

@@ -374,6 +374,10 @@ function lerp(x, y, t) {
   return (1 - t) * x + t * y;
 }
 
+function lerpArray(arr) {
+  return lerp(arr[0], arr[1], Math.random());
+}
+
 /**
  * Smoothly interpolate a number from `x` to `y` in  a spring-like manner using a delta
  * time to maintain frame rate independent movement. For details, see
@@ -942,6 +946,7 @@ export {
   seededRandom,
   degToRad,
   radToDeg,
+  lerpArray,
   isPowerOfTwo,
   ceilPowerOfTwo,
   floorPowerOfTwo,

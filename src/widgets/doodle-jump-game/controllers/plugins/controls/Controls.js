@@ -1,6 +1,6 @@
 import {GAME_SIZE} from "../../constants/game";
 import {Boosters} from "../../entities/booster";
-import {Plugin} from "../Plugin";
+import {Plugin} from "@shared";
 
 export class Controls extends Plugin {
   /**

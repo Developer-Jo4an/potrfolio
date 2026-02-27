@@ -2,14 +2,13 @@ import {Input} from "../components/Input";
 import {Gyroscope} from "../plugins/controls/Gyroscope";
 import {Keyboard} from "../plugins/controls/Keyboard";
 import {Tap} from "../plugins/controls/Tap";
-import {getPluginType, initPlugins} from "../utils/utils";
 import {clamp} from "lodash";
 import {CollisionGroups} from "../config/collision";
 import {PLATFORM} from "../entities/platform";
 import {Events} from "../constants/events";
 import {ENEMY} from "../entities/enemy";
 import {HELPER, Helpers} from "../entities/helper";
-import {System} from "@shared";
+import {System, getPluginType, initPlugins} from "@shared";
 
 export class Movement extends System {
   init() {

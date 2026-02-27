@@ -3,9 +3,9 @@ import cl from "classnames";
 import {imports, useLoadScene, useResetScene, useStateControls} from "@shared";
 import {useCarStore} from "../../model/state-machine/carStore";
 import {IGNORE_NEXT_STATES, LOSE, STATE_MACHINE, WIN} from "../../controllers/constants/stateMachine";
-import {types} from "../../controllers/constants/entities";
 import {mainSceneSettings} from "../../controllers/constants/mainSceneSettings";
 import {preload} from "../../controllers/constants/preload";
+import {types} from "../../controllers/types";
 import styles from "./Canvas.module.scss";
 
 export function Canvas() {

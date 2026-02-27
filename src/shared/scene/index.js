@@ -1,5 +1,4 @@
 export * from "./src/analytics/Analytics";
-export * from "./src/analytics/Plugin";
 
 export * from "./src/animations/AnimationPlayer";
 
@@ -115,5 +114,7 @@ export * from "./src/wrappers/base/BaseWrapper";
 export * from "./src/wrappers/pixi/PixiWrapper";
 export * from "./src/wrappers/three/ThreeWrapper";
 
-
 export * from "./src/helpers/pixi/spine";
+
+export * from "./src/plugin/utils/utils";
+export * from "./src/plugin/Plugin";

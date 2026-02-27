@@ -4,6 +4,11 @@ export function getPluginType(type) {
   return `plugin${upperFirst(type)}`;
 }
 
+export function getPlugin(type, plugins) {
+  const pluginType = getPluginType(type);
+  return plugins[pluginType];
+}
+
 export function initPlugins(system, pluginsList, props) {
   const pluginsData = pluginsList.map(([type, Plugin]) => ({
     type: getPluginType(type),

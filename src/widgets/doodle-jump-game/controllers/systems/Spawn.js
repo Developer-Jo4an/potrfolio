@@ -4,16 +4,15 @@ import {Booster} from "../plugins/generators/Booster";
 import {Helper} from "../plugins/generators/Helper";
 import {Counter} from "../components/Counter";
 import {v4 as uuidv4} from "uuid";
-import {getPluginType, initPlugins} from "../utils/utils";
 import {hide} from "../tweens/hide";
 import {fall} from "../tweens/fall";
+import {randFromWeightedArray, getPluginType, initPlugins, System, PixiComponent, SatCollider} from "@shared";
 import {PLATFORM} from "../entities/platform";
 import {GAME_SIZE} from "../constants/game";
 import {Tweens} from "../constants/tweens";
 import {ENEMY} from "../entities/enemy";
 import {BOOSTER} from "../entities/booster";
 import {HELPER} from "../entities/helper";
-import {randFromWeightedArray, System, PixiComponent, SatCollider} from "@shared"
 
 export class Spawn extends System {
   init() {
@@ -35,7 +34,7 @@ export class Spawn extends System {
         [BOOSTER, Booster],
         [HELPER, Helper],
       ],
-      {storage, eventBus, system: this, engine}
+      {storage, eventBus, system: this, engine},
     );
   }
 
@@ -112,11 +111,11 @@ export class Spawn extends System {
   createCombination({entities}, y) {
     const combinationId = uuidv4();
 
-    entities.forEach(entityProps => {
+    entities.forEach((entityProps) => {
       const entity = this.spawnEntity(entityProps, combinationId, {y});
 
       if (!!entityProps.children?.length)
-        entityProps.children.forEach(childEntityProps => {
+        entityProps.children.forEach((childEntityProps) => {
           this.spawnEntity(childEntityProps, combinationId, {eParent: entity});
         });
     });
@@ -197,7 +196,7 @@ export class Spawn extends System {
     this.addTween(ePlatform, fallTween, fallPromise, Tweens.FALL, false);
 
     Promise.all([hidePromise, fallPromise]).then(() => {
-      cChild.childUUIDS.forEach(childUUID => {
+      cChild.childUUIDS.forEach((childUUID) => {
         const eChild = this.getEntityByUUID(childUUID);
         this.destroyEntity(eChild);
       });
@@ -232,13 +231,13 @@ export class Spawn extends System {
     for (const key in combinations) {
       const combination = combinations[key];
 
-      const isAllInvisible = combination.every(eEntity => {
+      const isAllInvisible = combination.every((eEntity) => {
         const {pixiObject: view} = eEntity.get(PixiComponent);
         const {y: globalY} = view.getGlobalPosition(undefined, ticks !== 1);
         return globalY >= view.height / 2 + global.innerHeight;
       });
 
-      isAllInvisible && combination.forEach(entity => this.destroyEntity(entity));
+      isAllInvisible && combination.forEach((entity) => this.destroyEntity(entity));
     }
   }
 

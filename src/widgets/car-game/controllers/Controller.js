@@ -1,14 +1,12 @@
-import {Movement} from "./systems/Movement";
 import {Level} from "./systems/Level";
+import {Utils} from "./decorators/Utils";
 import {Game} from "./systems/Game";
-import {Camera} from "./systems/Camera";
-import {Input} from "./systems/Input";
-import {Collision} from "./systems/Collision";
-import {Event} from "./systems/Event";
-import {CarFactory} from "./Factory";
+import {Spawn} from "./systems/Spawn";
+import {CollisionUtils} from "./decorators/CollisionUtils";
 import {cloneDeep} from "lodash";
-import {GAME_SIZE, GAME_SPACE} from "./constants/game";
-import {NOT_AVAILABLE_ENTITIES_TYPES_FOR_RESET} from "./constants/reset";
+import {GAME_SIZE} from "./constants/game";
+import {gameSpace} from "./constants/gameSpace";
+import {config} from "./config/factory";
 import {
   RESIZE,
   UPDATED,
@@ -19,8 +17,12 @@ import {
   Engine,
   Collector,
   PixiRenderSystem,
+  PixiSatDebugSystem,
   Assets,
   PIXIController,
+  Factory,
+  SatRenderSystem,
+  SatCollisionSystem,
 } from "@shared";
 
 export class Controller extends PIXIController {
@@ -51,47 +53,83 @@ export class Controller extends PIXIController {
     if (this.isInitialized) return;
     this.onResized();
     this.initEngine();
+    this.initServiceData();
     this.isInitialized = true;
   }
 
   playingSelect() {
+    this.start();
+  }
+
+  start() {
     const {decorators} = this;
     const updateDecorator = decorators[UPDATE_DECORATOR_FIELD];
     updateDecorator.startUpdate();
   }
 
+  stop() {
+    const {decorators} = this;
+    const updateDecorator = decorators[UPDATE_DECORATOR_FIELD];
+    updateDecorator.stopUpdate();
+  }
+
   initEngine() {
     const {storage, app, stage, canvas, renderer, decorators, eventBus} = this;
 
-    const engine = (storage.engine = this.engine = new Engine({eventBus}));
+    const engine =
+      (storage.engine =
+      this.engine =
+        new Engine({
+          eventBus,
+          storage,
+          decorators: [Utils, CollisionUtils],
+        }));
     storage.app = app;
     storage.eventBus = eventBus;
-    storage.gameSpace = cloneDeep(GAME_SPACE);
+    storage.gameSpace = cloneDeep(gameSpace);
     storage.decorators = decorators;
     storage.stage = stage;
     storage.canvas = canvas;
     storage.renderer = renderer;
 
-    engine
-      .addSystem(new Assets({eventBus, storage, factory: new CarFactory({eventBus, storage})}))
-      .addSystem(new Game({eventBus, storage}))
-      .addSystem(new Input({eventBus, storage}))
-      .addSystem(new Level({eventBus, storage}))
-      .addSystem(new Movement({eventBus, storage}))
-      .addSystem(new Collision({eventBus, storage}))
-      .addSystem(new PixiRenderSystem({eventBus, storage}))
-      .addSystem(new Camera({eventBus, storage}))
-      .addSystem(new Event({eventBus, storage}))
-      .addSystem(new Collector({eventBus, storage}));
+    const fullProps = {eventBus, storage};
+
+    const systemsData = [
+      {System: Assets, extraProps: {factory: new Factory({eventBus, storage, config})}},
+      {System: Game},
+      {System: Level},
+      {System: Spawn},
+      {System: SatRenderSystem},
+      {System: SatCollisionSystem},
+      getIsDebug() && {System: PixiSatDebugSystem},
+      {System: PixiRenderSystem},
+      {System: Collector},
+    ].filter(Boolean);
+
+    systemsData.forEach(({System, extraProps = {}}) => {
+      engine.addSystem(new System({...fullProps, ...extraProps}));
+    });
   }
 
-  updateEngine({deltaMS, deltaTime}) {
+  initServiceData() {
+    const {storage} = this;
+    storage.serviceData = {clearFunctions: []};
+  }
+
+  get isAvailableUpdate() {
     const {
       storage: {states},
       state,
-      engine,
     } = this;
-    if (states[state]?.isAvailableUpdate) engine.update({deltaMS, deltaTime});
+
+    return states[state]?.isAvailableUpdate;
+  }
+
+  updateEngine({deltaMS, deltaTime}) {
+    const {isAvailableUpdate, engine} = this;
+    if (isAvailableUpdate) {
+      engine.update({deltaMS, deltaTime});
+    }
   }
 
   onUpdated() {
@@ -104,30 +142,19 @@ export class Controller extends PIXIController {
       stage,
       $container: {offsetWidth: width, offsetHeight: height},
     } = this;
+
     const scale = height / GAME_SIZE.height;
     stage.scale.set(scale);
-    stage.position.set((width - GAME_SIZE.width * scale) / 2, (height - GAME_SIZE.height * scale) / 2);
+
+    const x = (width - GAME_SIZE.width * scale) / 2;
+    const y = (height - GAME_SIZE.height * scale) / 2;
+    stage.position.set(x, y);
   }
 
-  reset() {
-    const {decorators} = this;
-    const updateDecorator = decorators[UPDATE_DECORATOR_FIELD];
-    updateDecorator.stopUpdate();
-
-    const {storage} = this;
-    const {
-      gameSpace: {
-        serviceData: {clearFunctions},
-      },
-    } = storage;
-    clearFunctions.forEach((clear) => clear());
-    clearFunctions.length = 0;
-    storage.gameSpace = cloneDeep(GAME_SPACE);
-
+  resetEngine() {
     const {engine} = this;
-    engine.reset();
     for (const key in engine.entities) {
-      if (NOT_AVAILABLE_ENTITIES_TYPES_FOR_RESET.includes(key)) continue;
+      if (key === "game") continue;
       const collection = engine.entities[key];
       const savedList = [...collection.list];
       savedList.forEach((entity) => {
@@ -136,7 +163,31 @@ export class Controller extends PIXIController {
       });
       savedList.length = 0;
     }
+    engine._ticks = 0;
+    engine.reset();
+  }
 
+  resetServiceData() {
+    const {storage} = this;
+    const {
+      gameSpace: {
+        serviceData: {clearFunctions},
+      },
+    } = storage;
+    clearFunctions.forEach((clear) => clear());
+    clearFunctions.length = 0;
+  }
+
+  resetGameData() {
+    const {storage} = this;
+    storage.gameSpace = cloneDeep(gameSpace);
+  }
+
+  reset() {
+    this.stop();
+    this.resetEngine();
+    this.resetServiceData();
+    this.resetGameData();
     getIsDebug() && analytics.logStatistics();
   }
 }

@@ -1,4 +1,4 @@
-import {Plugin} from "../Plugin";
+import {Plugin} from "@shared";
 
 export class Booster extends Plugin {
   createConfig() {

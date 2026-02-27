@@ -21,7 +21,6 @@ import {Behaviour} from "./systems/Behaviour";
 import {GAME_SIZE, GAME} from "./constants/game";
 import {statesData} from "./constants/state";
 import {factory} from "./config/factory";
-import {collisionConfig} from "./config/collision";
 import {
   getIsDebug,
   analytics,
@@ -116,7 +115,7 @@ export class Controller extends PIXIController {
       {System: Behaviour},
       {System: PixiRenderSystem},
       {System: SatRenderSystem},
-      {System: SatCollisionSystem, extraProps: {collisionConfig}},
+      {System: SatCollisionSystem},
       getIsDebug() && {System: PixiSatDebugSystem},
       {System: EndGame},
       {System: Game},

@@ -1,12 +1,11 @@
 import {Spring} from "../plugins/boosters/Spring";
 import {Propeller} from "../plugins/boosters/Propeller";
 import {Jetpack} from "../plugins/boosters/Jetpack";
-import {getPluginType, initPlugins} from "../utils/utils";
 import {BOOSTER, Boosters as BoosterNamespace} from "../entities/booster";
 import {PLATFORM} from "../entities/platform";
 import {CollisionGroups} from "../config/collision";
 import {Events} from "../constants/events";
-import {System} from "@shared"
+import {System, getPluginType, initPlugins} from "@shared"
 
 export class Boosters extends System {
   init() {

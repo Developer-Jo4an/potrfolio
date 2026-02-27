@@ -1,6 +1,6 @@
 import {Component} from "@shared";
-import {CAR} from "../constants/game";
+import {GAME} from "../constants/game";
 
 export class Game extends Component {
-  type = CAR;
+  type = GAME;
 }

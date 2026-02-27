@@ -1,8 +1,8 @@
 import {createStore} from "@shared";
-import {CAR} from "../../controllers/constants/game";
+import {GAME} from "../../controllers/constants/game";
 
 const {useStore: useCarStore, selectors} = createStore({
-  name: CAR,
+  name: GAME,
   state: {wrapper: null, state: null},
   syncActions: {
     setWrapper({state}, wrapper) {

@@ -15,7 +15,6 @@ class SatDebugSystem extends System {
       const cSatCollider = entity.get(SatCollider, Matrix3Component);
 
       const {collider} = cSatCollider;
-
       if (!collider) return;
 
       const globalVertices = this.getGlobalVertices(collider);

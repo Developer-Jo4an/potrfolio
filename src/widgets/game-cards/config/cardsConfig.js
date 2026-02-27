@@ -21,7 +21,7 @@ export const gameList = [
     description: "ecs, three, rapier3d, gsap"
   },
   {
-    id: "doodle-jump",
+    id: "doodleJump",
     route: ROUTES.doodleJump,
     title: "DoodleJump",
     description: "ecs, pixi, sat, gsap"
