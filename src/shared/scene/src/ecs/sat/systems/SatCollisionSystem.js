@@ -3,6 +3,7 @@ import {Entity} from "../../core/Entity";
 import {SatCollider} from "../components/SatCollider";
 import {CollisionConfig} from "../components/CollisionConfig";
 import {lerp} from "../../../../../lib/src/math/MathUtils";
+import {getPointsFromPolygon, isPolygonFullyInside} from "../utils/vertices";
 import {COLLISION_CONFIG} from "../entities/collisionConfig";
 
 /**
@@ -36,7 +37,7 @@ class SatCollisionSystem extends System {
       entityGroup.forEach(({entity: entity1, cSatCollider: cSatCollider1}) => {
         const response = {};
 
-        checkTypes.forEach(group2 => {
+        checkTypes.forEach((group2) => {
           const checkEntityGroup = entitiesData[group2];
           if (!checkEntityGroup) return;
 
@@ -49,7 +50,7 @@ class SatCollisionSystem extends System {
               entity2,
               cSatCollider2,
               group2,
-              deltaMS
+              deltaMS,
             );
           });
         });
@@ -67,24 +68,34 @@ class SatCollisionSystem extends System {
     entity2,
     cSatCollider2,
     group2,
-    deltaMS
+    deltaMS,
   ) {
-    const {isCollided, isSeparated, response} = this.getCollideData(
+    const {isCollided, isSeparated, isInner, isOuter, response} = this.getCollideData(
       cSatCollider1,
       cSatCollider2,
       deltaMS,
       group2,
-      entity2.uuid
+      entity2.uuid,
     );
 
     if (isCollided || isSeparated)
-      this.setToResponse(collisionResponseData, group2, entity2.uuid, isCollided, isSeparated, response);
+      this.setToResponse(
+        collisionResponseData,
+        group2,
+        entity2.uuid,
+        isCollided,
+        isSeparated,
+        isInner,
+        isOuter,
+        response,
+      );
   }
 
   getCollideData() {
     const {isCollided, response} = this.checkOnCollided(...arguments);
     const {isSeparated} = this.checkOnSeparated(...arguments, isCollided);
-    return {isCollided, isSeparated, response};
+    const {isInner, isOuter} = this.checkOnInside(...arguments, isCollided);
+    return {isCollided, isSeparated, isInner, isOuter, response};
   }
 
   checkOnCollided(cSatCollider1, cSatCollider2, deltaMS) {
@@ -97,7 +108,7 @@ class SatCollisionSystem extends System {
 
     const matchesArray = [
       [cSatCollider1, savedColliderData1],
-      [cSatCollider2, savedColliderData2]
+      [cSatCollider2, savedColliderData2],
     ];
 
     let acc = deltaMS;
@@ -111,7 +122,7 @@ class SatCollisionSystem extends System {
           cCollider.collider,
           lerp(cCollider.prevX, savedData.x, progress),
           lerp(cCollider.prevY, savedData.y, progress),
-          lerp(cCollider.prevAngle, savedData.angle, progress)
+          lerp(cCollider.prevAngle, savedData.angle, progress),
         );
       });
 
@@ -139,15 +150,31 @@ class SatCollisionSystem extends System {
     return {isSeparated};
   }
 
-  setToResponse(collisionResponseData, group2, entity2UUID, isCollided, isSeparated, response) {
+  checkOnInside(cSatCollider1, cSatCollider2, deltaMS, group2, entity2UUID, isCollided) {
+    if (!isCollided) return {isInner: false, isOuter: false};
+
+    const isInner = isPolygonFullyInside(
+      getPointsFromPolygon(cSatCollider1.collider),
+      getPointsFromPolygon(cSatCollider2.collider),
+    );
+
+    const isOuter = isPolygonFullyInside(
+      getPointsFromPolygon(cSatCollider2.collider),
+      getPointsFromPolygon(cSatCollider1.collider),
+    );
+
+    return {isInner, isOuter};
+  }
+
+  setToResponse(collisionResponseData, group2, entity2UUID, isCollided, isSeparated, isInner, isOuter, response) {
     const responseData = (collisionResponseData[group2] ??= {});
-    responseData[entity2UUID] = {isCollided, isSeparated, response};
+    responseData[entity2UUID] = {isCollided, isSeparated, isInner, isOuter, response};
   }
 
   prepareEntitiesData() {
     const entities = {};
 
-    this.filterEntitiesByClass(SatCollider).forEach(entity => {
+    this.filterEntitiesByClass(SatCollider).forEach((entity) => {
       const cSatCollider = entity.get(SatCollider);
 
       const {collider, group, isActive, response} = cSatCollider;

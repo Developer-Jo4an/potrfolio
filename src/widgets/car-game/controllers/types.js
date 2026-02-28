@@ -6,7 +6,6 @@ import {STATE_MACHINE} from "./constants/stateMachine";
 import {MAIN_CONTAINER} from "./constants/mainContainer";
 import {ROAD_CHUNKS_CONTAINER} from "./constants/roadChunkContainer";
 import {ROAD_CHUNK} from "./constants/entities";
-import {collisionConfig, CollisionGroups} from "./config/collision";
 import {
   Collection,
   Matrix3Component,
@@ -16,8 +15,6 @@ import {
   SatCollider,
   State,
   PixiDebug,
-  CollisionConfig,
-  COLLISION_CONFIG,
 } from "@shared";
 
 export const types = {
@@ -34,7 +31,7 @@ export const types = {
     components: [
       {Class: PixiComponent},
       {Class: Matrix3Component},
-      {Class: SatCollider, props: {group: CollisionGroups.ACTOR}},
+      {Class: SatCollider},
       {Class: PixiDebug, props: {strokeSettings: {width: 2, color: 0x00ff00}}},
       {Class: Collection},
       {Class: CPromise},
@@ -46,13 +43,10 @@ export const types = {
     components: [
       {Class: PixiComponent},
       {Class: Matrix3Component},
-      {Class: SatCollider, props: {group: CollisionGroups.ROAD_CHUNK}},
+      {Class: SatCollider},
       {Class: PixiDebug, props: {strokeSettings: {width: 2, color: 0xff0000}}},
       {Class: Collection},
       {Class: Polygon},
     ],
-  },
-  [COLLISION_CONFIG]: {
-    components: [{Class: CollisionConfig, props: {collisionConfig}}],
   },
 };

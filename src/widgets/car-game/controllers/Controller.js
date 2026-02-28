@@ -7,6 +7,7 @@ import {RoadChunkUtils} from "./decorators/RoadChunkUtils";
 import {Interactive} from "./systems/Interactive";
 import {Movement} from "./systems/Movement";
 import {Camera} from "./systems/Camera";
+import {Collision} from "./systems/Collision";
 import {cloneDeep} from "lodash";
 import {GAME_SIZE} from "./constants/game";
 import {gameSpace} from "./constants/gameSpace";
@@ -105,9 +106,9 @@ export class Controller extends PIXIController {
       {System: Level},
       {System: Spawn},
       {System: Movement},
-      {System: Camera},
       {System: SatRenderSystem},
-      {System: SatCollisionSystem},
+      {System: Collision},
+      {System: Camera},
       getIsDebug() && {System: PixiSatDebugSystem},
       {System: PixiRenderSystem},
       {System: Collector},
