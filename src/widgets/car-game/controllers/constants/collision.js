@@ -1,3 +1,4 @@
 export const CollisionGroups = {
-  ACTOR: "actor"
-}
+  ACTOR: "actor",
+  ROAD_CHUNK: "roadChunk",
+};

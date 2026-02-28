@@ -18,6 +18,12 @@ export class CollisionUtils extends Utils {
     return new SAT.Polygon(position, points);
   }
 
+  createColliderFromPoints(x, y, points) {
+    const position = new SAT.Vector(x, y);
+    const polygonPoints = points.map(({x, y}) => new SAT.Vector(x, y));
+    return new SAT.Polygon(position, polygonPoints);
+  }
+
   runOnCollisions(entity, group, callback) {
     const {isTrackCollision, response} = entity.get(SatCollider);
 

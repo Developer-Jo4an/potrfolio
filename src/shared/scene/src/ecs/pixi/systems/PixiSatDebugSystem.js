@@ -4,27 +4,6 @@ import {SatDebugSystem} from "../../sat/systems/SatDebugSystem";
 import {PixiDebug} from "../components/PixiDebug";
 
 class PixiSatDebugSystem extends SatDebugSystem {
-  constructor() {
-    super(...arguments);
-
-    this.createContainer();
-  }
-
-  createContainer() {
-    const debugContainer = (this.debugContainer = new PIXI.Container());
-    debugContainer.label = "debugContainer";
-    debugContainer.zIndex = Number.MAX_VALUE;
-  }
-
-  initializationLevelSelect() {
-    const {
-      storage: {stage},
-      debugContainer,
-    } = this;
-
-    stage.addChild(debugContainer);
-  }
-
   paint(entity, vertices) {
     const cPixiDebug = entity.get(PixiDebug);
     const cPixi = entity.get(PixiComponent);
@@ -37,6 +16,7 @@ class PixiSatDebugSystem extends SatDebugSystem {
 
   initGraphics(entity, cPixiDebug, cPixi) {
     const graphics = (cPixiDebug.graphics = new PIXI.Graphics());
+    graphics.zIndex = Number.MAX_VALUE;
     graphics.label = cPixi.pixiObject.label ?? cPixi.uuid;
 
     this.addSideEffect({
@@ -46,10 +26,13 @@ class PixiSatDebugSystem extends SatDebugSystem {
   }
 
   addToContainer(cPixiDebug) {
-    const {eventBus, debugContainer} = this;
+    const {
+      eventBus,
+      storage: {stage},
+    } = this;
     const {graphics} = cPixiDebug;
 
-    debugContainer.addChild(graphics);
+    stage.addChild(graphics);
 
     const clear = eventSubscription({
       target: eventBus,
@@ -75,11 +58,13 @@ class PixiSatDebugSystem extends SatDebugSystem {
   }
 
   drawPolygon(cPixiDebug, cPixi, vertices) {
-    const {debugContainer} = this;
+    const {
+      storage: {stage},
+    } = this;
 
     const polygonPoints = vertices.map(({x, y}) => {
       const globalPoint = cPixi.pixiObject.parent.toGlobal({x, y});
-      return debugContainer.toLocal(globalPoint);
+      return stage.toLocal(globalPoint);
     });
 
     const {graphics, strokeSettings} = cPixiDebug;
@@ -88,11 +73,6 @@ class PixiSatDebugSystem extends SatDebugSystem {
       .clear()
       .poly(polygonPoints)
       .stroke(strokeSettings ?? {width: 2, color: 0x0000ff});
-  }
-
-  reset() {
-    super.reset();
-    this.debugContainer.removeFromParent();
   }
 }
 

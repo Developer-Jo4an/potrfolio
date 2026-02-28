@@ -1,4 +1,5 @@
 import {Game} from "./components/Game";
+import {Polygon} from "./components/Polygon";
 import {ACTOR} from "./constants/actor";
 import {STATE_MACHINE} from "./constants/stateMachine";
 import {CollisionGroups} from "./constants/collision";
@@ -17,7 +18,6 @@ import {
   CollisionConfig,
   COLLISION_CONFIG,
 } from "@shared";
-import {Polygon} from "./components/Polygon";
 
 export const types = {
   game: {
@@ -33,7 +33,7 @@ export const types = {
     components: [
       {Class: PixiComponent},
       {Class: Matrix3Component},
-      {Class: SatCollider, props: {group: CollisionGroups.ACTOR, isTrackCollision: true}},
+      {Class: SatCollider, props: {group: CollisionGroups.ACTOR}},
       {Class: PixiDebug, props: {strokeSettings: {width: 2, color: 0x00ff00}}},
       {Class: Collection},
       {Class: CPromise},
@@ -44,7 +44,7 @@ export const types = {
     components: [
       {Class: PixiComponent},
       {Class: Matrix3Component},
-      {Class: SatCollider, props: {group: CollisionGroups.ACTOR, isTrackCollision: true}},
+      {Class: SatCollider, props: {group: CollisionGroups.ROAD_CHUNK}},
       {Class: PixiDebug, props: {strokeSettings: {width: 2, color: 0xff0000}}},
       {Class: Collection},
       {Class: Polygon},

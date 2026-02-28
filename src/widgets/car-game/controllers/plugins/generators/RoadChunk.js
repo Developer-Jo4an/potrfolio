@@ -13,6 +13,7 @@ export class RoadChunk extends Generator {
     this.initMatrix(eRoadChunk, ...arguments);
     this.initPolygon(eRoadChunk, ...arguments);
     this.initView(eRoadChunk, ...arguments);
+    this.initCollider(eRoadChunk, ...arguments);
 
     return eRoadChunk;
   }
@@ -128,5 +129,19 @@ export class RoadChunk extends Generator {
 
     asset.x = cMatrix.x;
     asset.y = cMatrix.y;
+  }
+
+  initCollider(eRoadChunk) {
+    const {system} = this;
+    const {
+      cCollider,
+      cPolygon: {
+        polygon: {points},
+      },
+      cMatrix,
+    } = system.getRoadChunkInfo(eRoadChunk);
+
+    const polygonPoints = chunk(points, 2).map(([x, y]) => ({x: x - cMatrix.x, y: y - cMatrix.y}));
+    cCollider.collider = system.createColliderFromPoints(0, 0, polygonPoints);
   }
 }
