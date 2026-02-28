@@ -44,11 +44,21 @@ export class RoadChunk extends Generator {
   }
 
   calculatePolygonData(eRoadChunk) {
-    const {system} = this;
+    const {
+      system,
+      storage: {
+        mainSceneSettings: {angle: directionAngle},
+      },
+    } = this;
+
     const {
       cPolygon,
-      settings: {angle: directionAngle, length: chunkLength, size},
+      settings: {length: chunkLength, size},
     } = system.getRoadChunkInfo(eRoadChunk);
+
+    const {
+      cMovement: {angle: currentAngle},
+    } = system.getActorInfo();
 
     const ePrevRoadChunk = system.getRoadChunkByIndex(-2);
 
@@ -66,7 +76,7 @@ export class RoadChunk extends Generator {
       endSize = lerpArray(size);
 
       length = lerpArray(chunkLength);
-      angle = randFromArray(directionAngle);
+      angle = currentAngle;
 
       xStart = GAME_SIZE.width / 2;
       yStart = GAME_SIZE.height;
@@ -112,11 +122,17 @@ export class RoadChunk extends Generator {
   }
 
   initView(eRoadChunk) {
-    const {system} = this;
+    const {
+      system,
+      storage: {
+        mainSceneSettings: {angle},
+      },
+    } = this;
+
     const {
       cPixi,
       cMatrix,
-      settings: {angle, length, size, tileScale},
+      settings: {length, size, tileScale},
     } = system.getRoadChunkInfo(eRoadChunk);
 
     const asset = (cPixi.pixiObject = system.getAsset(eRoadChunk, ROAD_CHUNK));

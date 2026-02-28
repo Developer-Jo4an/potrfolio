@@ -9,6 +9,11 @@ export function getPlugin(type, plugins) {
   return plugins[pluginType];
 }
 
+export function generate(type, plugins, ...args) {
+  const plugin = getPlugin(type, plugins);
+  return plugin.generate(...args);
+}
+
 export function initPlugins(system, pluginsList, props) {
   const pluginsData = pluginsList.map(([type, Plugin]) => ({
     type: getPluginType(type),

@@ -1,11 +1,12 @@
 import {Game} from "./components/Game";
 import {Polygon} from "./components/Polygon";
+import {Movement} from "./components/Movement";
 import {ACTOR} from "./constants/actor";
 import {STATE_MACHINE} from "./constants/stateMachine";
-import {CollisionGroups} from "./constants/collision";
 import {MAIN_CONTAINER} from "./constants/mainContainer";
 import {ROAD_CHUNKS_CONTAINER} from "./constants/roadChunkContainer";
 import {ROAD_CHUNK} from "./constants/entities";
+import {collisionConfig, CollisionGroups} from "./config/collision";
 import {
   Collection,
   Matrix3Component,
@@ -38,6 +39,7 @@ export const types = {
       {Class: Collection},
       {Class: CPromise},
       {Class: Tween},
+      {Class: Movement},
     ],
   },
   [ROAD_CHUNK]: {
@@ -51,6 +53,6 @@ export const types = {
     ],
   },
   [COLLISION_CONFIG]: {
-    components: [{Class: CollisionConfig, props: {collisionConfig: {}}}],
+    components: [{Class: CollisionConfig, props: {collisionConfig}}],
   },
 };

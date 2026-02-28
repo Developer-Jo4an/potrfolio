@@ -1,4 +1,4 @@
-import {System, Entity} from "@shared";
+import {System, Entity, randFromArray} from "@shared";
 import {ACTOR} from "../constants/actor";
 import {MAIN_CONTAINER} from "../constants/mainContainer";
 import {ROAD_CHUNKS_CONTAINER} from "../constants/roadChunkContainer";
@@ -8,6 +8,7 @@ export class Level extends System {
     this.initMainContainer();
     this.initRoadChunksContainer();
     this.initActor();
+    this.initStartAngle();
   }
 
   initMainContainer() {
@@ -17,11 +18,13 @@ export class Level extends System {
   }
 
   initMainContainerView() {
-    const {storage: {stage}} = this;
+    const {
+      storage: {stage},
+    } = this;
 
     const {entity: eMainContainer, cPixi} = this.getMainContainerInfo();
 
-    const asset = cPixi.pixiObject = this.getAsset(eMainContainer, MAIN_CONTAINER);
+    const asset = (cPixi.pixiObject = this.getAsset(eMainContainer, MAIN_CONTAINER));
     stage.addChild(asset);
   }
 
@@ -34,7 +37,7 @@ export class Level extends System {
   initRoadChunksContainerView() {
     const {entity: eRoadChunkContainer, cPixi} = this.getRoadChunksContainerInfo();
 
-    const asset = cPixi.pixiObject = this.getAsset(eRoadChunkContainer, ROAD_CHUNKS_CONTAINER);
+    const asset = (cPixi.pixiObject = this.getAsset(eRoadChunkContainer, ROAD_CHUNKS_CONTAINER));
 
     const {view: mainContainerView} = this.getMainContainerInfo();
     mainContainerView.addChild(asset);
@@ -48,12 +51,17 @@ export class Level extends System {
   }
 
   initActorView() {
-    const {entity: eActor, cMatrix, cPixi, settings: {width, height, x, y}} = this.getActorInfo();
+    const {
+      entity: eActor,
+      cMatrix,
+      cPixi,
+      settings: {width, height, x, y},
+    } = this.getActorInfo();
 
-    const asset = cPixi.pixiObject = this.getAsset(eActor, ACTOR);
+    const asset = (cPixi.pixiObject = this.getAsset(eActor, ACTOR));
 
-    const scaleX = cMatrix.scaleX = width / asset.width;
-    const scaleY = cMatrix.scaleY = height / asset.height;
+    const scaleX = (cMatrix.scaleX = width / asset.width);
+    const scaleY = (cMatrix.scaleY = height / asset.height);
     asset.scale.set(scaleX, scaleY);
 
     asset.x = cMatrix.x = x;
@@ -66,5 +74,17 @@ export class Level extends System {
   initActorCollider() {
     const {cCollider, view: actorView} = this.getActorInfo();
     cCollider.collider = this.createCollider(actorView.x, actorView.y, actorView.width, actorView.height);
+  }
+
+  initStartAngle() {
+    const {
+      storage: {
+        mainSceneSettings: {angle},
+      },
+    } = this;
+
+    const {cMovement, cMatrix, view: characterView} = this.getActorInfo();
+
+    cMovement.angle = cMatrix.rotation = characterView.rotation = randFromArray(angle);
   }
 }

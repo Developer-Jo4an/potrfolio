@@ -4,6 +4,7 @@ import {Game} from "./systems/Game";
 import {Spawn} from "./systems/Spawn";
 import {CollisionUtils} from "./decorators/CollisionUtils";
 import {RoadChunkUtils} from "./decorators/RoadChunkUtils";
+import {Interactive} from "./systems/Interactive";
 import {cloneDeep} from "lodash";
 import {GAME_SIZE} from "./constants/game";
 import {gameSpace} from "./constants/gameSpace";
@@ -98,6 +99,7 @@ export class Controller extends PIXIController {
     const systemsData = [
       {System: Assets, extraProps: {factory: new Factory({eventBus, storage, config})}},
       {System: Game},
+      {System: Interactive},
       {System: Level},
       {System: Spawn},
       {System: SatRenderSystem},

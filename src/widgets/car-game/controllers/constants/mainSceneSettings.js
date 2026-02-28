@@ -3,13 +3,13 @@ export const mainSceneSettings = {
     width: 50,
     height: 89,
     x: 180,
-    y: 600,
+    y: 800,
   },
   roadChunk: {
-    angle: [Math.PI / 4, (Math.PI / 4) * 3],
     length: [500, 800],
     size: [150, 300],
     tileScale: 0.3,
   },
+  angle: [Math.PI / 4, (Math.PI / 4) * 3],
   camera: {trackingBoundary: 600},
 };
