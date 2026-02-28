@@ -53,7 +53,7 @@ export class Movement extends System {
     cMatrix.x += deltaX;
     cMatrix.y -= deltaY;
 
-    cMovement.currentSpeed = Math.min(distance / deltaS, maxSpeed);
+    cMovement.currentSpeed = Math.min(currentSpeed + acceleration * deltaS, maxSpeed);
   }
 
   onClick() {
