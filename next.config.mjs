@@ -1,21 +1,21 @@
 /** @type {import("next").NextConfig} */
 
 const nextConfig = {
-  output: 'export',
+  output: "export",
   reactStrictMode: false,
   images: {
-    remotePatterns: []
+    remotePatterns: [],
   },
   webpack(config) {
     config.experiments = {
       ...config.experiments,
       asyncWebAssembly: true,
       syncWebAssembly: true,
-      layers: true
-    }
+      layers: true,
+    };
 
     return config;
-  }
+  },
 };
 
 export default nextConfig;

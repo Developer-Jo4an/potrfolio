@@ -23,6 +23,6 @@
     "enabled": true
   },
   "files": {
-    "includes": ["src/**", "pages/**"]
+    "includes": ["src/**", "pages/**", "next.config.mjs"]
   }
 }
