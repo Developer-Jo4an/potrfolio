@@ -1,4 +1,6 @@
 export const mainSceneSettings = {
+  angle: [Math.PI / 4, (Math.PI / 4) * 3],
+
   actor: {
     width: 50,
     height: 89,
@@ -13,6 +15,8 @@ export const mainSceneSettings = {
     size: [150, 300],
     tileScale: 0.3,
   },
-  angle: [Math.PI / 4, (Math.PI / 4) * 3],
-  camera: {trackingBoundary: 600},
+  camera: {
+    trackBorderX: 180,
+    trackBorderY: 600
+  },
 };

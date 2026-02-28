@@ -96,8 +96,8 @@ export class Level extends System {
       },
     } = this;
 
-    const {cMovement, cMatrix, view: characterView} = this.getActorInfo();
+    const {cMovement, cMatrix, view: actorView} = this.getActorInfo();
 
-    cMovement.angle = cMatrix.rotation = characterView.rotation = randFromArray(angle);
+    cMovement.angle = cMatrix.rotation = actorView.rotation = randFromArray(angle);
   }
 }
