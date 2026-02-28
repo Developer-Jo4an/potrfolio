@@ -1,4 +1,4 @@
-import * as Bowser from "bowser";
+import Bowser from "bowser";
 
 export function getBrowserData() {
   return global.navigator ? Bowser.getParser(global.navigator.userAgent) : null;
