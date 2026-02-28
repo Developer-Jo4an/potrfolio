@@ -30,7 +30,7 @@ export class ChangeTexture extends Behaviour {
 
     const clip = view.getChildByLabel(clipName);
 
-    view.children.forEach(child => {
+    view.children.forEach((child) => {
       const isEqualClip = child === clip;
       child.visible = isEqualClip;
       child.scale.set(+isEqualClip);

@@ -42,12 +42,12 @@ export function Boosters({gameSpace, updateProps}) {
       value: count,
       child: (
         <div className={styles[background.className]}>
-          <Image src={background.src}/>
+          <Image src={background.src} />
         </div>
       ),
-      timeout
+      timeout,
     };
   });
 
-  return <BottomMenu ref={elementsRef} buttons={boosterButtons} mod={MODES.orange}/>;
+  return <BottomMenu ref={elementsRef} buttons={boosterButtons} mod={MODES.orange} />;
 }

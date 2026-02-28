@@ -1,2 +1,1 @@
-export const gameSpace = {
-};
+export const gameSpace = {};

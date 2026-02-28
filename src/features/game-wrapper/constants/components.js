@@ -6,11 +6,11 @@ import {Loader} from "@shared";
 export const ComponentTypes = {
   BACKGROUND: "background",
   TOP_MENU: "topMenu",
-  LOADER: "loader"
+  LOADER: "loader",
 };
 
 export const components = {
   [ComponentTypes.BACKGROUND]: Background,
   [ComponentTypes.TOP_MENU]: TopMenu,
-  [ComponentTypes.LOADER]: Loader
+  [ComponentTypes.LOADER]: Loader,
 };

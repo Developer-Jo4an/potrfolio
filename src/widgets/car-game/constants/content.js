@@ -6,11 +6,11 @@ export default {
   menu: {
     lifes: {
       background: {img: {src: "widgets/car-game/stats-button-background.png"}},
-      img: {src: "widgets/car-game/lifes-stat.png"}
+      img: {src: "widgets/car-game/lifes-stat.png"},
     },
     score: {
       background: {img: {src: "widgets/car-game/stats-button-background.png"}},
-      img: {src: "widgets/car-game/score-stat.png"}
+      img: {src: "widgets/car-game/score-stat.png"},
     },
     pause: {
       background: {src: "widgets/car-game/control-button-background.png"},
@@ -20,19 +20,17 @@ export default {
           id: ON,
           text: "Продолжить",
           className: "continueButton",
-          background: {src: "widgets/car-game/end-game/continue.png"}
+          background: {src: "widgets/car-game/end-game/continue.png"},
         },
         {
           id: OFF,
           text: "На главную",
           className: "closeButton",
-          background: {src: "widgets/car-game/end-game/close.png"}
-        }
-      ]
+          background: {src: "widgets/car-game/end-game/close.png"},
+        },
+      ],
     },
-    sound: {background: {src: "widgets/car-game/control-button-background.png"}}
+    sound: {background: {src: "widgets/car-game/control-button-background.png"}},
   },
-  endModal() {
-
-  }
+  endModal() {},
 };

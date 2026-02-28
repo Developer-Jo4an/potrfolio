@@ -22,7 +22,7 @@ export class PIXILoader extends BaseLoader {
 
     this._initPromise = PIXI.Assets.init({
       texturePreference: {resolution: PIXI_APP_CONFIG.resolution, format: ["png", "webp"]},
-      preferences: {crossOrigin: "anonymous"}
+      preferences: {crossOrigin: "anonymous"},
     }).then(() => {
       this._isInitialized = true;
     });
@@ -32,7 +32,7 @@ export class PIXILoader extends BaseLoader {
     return Promise.all(
       assets.map(({name, type, src}) => {
         return this[`load${upperFirst(type)}`](name, src);
-      })
+      }),
     );
   }
 

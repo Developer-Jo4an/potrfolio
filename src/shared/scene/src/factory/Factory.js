@@ -19,14 +19,13 @@ export class Factory {
     this.defaultProperties = properties;
   }
 
-  getItemByType(type, data) {
-  }
+  getItemByType(type, data) {}
 
   createItem(type, data = {}) {
     const {
       defaultProperties,
       defaultProperties: {args = []},
-      config
+      config,
     } = this;
 
     const fullData = {...defaultProperties, ...data};

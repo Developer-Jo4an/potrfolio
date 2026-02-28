@@ -8,19 +8,21 @@ import {useSound} from "../../model/hooks/useSound";
 import styles from "./GameWrapper.module.scss";
 
 export function GameWrapper({fullProps, setFullProps, list}) {
-  const updateProps = useCallback(object => {
-    const isHasChanges = Object.entries(object).some(([key, value]) => {
-      return value !== fullProps[key];
-    });
-
-    if (isHasChanges)
-      setFullProps(prev => {
-        const newState = {...prev};
-        for (const key in object)
-          newState[key] = object[key];
-        return newState;
+  const updateProps = useCallback(
+    (object) => {
+      const isHasChanges = Object.entries(object).some(([key, value]) => {
+        return value !== fullProps[key];
       });
-  }, [fullProps]);
+
+      if (isHasChanges)
+        setFullProps((prev) => {
+          const newState = {...prev};
+          for (const key in object) newState[key] = object[key];
+          return newState;
+        });
+    },
+    [fullProps],
+  );
 
   const pause = usePause(fullProps);
   const sound = useSound(fullProps);
@@ -34,7 +36,7 @@ export function GameWrapper({fullProps, setFullProps, list}) {
         const TotalComponent = Component ?? components[type];
         const truthProps = isFunction(props) ? props(fullProps) : {...fullProps, ...props};
         const totalProps = {...truthProps, pause, sound};
-        return <TotalComponent key={index} {...totalProps} updateProps={updateProps}/>;
+        return <TotalComponent key={index} {...totalProps} updateProps={updateProps} />;
       })}
     </div>
   );

@@ -10,9 +10,12 @@ export function useEndGame({gameSpace}) {
   const {redirect} = useAppCallbacks();
   const {names, add} = useModalProvider();
 
-  return useCallback(({status}) => {
-    wrapper.state = status;
-    const modalData = endModal({wrapper, redirect, status, modalNames: names, distance: gameSpace?.score});
-    add(modalData);
-  }, [wrapper, gameSpace]);
+  return useCallback(
+    ({status}) => {
+      wrapper.state = status;
+      const modalData = endModal({wrapper, redirect, status, modalNames: names, distance: gameSpace?.score});
+      add(modalData);
+    },
+    [wrapper, gameSpace],
+  );
 }

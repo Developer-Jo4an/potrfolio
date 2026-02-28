@@ -12,37 +12,37 @@ export default {
       type: BACK,
       img: {src: "widgets/tile-explorer-game/backBooster.png", className: "boosterImage"},
       timeout: 1000,
-      background: {className: "background", src: "widgets/tile-explorer-game/booster-background.png"}
+      background: {className: "background", src: "widgets/tile-explorer-game/booster-background.png"},
     },
     {
       type: MIX,
       img: {src: "widgets/tile-explorer-game/mixBooster.png", className: "boosterImage"},
       timeout: 1000,
-      background: {className: "background", src: "widgets/tile-explorer-game/booster-background.png"}
+      background: {className: "background", src: "widgets/tile-explorer-game/booster-background.png"},
     },
     {
       type: HELP,
       img: {src: "widgets/tile-explorer-game/helpBooster.png", className: "boosterImage"},
       timeout: 1000,
-      background: {className: "background", src: "widgets/tile-explorer-game/booster-background.png"}
-    }
+      background: {className: "background", src: "widgets/tile-explorer-game/booster-background.png"},
+    },
   ],
   menu: {
     lifes: {
       background: {
         img: {
-          src: "widgets/tile-explorer-game/stats-button-background.png"
-        }
+          src: "widgets/tile-explorer-game/stats-button-background.png",
+        },
       },
-      img: {src: "widgets/tile-explorer-game/lifes-stat.png"}
+      img: {src: "widgets/tile-explorer-game/lifes-stat.png"},
     },
     score: {
       background: {
         img: {
-          src: "widgets/tile-explorer-game/stats-button-background.png"
-        }
+          src: "widgets/tile-explorer-game/stats-button-background.png",
+        },
       },
-      img: {src: "widgets/tile-explorer-game/score-stat.png"}
+      img: {src: "widgets/tile-explorer-game/score-stat.png"},
     },
     pause: {
       background: {src: "widgets/tile-explorer-game/control-button-background.png"},
@@ -52,17 +52,17 @@ export default {
           id: ON,
           text: "Продолжить",
           className: "continueButton",
-          background: {src: "widgets/tile-explorer-game/end-game/continue.png"}
+          background: {src: "widgets/tile-explorer-game/end-game/continue.png"},
         },
         {
           id: OFF,
           text: "На главную",
           className: "closeButton",
-          background: {src: "widgets/tile-explorer-game/end-game/close.png"}
-        }
-      ]
+          background: {src: "widgets/tile-explorer-game/end-game/close.png"},
+        },
+      ],
     },
-    sound: {background: {src: "widgets/tile-explorer-game/control-button-background.png"}}
+    sound: {background: {src: "widgets/tile-explorer-game/control-button-background.png"}},
   },
   endModal({status, wrapper, currentTime, modalNames, score, redirect}) {
     return {
@@ -78,9 +78,9 @@ export default {
             {
               label: "Время",
               img: "widgets/tile-explorer-game/stats/lifes.png",
-              value: `${config.timer - currentTime} c`
-            }
-          ]
+              value: `${config.timer - currentTime} c`,
+            },
+          ],
         },
         buttons: {
           mod: GAME_END_MODES.blue,
@@ -94,8 +94,8 @@ export default {
                 async onClick() {
                   await wrapper.reset();
                   wrapper.state = getDefaultState(STATE_MACHINE);
-                }
-              }
+                },
+              },
             },
             {
               isDisposable: true,
@@ -105,12 +105,12 @@ export default {
               events: {
                 onClick() {
                   redirect(ROUTES.index);
-                }
-              }
-            }
-          ]
-        }
-      }
+                },
+              },
+            },
+          ],
+        },
+      },
     };
-  }
+  },
 };

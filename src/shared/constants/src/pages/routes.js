@@ -4,5 +4,5 @@ export const ROUTES = {
   dunkShot: "/dunk-shot",
   car: "/car",
   tileExplorer: "/tile-explorer",
-  doodleJump: "/doodle-jump"
+  doodleJump: "/doodle-jump",
 };

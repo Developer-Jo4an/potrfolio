@@ -24,7 +24,7 @@ export class Utils extends Decorator {
 
     const {
       bounds,
-      bounds: {tree, shelf, queue}
+      bounds: {tree, shelf, queue},
     } = cBounds;
 
     return {cBounds, bounds, tree, shelf, queue};
@@ -86,7 +86,7 @@ export class Utils extends Decorator {
       cMatrix3,
       cPromise,
       cTween,
-      cell: {x, y, z, isBlocked, isResolved, isInsidePool, type, id}
+      cell: {x, y, z, isBlocked, isResolved, isInsidePool, type, id},
     };
   }
 
@@ -96,7 +96,7 @@ export class Utils extends Decorator {
     const cQueue = eShelf.get(Queue);
     const {queue, prevQueues, max} = cQueue;
 
-    const types = queue.map(eCell => eCell.get(Cell).type);
+    const types = queue.map((eCell) => eCell.get(Cell).type);
 
     const cPixi = eShelf.get(PixiComponent);
     const {pixiObject: view} = cPixi;
@@ -144,7 +144,7 @@ export class Utils extends Decorator {
   findInTree(tree, callback) {
     let result;
 
-    this.runTree(tree, cellData => {
+    this.runTree(tree, (cellData) => {
       const isTruth = callback(cellData);
 
       if (isTruth) {
@@ -194,8 +194,8 @@ export class Utils extends Decorator {
   calculateIsBlocked(tree, cellX, cellY, cellZ) {
     const {
       storage: {
-        mainSceneSettings: {shifts}
-      }
+        mainSceneSettings: {shifts},
+      },
     } = this;
 
     let isHasUpper = false;
@@ -258,10 +258,10 @@ export class Utils extends Decorator {
     const eCells = this.getEntitiesByType(CELL).list;
 
     return this.getCellInfo(
-      eCells.find(eCell => {
+      eCells.find((eCell) => {
         const {x, y, z} = eCell.get(Cell);
         return x === cellX && y === cellY && z === cellZ;
-      })
+      }),
     );
   }
 
@@ -269,10 +269,10 @@ export class Utils extends Decorator {
     const eCells = this.getEntitiesByType(CELL).list;
 
     return this.getCellInfo(
-      eCells.find(eCell => {
+      eCells.find((eCell) => {
         const {id: uid} = eCell.get(Cell);
         return uid === id;
-      })
+      }),
     );
   }
 
@@ -294,7 +294,7 @@ export class Utils extends Decorator {
 
     const newQueue = [...prevQueue];
 
-    const lastCellByCurrentType = newQueue.findLastIndex(eCell => {
+    const lastCellByCurrentType = newQueue.findLastIndex((eCell) => {
       const {type: cellType} = this.getCellInfo(eCell);
       return cellType === type;
     });
@@ -321,9 +321,9 @@ export class Utils extends Decorator {
     const {
       storage: {
         mainSceneSettings: {
-          shelf: {target}
-        }
-      }
+          shelf: {target},
+        },
+      },
     } = this;
 
     return arr.reduce((acc, _, i) => {
@@ -336,9 +336,9 @@ export class Utils extends Decorator {
     const {
       storage: {
         mainSceneSettings: {
-          shelf: {target}
-        }
-      }
+          shelf: {target},
+        },
+      },
     } = this;
 
     const truthCombination = {};

@@ -51,7 +51,7 @@ export class Engine {
   initDecorators(decoratorClasses) {
     const {decorators, storage, eventBus} = this;
 
-    decoratorClasses.forEach(DecoratorCls => {
+    decoratorClasses.forEach((DecoratorCls) => {
       const decorator = new DecoratorCls({eventBus, storage});
       decorator.engine = this;
       decorators.add(decorator);
@@ -70,7 +70,7 @@ export class Engine {
 
     systems.sort((a, b) => a.updateOrder - b.updateOrder);
 
-    decorators.list.forEach(decorator => {
+    decorators.list.forEach((decorator) => {
       decorator.rollDescriptors(system);
     });
 
@@ -138,11 +138,11 @@ export class Engine {
    * @param type
    */
   onComponentAdded({
-                     data: {
-                       component,
-                       component: {type}
-                     }
-                   }) {
+    data: {
+      component,
+      component: {type},
+    },
+  }) {
     this.checkComponentCollection(type, component.constructor);
   }
 
@@ -152,11 +152,11 @@ export class Engine {
    * @param type
    */
   onComponentRemoved({
-                       data: {
-                         component,
-                         component: {type}
-                       }
-                     }) {
+    data: {
+      component,
+      component: {type},
+    },
+  }) {
     this.checkComponentCollection(type, component.constructor);
 
     this.components[type].remove(component);
@@ -175,11 +175,11 @@ export class Engine {
    * @param type
    */
   onComponentCreated({
-                       data: {
-                         component,
-                         component: {type}
-                       }
-                     }) {
+    data: {
+      component,
+      component: {type},
+    },
+  }) {
     this.checkComponentCollection(type, component.constructor);
 
     this.components[type].add(component);
@@ -216,11 +216,11 @@ export class Engine {
    * @param type
    */
   onEntityRemoved({
-                    data: {
-                      entity,
-                      entity: {type}
-                    }
-                  }) {
+    data: {
+      entity,
+      entity: {type},
+    },
+  }) {
     this.checkEntityCollection(type);
     this.entities[type].remove(entity);
   }
@@ -231,11 +231,11 @@ export class Engine {
    * @param type
    */
   onEntityCreated({
-                    data: {
-                      entity,
-                      entity: {type}
-                    }
-                  }) {
+    data: {
+      entity,
+      entity: {type},
+    },
+  }) {
     this.checkEntityCollection(type);
     this.entities[type].add(entity);
   }
@@ -289,9 +289,9 @@ export class Engine {
     const first = components[0];
     if (!this.componentsClasses.has(first)) return [];
     return this.componentsClasses
-    .get(first)
-    .list.filter((component) => component.entity.isInherits(components))
-    .map((component) => component.entity);
+      .get(first)
+      .list.filter((component) => component.entity.isInherits(components))
+      .map((component) => component.entity);
   }
 
   destroy() {

@@ -26,5 +26,3 @@ export class AppState extends BaseDecorator {
     } else if (getIsDebug()) throw new Error(`availableStates: ${availableStates} not includes new state: ${state}`);
   }
 }
-
-

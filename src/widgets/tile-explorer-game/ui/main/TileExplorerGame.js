@@ -24,7 +24,7 @@ export function TileExplorerGame() {
     state,
     onEnd,
     isPending: !state || (statesData.STATE_MACHINE[state]?.isLoad ?? false),
-    statesData
+    statesData,
   };
 
   return (
@@ -36,7 +36,7 @@ export function TileExplorerGame() {
         {Component: Canvas},
         {type: ComponentTypes.TOP_MENU},
         {Component: Boosters},
-        {type: ComponentTypes.LOADER}
+        {type: ComponentTypes.LOADER},
       ]}
     />
   );

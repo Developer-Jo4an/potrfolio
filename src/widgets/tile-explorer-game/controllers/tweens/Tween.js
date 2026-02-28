@@ -41,7 +41,7 @@ export class Tween {
       vars: {onComplete},
     } = this;
 
-    this._promise = new Promise(res => {
+    this._promise = new Promise((res) => {
       this._resolve = () => {
         if (this.isResolved) return;
         this._isResolved = true;

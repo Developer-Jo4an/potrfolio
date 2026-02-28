@@ -22,8 +22,8 @@ export class Tree extends System {
     const {
       eventBus,
       storage: {
-        config: {grid}
-      }
+        config: {grid},
+      },
     } = this;
 
     const tree = [];
@@ -47,8 +47,8 @@ export class Tree extends System {
   initShelf() {
     const {
       storage: {
-        mainSceneSettings: {shelf}
-      }
+        mainSceneSettings: {shelf},
+      },
     } = this;
 
     const eShelf = this.getFirstEntityOrCreate(SHELF);
@@ -59,14 +59,14 @@ export class Tree extends System {
   initEvents() {
     const {
       storage: {
-        serviceData: {clearFunctions}
+        serviceData: {clearFunctions},
       },
-      eventBus
+      eventBus,
     } = this;
 
     const clear = eventSubscription({
       target: eventBus,
-      callbacksBus: [{event: treeEvents.update, callback: this.onUpdate}]
+      callbacksBus: [{event: treeEvents.update, callback: this.onUpdate}],
     });
 
     clearFunctions.push(clear);
@@ -91,9 +91,9 @@ export class Tree extends System {
       storage: {
         gameSpace,
         mainSceneSettings: {
-          shelf: {target}
-        }
-      }
+          shelf: {target},
+        },
+      },
     } = this;
 
     const {type, cell} = this.getCellInfo(entity);
@@ -109,13 +109,13 @@ export class Tree extends System {
         (acc[type] ??= []).push(eCell);
         return acc;
       },
-      {[type]: [entity]}
+      {[type]: [entity]},
     );
 
     const resolvedEntities = Object.values(groupedEntities).find(({length}) => length === target);
 
     if (resolvedEntities) {
-      resolvedEntities.forEach(eCell => {
+      resolvedEntities.forEach((eCell) => {
         const {cCell} = this.getCellInfo(eCell);
         const cellData = {...this.getFromTree(tree, cCell.x, cCell.y, cCell.z), isInsidePool: true, isResolved: true};
         Object.assign(cCell, cellData);
@@ -125,7 +125,6 @@ export class Tree extends System {
       gameSpace.score += resolvedEntities.length;
     }
 
-
     cTree.tree = this.recalculateCellsProperties(updatedTree);
   }
 
@@ -133,9 +132,9 @@ export class Tree extends System {
     const {
       storage: {
         mainSceneSettings: {
-          shelf: {target}
-        }
-      }
+          shelf: {target},
+        },
+      },
     } = this;
 
     const {cShelf, queue} = this.getShelfInfo();
@@ -149,7 +148,7 @@ export class Tree extends System {
       cellType === type && resolvedCells.push(eCellInQueue);
 
       if (resolvedCells.length === target - 1) {
-        cShelf.queue = queue.filter(eCell => !resolvedCells.includes(eCell));
+        cShelf.queue = queue.filter((eCell) => !resolvedCells.includes(eCell));
         return;
       }
     }
@@ -175,7 +174,9 @@ export class Tree extends System {
   }
 
   checkOnEnd() {
-    const {storage: {decorators}} = this;
+    const {
+      storage: {decorators},
+    } = this;
 
     const {tree} = this.getTreeInfo();
     const {queue, types, max} = this.getShelfInfo();

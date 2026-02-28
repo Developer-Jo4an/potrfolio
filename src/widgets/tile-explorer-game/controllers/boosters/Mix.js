@@ -41,7 +41,7 @@ export class Mix extends Booster {
   async animate() {
     const {
       actionData: {animatedData},
-      system
+      system,
     } = this;
 
     const {cTween, cPromise} = system.getBoosterInfo();
@@ -51,8 +51,8 @@ export class Mix extends Booster {
         animateObjects: animatedData,
         onComplete() {
           cTween.remove(shuffleTween, tweens.shuffle);
-        }
-      }
+        },
+      },
     });
     cTween.add(shuffleTween, tweens.shuffle);
     cPromise.add(shuffleTween.promise);
@@ -68,7 +68,7 @@ export class Mix extends Booster {
   setToOriginalTree() {
     const {
       actionData: {shuffledTree},
-      system
+      system,
     } = this;
 
     const {cTree} = system.getTreeInfo();
@@ -89,7 +89,7 @@ export class Mix extends Booster {
 
     const newTree = [];
 
-    system.runTree(tree, cellData => {
+    system.runTree(tree, (cellData) => {
       const {x, y, z, cell} = cellData;
 
       const isCanShuffle = this.isCanShuffle(tree, x, y, z);
@@ -108,7 +108,7 @@ export class Mix extends Booster {
         newPosition.x,
         newPosition.y,
         newPosition.z,
-        clone({...cell, isBlocked, ...newPosition})
+        clone({...cell, isBlocked, ...newPosition}),
       );
     });
 
@@ -119,7 +119,7 @@ export class Mix extends Booster {
     const {
       actionData,
       actionData: {shuffledTree},
-      system
+      system,
     } = this;
 
     actionData.animatedData = [];
@@ -146,8 +146,8 @@ export class Mix extends Booster {
           isBlocked,
           x: targetCMatrix3.x,
           y: targetCMatrix3.y,
-          zIndex: z
-        }
+          zIndex: z,
+        },
       };
 
       actionData.animatedData.push(animationSettings);
@@ -161,7 +161,7 @@ export class Mix extends Booster {
       });
     });
 
-    callbacksAfterShuffle.forEach(callback => callback());
+    callbacksAfterShuffle.forEach((callback) => callback());
   }
 
   isHasStep(tree, state) {
@@ -180,7 +180,7 @@ export class Mix extends Booster {
 
     const queueTypes = state.map(({type}) => type);
 
-    return availableTypes.some(type => {
+    return availableTypes.some((type) => {
       const types = [...queueTypes, type];
       return system.isHasTruthCombination(types);
     });

@@ -5,7 +5,7 @@ export function useBoosters() {
 
   return {
     onClick: (type) => {
-      wrapper?.applyBooster?.(type)
-    }
+      wrapper?.applyBooster?.(type);
+    },
   };
 }

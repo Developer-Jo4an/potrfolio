@@ -10,7 +10,7 @@ export function usePause({statesData, content, wrapper, state}) {
 
   const onClick = () => {
     const {
-      value: {id: modalId}
+      value: {id: modalId},
     } = add({
       type: names.pauseModal,
       isCloseOnBackground: true,
@@ -25,13 +25,13 @@ export function usePause({statesData, content, wrapper, state}) {
           [OFF]() {
             redirect(ROUTES.index);
             close({id: modalId});
-          }
+          },
         },
 
         onCloseOnBackground() {
           wrapper.state = statesData.PLAYING;
-        }
-      }
+        },
+      },
     });
 
     wrapper.state = statesData.PAUSED;

@@ -6,7 +6,7 @@ export class Time extends System {
   initializationLevelSelect() {
     const {
       eventBus,
-      storage: {config, gameSpace}
+      storage: {config, gameSpace},
     } = this;
 
     const eTimer = new Entity({eventBus, type: TIMER}).init();
@@ -17,13 +17,13 @@ export class Time extends System {
       effect() {
         cTimer.time = gameSpace.currentTime = config.timer;
         return () => (cTimer.time = gameSpace.currentTime = null);
-      }
+      },
     });
   }
 
   updateTime(deltaS) {
     const {
-      storage: {gameSpace}
+      storage: {gameSpace},
     } = this;
 
     const {cTimer} = this.getTimerInfo();
@@ -42,7 +42,9 @@ export class Time extends System {
     const {state} = this.getFirstEntityByType("game").get(State);
     if (state === LOSING) return;
 
-    const {storage: {decorators}} = this;
+    const {
+      storage: {decorators},
+    } = this;
 
     const stateDecorator = decorators[STATE_DECORATOR_FIELD];
     stateDecorator.state = LOSING;

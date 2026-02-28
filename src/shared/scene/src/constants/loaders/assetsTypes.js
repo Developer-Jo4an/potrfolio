@@ -7,4 +7,3 @@ export const PIXI_SPACE = "pixi";
 export const TEXTURE = "texture";
 export const SCENE = "scene";
 export const SPRITESHEET = "spritesheet";
-

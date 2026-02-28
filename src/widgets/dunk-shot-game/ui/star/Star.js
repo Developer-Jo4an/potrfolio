@@ -11,7 +11,7 @@ import styles from "./Stars.module.scss";
 
 export function Star({topMenu}) {
   const {wrapper} = useDunkShotStore();
-  const [StarComponent, setStarComponent] = useState(<FaStar/>);
+  const [StarComponent, setStarComponent] = useState(<FaStar />);
 
   const elementRefs = useRef({stars: []});
 
@@ -33,12 +33,12 @@ export function Star({topMenu}) {
             const {stars} = elementRefs.current;
             const {scoreIcon: to} = topMenu;
 
-            setStarComponent(isActiveX2 ? <TbStarsFilled/> : <FaStar/>);
+            setStarComponent(isActiveX2 ? <TbStarsFilled /> : <FaStar />);
 
             starAnimation(stars, from, to);
-          }
-        }
-      ]
+          },
+        },
+      ],
     });
   }, [wrapper, topMenu, isActiveX2]);
 

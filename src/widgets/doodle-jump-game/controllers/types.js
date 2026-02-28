@@ -32,7 +32,7 @@ import {
   CollisionConfig,
   PixiComponent,
   PixiDebug,
-  COLLISION_CONFIG
+  COLLISION_CONFIG,
 } from "@shared";
 
 export const types = {
@@ -40,15 +40,11 @@ export const types = {
     components: [
       {Class: State, props: {states: STATE_MACHINE}},
       {Class: Game},
-      {Class: Complexity, props: {config: complexity, current: 0}}
-    ]
+      {Class: Complexity, props: {config: complexity, current: 0}},
+    ],
   },
   [MAIN_CONTAINER]: {
-    components: [
-      {Class: Collection},
-      {Class: PixiComponent},
-      {Class: Matrix3Component}
-    ]
+    components: [{Class: Collection}, {Class: PixiComponent}, {Class: Matrix3Component}],
   },
   [CHARACTER]: {
     components: [
@@ -64,8 +60,8 @@ export const types = {
       {Class: Input},
       {Class: Tween},
       {Class: CPromise},
-      {Class: SatCollider, props: {group: CollisionGroups.CHARACTER, isTrackCollision: true}}
-    ]
+      {Class: SatCollider, props: {group: CollisionGroups.CHARACTER, isTrackCollision: true}},
+    ],
   },
   [PLATFORM]: {
     components: [
@@ -78,8 +74,8 @@ export const types = {
       {Class: Child},
       {Class: PixiDebug, props: {strokeSettings: {width: 2, color: 0x0000ff}}},
       {Class: Tween},
-      {Class: CPromise}
-    ]
+      {Class: CPromise},
+    ],
   },
   [ENEMY]: {
     components: [
@@ -93,8 +89,8 @@ export const types = {
       {Class: PixiDebug, props: {strokeSettings: {width: 2, color: 0xff0000}}},
       {Class: Parent},
       {Class: Tween},
-      {Class: CPromise}
-    ]
+      {Class: CPromise},
+    ],
   },
   [BOOSTER]: {
     components: [
@@ -105,8 +101,8 @@ export const types = {
       {Class: Parent},
       {Class: Behaviour},
       {Class: PixiDebug, props: {strokeSettings: {width: 2, color: 0xb806f4}}},
-      {Class: SatCollider, props: {group: CollisionGroups.BOOSTER, isTrackCollision: true}}
-    ]
+      {Class: SatCollider, props: {group: CollisionGroups.BOOSTER, isTrackCollision: true}},
+    ],
   },
   [HELPER]: {
     components: [
@@ -117,8 +113,8 @@ export const types = {
       {Class: Parent},
       {Class: Behaviour},
       {Class: PixiDebug, props: {strokeSettings: {width: 2, color: 0xf80297}}},
-      {Class: SatCollider, props: {group: CollisionGroups.HELPER, isTrackCollision: true}}
-    ]
+      {Class: SatCollider, props: {group: CollisionGroups.HELPER, isTrackCollision: true}},
+    ],
   },
   [BULLET]: {
     components: [
@@ -127,10 +123,10 @@ export const types = {
       {Class: Matrix3Component},
       {Class: PixiDebug, props: {strokeSettings: {width: 1, color: 0x050505}}},
       {Class: SatCollider, props: {group: CollisionGroups.BULLET, isTrackCollision: true}},
-      {Class: Target}
-    ]
+      {Class: Target},
+    ],
   },
   [COLLISION_CONFIG]: {
-    components: [{Class: CollisionConfig, props: {collisionConfig}}]
-  }
+    components: [{Class: CollisionConfig, props: {collisionConfig}}],
+  },
 };

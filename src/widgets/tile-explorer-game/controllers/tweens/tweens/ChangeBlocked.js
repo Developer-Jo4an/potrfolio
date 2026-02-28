@@ -12,7 +12,7 @@ export class ChangeBlocked extends Tween {
     super.init();
 
     const {
-      vars: {animateObject, isBlocked}
+      vars: {animateObject, isBlocked},
     } = this;
 
     animateObject.alpha = 1;

@@ -7,11 +7,11 @@ export default {
   menu: {
     lifes: {
       background: {img: {src: "widgets/doodle-jump-game/stats-button-background.png"}},
-      img: {src: "widgets/doodle-jump-game/lifes-stat.png"}
+      img: {src: "widgets/doodle-jump-game/lifes-stat.png"},
     },
     score: {
       background: {img: {src: "widgets/doodle-jump-game/stats-button-background.png"}},
-      img: {src: "widgets/doodle-jump-game/score-stat.png"}
+      img: {src: "widgets/doodle-jump-game/score-stat.png"},
     },
     pause: {
       background: {src: "widgets/doodle-jump-game/control-button-background.png"},
@@ -21,17 +21,17 @@ export default {
           id: ON,
           text: "Продолжить",
           className: "continueButton",
-          background: {src: "widgets/doodle-jump-game/end-game/continue.png"}
+          background: {src: "widgets/doodle-jump-game/end-game/continue.png"},
         },
         {
           id: OFF,
           text: "На главную",
           className: "closeButton",
-          background: {src: "widgets/doodle-jump-game/end-game/close.png"}
-        }
-      ]
+          background: {src: "widgets/doodle-jump-game/end-game/close.png"},
+        },
+      ],
     },
-    sound: {background: {src: "widgets/doodle-jump-game/control-button-background.png"}}
+    sound: {background: {src: "widgets/doodle-jump-game/control-button-background.png"}},
   },
   endModal({status, wrapper, modalNames, distance, redirect}) {
     return {
@@ -43,8 +43,8 @@ export default {
         stats: {
           mod: MODES.beige,
           list: [
-            {label: "Пройденное расстояние", img: "widgets/doodle-jump-game/stats/score.png", value: `${distance} px.`}
-          ]
+            {label: "Пройденное расстояние", img: "widgets/doodle-jump-game/stats/score.png", value: `${distance} px.`},
+          ],
         },
         buttons: {
           mod: MODES.beige,
@@ -58,8 +58,8 @@ export default {
                 async onClick() {
                   await wrapper.reset();
                   wrapper.state = getDefaultState(STATE_MACHINE);
-                }
-              }
+                },
+              },
             },
             {
               isDisposable: true,
@@ -69,12 +69,12 @@ export default {
               events: {
                 onClick() {
                   redirect(ROUTES.index);
-                }
-              }
-            }
-          ]
-        }
-      }
+                },
+              },
+            },
+          ],
+        },
+      },
     };
-  }
+  },
 };

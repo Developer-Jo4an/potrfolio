@@ -68,7 +68,7 @@ class QuadraticBezierCurve3 extends Curve {
     point.set(
       QuadraticBezier(t, v0.x, v1.x, v2.x),
       QuadraticBezier(t, v0.y, v1.y, v2.y),
-      QuadraticBezier(t, v0.z, v1.z, v2.z)
+      QuadraticBezier(t, v0.z, v1.z, v2.z),
     );
 
     return point;

@@ -7,7 +7,7 @@ import {LoseTexture} from "../plugins/behaviours/LoseTexture";
 import {v4 as uuidv4} from "uuid";
 import {Events} from "../constants/events";
 import {Behaviours} from "../constants/behaviours";
-import {System, getPluginType, initPlugins, eventSubscription} from "@shared"
+import {System, getPluginType, initPlugins, eventSubscription} from "@shared";
 
 export class Behaviour extends System {
   behavioursData = {};
@@ -43,7 +43,7 @@ export class Behaviour extends System {
         storage,
         system: this,
         engine,
-      }
+      },
     );
   }
 
@@ -140,7 +140,7 @@ export class Behaviour extends System {
       !data.time && clearFunctions.push(data.clear);
     }
 
-    clearFunctions.forEach(clear => clear());
+    clearFunctions.forEach((clear) => clear());
   }
 
   update() {

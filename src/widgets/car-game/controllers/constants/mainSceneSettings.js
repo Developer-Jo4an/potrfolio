@@ -8,7 +8,7 @@ export const mainSceneSettings = {
     y: 800,
     acceleration: 200,
     minSpeed: 200,
-    maxSpeed: 500
+    maxSpeed: 500,
   },
   roadChunk: {
     length: [500, 800],
@@ -17,6 +17,6 @@ export const mainSceneSettings = {
   },
   camera: {
     trackBorderX: 180,
-    trackBorderY: 600
+    trackBorderY: 600,
   },
 };

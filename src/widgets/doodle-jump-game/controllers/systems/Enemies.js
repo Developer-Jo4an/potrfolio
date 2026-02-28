@@ -26,7 +26,7 @@ export class Enemies extends System {
       eventSubscription({
         target: eventBus,
         callbacksBus: [{event: Events.CHARACTER_KICK_ENEMY, callback: this.onKick}],
-      })
+      }),
     );
   }
 
@@ -42,7 +42,7 @@ export class Enemies extends System {
       [EnemyBehaviours.FOLLOW]: this.handleFollowParent,
     };
 
-    enemies.forEach(eEnemy => {
+    enemies.forEach((eEnemy) => {
       const {cBehaviour} = this.getEnemyInfo(eEnemy);
       functions[cBehaviour.group]?.call(this, eEnemy, ...arguments);
     });

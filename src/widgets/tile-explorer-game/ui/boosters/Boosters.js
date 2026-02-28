@@ -27,12 +27,12 @@ export function Boosters({gameSpace: {gameData}}) {
       value: count,
       child: (
         <div className={styles[background.className]}>
-          <Image src={background.src}/>
+          <Image src={background.src} />
         </div>
       ),
-      timeout
+      timeout,
     };
   });
 
-  return <BottomMenu buttons={boosterButtons} mod={MODES.blue}/>;
+  return <BottomMenu buttons={boosterButtons} mod={MODES.blue} />;
 }

@@ -13,11 +13,11 @@ export function ProgressBar({count, progress, mode, updateProps}) {
   return (
     <div className={styles.progressBar} data-mod={mode}>
       {isFinite(progress) && (
-        <div ref={(ref) => (elements.scale = ref)} className={styles.progressScale} style={{"--progress": progress}}/>
+        <div ref={(ref) => (elements.scale = ref)} className={styles.progressScale} style={{"--progress": progress}} />
       )}
 
       <div ref={(ref) => (elements.score = ref)} className={styles.progressBarScore}>
-        <FaStar/>
+        <FaStar />
       </div>
 
       {isFinite(count) && (

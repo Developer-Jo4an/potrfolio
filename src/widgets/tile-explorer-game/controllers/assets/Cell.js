@@ -7,7 +7,7 @@ export class Cell extends Container {
   static types = {
     standard: "standard",
     explosion: "explosion",
-    blocked: "blocked"
+    blocked: "blocked",
   };
 
   static assetsCache = {};
@@ -103,7 +103,7 @@ export class Cell extends Container {
     return {
       [Cell.types.standard]: type,
       [Cell.types.explosion]: `${type}_explosion`,
-      [Cell.types.blocked]: "blocked"
+      [Cell.types.blocked]: "blocked",
     }[assetType];
   }
 
@@ -111,7 +111,7 @@ export class Cell extends Container {
     return {
       [Cell.types.standard]: ids.cell.view,
       [Cell.types.explosion]: ids.cell.viewExplosion,
-      [Cell.types.blocked]: ids.cell.blocked
+      [Cell.types.blocked]: ids.cell.blocked,
     }[assetType];
   }
 
@@ -122,7 +122,7 @@ export class Cell extends Container {
     const assetKey = {
       [Cell.types.standard]: `skeleton_Item_1_${type}`,
       [Cell.types.explosion]: `skeleton_Item_1_${type}_explosion`,
-      [Cell.types.blocked]: "ice"
+      [Cell.types.blocked]: "ice",
     }[assetType];
 
     return animations[assetKey];
@@ -141,4 +141,3 @@ export class Cell extends Container {
     spineCLip.update(0);
   }
 }
-

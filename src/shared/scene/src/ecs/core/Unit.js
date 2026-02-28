@@ -93,7 +93,7 @@ export class Unit {
   }
 
   getComponentsByClasses(...classes) {
-    return this.allComponents.filter(component => classes.some(Cls => component instanceof Cls));
+    return this.allComponents.filter((component) => classes.some((Cls) => component instanceof Cls));
   }
 
   getAllComponentsByClass(ComponentClass) {
@@ -111,13 +111,11 @@ export class Unit {
   /**
    * Сброс юнита
    */
-  reset() {
-  }
+  reset() {}
 
   /**
    * Функция конфигурирования юнита
    * @param settings
    */
-  configure(settings) {
-  }
+  configure(settings) {}
 }

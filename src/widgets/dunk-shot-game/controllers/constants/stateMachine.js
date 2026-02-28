@@ -13,7 +13,7 @@ export const STATE_MACHINE = {
     availableStates: [INITIALIZATION_LEVEL],
     nextState: INITIALIZATION_LEVEL,
     isDefault: true,
-    isLoad: true
+    isLoad: true,
   },
   [INITIALIZATION_LEVEL]: {availableStates: [PREPARE], nextState: PREPARE, isLoad: true},
   [PREPARE]: {availableStates: [PLAYING], nextState: PLAYING, isAvailableUpdate: true},
@@ -22,23 +22,23 @@ export const STATE_MACHINE = {
     isAvailableInteraction: true,
     isAvailableCameraUpdate: true,
     isAvailableUpdate: true,
-    isAvailableBoosters: true
+    isAvailableBoosters: true,
   },
   [WINGS]: {
     availableStates: [PLAYING, WIN],
     isAvailableCameraUpdate: true,
-    isAvailableUpdate: true
+    isAvailableUpdate: true,
   },
   [FELL]: {
     availableStates: [PLAYING],
     nextState: PLAYING,
     isAvailableCameraUpdate: true,
     isAvailableUpdate: true,
-    isSubtractLife: true
+    isSubtractLife: true,
   },
   [WIN]: {availableStates: [INITIALIZATION], nextState: INITIALIZATION, isEndGame: true},
   [LOSE]: {availableStates: [INITIALIZATION], nextState: INITIALIZATION, isSubtractLife: true, isEndGame: true},
-  [PAUSED]: {availableStates: [PLAYING]}
+  [PAUSED]: {availableStates: [PLAYING]},
 };
 
 export const IGNORE_NEXT_STATES = [PREPARE, PLAYING, WIN, LOSE, PAUSED, WINGS];

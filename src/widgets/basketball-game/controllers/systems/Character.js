@@ -16,7 +16,7 @@ import {
   DRAG_END,
   DRAG_MOVE,
   DRAG_START,
-  PI2
+  PI2,
 } from "@shared";
 import {clamp, random, upperFirst} from "lodash";
 import {returnCharacterToInitialPositionTween} from "../tweens/returnCharacterToInitialPositionTween";
@@ -46,12 +46,12 @@ export class Character extends System {
     if (!csEvent?.length) return;
 
     const {
-      data: {cursor: current}
+      data: {cursor: current},
     } = csEvent[csEvent.length - 1];
     const cursor = new THREE.Vector2(current.normalizedX, current.normalizedY);
     const {
       storage: {camera},
-      helpers: {raycaster}
+      helpers: {raycaster},
     } = this;
     const cBody = eCharacter.get(Body);
     const planeForIntersect = new THREE.Plane(new THREE.Vector3(0, 0, -1), cBody.object.translation().z);
@@ -65,17 +65,17 @@ export class Character extends System {
         mainSceneSettings: {
           character: {
             movement: {
-              clamp: {x, y, z}
-            }
-          }
-        }
-      }
+              clamp: {x, y, z},
+            },
+          },
+        },
+      },
     } = this;
 
     const formattedIntersectPoint = {
       x: clamp(intersectionPoint.x, ...x),
       y: clamp(intersectionPoint.y, ...y),
-      z: clamp(intersectionPoint.z, ...z)
+      z: clamp(intersectionPoint.z, ...z),
     };
 
     cBody.object.setTranslation(formattedIntersectPoint);
@@ -89,10 +89,10 @@ export class Character extends System {
       storage: {
         mainSceneSettings: {
           character: {
-            throw: {dragEventCountForThrow, minSpeed}
-          }
-        }
-      }
+            throw: {dragEventCountForThrow, minSpeed},
+          },
+        },
+      },
     } = this;
 
     const startEvent = csEvent[0];
@@ -130,7 +130,7 @@ export class Character extends System {
   calculateThrowData(eCharacter) {
     const {
       helpers: {raycaster},
-      storage: {camera}
+      storage: {camera},
     } = this;
 
     const cBody = eCharacter.get(Body);
@@ -139,10 +139,10 @@ export class Character extends System {
     const dragEvents = eCharacter.getSome(EventComponent, DRAG_START, DRAG_MOVE, DRAG_END);
 
     const {
-      data: {cursor: drag}
+      data: {cursor: drag},
     } = dragEvents[1];
     const {
-      data: {cursor: end}
+      data: {cursor: end},
     } = dragEvents[dragEvents.length - 1];
 
     if (drag.normalizedX === end.normalizedX && drag.normalizedY === end.normalizedY) return;
@@ -168,10 +168,10 @@ export class Character extends System {
         gameSpace: {set},
         mainSceneSettings: {
           character: {
-            startData: {position}
-          }
-        }
-      }
+            startData: {position},
+          },
+        },
+      },
     } = this;
 
     set(({characterMovement}) => {
@@ -199,8 +199,8 @@ export class Character extends System {
   throwBall({eRing, eCharacter, drag, end, speed, distance, duration}) {
     const {
       storage: {
-        gameSpace: {set}
-      }
+        gameSpace: {set},
+      },
     } = this;
 
     const cBody = eCharacter.get(Body);
@@ -220,10 +220,10 @@ export class Character extends System {
               world,
               mainSceneSettings: {
                 character: {
-                  throw: {angvel}
-                }
-              }
-            }
+                  throw: {angvel},
+                },
+              },
+            },
           } = this;
           const bodyPosition = cBody.object.translation();
           const mass = cBody.object.mass();
@@ -231,12 +231,12 @@ export class Character extends System {
           const zeroV = new THREE.Vector3(
             vectorBetweenBallAndTarget.x / time,
             (vectorBetweenBallAndTarget.y - 0.5 * world.gravity.y * time ** 2) / time,
-            vectorBetweenBallAndTarget.z / time
+            vectorBetweenBallAndTarget.z / time,
           );
           const impulse = zeroV.clone().multiplyScalar(mass);
 
           this.applyPhysicalPropertiesForThrow({impulse, angvel});
-        })
+        }),
       );
 
       characterMovement.thrown = true;
@@ -256,11 +256,11 @@ export class Character extends System {
               vectorHelp,
               speedHelp,
               speedInterpolation,
-              multiplier: [min, max]
-            }
-          }
-        }
-      }
+              multiplier: [min, max],
+            },
+          },
+        },
+      },
     } = this;
 
     const [{position3d: drag3d}, {position3d: end3d}] = [drag, end];
@@ -291,7 +291,7 @@ export class Character extends System {
           vec.clone().normalize(),
           drag3d,
           vecBetween.length(),
-          new THREE.Color(Math.random(), Math.random(), Math.random())
+          new THREE.Color(Math.random(), Math.random(), Math.random()),
         );
         this.addSideEffect({entity: eCharacter, effect: add, args: [scene, helper], name: `arrowHelper${i}`});
       });
@@ -306,8 +306,8 @@ export class Character extends System {
   activateBooster(type) {
     const {
       storage: {
-        gameSpace: {set}
-      }
+        gameSpace: {set},
+      },
     } = this;
     set(({booster}) => (booster.active = type));
     this[createActivateMethod(type)]();
@@ -320,10 +320,10 @@ export class Character extends System {
         scene,
         mainSceneSettings: {
           boosters: {
-            [X2]: {count, velocity, offsetRadius}
-          }
-        }
-      }
+            [X2]: {count, velocity, offsetRadius},
+          },
+        },
+      },
     } = this;
     const eGame = this.getFirstEntityByType(GAME);
     const eCharacter = this.getFirstEntityByType(CHARACTER);
@@ -344,9 +344,9 @@ export class Character extends System {
       cOrbit.angularVelocity = THREE.MathUtils.degToRad(random(velocity.min, velocity.max, true));
       cOrbit.normal = new THREE.Vector3(random(-1, 1, true), random(-1, 1, true), random(-1, 1, true));
       cOrbit.tangent1 = cOrbit.normal
-      .clone()
-      .cross(new THREE.Vector3(random(-1, 1, true), random(-1, 1, true), random(-1, 1, true)))
-      .normalize();
+        .clone()
+        .cross(new THREE.Vector3(random(-1, 1, true), random(-1, 1, true), random(-1, 1, true)))
+        .normalize();
       cOrbit.tangent2 = cOrbit.normal.clone().cross(cOrbit.tangent1).normalize();
     });
 
@@ -357,8 +357,8 @@ export class Character extends System {
     const {
       storage: {
         eventBus,
-        gameSpace: {set}
-      }
+        gameSpace: {set},
+      },
     } = this;
 
     const result = {};
@@ -367,7 +367,7 @@ export class Character extends System {
     const {
       effectsFreeSpace,
       boosters: {extraLife},
-      topMenu: {lifesIcon}
+      topMenu: {lifesIcon},
     } = result;
 
     set(({booster, gameData}) => {
@@ -377,11 +377,8 @@ export class Character extends System {
       gameData.lifes++;
     });
 
-    const isHasPrevTween = [
-      TWEENS.extraLifeTrailTween,
-      TWEENS.extraLifePulseTween
-    ].some((tweenId) =>
-      gsap.localTimeline.isExist(BASKETBALL, tweenId)
+    const isHasPrevTween = [TWEENS.extraLifeTrailTween, TWEENS.extraLifePulseTween].some((tweenId) =>
+      gsap.localTimeline.isExist(BASKETBALL, tweenId),
     );
 
     if (isHasPrevTween) return;
@@ -401,11 +398,11 @@ export class Character extends System {
         world,
         mainSceneSettings: {
           character: {
-            throw: {angvel}
+            throw: {angvel},
           },
-          boosters: {[CLEAR_HIT]: clearHit}
-        }
-      }
+          boosters: {[CLEAR_HIT]: clearHit},
+        },
+      },
     } = this;
 
     const eCharacter = this.getFirstEntityByType(CHARACTER);
@@ -439,13 +436,13 @@ export class Character extends System {
       storage: {
         mainSceneSettings: {
           boosters: {
-            [X2]: {angularVelocity}
-          }
+            [X2]: {angularVelocity},
+          },
         },
         eventBus,
-        camera
+        camera,
       },
-      helpers: {raycaster}
+      helpers: {raycaster},
     } = this;
 
     const esX2 = this.getEntitiesByType(X2VIEW)?.list ?? [];
@@ -455,13 +452,13 @@ export class Character extends System {
 
     const {
       effectsFreeSpace,
-      topMenu: {scoreIcon}
+      topMenu: {scoreIcon},
     } = result;
 
     const bounding = scoreIcon.getBoundingClientRect();
     const point = new THREE.Vector2(
       ((bounding.x + bounding.width / 2) / global.innerWidth) * 2 - 1,
-      -((bounding.y + bounding.height / 2) / global.innerHeight) * 2 + 1
+      -((bounding.y + bounding.height / 2) / global.innerHeight) * 2 + 1,
     );
 
     esX2.forEach((entity) => {
@@ -493,11 +490,11 @@ export class Character extends System {
       storage: {
         mainSceneSettings: {
           boosters: {
-            [X2]: {angularVelocity}
-          }
+            [X2]: {angularVelocity},
+          },
         },
-        gameSpace: {get}
-      }
+        gameSpace: {get},
+      },
     } = this;
     const {booster} = get();
     if (booster.active !== X2) return;
@@ -520,23 +517,23 @@ export class Character extends System {
       cMatrix4Component.position = {
         x: center.x + radius * (Math.cos(angle) * tangent1.x + Math.sin(angle) * tangent2.x),
         y: center.y + radius * (Math.cos(angle) * tangent1.y + Math.sin(angle) * tangent2.y),
-        z: center.z + radius * (Math.cos(angle) * tangent1.z + Math.sin(angle) * tangent2.z)
+        z: center.z + radius * (Math.cos(angle) * tangent1.z + Math.sin(angle) * tangent2.z),
       };
 
       const addedAngle = THREE.MathUtils.degToRad(angularVelocity) * deltaTime;
       cMatrix4Component.rotation = {
         x: cMatrix4Component.rotation.x + addedAngle,
         y: cMatrix4Component.rotation.y + addedAngle,
-        z: cMatrix4Component.rotation.z + addedAngle
+        z: cMatrix4Component.rotation.z + addedAngle,
       };
     });
   }
 
   applyPhysicalPropertiesForThrow({
-                                    linvel = {x: 0, y: 0, z: 0},
-                                    impulse = {x: 0, y: 0, z: 0},
-                                    angvel = {x: 0, y: 0, z: 0}
-                                  }) {
+    linvel = {x: 0, y: 0, z: 0},
+    impulse = {x: 0, y: 0, z: 0},
+    angvel = {x: 0, y: 0, z: 0},
+  }) {
     const eCharacter = this.getFirstEntityByType(CHARACTER);
     const cBody = eCharacter.get(Body);
 
@@ -549,13 +546,13 @@ export class Character extends System {
   checkCollisionWithRing({eCharacter}) {
     const {
       storage: {
-        gameSpace: {set}
-      }
+        gameSpace: {set},
+      },
     } = this;
 
     const collisions = eCharacter.getSome(EventComponent, COLLISION_START);
     const isHasCollisionWithRing = collisions.some(({data: {collider}}) =>
-      [RING_BODY, RING_SHIELD, RING_GRID].includes(collider.userData.id)
+      [RING_BODY, RING_SHIELD, RING_GRID].includes(collider.userData.id),
     );
     if (isHasCollisionWithRing) set(({characterMovement}) => (characterMovement.isCollisionWithRing = true));
   }
@@ -563,8 +560,8 @@ export class Character extends System {
   checkCollisionWithSensor({eCharacter, eRing}) {
     const {
       storage: {
-        gameSpace: {get, set}
-      }
+        gameSpace: {get, set},
+      },
     } = this;
     const gameSpace = get();
 
@@ -602,8 +599,8 @@ export class Character extends System {
   checkCollisionWithGround({eCharacter}) {
     const {
       storage: {
-        gameSpace: {get, set}
-      }
+        gameSpace: {get, set},
+      },
     } = this;
 
     const collisions = eCharacter.getSome(EventComponent, COLLISION_START);
@@ -624,10 +621,10 @@ export class Character extends System {
       storage: {
         mainSceneSettings: {
           character: {
-            startData: {position, rotation}
-          }
-        }
-      }
+            startData: {position, rotation},
+          },
+        },
+      },
     } = this;
     const cThreeComponent = eCharacter.get(ThreeComponent);
     const cBody = eCharacter.get(Body);
@@ -655,7 +652,7 @@ export class Character extends System {
       },
       () => {
         cTween.remove(teleportTween.vars.id);
-      }
+      },
     );
 
     cTween.add(teleportTween);
@@ -664,8 +661,8 @@ export class Character extends System {
   checkCollision({eGame, eCharacter, eRing}) {
     const {
       storage: {
-        gameSpace: {get}
-      }
+        gameSpace: {get},
+      },
     } = this;
 
     const gameSpace = get();
@@ -680,8 +677,8 @@ export class Character extends System {
   updateFlight({eCharacter, eRing}) {
     const {
       storage: {
-        gameSpace: {get, set}
-      }
+        gameSpace: {get, set},
+      },
     } = this;
 
     const gameSpace = get();
@@ -712,8 +709,8 @@ export class Character extends System {
   checkOnEnd({eCharacter, eGame}) {
     const {
       storage: {
-        gameSpace: {get}
-      }
+        gameSpace: {get},
+      },
     } = this;
 
     const gameSpace = get();

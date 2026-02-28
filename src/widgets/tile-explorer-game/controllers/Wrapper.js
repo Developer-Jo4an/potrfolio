@@ -22,10 +22,8 @@ export class Wrapper extends PixiWrapper {
   applyBooster(type) {
     const {
       controller: {
-        engine: {
-          systems
-        }
-      }
+        engine: {systems},
+      },
     } = this;
 
     const boostersSystem = systems.get("boosters");

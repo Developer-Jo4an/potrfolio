@@ -19,9 +19,14 @@ export function BasketballGame() {
   const onEnd = useEndGame();
 
   const totalProps = {
-    ...fullProps, wrapper, content, state, gameSpace, onEnd,
+    ...fullProps,
+    wrapper,
+    content,
+    state,
+    gameSpace,
+    onEnd,
     isPending: !state || (statesData.STATE_MACHINE[state]?.isLoad ?? false),
-    statesData
+    statesData,
   };
 
   return (
@@ -34,7 +39,7 @@ export function BasketballGame() {
         {type: ComponentTypes.TOP_MENU},
         {Component: Boosters},
         {Component: Effects},
-        {type: ComponentTypes.LOADER}
+        {type: ComponentTypes.LOADER},
       ]}
     />
   );

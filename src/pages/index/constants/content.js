@@ -5,19 +5,19 @@ export default {
     error: "404",
     button: {
       text: "На главную",
-      isDisposable: true
-    }
+      isDisposable: true,
+    },
   },
   error: {
     seconds: {
       prod: 5,
-      dev: 99999
+      dev: 99999,
     },
-    message: `ОШИБКА! Reload ${SPLITTER}с.`
+    message: `ОШИБКА! Reload ${SPLITTER}с.`,
   },
   loading: {
     background: {
-      src: "app/loading.png"
-    }
-  }
+      src: "app/loading.png",
+    },
+  },
 };

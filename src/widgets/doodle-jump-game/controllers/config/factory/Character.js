@@ -8,7 +8,7 @@ export class Character extends Container {
     PROPELLER: "propeller",
     JETPACK: "jetpack",
     SPRING: "spring",
-    LOSE: "lose"
+    LOSE: "lose",
   };
 
   createAsset() {
@@ -37,13 +37,13 @@ export class Character extends Container {
       defaultProperties: {
         storage: {
           mainSceneSettings: {
-            clips: {character}
-          }
-        }
-      }
+            clips: {character},
+          },
+        },
+      },
     } = this;
 
-    asset.children.forEach(clip => {
+    asset.children.forEach((clip) => {
       const {label} = clip;
       const {loop = false, speed = 1, anchor = {x: 0.5, y: 0.5}, startFrame = 0} = character[label] ?? {};
 

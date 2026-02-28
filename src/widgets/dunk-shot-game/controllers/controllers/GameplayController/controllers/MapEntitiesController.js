@@ -11,7 +11,7 @@ import {
   PROGRESS_RESET,
   THROW_HIT,
   THROW_PURE,
-  THROW_PURE_DATA
+  THROW_PURE_DATA,
 } from "../../../constants/events";
 import {STATE_MACHINE, PLAYING, PREPARE, WIN as WIN_STATUS} from "../../../constants/stateMachine";
 import {Events} from "@features/game-wrapper";
@@ -33,13 +33,12 @@ export class MapEntitiesController extends BaseGameplayController {
       target: eventBus,
       callbacksBus: [
         {event: BASKET_COLLISION, callback: this.onBasketCollision},
-        {event: BASKET_SENSOR_COLLISION, callback: this.onBasketSensorCollision}
-      ]
+        {event: BASKET_SENSOR_COLLISION, callback: this.onBasketSensorCollision},
+      ],
     });
   }
 
-  init() {
-  }
+  init() {}
 
   initializationLevelSelect() {
     this.initBaskets();
@@ -54,13 +53,13 @@ export class MapEntitiesController extends BaseGameplayController {
   initBaskets() {
     const {
       config: {
-        configuration: {rows}
+        configuration: {rows},
       },
       storage: {
         mainSceneSettings: {
-          basket: {entitiesTypes}
-        }
-      }
+          basket: {entitiesTypes},
+        },
+      },
     } = this;
 
     const basketsRows = rows.filter(({obj}) => Object.keys(entitiesTypes).includes(obj));
@@ -84,7 +83,7 @@ export class MapEntitiesController extends BaseGameplayController {
         [NEXT]() {
           basket.view.visible = true;
           animationPlayer.basketNextAnimation(basket);
-        }
+        },
       })[basket.status]?.call(this);
     });
   }
@@ -92,13 +91,13 @@ export class MapEntitiesController extends BaseGameplayController {
   initSpikes() {
     const {
       config: {
-        configuration: {rows}
+        configuration: {rows},
       },
       storage: {
         mainSceneSettings: {
-          spike: {entitiesTypes}
-        }
-      }
+          spike: {entitiesTypes},
+        },
+      },
     } = this;
 
     const spikeRows = rows.filter(({obj}) => Object.keys(entitiesTypes).includes(obj));
@@ -133,7 +132,7 @@ export class MapEntitiesController extends BaseGameplayController {
       [ACTIVE]: ball.status === TO_DOWN,
       [NEXT]:
         (ball.status === TO_DOWN || ball.status === FREE || ball.status === PROTECTED) &&
-        (ball.position.y <= collisionBody.position.y || ball.status === PROTECTED)
+        (ball.position.y <= collisionBody.position.y || ball.status === PROTECTED),
     }[basket.status];
   }
 
@@ -167,7 +166,7 @@ export class MapEntitiesController extends BaseGameplayController {
 
       const rotationTween = gsap.localTimeline.getTweenByNamespaceAndId(
         DUNK_SHOT_TWEEN,
-        `basketRotation${_factoryUUID}`
+        `basketRotation${_factoryUUID}`,
       );
       if (rotationTween) {
         rotationTween.delete(DUNK_SHOT_TWEEN);
@@ -185,7 +184,7 @@ export class MapEntitiesController extends BaseGameplayController {
 
   onBasketCollision({collisionBody}) {
     const {
-      idealThrowData: {collisions}
+      idealThrowData: {collisions},
     } = this;
     const {ball} = factory;
 
@@ -197,7 +196,7 @@ export class MapEntitiesController extends BaseGameplayController {
       state,
       decorators,
       eventBus,
-      idealThrowData: {collisions}
+      idealThrowData: {collisions},
     } = this;
     const {nextBasket} = factory;
 
@@ -225,7 +224,7 @@ export class MapEntitiesController extends BaseGameplayController {
           id: "dunkShot:pure-data",
           onStart: throwEvent.bind({isActive: true, stage: STATUSES.start}),
           onUpdate: throwEvent.bind({isActive: true, stage: STATUSES.update}),
-          onComplete: throwEvent.bind({isActive: false, stage: STATUSES.complete})
+          onComplete: throwEvent.bind({isActive: false, stage: STATUSES.complete}),
         });
       } else eventBus.dispatchEvent({type: PROGRESS_RESET});
     } else if (basket === this.activeBasket) {
@@ -241,9 +240,9 @@ export class MapEntitiesController extends BaseGameplayController {
       throwData: {currentData, startData},
       storage: {
         mainSceneSettings: {
-          throw: {stretch: stretchSettings}
-        }
-      }
+          throw: {stretch: stretchSettings},
+        },
+      },
     } = this;
 
     baskets?.forEach((basket) => basket.update(deltaTime));

@@ -174,10 +174,10 @@ class CurvePath extends Curve {
       const resolution = curve.isEllipseCurve
         ? divisions * 2
         : curve.isLineCurve || curve.isLineCurve3
-        ? 1
-        : curve.isSplineCurve
-        ? divisions * curve.points.length
-        : divisions;
+          ? 1
+          : curve.isSplineCurve
+            ? divisions * curve.points.length
+            : divisions;
 
       const pts = curve.getPoints(resolution);
 

@@ -6,14 +6,14 @@ export const MAIN_SCENE_SETTINGS = {
       [0, 0],
       [0, 1],
       [1, 0],
-      [1, 1]
+      [1, 1],
     ],
     odd: [
       [0, 0],
       [0, -1],
       [-1, 0],
-      [-1, -1]
-    ]
+      [-1, -1],
+    ],
   },
   cell: {
     anchor: 0.5,
@@ -23,14 +23,14 @@ export const MAIN_SCENE_SETTINGS = {
       idle: {
         s: 1000,
         m: 5000,
-        l: 8000
-      }
+        l: 8000,
+      },
     },
-    animationThreshold: 2
+    animationThreshold: 2,
   },
   grid: {
     size: 340,
-    paddingTop: 120
+    paddingTop: 120,
   },
   shelf: {
     margin: 5,
@@ -41,26 +41,26 @@ export const MAIN_SCENE_SETTINGS = {
     target: 3,
     cageOffset: {x: 0, y: 5},
     cage: {
-      size: 90
-    }
+      size: 90,
+    },
   },
   engGameWaiting: 2000,
   snow: {
     tween: {
       duration: 12,
       rotation: PI2 * 2,
-      ease: "none"
+      ease: "none",
     },
     curveSettings: {
       pointsCount: 4,
       tension: 0.1,
       closed: false,
       curveType: "centripetal",
-      curviness: 30
+      curviness: 30,
     },
     particles: {
       size: 20,
-      count: 30
-    }
-  }
+      count: 30,
+    },
+  },
 };

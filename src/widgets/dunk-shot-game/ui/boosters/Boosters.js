@@ -14,7 +14,7 @@ export function Boosters() {
   const {
     wrapper,
     setBoosters,
-    gameData: {boosters}
+    gameData: {boosters},
   } = useDunkShotStore();
 
   const boosterCallbacks = {
@@ -27,7 +27,7 @@ export function Boosters() {
     [WINGS]() {
       setBoosters({action: APPLY, data: WINGS});
       wrapper.state = WINGS_STATE;
-    }
+    },
   };
 
   const onClick = ({value, name, isDisabled}) => {
@@ -46,9 +46,9 @@ export function Boosters() {
           event: BOOSTERS_SET_DISABLED,
           callback({isDisabled}) {
             setBoosters({action: DISABLED, data: isDisabled});
-          }
-        }
-      ]
+          },
+        },
+      ],
     });
   }, [wrapper]);
 
@@ -66,12 +66,12 @@ export function Boosters() {
       value: value,
       child: (
         <div className={styles[background.className]}>
-          <Image src={background.src}/>
+          <Image src={background.src} />
         </div>
       ),
-      timeout
+      timeout,
     };
   });
 
-  return <BottomMenu buttons={boosterButtons} mod={MODES.ocean}/>;
+  return <BottomMenu buttons={boosterButtons} mod={MODES.ocean} />;
 }

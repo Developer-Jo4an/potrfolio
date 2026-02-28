@@ -17,9 +17,14 @@ export function CarGame() {
   const onEnd = useEndGame({gameSpace});
 
   const totalProps = {
-    ...fullProps, wrapper, state, content, gameSpace: {gameData: gameSpace}, onEnd,
+    ...fullProps,
+    wrapper,
+    state,
+    content,
+    gameSpace: {gameData: gameSpace},
+    onEnd,
     isPending: !state || (statesData.STATE_MACHINE[state]?.isLoad ?? false),
-    statesData
+    statesData,
   };
 
   return (
@@ -30,7 +35,7 @@ export function CarGame() {
         {type: ComponentTypes.BACKGROUND},
         {Component: Canvas},
         {type: ComponentTypes.TOP_MENU},
-        {type: ComponentTypes.LOADER}
+        {type: ComponentTypes.LOADER},
       ]}
     />
   );

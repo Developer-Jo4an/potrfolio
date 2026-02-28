@@ -35,7 +35,7 @@ export class Back extends Booster {
 
       const cellData = system.findInTree(
         prevTree,
-        ({cell: {id: cellId, isInsidePool}}) => id === cellId && !isInsidePool
+        ({cell: {id: cellId, isInsidePool}}) => id === cellId && !isInsidePool,
       );
 
       if (cellData?.cell) {
@@ -51,7 +51,7 @@ export class Back extends Booster {
     eventBus.dispatchEvent({
       type: events.update,
       cell: actionData.necessaryCell,
-      action: treeActions.removeFromPool
+      action: treeActions.removeFromPool,
     });
   }
 

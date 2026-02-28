@@ -11,7 +11,7 @@ export class Interactive extends System {
   initInteractive() {
     const cells = this.getEntitiesByType(CELL).list;
 
-    cells.forEach(eCell => {
+    cells.forEach((eCell) => {
       const {view} = this.getCellInfo(eCell);
 
       if (!view) return;
@@ -21,10 +21,10 @@ export class Interactive extends System {
         effect: () => {
           return eventSubscription({
             target: view,
-            callbacksBus: [{event: "pointertap", callback: e => this.onClick(e, eCell)}],
-            ...ON_OFF_MODE
+            callbacksBus: [{event: "pointertap", callback: (e) => this.onClick(e, eCell)}],
+            ...ON_OFF_MODE,
           });
-        }
+        },
       });
     });
   }
@@ -40,7 +40,6 @@ export class Interactive extends System {
 
   onClick({currentTarget}, entity) {
     const {eventBus, isInteractive} = this;
-    if (isInteractive)
-      eventBus.dispatchEvent({type: events.update, entity, action: treeActions.addToPool});
+    if (isInteractive) eventBus.dispatchEvent({type: events.update, entity, action: treeActions.addToPool});
   }
 }

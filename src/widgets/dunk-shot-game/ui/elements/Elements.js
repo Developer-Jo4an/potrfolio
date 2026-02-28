@@ -7,10 +7,10 @@ import styles from "./Elements.module.scss";
 export function Elements() {
   return (
     <div className={styles.elements}>
-      <Timer {...arguments[0]}/>
-      <PureHit {...arguments[0]}/>
+      <Timer {...arguments[0]} />
+      <PureHit {...arguments[0]} />
       <Star {...arguments[0]} />
-      <Stars {...arguments[0]}/>
+      <Stars {...arguments[0]} />
     </div>
   );
 }

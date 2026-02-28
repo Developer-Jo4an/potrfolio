@@ -45,7 +45,7 @@ export class ReturnCell extends Tween {
           duration: 0.15,
           ease: "sine.in",
         },
-        "<"
+        "<",
       )
       .to(animateObject, {
         scaleX,

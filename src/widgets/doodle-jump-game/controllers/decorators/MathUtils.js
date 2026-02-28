@@ -18,7 +18,7 @@ export class MathUtils extends Utils {
 
     return [boosterData?.jumpForceMultiplier, helperData?.jumpForceMultiplier].reduce(
       (acc, multiplier) => acc * (multiplier ?? 1),
-      jumpForce
+      jumpForce,
     );
   }
 

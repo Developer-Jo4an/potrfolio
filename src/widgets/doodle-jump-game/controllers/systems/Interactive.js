@@ -46,7 +46,7 @@ export class Interactive extends System {
     clearFunctions.push(
       eventSubscription({
         callbacksBus: [{event: "blur", callback: this.resetActions}],
-      })
+      }),
     );
 
     this.clearSomeEvents();
@@ -63,15 +63,15 @@ export class Interactive extends System {
     } = this;
 
     const actions = {
-      down: e => {
+      down: (e) => {
         e.preventDefault();
         this.toggleAction(Events.ACTIVATE_ACTION, e);
       },
-      up: e => {
+      up: (e) => {
         e.preventDefault();
         this.toggleAction(Events.DEACTIVATE_ACTION, e);
       },
-      onClick: e => {
+      onClick: (e) => {
         e.preventDefault();
         const {x, y} = getEventPosition(e);
         eventBus.dispatchEvent({type: Events.CLICK, x, y});
@@ -85,7 +85,7 @@ export class Interactive extends System {
           {event: "keyup", callback: actions.up},
           {event: "click", callback: actions.onClick},
         ],
-      })
+      }),
     );
 
     return true;
@@ -121,14 +121,14 @@ export class Interactive extends System {
     } = this.getCharacterInfo();
 
     const actions = {
-      onChangeOrientation: e => {
+      onChangeOrientation: (e) => {
         e.preventDefault();
         const {gamma} = e;
         this.resetActions();
         gamma > 0 ? (cInput.right = true) : (cInput.left = true);
         cPhysics.speedX = gamma * multiplier;
       },
-      onClick: e => {
+      onClick: (e) => {
         e.preventDefault();
         const {x, y} = getEventPosition(e);
         eventBus.dispatchEvent({type: Events.CLICK, x, y});
@@ -141,7 +141,7 @@ export class Interactive extends System {
           {event: "deviceorientation", callback: actions.onChangeOrientation},
           {event: "click", callback: actions.onClick},
         ],
-      })
+      }),
     );
 
     return true;
@@ -159,7 +159,7 @@ export class Interactive extends System {
     const touchData = {};
 
     const actions = {
-      start: e => {
+      start: (e) => {
         e.preventDefault();
         for (const {identifier} of e.changedTouches) {
           const {clientX} = e.changedTouches?.[0] ?? {clientX: 0};
@@ -168,7 +168,7 @@ export class Interactive extends System {
           this.toggleAction(Events.ACTIVATE_ACTION, {keyCode});
         }
       },
-      end: e => {
+      end: (e) => {
         e.preventDefault();
         for (const {identifier} of e.changedTouches) {
           const keyCode = touchData[identifier];
@@ -197,12 +197,12 @@ export class Interactive extends System {
       },
     } = this;
 
-    const disable = e => e.preventDefault();
+    const disable = (e) => e.preventDefault();
 
     clearFunctions.push(
       eventSubscription({
         callbacksBus: [{event: ["contextmenu", "pointerdown", "pointerup", "copy"], callback: disable}],
-      })
+      }),
     );
   }
 

@@ -18,7 +18,7 @@ export class Booster {
   enable() {
     const {
       storage: {gameSpace},
-      system
+      system,
     } = this;
 
     const {cBooster} = system.getBoosterInfo();
@@ -33,7 +33,7 @@ export class Booster {
   disable() {
     const {
       storage: {gameSpace},
-      system
+      system,
     } = this;
 
     const {cBooster} = system.getBoosterInfo();

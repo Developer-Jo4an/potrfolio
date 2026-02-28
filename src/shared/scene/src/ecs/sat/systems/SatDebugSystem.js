@@ -11,7 +11,7 @@ class SatDebugSystem extends System {
   updateItems() {
     const entities = this.filterEntitiesByClass(SatCollider);
 
-    entities.forEach(entity => {
+    entities.forEach((entity) => {
       const cSatCollider = entity.get(SatCollider, Matrix3Component);
 
       const {collider} = cSatCollider;
@@ -27,8 +27,7 @@ class SatDebugSystem extends System {
     return getPointsFromPolygon(polygon);
   }
 
-  paint(entity, globalVertices) {
-  }
+  paint(entity, globalVertices) {}
 
   update() {
     super.update(...arguments);

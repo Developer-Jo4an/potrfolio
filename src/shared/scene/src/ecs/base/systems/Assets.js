@@ -17,8 +17,8 @@ export class Assets extends System {
     const {
       factory,
       storage: {
-        mainSceneSettings: {factory: {prepareList = []} = {}}
-      }
+        mainSceneSettings: {factory: {prepareList = []} = {}},
+      },
     } = this;
 
     factory.prepareItems(prepareList);
@@ -29,15 +29,13 @@ export class Assets extends System {
 
     eventSubscription({
       target: eventBus,
-      callbacksBus: [
-        {event: "get-asset", callback: this.getAsset}
-      ]
+      callbacksBus: [{event: "get-asset", callback: this.getAsset}],
     });
   }
 
   getAsset(event) {
     const {
-      data: {entity}
+      data: {entity},
     } = event;
     this.addSideEffect({entity, effect: this.getFactoryItem, args: [event], context: this});
   }
@@ -45,7 +43,7 @@ export class Assets extends System {
   getFactoryItem(event) {
     const {
       data: {name},
-      data
+      data,
     } = event;
     const {factory} = this;
     const item = factory.getItem(name, data);

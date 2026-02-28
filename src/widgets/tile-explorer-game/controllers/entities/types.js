@@ -17,15 +17,10 @@ import {TIMER} from "./timer";
 
 export const types = {
   game: {
-    components: [{Class: State, props: {states: STATE_MACHINE}}, {Class: Game}]
+    components: [{Class: State, props: {states: STATE_MACHINE}}, {Class: Game}],
   },
   [TREE]: {
-    components: [
-      {Class: Tree},
-      {Class: PixiComponent},
-      {Class: Matrix3Component},
-      {Class: Collection}
-    ]
+    components: [{Class: Tree}, {Class: PixiComponent}, {Class: Matrix3Component}, {Class: Collection}],
   },
   [CELL]: {
     components: [
@@ -34,32 +29,22 @@ export const types = {
       {Class: Matrix3Component},
       {Class: Collection},
       {Class: Cell},
-      {Class: Tween}
-    ]
+      {Class: Tween},
+    ],
   },
   [SHELF]: {
-    components: [
-      {Class: PixiComponent},
-      {Class: Queue},
-      {Class: Matrix3Component},
-      {Class: Collection}
-    ]
+    components: [{Class: PixiComponent}, {Class: Queue}, {Class: Matrix3Component}, {Class: Collection}],
   },
   [BOOSTER]: {
-    components: [
-      {Class: Booster},
-      {Class: Tween},
-      {Class: Promise},
-      {Class: Collection}
-    ]
+    components: [{Class: Booster}, {Class: Tween}, {Class: Promise}, {Class: Collection}],
   },
   [ANIMATION_TREE]: {
-    components: [{Class: Queue}, {Class: Collection}]
+    components: [{Class: Queue}, {Class: Collection}],
   },
   [BOUNDS]: {
-    components: [{Class: Bounds}, {Class: Collection}]
+    components: [{Class: Bounds}, {Class: Collection}],
   },
   [TIMER]: {
-    components: [{Class: Timer}, {Class: Collection}]
-  }
+    components: [{Class: Timer}, {Class: Collection}],
+  },
 };

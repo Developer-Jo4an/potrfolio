@@ -34,7 +34,7 @@ export class Helpers extends System {
   updateHelpers() {
     const helpers = this.getEntitiesByType(HELPER)?.list ?? [];
 
-    helpers.forEach(eHelper => {
+    helpers.forEach((eHelper) => {
       const {
         parentUUID,
         cMatrix: cHelperMatrix,

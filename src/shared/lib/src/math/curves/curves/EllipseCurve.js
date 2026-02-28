@@ -45,7 +45,7 @@ class EllipseCurve extends Curve {
     aStartAngle = 0,
     aEndAngle = Math.PI * 2,
     aClockwise = false,
-    aRotation = 0
+    aRotation = 0,
   ) {
     super();
 

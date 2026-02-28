@@ -4,7 +4,17 @@ import {labels} from "../constants/labels";
 
 export class SnowsContainer extends ParticleContainer {
   create() {
-    const {defaultProperties: {storage: {mainSceneSettings: {snow: {particles: {count}}}}}} = this;
+    const {
+      defaultProperties: {
+        storage: {
+          mainSceneSettings: {
+            snow: {
+              particles: {count},
+            },
+          },
+        },
+      },
+    } = this;
 
     const texture = assetsManager.getAssetFromSpace(PIXI_SPACE, TEXTURE, SNOW);
 
@@ -22,15 +32,15 @@ export class SnowsContainer extends ParticleContainer {
         rotation: true,
         vertex: true,
         uvs: true,
-        color: true
-      }
+        color: true,
+      },
     });
   }
 
   reset() {
     const {asset} = this;
 
-    asset.particleChildren.forEach(particle => {
+    asset.particleChildren.forEach((particle) => {
       particle.rotation = 0;
     });
 

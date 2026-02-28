@@ -1,4 +1,4 @@
-import {System} from "@shared"
+import {System} from "@shared";
 
 export class Camera extends System {
   moveCamera({ticks}) {

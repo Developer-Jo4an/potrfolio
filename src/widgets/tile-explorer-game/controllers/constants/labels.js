@@ -12,6 +12,6 @@ export const labels = {
 
   snow: {
     container: "snows",
-    particle: "snow"
-  }
+    particle: "snow",
+  },
 };

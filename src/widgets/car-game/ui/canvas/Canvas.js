@@ -21,7 +21,7 @@ export function Canvas() {
     },
     initProps: {stateMachine: STATE_MACHINE, mainSceneSettings, preload},
     afterInit: setWrapper,
-    containerRef
+    containerRef,
   });
 
   useStateControls(wrapper, STATE_MACHINE, IGNORE_NEXT_STATES, null, setState);
@@ -30,5 +30,5 @@ export function Canvas() {
 
   const isGameEnd = [WIN, LOSE].includes(state);
 
-  return <div ref={containerRef} className={cl(styles.canvas, {[styles.canvasDisabled]: isGameEnd})}/>;
+  return <div ref={containerRef} className={cl(styles.canvas, {[styles.canvasDisabled]: isGameEnd})} />;
 }

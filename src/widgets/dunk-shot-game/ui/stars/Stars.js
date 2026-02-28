@@ -13,7 +13,7 @@ import styles from "./Stars.module.scss";
 export function Stars({topMenu, progressBar}) {
   const {wrapper} = useDunkShotStore();
   const {gameData: {progress: {current, max} = {}} = {}} = useDunkShotStore();
-  const [StarComponent, setStarComponent] = useState(<FaStar/>);
+  const [StarComponent, setStarComponent] = useState(<FaStar />);
 
   const elementRefs = useRef({stars: []});
 
@@ -32,10 +32,10 @@ export function Stars({topMenu, progressBar}) {
         {
           event: THROW_HIT,
           callback() {
-            setStarComponent(isActiveX2 ? <TbStarsFilled/> : <FaStar/>);
-          }
-        }
-      ]
+            setStarComponent(isActiveX2 ? <TbStarsFilled /> : <FaStar />);
+          },
+        },
+      ],
     });
   }, [wrapper, isActiveX2]);
 
@@ -61,7 +61,7 @@ export function Stars({topMenu, progressBar}) {
             className={styles.star}>
             {StarComponent}
           </div>
-        ))
+        )),
       )}
     </>
   );

@@ -25,12 +25,12 @@ export class ProxyGameSpaceStore {
 
   static init() {
     if (!this.initPromise)
-      return this._initPromise = new Promise(async res => {
+      return (this._initPromise = new Promise(async (res) => {
         const {default: onChange} = await import("on-change");
         global.onChange = onChange;
         this._isInitialized = true;
         res();
-      });
+      }));
 
     return this.initPromise;
   }
@@ -87,6 +87,6 @@ export class ProxyGameSpaceStore {
 
   _emit(gameData) {
     this._trackedSpace = gameData;
-    this._listeners.forEach(listener => listener());
+    this._listeners.forEach((listener) => listener());
   }
 }

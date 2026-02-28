@@ -23,13 +23,13 @@ export class Shoot extends System {
     const {
       eventBus,
       storage: {
-        serviceData: {clearFunctions}
-      }
+        serviceData: {clearFunctions},
+      },
     } = this;
 
     const clear = eventSubscription({
       target: eventBus,
-      callbacksBus: [{event: Events.CLICK, callback: this.onClick}]
+      callbacksBus: [{event: Events.CLICK, callback: this.onClick}],
     });
 
     clearFunctions.push(clear);
@@ -43,7 +43,7 @@ export class Shoot extends System {
     const functions = {
       [Input.Processes.TAP]: this.onObjectClick,
       [Input.Processes.KEYBOARD]: this.onScreenClick,
-      [Input.Processes.GYROSCOPE]: this.onScreenClick
+      [Input.Processes.GYROSCOPE]: this.onScreenClick,
     };
 
     functions[cInput.process].call(this, ...arguments);
@@ -81,8 +81,8 @@ export class Shoot extends System {
       cMatrix: cBulletMatrix,
       cCollider,
       settings: {
-        size: {width, height}
-      }
+        size: {width, height},
+      },
     } = this.getBulletInfo(eBullet);
 
     const {view: mainContainerView} = this.getMainContainerInfo();
@@ -103,7 +103,7 @@ export class Shoot extends System {
 
   deleteBullets() {
     const {
-      storage: {stage}
+      storage: {stage},
     } = this;
 
     const bullets = this.getEntitiesByType(BULLET)?.list ?? [];
@@ -128,7 +128,7 @@ export class Shoot extends System {
   updateBullets() {
     const bullets = this.getEntitiesByType(BULLET)?.list ?? [];
 
-    bullets.forEach(eBullet => {
+    bullets.forEach((eBullet) => {
       /**
        * @type {TargetValue}
        */
@@ -150,8 +150,8 @@ export class Shoot extends System {
     const {
       cMatrix,
       cTarget: {
-        target: {x, y}
-      }
+        target: {x, y},
+      },
     } = this.getBulletInfo(eBullet);
 
     const movingLength = this.getBulletSpeed() * deltaS;
@@ -199,26 +199,26 @@ export class Shoot extends System {
     const {
       storage: {
         mainSceneSettings: {
-          bullet: {speed}
-        }
-      }
+          bullet: {speed},
+        },
+      },
     } = this;
 
     const {
       cBooster: {data: boosterData, group: boosterGroup},
-      cHelper: {data: helperData}
+      cHelper: {data: helperData},
     } = this.getCharacterInfo();
 
     return [boosterData?.jumpForceMultiplier, helperData?.jumpForceMultiplier].reduce(
       (acc, multiplier) => acc * (multiplier ?? 1),
-      speed
+      speed,
     );
   }
 
   getCollisionEntities(eBullet, type, collisionGroup) {
     const collisionEntitiesList = [];
 
-    this.runOnCollisions(eBullet, collisionGroup, uuid => {
+    this.runOnCollisions(eBullet, collisionGroup, (uuid) => {
       const entity = this.getEntityByUUID(type, uuid);
       collisionEntitiesList.push(entity);
     });
@@ -229,7 +229,7 @@ export class Shoot extends System {
   killEntities(eBullet, killEntitiesList) {
     this.destroyEntity(eBullet);
 
-    killEntitiesList.forEach(entity => {
+    killEntitiesList.forEach((entity) => {
       const cCounter = entity.get(Counter);
       cCounter.current++;
       cCounter.current === cCounter.max && this.destroyEntity(entity);

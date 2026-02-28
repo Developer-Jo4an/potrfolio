@@ -12,9 +12,11 @@ export class Effects extends System {
       storage: {
         stage,
         mainSceneSettings: {
-          snow: {particles: {count}}
-        }
-      }
+          snow: {
+            particles: {count},
+          },
+        },
+      },
     } = this;
 
     const {asset: snowsContainer} = this.getSnowParticleContainer();
@@ -46,16 +48,13 @@ export class Effects extends System {
       storage: {
         mainSceneSettings: {
           snow: {
-            particles: {size}
-          }
-        }
-      }
+            particles: {size},
+          },
+        },
+      },
     } = this;
 
-    const scale = Math.min(
-      size / currentParticle.texture.width,
-      size / currentParticle.texture.height
-    );
+    const scale = Math.min(size / currentParticle.texture.width, size / currentParticle.texture.height);
 
     currentParticle.scaleX = scale;
     currentParticle.scaleY = scale;
@@ -69,10 +68,10 @@ export class Effects extends System {
         mainSceneSettings: {
           snow: {
             curveSettings: {pointsCount, closed, curviness, curveType, tension},
-            particles: {size}
-          }
-        }
-      }
+            particles: {size},
+          },
+        },
+      },
     } = this;
 
     const startPosition = new Vector3(GAME_SIZE.width * ((index + 1) / length), -size / 2, 0);
@@ -99,34 +98,33 @@ export class Effects extends System {
       storage: {
         mainSceneSettings: {
           snow: {
-            tween: {duration, rotation, ease}
-          }
-        }
-      }
+            tween: {duration, rotation, ease},
+          },
+        },
+      },
     } = this;
 
-    const particleTween = gsap.timeline({
-      repeat: -1,
-      onUpdate() {
-        const progress = this.progress();
-        const point = curve.getPointAt(progress);
+    const particleTween = gsap
+      .timeline({
+        repeat: -1,
+        onUpdate() {
+          const progress = this.progress();
+          const point = curve.getPointAt(progress);
 
-        particle.x = point.x;
-        particle.y = point.y;
-      },
-      onComplete() {
-        particleTween.delete(GAME);
-      }
-    }).save(GAME);
+          particle.x = point.x;
+          particle.y = point.y;
+        },
+        onComplete() {
+          particleTween.delete(GAME);
+        },
+      })
+      .save(GAME);
 
-    particleTween.to(
-      particle,
-      {
-        rotation: rotation * this.getMultiplier(index),
-        duration,
-        ease
-      }
-    );
+    particleTween.to(particle, {
+      rotation: rotation * this.getMultiplier(index),
+      duration,
+      ease,
+    });
 
     return particleTween;
   }
@@ -139,8 +137,8 @@ export class Effects extends System {
     const {
       factory,
       storage: {
-        serviceData: {clearFunctions}
-      }
+        serviceData: {clearFunctions},
+      },
     } = this;
 
     clearFunctions.push(() => {

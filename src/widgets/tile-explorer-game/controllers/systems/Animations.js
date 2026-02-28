@@ -36,17 +36,17 @@ export class Animations extends System {
         mainSceneSettings: {
           cell: {
             animations: {
-              idle: {s, m, l}
-            }
-          }
-        }
-      }
+              idle: {s, m, l},
+            },
+          },
+        },
+      },
     } = this;
 
     const cells = this.getEntitiesByType(CELL).list;
     const {entity: eAnimationTree} = this.getAnimationTreeInfo();
 
-    const playIdle = spine => playAnimationOnce({spine, name: "idle"});
+    const playIdle = (spine) => playAnimationOnce({spine, name: "idle"});
 
     this.addSideEffect({
       entity: eAnimationTree,
@@ -61,25 +61,31 @@ export class Animations extends System {
           playIdle(spineClip);
           spineClip.state.timeScale = 0;
 
-          const timeoutId = setTimeout(() => {
-            spineClip.state.timeScale = 1;
-            playIdle(spineClip);
-          }, random(s, m));
+          const timeoutId = setTimeout(
+            () => {
+              spineClip.state.timeScale = 1;
+              playIdle(spineClip);
+            },
+            random(s, m),
+          );
 
-          const intervalId = setInterval(() => {
-            playIdle(spineClip);
-          }, random(m, l));
+          const intervalId = setInterval(
+            () => {
+              playIdle(spineClip);
+            },
+            random(m, l),
+          );
 
           acc.push(
             () => clearTimeout(timeoutId),
-            () => clearInterval(intervalId)
+            () => clearInterval(intervalId),
           );
 
           return acc;
         }, []);
 
-        return () => clears.forEach(clear => clear());
-      }
+        return () => clears.forEach((clear) => clear());
+      },
     });
   }
 
@@ -87,16 +93,16 @@ export class Animations extends System {
     const {
       eventBus,
       storage: {
-        serviceData: {clearFunctions}
-      }
+        serviceData: {clearFunctions},
+      },
     } = this;
 
     const clear = eventSubscription({
       target: eventBus,
       callbacksBus: [
         {event: events.update, callback: this.onUpdate},
-        {event: events.updated, callback: this.onUpdated}
-      ]
+        {event: events.updated, callback: this.onUpdated},
+      ],
     });
 
     clearFunctions.push(clear);
@@ -131,7 +137,7 @@ export class Animations extends System {
     const {
       position: {x, y},
       width,
-      height
+      height,
     } = this.getFromTree(treeBounds, cell.x, cell.y, cell.z);
 
     const scaleX = cMatrix3.scaleX * (width / view.width);
@@ -146,8 +152,8 @@ export class Animations extends System {
         scaleY,
         onComplete() {
           cTween.remove(tweens.returnCell);
-        }
-      }
+        },
+      },
     });
 
     cTween.add(returnTween, tweens.returnCell);
@@ -169,9 +175,9 @@ export class Animations extends System {
     const {
       storage: {
         mainSceneSettings: {
-          shelf: {target}
-        }
-      }
+          shelf: {target},
+        },
+      },
     } = this;
 
     const {queue} = this.getAnimationTreeInfo();
@@ -191,9 +197,9 @@ export class Animations extends System {
     const {
       storage: {
         mainSceneSettings: {
-          cell: {animationThreshold}
-        }
-      }
+          cell: {animationThreshold},
+        },
+      },
     } = this;
 
     const {queue} = this.getAnimationTreeInfo();
@@ -220,8 +226,8 @@ export class Animations extends System {
           y,
           onComplete() {
             cTween.remove(tweens.cellToCage);
-          }
-        }
+          },
+        },
       });
       cPromise.add(moveTween.promise);
       cTween.add(moveTween, tweens.cellToCage);
@@ -232,15 +238,15 @@ export class Animations extends System {
     const {
       storage: {
         mainSceneSettings: {
-          shelf: {target}
-        }
-      }
+          shelf: {target},
+        },
+      },
     } = this;
 
-    chunks.forEach(async chunk => {
+    chunks.forEach(async (chunk) => {
       if (chunk.length !== target) return;
 
-      const isHasHideTween = chunk.some(eCell => {
+      const isHasHideTween = chunk.some((eCell) => {
         const {cTween} = this.getCellInfo(eCell);
         return cTween.has(tweens.hideCell);
       });
@@ -254,7 +260,7 @@ export class Animations extends System {
         return acc;
       }, []);
 
-      const hideTweens = chunk.map(eCell => {
+      const hideTweens = chunk.map((eCell) => {
         const {type, view, cTween, cMatrix3, cPromise} = this.getCellInfo(eCell);
         const clip = view.getChildByLabel(Cell.getSpineClipLabel(type, Cell.types.explosion));
 
@@ -274,8 +280,8 @@ export class Animations extends System {
             alpha: 0,
             onComplete() {
               cTween.remove(tweens.hideCell);
-            }
-          }
+            },
+          },
         });
 
         cPromise.add(tween.promise);
@@ -289,14 +295,14 @@ export class Animations extends System {
 
       await Promise.allSettled(movePromises);
 
-      hideTweens.forEach(hideTween => hideTween.resume());
+      hideTweens.forEach((hideTween) => hideTween.resume());
 
       await Promise.allSettled(hidePromises);
 
       const {queue} = this.getAnimationTreeInfo();
       const newQueue = [...queue];
 
-      const indexes = chunk.map(eCell => newQueue.indexOf(eCell));
+      const indexes = chunk.map((eCell) => newQueue.indexOf(eCell));
       newQueue.splice(indexes[0], indexes.length);
 
       this.changeAnimationTree({queue: newQueue});
@@ -324,8 +330,8 @@ export class Animations extends System {
           isBlocked,
           onComplete() {
             cTween.remove(tweens.changeBlocked);
-          }
-        }
+          },
+        },
       });
 
       cTween.add(changeBlockedTween, tweens.changeBlocked);
@@ -336,7 +342,7 @@ export class Animations extends System {
   applyEnterAnimation({entity: eCell}) {
     const {cTween, view, cMatrix3, cPromise} = this.getCellInfo(eCell);
     const {
-      queue: {width, height}
+      queue: {width, height},
     } = this.getBoundsInfo();
 
     const scaleX = cMatrix3.scaleX * (width / view.width);
@@ -349,8 +355,8 @@ export class Animations extends System {
         scaleY,
         onComplete() {
           cTween.remove(tweens.enter);
-        }
-      }
+        },
+      },
     });
     cTween.add(enterTween, tweens.enter);
     cPromise.add(enterTween.promise);
@@ -358,7 +364,7 @@ export class Animations extends System {
 
   getTweenTarget(index) {
     const {
-      queue: {xStart, yStart, xStep, yStep, width, height}
+      queue: {xStart, yStart, xStep, yStep, width, height},
     } = this.getBoundsInfo();
 
     const x = xStart + index * xStep;

@@ -55,9 +55,9 @@ export class Booster extends Generator {
     {
       eParent,
       behaviour: {
-        props: {offset}
-      }
-    }
+        props: {offset},
+      },
+    },
   ) {
     const {system} = this;
 

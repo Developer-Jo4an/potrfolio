@@ -51,4 +51,3 @@ export class Decorator extends Unit {
     console.groupEnd();
   }
 }
-

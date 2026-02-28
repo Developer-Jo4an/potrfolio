@@ -60,7 +60,7 @@ export class Platform extends Generator {
       const points = [
         {x: start, y: cMatrix.y},
         {x: end, y: cMatrix.y},
-        {x: cMatrix.x, y: cMatrix.y}
+        {x: cMatrix.x, y: cMatrix.y},
       ];
 
       const {tween, promise} = move({target: cMatrix, vars: {points, speed}});

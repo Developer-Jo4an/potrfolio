@@ -13,7 +13,7 @@ export function TopMenu({className, content, gameSpace, pause, sound, updateProp
     lifesIcon: null,
     scoreIcon: null,
     score: null,
-    sound: null
+    sound: null,
   });
 
   const lifes = isFinite(gameSpace.gameData?.lifes) && {count: gameSpace.gameData?.lifes, ...content.menu.lifes};
@@ -25,7 +25,7 @@ export function TopMenu({className, content, gameSpace, pause, sound, updateProp
 
   return (
     <div className={cl(styles.topMenu, className)}>
-      {isObject(pause) && <PauseButton {...pause} ref={(ref) => (elements.pause = ref)}/>}
+      {isObject(pause) && <PauseButton {...pause} ref={(ref) => (elements.pause = ref)} />}
 
       <div className={styles.topNavStats}>
         {isObject(lifes) && (
@@ -69,7 +69,7 @@ export function TopMenu({className, content, gameSpace, pause, sound, updateProp
         )}
       </div>
 
-      {isObject(sound) && <SoundButton {...sound} ref={(ref) => (elements.sound = ref)}/>}
+      {isObject(sound) && <SoundButton {...sound} ref={(ref) => (elements.sound = ref)} />}
 
       {children}
     </div>

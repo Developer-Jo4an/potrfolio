@@ -17,9 +17,14 @@ export function DunkShotGame() {
   const onEnd = useEndGame();
 
   const totalProps = {
-    ...fullProps, wrapper, state, content, gameSpace: {gameData}, onEnd,
+    ...fullProps,
+    wrapper,
+    state,
+    content,
+    gameSpace: {gameData},
+    onEnd,
     isPending: !state || (statesData.STATE_MACHINE[state]?.isLoad ?? false),
-    statesData
+    statesData,
   };
 
   return (
@@ -33,10 +38,8 @@ export function DunkShotGame() {
         {Component: Progress},
         {Component: Boosters},
         {Component: Elements},
-        {type: ComponentTypes.LOADER}
+        {type: ComponentTypes.LOADER},
       ]}
     />
   );
 }
-
-

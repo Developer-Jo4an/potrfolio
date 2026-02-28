@@ -24,7 +24,7 @@ import {
   analytics,
   UPDATE_DECORATOR_FIELD,
   UPDATED,
-  RESIZE
+  RESIZE,
 } from "@shared";
 
 export class Controller extends PIXIController {
@@ -46,8 +46,8 @@ export class Controller extends PIXIController {
       target: eventBus,
       callbacksBus: [
         {event: UPDATED, callback: this.onUpdated},
-        {event: RESIZE, callback: this.onResized}
-      ]
+        {event: RESIZE, callback: this.onResized},
+      ],
     });
   }
 
@@ -85,11 +85,11 @@ export class Controller extends PIXIController {
   waitPromises() {
     const {
       storage: {
-        mainSceneSettings: {engGameWaiting}
-      }
+        mainSceneSettings: {engGameWaiting},
+      },
     } = this;
 
-    return new Promise(res => setTimeout(res, engGameWaiting));
+    return new Promise((res) => setTimeout(res, engGameWaiting));
   }
 
   initEngine() {
@@ -116,10 +116,10 @@ export class Controller extends PIXIController {
       PixiRenderSystem,
       Time,
       Game,
-      Collector
+      Collector,
     ];
 
-    systemClasses.forEach(System => {
+    systemClasses.forEach((System) => {
       const system = new System(fullProps);
       engine.addSystem(system);
     });
@@ -164,7 +164,7 @@ export class Controller extends PIXIController {
   onResized() {
     const {
       stage,
-      $container: {offsetWidth: width, offsetHeight: height}
+      $container: {offsetWidth: width, offsetHeight: height},
     } = this;
 
     const scale = Math.min(width / GAME_SIZE.width, height / GAME_SIZE.height);
@@ -182,12 +182,12 @@ export class Controller extends PIXIController {
 
   resetServiceData() {
     const {
-      storage: {serviceData}
+      storage: {serviceData},
     } = this;
 
     if (serviceData) {
       const {clearFunctions} = serviceData;
-      clearFunctions.forEach(func => func());
+      clearFunctions.forEach((func) => func());
       clearFunctions.length = 0;
     }
   }
@@ -195,7 +195,7 @@ export class Controller extends PIXIController {
   resetGameStore() {
     const {
       storage,
-      storage: {gameStore}
+      storage: {gameStore},
     } = this;
 
     if (gameStore) {
@@ -206,7 +206,7 @@ export class Controller extends PIXIController {
 
   resetEngine() {
     const {
-      storage: {engine}
+      storage: {engine},
     } = this;
 
     if (!engine) return;
@@ -215,7 +215,7 @@ export class Controller extends PIXIController {
       if (key === "game") continue;
       const collection = engine.entities[key];
       const savedList = [...collection.list];
-      savedList.forEach(entity => {
+      savedList.forEach((entity) => {
         entity.destroy();
         collection.remove(entity);
       });
@@ -234,4 +234,3 @@ export class Controller extends PIXIController {
     super.reset();
   }
 }
-

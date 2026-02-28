@@ -19,7 +19,7 @@ export class Level extends System {
   initTree() {
     const {
       storage: {stage},
-      eventBus
+      eventBus,
     } = this;
 
     const {entity: eTree, tree, cPixi} = this.getTreeInfo();
@@ -51,8 +51,8 @@ export class Level extends System {
   calculateCellSize() {
     const {
       storage: {
-        mainSceneSettings: {cell: cellSettings, grid: gridSettings}
-      }
+        mainSceneSettings: {cell: cellSettings, grid: gridSettings},
+      },
     } = this;
 
     const {tree} = this.getTreeInfo();
@@ -86,9 +86,7 @@ export class Level extends System {
     playAnimationOnce({spine: blockedSpineClip, name: "idle_1", pause: true});
     blockedSpineClip.alpha = +isBlocked;
 
-    isBlocked
-      ? this.disableCellView(aCell)
-      : this.enableCellView(aCell);
+    isBlocked ? this.disableCellView(aCell) : this.enableCellView(aCell);
 
     view.addChild(aCell);
   }
@@ -109,8 +107,8 @@ export class Level extends System {
   prepareCellSign({eCell, cell, width, height}) {
     const {
       storage: {
-        mainSceneSettings: {cell: cellSettings}
-      }
+        mainSceneSettings: {cell: cellSettings},
+      },
     } = this;
 
     const {view} = this.getCellInfo(eCell);
@@ -172,14 +170,14 @@ export class Level extends System {
   treeToCenter() {
     const {
       storage: {
-        mainSceneSettings: {grid: gridSettings}
-      }
+        mainSceneSettings: {grid: gridSettings},
+      },
     } = this;
 
     this.forceRender();
 
     const {
-      storage: {stage}
+      storage: {stage},
     } = this;
     const {cMatrix3, view} = this.getTreeInfo();
 
@@ -199,9 +197,9 @@ export class Level extends System {
       storage: {
         stage,
         mainSceneSettings: {
-          shelf: {position}
-        }
-      }
+          shelf: {position},
+        },
+      },
     } = this;
 
     const {entity: eShelf, cMatrix3, cPixi} = this.getShelfInfo();
@@ -224,9 +222,14 @@ export class Level extends System {
     const {
       storage: {
         mainSceneSettings: {
-          shelf: {cage, margin, padding: {x: paddingX}, gap}
-        }
-      }
+          shelf: {
+            cage,
+            margin,
+            padding: {x: paddingX},
+            gap,
+          },
+        },
+      },
     } = this;
 
     const {max} = this.getShelfInfo();
@@ -238,9 +241,13 @@ export class Level extends System {
     const {
       storage: {
         mainSceneSettings: {
-          shelf: {padding: {x: paddingX, y: paddingY}, gap, cageOffset}
-        }
-      }
+          shelf: {
+            padding: {x: paddingX, y: paddingY},
+            gap,
+            cageOffset,
+          },
+        },
+      },
     } = this;
 
     const {view} = this.getShelfInfo();
@@ -264,9 +271,12 @@ export class Level extends System {
     const {
       storage: {
         mainSceneSettings: {
-          shelf: {margin, padding: {y: paddingY}}
-        }
-      }
+          shelf: {
+            margin,
+            padding: {y: paddingY},
+          },
+        },
+      },
     } = this;
 
     const {view} = this.getShelfInfo();
@@ -306,7 +316,7 @@ export class Level extends System {
           position: {x: view.x, y: view.y},
           width: view.width,
           height: view.height,
-          bounds: view.getBounds()
+          bounds: view.getBounds(),
         });
 
       this.setToTree(treeBounds, x, y, z, fullData);
@@ -324,7 +334,7 @@ export class Level extends System {
 
     this.forceRender();
 
-    cages.forEach(cage => {
+    cages.forEach((cage) => {
       const bounds = cage.getBounds();
       const x = bounds.minX + bounds.width / 2;
       const y = bounds.minY + bounds.height / 2;
@@ -344,7 +354,7 @@ export class Level extends System {
   initQueueBounds() {
     const {
       shelf: [queue1, queue2],
-      bounds
+      bounds,
     } = this.getBoundsInfo();
 
     bounds.queue = {
@@ -353,7 +363,7 @@ export class Level extends System {
       xStep: queue2.x - queue1.x,
       yStep: queue2.y - queue1.y,
       width: queue1.width,
-      height: queue1.height
+      height: queue1.height,
     };
   }
 

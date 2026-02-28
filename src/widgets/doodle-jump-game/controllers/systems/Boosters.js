@@ -5,7 +5,7 @@ import {BOOSTER, Boosters as BoosterNamespace} from "../entities/booster";
 import {PLATFORM} from "../entities/platform";
 import {CollisionGroups} from "../config/collision";
 import {Events} from "../constants/events";
-import {System, getPluginType, initPlugins} from "@shared"
+import {System, getPluginType, initPlugins} from "@shared";
 
 export class Boosters extends System {
   init() {
@@ -31,14 +31,14 @@ export class Boosters extends System {
         storage,
         system: this,
         engine,
-      }
+      },
     );
   }
 
   updateBoosters() {
     const boosters = this.getEntitiesByType(BOOSTER)?.list ?? [];
 
-    boosters.forEach(eBooster => {
+    boosters.forEach((eBooster) => {
       const {
         parentUUID,
         cMatrix: cBoosterMatrix,
@@ -56,7 +56,7 @@ export class Boosters extends System {
   checkCollision() {
     const {entity: eCharacter} = this.getCharacterInfo();
 
-    this.runOnCollisions(eCharacter, CollisionGroups.BOOSTER, boosterUUID => {
+    this.runOnCollisions(eCharacter, CollisionGroups.BOOSTER, (boosterUUID) => {
       this.applyBooster(boosterUUID);
     });
   }

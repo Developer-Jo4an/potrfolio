@@ -3,7 +3,7 @@ import {Input} from "../../components/Input";
 import {move} from "../../tweens/move";
 import {isArray, isFinite, isObject} from "lodash";
 import {tremble} from "../../tweens/tremble";
-import {eventSubscription, lerp, Entity} from "@shared"
+import {eventSubscription, lerp, Entity} from "@shared";
 import {ENEMY, EnemyBehaviours} from "../../entities/enemy";
 import {Events} from "../../constants/events";
 import {GAME_SIZE} from "../../constants/game";
@@ -80,7 +80,7 @@ export class Enemy extends Generator {
       behaviour: {
         props: {x, yOffset},
       },
-    }
+    },
   ) {
     const {system} = this;
     const {cMatrix, view} = system.getEnemyInfo(eEnemy);
@@ -110,7 +110,7 @@ export class Enemy extends Generator {
       behaviour: {
         props: {offset},
       },
-    }
+    },
   ) {
     const {system} = this;
 
@@ -128,7 +128,7 @@ export class Enemy extends Generator {
       behaviour: {
         props: {x, yOffset},
       },
-    }
+    },
   ) {
     const {system} = this;
 
@@ -158,7 +158,7 @@ export class Enemy extends Generator {
       behaviour: {
         props: {radius, pointsCount, speed, x, yOffset},
       },
-    }
+    },
   ) {
     const {system} = this;
 

@@ -18,5 +18,5 @@ export function Error() {
     if (counter === 0) window.location.reload();
   }, [counter]);
 
-  return <ErrorMessage message={error.message.replace(SPLITTER, counter.toString())}/>;
+  return <ErrorMessage message={error.message.replace(SPLITTER, counter.toString())} />;
 }

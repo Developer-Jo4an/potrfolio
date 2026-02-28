@@ -36,7 +36,7 @@ export class Help extends Booster {
     let calculationTypes = {};
     let max = 0;
 
-    queue.forEach(eCell => {
+    queue.forEach((eCell) => {
       const {type} = system.getCellInfo(eCell);
 
       calculationTypes[type] ??= 0;
@@ -115,7 +115,7 @@ export class Help extends Booster {
     necessaryCells.forEach(({id}, i) => {
       const {entity} = system.getCellInfoById(id);
 
-      const tweenPromise = new Promise(res => {
+      const tweenPromise = new Promise((res) => {
         const tween = gsap
           .to(
             {},
@@ -130,7 +130,7 @@ export class Help extends Booster {
                 tween.delete(GAME);
                 res();
               },
-            }
+            },
           )
           .save(GAME);
       });

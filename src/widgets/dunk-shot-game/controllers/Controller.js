@@ -20,7 +20,7 @@ import {
   RESIZE_DECORATOR_FIELD,
   STATE_DECORATOR_FIELD,
   UPDATE_DECORATOR_FIELD,
-  PAUSED
+  PAUSED,
 } from "@shared";
 import {DUNK_SHOT_TWEEN, GAME_SIZE} from "./constants";
 import {STATE_MACHINE} from "./constants/stateMachine";
@@ -39,7 +39,7 @@ export class Controller extends PIXIController {
     {DecoratorClass: PIXIMatterUpdate, decoratorField: UPDATE_DECORATOR_FIELD},
     {DecoratorClass: PixiResize, decoratorField: RESIZE_DECORATOR_FIELD},
     {DecoratorClass: State, decoratorField: STATE_DECORATOR_FIELD},
-    getIsDebug() && {DecoratorClass: Performance, decoratorField: PERFORMANCE_DECORATOR_FIELD}
+    getIsDebug() && {DecoratorClass: Performance, decoratorField: PERFORMANCE_DECORATOR_FIELD},
   ].filter(Boolean);
 
   groups = {};
@@ -120,8 +120,8 @@ export class Controller extends PIXIController {
         {event: RESIZE, callback: this.onResized},
         {event: UPDATED, callback: this.onUpdated},
         {event: DUNK_SHOT_GAME_DATA_EVENT, callback: ({gameData}) => (this.gameData = gameData)},
-        {event: DUNK_SHOT_CONFIG_EVENT, callback: ({config}) => (this.config = config)}
-      ]
+        {event: DUNK_SHOT_CONFIG_EVENT, callback: ({config}) => (this.config = config)},
+      ],
     });
   }
 
@@ -161,8 +161,8 @@ export class Controller extends PIXIController {
       stage,
       groups,
       storage: {
-        mainSceneSettings: {layers}
-      }
+        mainSceneSettings: {layers},
+      },
     } = this;
 
     layers.forEach(({id}) => {
@@ -200,7 +200,7 @@ export class Controller extends PIXIController {
       engine,
       world,
       app,
-      groups
+      groups,
     } = this;
 
     return {
@@ -216,14 +216,14 @@ export class Controller extends PIXIController {
       app,
       groups,
       config,
-      gameData
+      gameData,
     };
   }
 
   onResized() {
     const {
       stage,
-      $container: {offsetWidth: width, offsetHeight: height}
+      $container: {offsetWidth: width, offsetHeight: height},
     } = this;
 
     const scale = Math.min(width, GAME_SIZE.limits.width) / GAME_SIZE.width;

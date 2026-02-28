@@ -16,7 +16,7 @@ class SatRenderSystem extends System {
   updateItems() {
     const entities = this.filterEntitiesByClass(SatCollider, Matrix3Component);
 
-    entities.forEach(entity => {
+    entities.forEach((entity) => {
       const matrix3Component = entity.get(Matrix3Component);
       const cSatCollider = entity.get(SatCollider);
 

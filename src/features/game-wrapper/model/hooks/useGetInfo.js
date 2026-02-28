@@ -14,9 +14,9 @@ export function useGetInfo(fullProps) {
           event: Events.GET_INFO,
           callback({result}) {
             for (const key in fullProps) result[key] = fullProps[key];
-          }
-        }
-      ]
+          },
+        },
+      ],
     });
   }, [fullProps]);
 }

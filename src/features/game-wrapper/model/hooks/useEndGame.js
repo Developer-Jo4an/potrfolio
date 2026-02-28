@@ -8,7 +8,7 @@ export function useEndGame({wrapper, onEnd}) {
     const {eventBus} = wrapper;
     return eventSubscription({
       target: eventBus,
-      callbacksBus: [{event: [Events.WIN, Events.LOSE], callback: onEnd}]
+      callbacksBus: [{event: [Events.WIN, Events.LOSE], callback: onEnd}],
     });
   }, [wrapper, onEnd]);
 }

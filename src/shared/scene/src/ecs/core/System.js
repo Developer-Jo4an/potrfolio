@@ -106,28 +106,24 @@ export class System extends Unit {
    * Ленивое обновление системы
    * @param {{deltaTime: number, totalTime: number}} data
    */
-  lazyUpdate(data) {
-  }
+  lazyUpdate(data) {}
 
   /**
    * Обновление системы
    * @param {{deltaTime: number, totalTime: number}} data
    */
-  update(data) {
-  }
+  update(data) {}
 
   /**
    * Сброс системы
    */
-  reset() {
-  }
+  reset() {}
 
   /**
    * Функция конфигурирования систем
    * @param settings
    */
-  configure(settings) {
-  }
+  configure(settings) {}
 
   getAsset(entity, name, extraData = {}) {
     const {eventBus} = this;

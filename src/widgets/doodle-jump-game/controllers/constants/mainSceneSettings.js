@@ -18,40 +18,40 @@ export const mainSceneSettings = {
       tap: {
         forLinearMovement: 600,
         forAcceleratedMovement: 1320,
-        speedEPS: 1.2
+        speedEPS: 1.2,
       },
       gyroscope: {
         multiplier: 60,
-        max: 1000
-      }
+        max: 1000,
+      },
     },
     collision: {
       enemy: {
-        overlapLength: 20
+        overlapLength: 20,
       },
       platform: {
-        overlapLength: 10
-      }
-    }
+        overlapLength: 10,
+      },
+    },
   },
 
   platform: {
     start: {
       position: {
         x: 180,
-        y: 650
+        y: 650,
       },
-      type: "standard"
+      type: "standard",
     },
     width: 70,
-    height: 14
+    height: 14,
   },
 
   camera: {
     clamp: {
       min: 0.65,
-      max: 0.925
-    }
+      max: 0.925,
+    },
   },
 
   enemy: {
@@ -59,59 +59,59 @@ export const mainSceneSettings = {
       size: 60,
       offsetFromPlatform: {
         x: 0,
-        y: -10
+        y: -10,
       },
       offsetFromSisterPlatform: {
-        y: {min: -5, max: 5}
-      }
+        y: {min: -5, max: 5},
+      },
     },
     moving: {
-      size: 60
-    }
+      size: 60,
+    },
   },
 
   bullet: {
     speed: 2000, // px/s*60
     size: {
       width: 12,
-      height: 12
-    }
+      height: 12,
+    },
   },
 
   clips: {
     character: {
       propeller: {
         speed: 0.3,
-        loop: true
+        loop: true,
       },
       jetpack: {
         speed: 0.3,
-        loop: true
+        loop: true,
       },
       lose: {
         speed: 0.3,
-        loop: true
-      }
+        loop: true,
+      },
     },
     enemy0: {
       speed: 0.05,
-      loop: true
+      loop: true,
     },
     enemy1: {
       speed: 0.2,
-      loop: true
+      loop: true,
     },
     enemy2: {
       speed: 1,
-      loop: true
+      loop: true,
     },
     enemy3: {
       speed: 1,
-      loop: true
+      loop: true,
     },
     platform1: {
       speed: 0.4,
-      loop: false
-    }
-  }
+      loop: false,
+    },
+  },
 };

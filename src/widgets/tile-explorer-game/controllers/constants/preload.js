@@ -11,22 +11,22 @@ export const preload = [
   {
     type: TEXTURE,
     name: SNOW,
-    src: assets("tile-explorer/snow.png")
+    src: assets("tile-explorer/snow.png"),
   },
   {
     type: TEXTURE,
     name: CELL_BACKGROUND,
-    src: assets("tile-explorer/cell-background.png")
+    src: assets("tile-explorer/cell-background.png"),
   },
   {
     type: TEXTURE,
     name: CAGE,
-    src: assets("tile-explorer/cage.png")
+    src: assets("tile-explorer/cage.png"),
   },
   {
     type: TEXTURE,
     name: SHELF,
-    src: assets("tile-explorer/shelf.png")
+    src: assets("tile-explorer/shelf.png"),
   },
   {
     type: SCENE,
@@ -49,8 +49,8 @@ export const preload = [
         "skeleton_Item_1_4": assets("tile-explorer/spine/Item_1_4.json"),
         "skeleton_Item_1_4_explosion": assets("tile-explorer/spine/Item_1_4_explosion.json"),
 
-        "ice": assets("tile-explorer/spine/ice.json")
-      }
-    }
-  }
+        "ice": assets("tile-explorer/spine/ice.json"),
+      },
+    },
+  },
 ];

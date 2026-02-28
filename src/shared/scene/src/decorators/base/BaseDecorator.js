@@ -3,14 +3,11 @@ export class BaseDecorator {
     this.updateProperties(data);
   }
 
-  initDecorator() {
-  }
+  initDecorator() {}
 
   updateProperties(props) {
-    for (const key in props)
-      this[key] = props[key];
+    for (const key in props) this[key] = props[key];
   }
 
-  reset() {
-  }
+  reset() {}
 }

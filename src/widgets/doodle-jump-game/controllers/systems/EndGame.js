@@ -16,8 +16,12 @@ export class EndGame extends System {
   }
 
   checkWin() {
-    const {storage: {gameSpace}} = this;
-    const {cComplexity: {config}} = this.getGameInfo();
+    const {
+      storage: {gameSpace},
+    } = this;
+    const {
+      cComplexity: {config},
+    } = this.getGameInfo();
     if (gameSpace.score >= config.target) this.setWin();
   }
 
@@ -41,8 +45,8 @@ export class EndGame extends System {
     const {
       eventBus,
       storage: {
-        mainSceneSettings: {loseBorder}
-      }
+        mainSceneSettings: {loseBorder},
+      },
     } = this;
     const {cMatrix: cCharacterMatrix} = this.getCharacterInfo();
 
@@ -52,8 +56,7 @@ export class EndGame extends System {
 
     const distanceBetween = Math.hypot(cCharacterMatrix.x - cPlatformMatrix.x, cCharacterMatrix.y - cPlatformMatrix.y);
 
-    if (cCharacterMatrix.y > cPlatformMatrix.y && distanceBetween > loseBorder)
-      return this.setLose;
+    if (cCharacterMatrix.y > cPlatformMatrix.y && distanceBetween > loseBorder) return this.setLose;
   }
 
   checkKick() {
@@ -62,7 +65,7 @@ export class EndGame extends System {
       cImmunity,
       entity: eCharacter,
       cPhysics,
-      cCollider: {response}
+      cCollider: {response},
     } = this.getCharacterInfo();
 
     if (cImmunity.isActive) return;
@@ -71,7 +74,7 @@ export class EndGame extends System {
 
     let isCollision = false;
 
-    this.runOnCollisions(eCharacter, CollisionGroups.ENEMY, enemyUUID => {
+    this.runOnCollisions(eCharacter, CollisionGroups.ENEMY, (enemyUUID) => {
       const eEnemy = this.getEntityByUUID(ENEMY, enemyUUID);
       if (!eEnemy) return;
 
@@ -90,16 +93,19 @@ export class EndGame extends System {
           config: [
             {
               type: Behaviours.APPLY_LOSE_TEXTURE,
-              time: 1
-            }
+              time: 1,
+            },
           ],
-          resolve: this.setLose
+          resolve: this.setLose,
         });
       };
   }
 
   setLose() {
-    const {eventBus, storage: {gameSpace}} = this;
+    const {
+      eventBus,
+      storage: {gameSpace},
+    } = this;
     eventBus.dispatchEvent({type: WrapperEvents.LOSE, status: LOSE});
     gameSpace.lifes--;
   }

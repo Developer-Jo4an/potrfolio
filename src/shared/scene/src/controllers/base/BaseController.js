@@ -28,7 +28,5 @@ export class BaseController {
     if (mainSceneSettings) storage.mainSceneSettings = cloneDeep(mainSceneSettings);
   }
 
-  reset() {
-
-  }
+  reset() {}
 }

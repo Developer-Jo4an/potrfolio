@@ -40,10 +40,10 @@ export class BaseCachedAsset extends Spritesheet {
       defaultProperties: {
         storage: {
           mainSceneSettings: {
-            clips: {[name]: {speed = 1, loop = false, startFrame = 0} = {}}
-          }
-        }
-      }
+            clips: {[name]: {speed = 1, loop = false, startFrame = 0} = {}},
+          },
+        },
+      },
     } = this;
 
     asset.zIndex = zIndex;

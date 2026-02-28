@@ -9,14 +9,14 @@ import {PLAYING} from "../../controllers/constants/stateMachine";
 import styles from "./Effects.module.scss";
 
 const {
-  effects: {clearHit, miss}
+  effects: {clearHit, miss},
 } = content;
 
 export function Effects({updateProps}) {
   const {wrapper, state} = useBasketballStore();
   const [{isVisibleClearHitEffect, isVisibleMissEffect}, setVisibleEffects] = useState({
     isVisibleClearHitEffect: false,
-    isVisibleMissEffect: false
+    isVisibleMissEffect: false,
   });
   const animatedElements = useRef({clearHitEffect: null, missEffect: null});
   const effectsFreeSpaceRef = useRef();
@@ -35,15 +35,15 @@ export function Effects({updateProps}) {
           event: CLEAR_HIT,
           callback() {
             setVisibleEffects((prev) => ({...prev, isVisibleClearHitEffect: true}));
-          }
+          },
         },
         {
           event: MISS,
           callback() {
             setVisibleEffects((prev) => ({...prev, isVisibleMissEffect: true}));
-          }
-        }
-      ]
+          },
+        },
+      ],
     });
   }, [wrapper]);
 
@@ -65,12 +65,12 @@ export function Effects({updateProps}) {
     const animatedData = [
       isVisibleClearHitEffect && {
         DOMElement: clearHitEffect,
-        clear: () => setVisibleEffects((prev) => ({...prev, isVisibleClearHitEffect: false}))
+        clear: () => setVisibleEffects((prev) => ({...prev, isVisibleClearHitEffect: false})),
       },
       isVisibleMissEffect && {
         DOMElement: missEffect,
-        clear: () => setVisibleEffects((prev) => ({...prev, isVisibleMissEffect: false}))
-      }
+        clear: () => setVisibleEffects((prev) => ({...prev, isVisibleMissEffect: false})),
+      },
     ].filter(Boolean);
 
     const clearFunctions = animatedData.map(({DOMElement, clear}) => {
@@ -95,7 +95,7 @@ export function Effects({updateProps}) {
         </div>
       )}
 
-      <div ref={effectsFreeSpaceRef} className={styles.effectsFreeSpace}/>
+      <div ref={effectsFreeSpaceRef} className={styles.effectsFreeSpace} />
     </div>
   );
 }

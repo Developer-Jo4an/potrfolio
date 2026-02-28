@@ -26,7 +26,6 @@ import {clamp} from "lodash";
  * ```
  */
 class Vector2 {
-
   /**
    * Constructs a new 2D vector.
    *
@@ -34,7 +33,6 @@ class Vector2 {
    * @param {number} [y=0] - The y value of this vector.
    */
   constructor(x = 0, y = 0) {
-
     /**
      * This flag can be used for type testing.
      *
@@ -57,7 +55,6 @@ class Vector2 {
      * @type {number}
      */
     this.y = y;
-
   }
 
   /**
@@ -66,15 +63,11 @@ class Vector2 {
    * @type {number}
    */
   get width() {
-
     return this.x;
-
   }
 
   set width(value) {
-
     this.x = value;
-
   }
 
   /**
@@ -83,15 +76,11 @@ class Vector2 {
    * @type {number}
    */
   get height() {
-
     return this.y;
-
   }
 
   set height(value) {
-
     this.y = value;
-
   }
 
   /**
@@ -102,12 +91,10 @@ class Vector2 {
    * @return {Vector2} A reference to this vector.
    */
   set(x, y) {
-
     this.x = x;
     this.y = y;
 
     return this;
-
   }
 
   /**
@@ -117,12 +104,10 @@ class Vector2 {
    * @return {Vector2} A reference to this vector.
    */
   setScalar(scalar) {
-
     this.x = scalar;
     this.y = scalar;
 
     return this;
-
   }
 
   /**
@@ -132,11 +117,9 @@ class Vector2 {
    * @return {Vector2} A reference to this vector.
    */
   setX(x) {
-
     this.x = x;
 
     return this;
-
   }
 
   /**
@@ -146,11 +129,9 @@ class Vector2 {
    * @return {Vector2} A reference to this vector.
    */
   setY(y) {
-
     this.y = y;
 
     return this;
-
   }
 
   /**
@@ -161,9 +142,7 @@ class Vector2 {
    * @return {Vector2} A reference to this vector.
    */
   setComponent(index, value) {
-
     switch (index) {
-
       case 0:
         this.x = value;
         break;
@@ -172,11 +151,9 @@ class Vector2 {
         break;
       default:
         throw new Error("index is out of range: " + index);
-
     }
 
     return this;
-
   }
 
   /**
@@ -186,18 +163,14 @@ class Vector2 {
    * @return {number} A vector component value.
    */
   getComponent(index) {
-
     switch (index) {
-
       case 0:
         return this.x;
       case 1:
         return this.y;
       default:
         throw new Error("index is out of range: " + index);
-
     }
-
   }
 
   /**
@@ -206,9 +179,7 @@ class Vector2 {
    * @return {Vector2} A clone of this instance.
    */
   clone() {
-
     return new this.constructor(this.x, this.y);
-
   }
 
   /**
@@ -218,12 +189,10 @@ class Vector2 {
    * @return {Vector2} A reference to this vector.
    */
   copy(v) {
-
     this.x = v.x;
     this.y = v.y;
 
     return this;
-
   }
 
   /**
@@ -233,12 +202,10 @@ class Vector2 {
    * @return {Vector2} A reference to this vector.
    */
   add(v) {
-
     this.x += v.x;
     this.y += v.y;
 
     return this;
-
   }
 
   /**
@@ -248,12 +215,10 @@ class Vector2 {
    * @return {Vector2} A reference to this vector.
    */
   addScalar(s) {
-
     this.x += s;
     this.y += s;
 
     return this;
-
   }
 
   /**
@@ -264,12 +229,10 @@ class Vector2 {
    * @return {Vector2} A reference to this vector.
    */
   addVectors(a, b) {
-
     this.x = a.x + b.x;
     this.y = a.y + b.y;
 
     return this;
-
   }
 
   /**
@@ -280,12 +243,10 @@ class Vector2 {
    * @return {Vector2} A reference to this vector.
    */
   addScaledVector(v, s) {
-
     this.x += v.x * s;
     this.y += v.y * s;
 
     return this;
-
   }
 
   /**
@@ -295,12 +256,10 @@ class Vector2 {
    * @return {Vector2} A reference to this vector.
    */
   sub(v) {
-
     this.x -= v.x;
     this.y -= v.y;
 
     return this;
-
   }
 
   /**
@@ -310,12 +269,10 @@ class Vector2 {
    * @return {Vector2} A reference to this vector.
    */
   subScalar(s) {
-
     this.x -= s;
     this.y -= s;
 
     return this;
-
   }
 
   /**
@@ -326,12 +283,10 @@ class Vector2 {
    * @return {Vector2} A reference to this vector.
    */
   subVectors(a, b) {
-
     this.x = a.x - b.x;
     this.y = a.y - b.y;
 
     return this;
-
   }
 
   /**
@@ -341,12 +296,10 @@ class Vector2 {
    * @return {Vector2} A reference to this vector.
    */
   multiply(v) {
-
     this.x *= v.x;
     this.y *= v.y;
 
     return this;
-
   }
 
   /**
@@ -356,12 +309,10 @@ class Vector2 {
    * @return {Vector2} A reference to this vector.
    */
   multiplyScalar(scalar) {
-
     this.x *= scalar;
     this.y *= scalar;
 
     return this;
-
   }
 
   /**
@@ -371,12 +322,10 @@ class Vector2 {
    * @return {Vector2} A reference to this vector.
    */
   divide(v) {
-
     this.x /= v.x;
     this.y /= v.y;
 
     return this;
-
   }
 
   /**
@@ -386,9 +335,7 @@ class Vector2 {
    * @return {Vector2} A reference to this vector.
    */
   divideScalar(scalar) {
-
     return this.multiplyScalar(1 / scalar);
-
   }
 
   /**
@@ -399,15 +346,14 @@ class Vector2 {
    * @return {Vector2} A reference to this vector.
    */
   applyMatrix3(m) {
-
-    const x = this.x, y = this.y;
+    const x = this.x,
+      y = this.y;
     const e = m.elements;
 
     this.x = e[0] * x + e[3] * y + e[6];
     this.y = e[1] * x + e[4] * y + e[7];
 
     return this;
-
   }
 
   /**
@@ -418,12 +364,10 @@ class Vector2 {
    * @return {Vector2} A reference to this vector.
    */
   min(v) {
-
     this.x = Math.min(this.x, v.x);
     this.y = Math.min(this.y, v.y);
 
     return this;
-
   }
 
   /**
@@ -434,12 +378,10 @@ class Vector2 {
    * @return {Vector2} A reference to this vector.
    */
   max(v) {
-
     this.x = Math.max(this.x, v.x);
     this.y = Math.max(this.y, v.y);
 
     return this;
-
   }
 
   /**
@@ -453,14 +395,12 @@ class Vector2 {
    * @return {Vector2} A reference to this vector.
    */
   clamp(min, max) {
-
     // assumes min < max, componentwise
 
     this.x = clamp(this.x, min.x, max.x);
     this.y = clamp(this.y, min.y, max.y);
 
     return this;
-
   }
 
   /**
@@ -474,12 +414,10 @@ class Vector2 {
    * @return {Vector2} A reference to this vector.
    */
   clampScalar(minVal, maxVal) {
-
     this.x = clamp(this.x, minVal, maxVal);
     this.y = clamp(this.y, minVal, maxVal);
 
     return this;
-
   }
 
   /**
@@ -493,11 +431,9 @@ class Vector2 {
    * @return {Vector2} A reference to this vector.
    */
   clampLength(min, max) {
-
     const length = this.length();
 
     return this.divideScalar(length || 1).multiplyScalar(clamp(length, min, max));
-
   }
 
   /**
@@ -506,12 +442,10 @@ class Vector2 {
    * @return {Vector2} A reference to this vector.
    */
   floor() {
-
     this.x = Math.floor(this.x);
     this.y = Math.floor(this.y);
 
     return this;
-
   }
 
   /**
@@ -520,12 +454,10 @@ class Vector2 {
    * @return {Vector2} A reference to this vector.
    */
   ceil() {
-
     this.x = Math.ceil(this.x);
     this.y = Math.ceil(this.y);
 
     return this;
-
   }
 
   /**
@@ -534,12 +466,10 @@ class Vector2 {
    * @return {Vector2} A reference to this vector.
    */
   round() {
-
     this.x = Math.round(this.x);
     this.y = Math.round(this.y);
 
     return this;
-
   }
 
   /**
@@ -549,12 +479,10 @@ class Vector2 {
    * @return {Vector2} A reference to this vector.
    */
   roundToZero() {
-
     this.x = Math.trunc(this.x);
     this.y = Math.trunc(this.y);
 
     return this;
-
   }
 
   /**
@@ -563,12 +491,10 @@ class Vector2 {
    * @return {Vector2} A reference to this vector.
    */
   negate() {
-
     this.x = -this.x;
     this.y = -this.y;
 
     return this;
-
   }
 
   /**
@@ -578,9 +504,7 @@ class Vector2 {
    * @return {number} The result of the dot product.
    */
   dot(v) {
-
     return this.x * v.x + this.y * v.y;
-
   }
 
   /**
@@ -590,9 +514,7 @@ class Vector2 {
    * @return {number} The result of the cross product.
    */
   cross(v) {
-
     return this.x * v.y - this.y * v.x;
-
   }
 
   /**
@@ -603,9 +525,7 @@ class Vector2 {
    * @return {number} The square length of this vector.
    */
   lengthSq() {
-
     return this.x * this.x + this.y * this.y;
-
   }
 
   /**
@@ -614,9 +534,7 @@ class Vector2 {
    * @return {number} The length of this vector.
    */
   length() {
-
     return Math.sqrt(this.x * this.x + this.y * this.y);
-
   }
 
   /**
@@ -625,9 +543,7 @@ class Vector2 {
    * @return {number} The length of this vector.
    */
   manhattanLength() {
-
     return Math.abs(this.x) + Math.abs(this.y);
-
   }
 
   /**
@@ -637,9 +553,7 @@ class Vector2 {
    * @return {Vector2} A reference to this vector.
    */
   normalize() {
-
     return this.divideScalar(this.length() || 1);
-
   }
 
   /**
@@ -648,11 +562,9 @@ class Vector2 {
    * @return {number} The angle in radians.
    */
   angle() {
-
     const angle = Math.atan2(-this.y, -this.x) + Math.PI;
 
     return angle;
-
   }
 
   /**
@@ -662,7 +574,6 @@ class Vector2 {
    * @return {number} The angle in radians.
    */
   angleTo(v) {
-
     const denominator = Math.sqrt(this.lengthSq() * v.lengthSq());
 
     if (denominator === 0) return Math.PI / 2;
@@ -672,7 +583,6 @@ class Vector2 {
     // clamp, to handle numerical problems
 
     return Math.acos(clamp(theta, -1, 1));
-
   }
 
   /**
@@ -682,9 +592,7 @@ class Vector2 {
    * @return {number} The distance.
    */
   distanceTo(v) {
-
     return Math.sqrt(this.distanceToSquared(v));
-
   }
 
   /**
@@ -696,10 +604,9 @@ class Vector2 {
    * @return {number} The squared distance.
    */
   distanceToSquared(v) {
-
-    const dx = this.x - v.x, dy = this.y - v.y;
+    const dx = this.x - v.x,
+      dy = this.y - v.y;
     return dx * dx + dy * dy;
-
   }
 
   /**
@@ -709,9 +616,7 @@ class Vector2 {
    * @return {number} The Manhattan distance.
    */
   manhattanDistanceTo(v) {
-
     return Math.abs(this.x - v.x) + Math.abs(this.y - v.y);
-
   }
 
   /**
@@ -722,9 +627,7 @@ class Vector2 {
    * @return {Vector2} A reference to this vector.
    */
   setLength(length) {
-
     return this.normalize().multiplyScalar(length);
-
   }
 
   /**
@@ -737,12 +640,10 @@ class Vector2 {
    * @return {Vector2} A reference to this vector.
    */
   lerp(v, alpha) {
-
     this.x += (v.x - this.x) * alpha;
     this.y += (v.y - this.y) * alpha;
 
     return this;
-
   }
 
   /**
@@ -756,12 +657,10 @@ class Vector2 {
    * @return {Vector2} A reference to this vector.
    */
   lerpVectors(v1, v2, alpha) {
-
     this.x = v1.x + (v2.x - v1.x) * alpha;
     this.y = v1.y + (v2.y - v1.y) * alpha;
 
     return this;
-
   }
 
   /**
@@ -771,9 +670,7 @@ class Vector2 {
    * @return {boolean} Whether this vector is equal with the given one.
    */
   equals(v) {
-
-    return ((v.x === this.x) && (v.y === this.y));
-
+    return v.x === this.x && v.y === this.y;
   }
 
   /**
@@ -785,12 +682,10 @@ class Vector2 {
    * @return {Vector2} A reference to this vector.
    */
   fromArray(array, offset = 0) {
-
     this.x = array[offset];
     this.y = array[offset + 1];
 
     return this;
-
   }
 
   /**
@@ -802,12 +697,10 @@ class Vector2 {
    * @return {Array<number>} The vector components.
    */
   toArray(array = [], offset = 0) {
-
     array[offset] = this.x;
     array[offset + 1] = this.y;
 
     return array;
-
   }
 
   /**
@@ -818,12 +711,10 @@ class Vector2 {
    * @return {Vector2} A reference to this vector.
    */
   fromBufferAttribute(attribute, index) {
-
     this.x = attribute.getX(index);
     this.y = attribute.getY(index);
 
     return this;
-
   }
 
   /**
@@ -834,8 +725,8 @@ class Vector2 {
    * @return {Vector2} A reference to this vector.
    */
   rotateAround(center, angle) {
-
-    const c = Math.cos(angle), s = Math.sin(angle);
+    const c = Math.cos(angle),
+      s = Math.sin(angle);
 
     const x = this.x - center.x;
     const y = this.y - center.y;
@@ -844,7 +735,6 @@ class Vector2 {
     this.y = x * s + y * c + center.y;
 
     return this;
-
   }
 
   /**
@@ -854,21 +744,16 @@ class Vector2 {
    * @return {Vector2} A reference to this vector.
    */
   random() {
-
     this.x = Math.random();
     this.y = Math.random();
 
     return this;
-
   }
 
-  * [Symbol.iterator]() {
-
+  *[Symbol.iterator]() {
     yield this.x;
     yield this.y;
-
   }
-
 }
 
 export {Vector2};

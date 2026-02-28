@@ -2,7 +2,12 @@ import {useEffect, useState} from "react";
 import {AnimatePresence, motion} from "framer-motion";
 import {eventSubscription} from "@shared";
 import {useDunkShotStore} from "../../model/state-manager/dunkShotStore";
-import {BASKET_TIMER_END, BASKET_TIMER_START, BASKET_TIMER_UPDATE, CONTROLLER_RESET} from "../../controllers/constants/events";
+import {
+  BASKET_TIMER_END,
+  BASKET_TIMER_START,
+  BASKET_TIMER_UPDATE,
+  CONTROLLER_RESET,
+} from "../../controllers/constants/events";
 import {timerAnimation} from "../../controllers/constants/animations";
 import styles from "./Timer.module.scss";
 

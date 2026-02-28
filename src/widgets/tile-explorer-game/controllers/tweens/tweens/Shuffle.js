@@ -14,32 +14,26 @@ export class Shuffle extends Tween {
     super.init();
 
     const {
-      vars: {animateObjects}
+      vars: {animateObjects},
     } = this;
 
     const tween = (this.tween = gsap
-    .timeline({
-      onComplete: () => {
-        this.resolve();
-        tween.delete(GAME);
-      }
-    })
-    .save(GAME));
+      .timeline({
+        onComplete: () => {
+          this.resolve();
+          tween.delete(GAME);
+        },
+      })
+      .save(GAME));
 
-    animateObjects.forEach((
-      {
-        animateObject,
-        view,
-        vars: {x, y, zIndex, isBlocked}
-      }) => {
-
+    animateObjects.forEach(({animateObject, view, vars: {x, y, zIndex, isBlocked}}) => {
       const blockedSpineClip = view.getChildByLabel(Cell.types.blocked);
       blockedSpineClip.alpha = 1;
 
       playAnimationOnce({
         spine: blockedSpineClip,
         name: "explosion",
-        reverse: isBlocked
+        reverse: isBlocked,
       }).then(async () => {
         if (isBlocked) {
           await playAnimationOnce({spine: blockedSpineClip, name: "explosion_1", reverse: isBlocked});
@@ -50,25 +44,25 @@ export class Shuffle extends Tween {
       });
 
       tween
-      .to(
-        animateObject,
-        {
-          x,
-          y,
-          ease: "back.inOut(4)",
-          duration: 0.5
-        },
-        0
-      )
-      .to(
-        view,
-        {
-          zIndex,
-          ease: "none",
-          duration: 0.5
-        },
-        0
-      );
+        .to(
+          animateObject,
+          {
+            x,
+            y,
+            ease: "back.inOut(4)",
+            duration: 0.5,
+          },
+          0,
+        )
+        .to(
+          view,
+          {
+            zIndex,
+            ease: "none",
+            duration: 0.5,
+          },
+          0,
+        );
     });
   }
 }

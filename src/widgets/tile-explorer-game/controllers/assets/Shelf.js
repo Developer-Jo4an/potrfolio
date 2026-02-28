@@ -26,10 +26,10 @@ export class Shelf extends Container {
       defaultProperties: {
         storage: {
           mainSceneSettings: {
-            shelf: {cagesCount}
-          }
-        }
-      }
+            shelf: {cagesCount},
+          },
+        },
+      },
     } = this;
 
     for (let i = 0; i < cagesCount; i++) {
@@ -44,15 +44,14 @@ export class Shelf extends Container {
    * @warning
    * Не убирать пустую функцию, она переопределяет предка
    */
-  prepare() {
-  }
+  prepare() {}
 
   reset() {
     const {asset} = this;
 
     asset.removeFromParent();
 
-    asset.children.forEach(child => {
+    asset.children.forEach((child) => {
       child.scale.set(1);
       child.position.set(0);
     });

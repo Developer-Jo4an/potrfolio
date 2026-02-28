@@ -24,7 +24,7 @@ export function DoodleJumpGame() {
     state,
     onEnd,
     isPending: !state || (statesData.STATE_MACHINE[state]?.isLoad ?? false),
-    statesData
+    statesData,
   };
 
   return (
@@ -35,7 +35,7 @@ export function DoodleJumpGame() {
         {type: ComponentTypes.BACKGROUND},
         {Component: Canvas},
         {type: ComponentTypes.TOP_MENU},
-        {type: ComponentTypes.LOADER}
+        {type: ComponentTypes.LOADER},
       ]}
     />
   );

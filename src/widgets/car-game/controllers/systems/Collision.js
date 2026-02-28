@@ -12,7 +12,6 @@ export class Collision extends System {
     const isOnRoad = fronPoints.every((point) => isPointInPolygon(point, allRoadChunksVertices));
 
     if (!isOnRoad) {
-      ;
     }
   }
 

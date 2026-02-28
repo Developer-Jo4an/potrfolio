@@ -15,7 +15,7 @@ export class Utils extends Decorator {
    */
   getInfo(entity) {
     const {
-      storage: {mainSceneSettings}
+      storage: {mainSceneSettings},
     } = this;
 
     return entity.children.reduce(
@@ -94,7 +94,7 @@ export class Utils extends Decorator {
           }
         }
       },
-      {entity, settings: mainSceneSettings[entity.type]}
+      {entity, settings: mainSceneSettings[entity.type]},
     );
   }
 
@@ -176,7 +176,7 @@ export class Utils extends Decorator {
     const {childUUIDS} = cParent;
     if (!isArray(childUUIDS)) return;
 
-    childUUIDS.forEach(childUUID => {
+    childUUIDS.forEach((childUUID) => {
       const eChild = this.getEntityByUUID(childUUID);
       if (!eChild) return;
 

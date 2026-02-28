@@ -3,7 +3,7 @@ import {GAME} from "../constants/game";
 export function createTweenPromise(tween) {
   const prevOnComplete = tween.eventCallback("onComplete");
 
-  return new Promise(res => {
+  return new Promise((res) => {
     tween.eventCallback("onComplete", () => {
       prevOnComplete?.();
       res();
