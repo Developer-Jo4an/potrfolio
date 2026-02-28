@@ -260,5 +260,7 @@ export class Controller extends PIXIController {
     await Promise.all(toReset.map((item) => item.reset?.() ?? Promise.resolve()));
 
     eventBus.dispatchEvent({type: CONTROLLER_RESET});
+
+    super.reset();
   }
 }

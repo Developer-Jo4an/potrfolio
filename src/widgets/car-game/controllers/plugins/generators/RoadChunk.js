@@ -1,5 +1,5 @@
 import {Generator} from "./Generator";
-import {Entity, lerpArray, randFromArray} from "@shared";
+import {Entity, lerpArray} from "@shared";
 import {chunk, cloneDeep} from "lodash";
 import {ROAD_CHUNK} from "../../constants/entities";
 import {GAME_SIZE} from "../../constants/game";
@@ -47,7 +47,9 @@ export class RoadChunk extends Generator {
     const {
       system,
       storage: {
-        mainSceneSettings: {angle: directionAngle},
+        mainSceneSettings: {
+          angle: [left, right],
+        },
       },
     } = this;
 
@@ -90,7 +92,7 @@ export class RoadChunk extends Generator {
       endSize = lerpArray(size);
 
       length = cPolygon.length = lerpArray(chunkLength);
-      angle = cPrevPolygon.angle === directionAngle[0] ? directionAngle[1] : directionAngle[0];
+      angle = cPrevPolygon.angle === left ? right : left;
 
       xStart = cPrevPolygon.xEnd;
       yStart = cPrevPolygon.yEnd;
@@ -125,7 +127,9 @@ export class RoadChunk extends Generator {
     const {
       system,
       storage: {
-        mainSceneSettings: {angle},
+        mainSceneSettings: {
+          angle: [left, right],
+        },
       },
     } = this;
 
@@ -137,8 +141,8 @@ export class RoadChunk extends Generator {
 
     const asset = (cPixi.pixiObject = system.getAsset(eRoadChunk, ROAD_CHUNK));
 
-    asset.width = Math.abs(Math.cos(angle[0]) * length[1]) + Math.abs(Math.cos(angle[1]) * length[1]) + size[1];
-    asset.height = Math.abs(Math.sin(angle[0]) * length[1]) + Math.abs(Math.sin(angle[1]) * length[1]);
+    asset.width = Math.abs(Math.cos(left) * length[1]) + Math.abs(Math.cos(right) * length[1]) + size[1];
+    asset.height = Math.abs(Math.sin(left) * length[1]) + Math.abs(Math.sin(right) * length[1]);
 
     asset.tileScale.set(tileScale);
     asset.applyAnchorToTexture = true;

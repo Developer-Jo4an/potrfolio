@@ -11,7 +11,7 @@ import {
   PERFORMANCE_DECORATOR_FIELD,
   RESIZE_DECORATOR_FIELD,
   STATE_DECORATOR_FIELD,
-  UPDATE_DECORATOR_FIELD
+  UPDATE_DECORATOR_FIELD,
 } from "../../constants/decorators/names";
 
 export class PIXIController extends BaseController {
@@ -34,7 +34,7 @@ export class PIXIController extends BaseController {
     {DecoratorClass: PIXIUpdate, decoratorField: UPDATE_DECORATOR_FIELD},
     {DecoratorClass: PixiResize, decoratorField: RESIZE_DECORATOR_FIELD},
     {DecoratorClass: State, decoratorField: STATE_DECORATOR_FIELD},
-    getIsDebug() && {DecoratorClass: Performance, decoratorField: PERFORMANCE_DECORATOR_FIELD}
+    getIsDebug() && {DecoratorClass: Performance, decoratorField: PERFORMANCE_DECORATOR_FIELD},
   ].filter(Boolean);
 
   decorators = {};
@@ -90,7 +90,9 @@ export class PIXIController extends BaseController {
   }
 
   initDevTools() {
-    const {app: {stage, renderer}} = this;
+    const {
+      app: {stage, renderer},
+    } = this;
     globalThis.__PIXI_STAGE__ = stage;
     globalThis.__PIXI_RENDERER__ = renderer;
   }
@@ -103,7 +105,7 @@ export class PIXIController extends BaseController {
       DECORATORS.map(({DecoratorClass, decoratorField}) => {
         const decorator = (decorators[decoratorField] = new DecoratorClass(fullData));
         return decorator.initDecorator();
-      })
+      }),
     );
   }
 
@@ -139,8 +141,7 @@ export class PIXIController extends BaseController {
     }
   }
 
-  onResized() {
-  }
+  onResized() {}
 
   onUpdated() {
     const {decorators, renderer, stage} = this;
@@ -148,5 +149,10 @@ export class PIXIController extends BaseController {
     renderer.render(stage);
 
     if (decorators[PERFORMANCE_DECORATOR_FIELD]) decorators[PERFORMANCE_DECORATOR_FIELD].update();
+  }
+
+  reset() {
+    const {decorators} = this;
+    for (const key in decorators) decorators[key].reset();
   }
 }

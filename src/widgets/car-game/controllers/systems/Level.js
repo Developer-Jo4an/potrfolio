@@ -48,6 +48,7 @@ export class Level extends System {
     new Entity({eventBus, type: ACTOR}).init();
     this.initActorView();
     this.initActorCollider();
+    this.initActorMovement();
   }
 
   initActorView() {
@@ -74,6 +75,18 @@ export class Level extends System {
   initActorCollider() {
     const {cCollider, view: actorView} = this.getActorInfo();
     cCollider.collider = this.createCollider(actorView.x, actorView.y, actorView.width, actorView.height);
+  }
+
+  initActorMovement() {
+    const {
+      cMovement,
+      settings: {acceleration, minSpeed, maxSpeed},
+    } = this.getActorInfo();
+
+    cMovement.acceleration = acceleration;
+    cMovement.minSpeed = minSpeed;
+    cMovement.maxSpeed = maxSpeed;
+    cMovement.currentSpeed = minSpeed;
   }
 
   initStartAngle() {

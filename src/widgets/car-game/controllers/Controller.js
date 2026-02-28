@@ -130,10 +130,10 @@ export class Controller extends PIXIController {
     return states[state]?.isAvailableUpdate;
   }
 
-  updateEngine({deltaMS, deltaTime}) {
+  updateEngine({deltaMS, deltaTime, deltaS, fullTime}) {
     const {isAvailableUpdate, engine} = this;
     if (isAvailableUpdate) {
-      engine.update({deltaMS, deltaTime});
+      engine.update({deltaMS, deltaTime, deltaS, fullTime});
     }
   }
 
@@ -194,5 +194,6 @@ export class Controller extends PIXIController {
     this.resetServiceData();
     this.resetGameData();
     getIsDebug() && analytics.logStatistics();
+    super.reset();
   }
 }

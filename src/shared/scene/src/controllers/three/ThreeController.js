@@ -164,4 +164,9 @@ export class ThreeController extends BaseController {
 
     if (decorators[PERFORMANCE_DECORATOR_FIELD]) decorators[PERFORMANCE_DECORATOR_FIELD].update();
   }
+
+  reset() {
+    const {decorators} = this;
+    for (const key in decorators) decorators[key].reset();
+  }
 }

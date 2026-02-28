@@ -36,9 +36,8 @@ export class Update extends BaseDecorator {
     updateData.frame = requestAnimationFrame(this.update);
   }
 
-  throwEvent({deltaMS, deltaTime}) {
+  throwEvent() {
     const {eventBus} = this;
-
-    eventBus.dispatchEvent({type: UPDATED, deltaMS, deltaTime});
+    eventBus.dispatchEvent({type: UPDATED, ...arguments[0]});
   }
 }

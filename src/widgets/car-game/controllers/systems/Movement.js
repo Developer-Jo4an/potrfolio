@@ -25,8 +25,8 @@ export class Movement extends System {
   }
 
   updateActorMovement() {
-    this.updateActorAngle();
-    this.updateActorPosition();
+    this.updateActorAngle(...arguments);
+    this.updateActorPosition(...arguments);
   }
 
   updateActorAngle() {
@@ -38,18 +38,36 @@ export class Movement extends System {
     cMatrix.rotation = Math.PI / 2 - angle;
   }
 
-  updateActorPosition() {}
+  updateActorPosition({deltaS}) {
+    const {
+      cMatrix,
+      cMovement,
+      cMovement: {acceleration, angle, maxSpeed, currentSpeed},
+    } = this.getActorInfo();
+
+    const distance = currentSpeed * deltaS + (acceleration * deltaS ** 2) / 2;
+
+    const deltaX = Math.cos(angle) * distance;
+    const deltaY = Math.sin(angle) * distance;
+
+    cMatrix.x += deltaX;
+    cMatrix.y -= deltaY;
+
+    cMovement.currentSpeed = Math.min(distance / deltaS, maxSpeed);
+  }
 
   onClick() {
     const {
       storage: {
-        mainSceneSettings: {angle: angles},
+        mainSceneSettings: {
+          angle: [left, right],
+        },
       },
     } = this;
 
     const {cMovement} = this.getActorInfo();
 
-    cMovement.angle = cMovement.angle === angles[0] ? angles[1] : angles[0];
+    cMovement.angle = cMovement.angle === left ? right : left;
   }
 
   update() {

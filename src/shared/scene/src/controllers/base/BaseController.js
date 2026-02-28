@@ -27,4 +27,8 @@ export class BaseController {
     const {storage, mainSceneSettings} = this;
     if (mainSceneSettings) storage.mainSceneSettings = cloneDeep(mainSceneSettings);
   }
+
+  reset() {
+
+  }
 }

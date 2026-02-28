@@ -1,8 +1,12 @@
 import {Update} from "../../update/Update";
 
 export class PIXIUpdate extends Update {
-  constructor(data) {
-    super(data);
+  static MIN_FPS = 38;
+
+  fullTime = 0;
+
+  constructor() {
+    super(...arguments);
 
     this.update = this.update.bind(this);
   }
@@ -14,6 +18,7 @@ export class PIXIUpdate extends Update {
   initDecorator() {
     const {ticker} = this;
     ticker.add(this.update);
+    ticker.minFPS = PIXIUpdate.MIN_FPS;
   }
 
   startUpdate() {
@@ -26,7 +31,22 @@ export class PIXIUpdate extends Update {
     ticker.stop();
   }
 
+  getFullTime({deltaTime}) {
+    return (this.fullTime += this.getDeltaS({deltaTime}));
+  }
+
+  getDeltaS({deltaTime}) {
+    return deltaTime / 60;
+  }
+
   update({deltaMS, deltaTime}) {
-    this.throwEvent({deltaMS, deltaTime});
+    const deltaS = this.getDeltaS(...arguments);
+    const fullTime = this.getFullTime(...arguments);
+
+    this.throwEvent({deltaMS, deltaTime, deltaS, fullTime});
+  }
+
+  reset() {
+    this.fullTime = 0;
   }
 }

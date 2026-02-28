@@ -231,6 +231,7 @@ export class Controller extends PIXIController {
     this.resetGameStore();
     this.resetEngine();
     getIsDebug() && analytics.logStatistics();
+    super.reset();
   }
 }
 

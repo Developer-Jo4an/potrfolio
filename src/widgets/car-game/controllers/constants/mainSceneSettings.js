@@ -4,6 +4,9 @@ export const mainSceneSettings = {
     height: 89,
     x: 180,
     y: 800,
+    acceleration: 200,
+    minSpeed: 200,
+    maxSpeed: 500
   },
   roadChunk: {
     length: [500, 800],
