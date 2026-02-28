@@ -1,10 +1,12 @@
 /** @type {import("next").NextConfig} */
+import nextBundleAnalyzer from "@next/bundle-analyzer";
 
 const nextConfig = {
   output: "export",
   reactStrictMode: false,
   images: {
     remotePatterns: [],
+    unoptimized: true,
   },
   webpack(config) {
     config.experiments = {
@@ -18,4 +20,6 @@ const nextConfig = {
   },
 };
 
-export default nextConfig;
+const withBundleAnalyzer = nextBundleAnalyzer({enabled: process.env.ANALYZE === "true"});
+
+export default withBundleAnalyzer(nextConfig);
