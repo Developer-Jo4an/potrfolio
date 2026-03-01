@@ -7,7 +7,7 @@ import {Progress} from "../progress/Progress";
 import {useEndGame} from "../../model/hooks/useEndGame";
 import {ComponentTypes, GameWrapper} from "@features/game-wrapper";
 import {useDunkShotStore} from "../../model/state-manager/dunkShotStore";
-import content from "../../controllers/constants/content";
+import content from "../../constants/content";
 import * as statesData from "../../controllers/constants/stateMachine";
 
 export function DunkShotGame() {

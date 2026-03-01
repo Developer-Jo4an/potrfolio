@@ -1,6 +1,6 @@
 import {useAppCallbacks, useModalProvider} from "@shared";
 import {useDunkShotStore} from "../state-manager/dunkShotStore";
-import content from "../../controllers/constants/content";
+import content from "../../constants/content";
 import {useCallback} from "react";
 
 const {endModal} = content;

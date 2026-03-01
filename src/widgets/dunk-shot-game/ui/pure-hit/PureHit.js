@@ -4,9 +4,11 @@ import {Image, Confetti, eventSubscription, STATUSES} from "@shared";
 import {useDunkShotStore} from "../../model/state-manager/dunkShotStore";
 import {CONTROLLER_RESET, THROW_PURE_DATA} from "../../controllers/constants/events";
 import {pureHitAnimation} from "../../controllers/constants/animations";
+import content from "../../constants/content";
 import styles from "./PureHit.module.scss";
 
 const {offset, confetti, motion: motionSettings} = pureHitAnimation;
+const {effects} = content;
 
 export function PureHit() {
   const {wrapper} = useDunkShotStore();
@@ -72,7 +74,7 @@ export function PureHit() {
             style={{"--x": `${pureHit?.x}px`, "--y": `${pureHit?.y}px`}}
             {...motionSettings}>
             <div className={styles.pureHitContainer}>
-              <Image src={"widgets/dunk-shot-game/pure.png"} />
+              <Image {...effects.pure.img} />
             </div>
           </motion.div>
         )}
