@@ -33,7 +33,7 @@ export class Helper extends Generator {
 
     const {cPixi, cMatrix} = system.getHelperInfo(eHelper);
 
-    const view = (cPixi.pixiObject = system.getAsset(eHelper, HELPER, {extraData: {name: texture}}));
+    const view = (cPixi.pixiObject = system.getAsset(eHelper, HELPER, {extraData: {textureName: texture}}));
 
     const scaleX = width / view.width;
     const scaleY = height / view.height;

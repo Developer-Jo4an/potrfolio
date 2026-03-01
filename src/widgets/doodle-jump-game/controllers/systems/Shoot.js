@@ -87,7 +87,7 @@ export class Shoot extends System {
 
     const {view: mainContainerView} = this.getMainContainerInfo();
 
-    const view = (cPixi.pixiObject = this.getAsset(eBullet, BULLET, {extraData: {name: BulletTextures.IDLE}}));
+    const view = (cPixi.pixiObject = this.getAsset(eBullet, BULLET, {extraData: {textureName: BulletTextures.IDLE}}));
 
     cBulletMatrix.scaleX = view.scale.x = width / view.width;
     cBulletMatrix.scaleY = view.scale.y = height / view.height;

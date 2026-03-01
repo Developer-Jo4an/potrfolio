@@ -5,5 +5,5 @@ export const Helpers = {
 };
 
 export const HelperTextures = {
-  TRAMPOLINE: "trampoline",
+  TRAMPOLINE: "trampolineItem",
 };

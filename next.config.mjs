@@ -5,7 +5,7 @@ const nextConfig = {
   reactStrictMode: false,
   images: {
     remotePatterns: [],
-    qualities: [25, 50, 75, 100],
+    qualities: [1, 25, 50, 75, 100],
   },
   webpack(config) {
     config.experiments = {

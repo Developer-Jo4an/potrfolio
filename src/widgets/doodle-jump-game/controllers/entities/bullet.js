@@ -1,5 +1,5 @@
 export const BULLET = "bullet";
 
 export const BulletTextures = {
-  IDLE: "bullet",
+  IDLE: "bulletItem",
 };

@@ -25,7 +25,7 @@ export class Platform extends Generator {
     const {system} = this;
     const {cPixi, cMatrix} = system.getPlatformInfo(ePlatform);
 
-    const view = (cPixi.pixiObject = system.getAsset(ePlatform, PLATFORM, {extraData: {name: texture}}));
+    const view = (cPixi.pixiObject = system.getAsset(ePlatform, PLATFORM, {extraData: {textureName: texture}}));
 
     const scaleX = (cMatrix.scaleX = width / view.width);
     const scaleY = (cMatrix.scaleY = height / view.height);

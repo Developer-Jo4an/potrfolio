@@ -21,6 +21,7 @@ export default {
       width: 1600,
       height: 900,
       quality: 50,
+      priority: false,
     },
   },
 };

@@ -11,13 +11,14 @@ export class BaseCachedAsset extends Spritesheet {
   }
 
   getAsset() {
-    const {name} = this._getMergedData();
+    const {textureName} = this._getMergedData();
     const {cachedAssets} = BaseCachedAsset;
 
-    const cachedList = (cachedAssets[name] ??= []);
+    const cachedList = (cachedAssets[textureName] ??= []);
     if (!!cachedList.length) return cachedList.pop();
+
     const {animations} = assetsManager.getAssetFromSpace(PIXI_SPACE, SPRITESHEET, this.constructor.ASSETS_NAME);
-    return new PIXI.AnimatedSprite(animations[name]);
+    return new PIXI.AnimatedSprite(animations[textureName]);
   }
 
   prepare() {
@@ -34,13 +35,13 @@ export class BaseCachedAsset extends Spritesheet {
   }
 
   setProperties() {
-    const {name, anchor, zIndex} = this._getMergedData();
+    const {textureName, label, anchor, zIndex} = this._getMergedData();
     const {
       asset,
       defaultProperties: {
         storage: {
           mainSceneSettings: {
-            clips: {[name]: {speed = 1, loop = false, startFrame = 0} = {}},
+            clips: {[textureName]: {speed = 1, loop = false, startFrame = 0} = {}},
           },
         },
       },
@@ -49,7 +50,7 @@ export class BaseCachedAsset extends Spritesheet {
     asset.zIndex = zIndex;
     asset.animationSpeed = speed;
     asset.loop = loop;
-    asset.label = name;
+    asset.label = label;
     asset.anchor.set(anchor);
     asset.gotoAndStop(startFrame);
   }

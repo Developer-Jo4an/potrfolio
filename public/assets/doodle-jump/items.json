@@ -62,11 +62,11 @@
     }
   },
   "animations" : {
-    "jetpack": ["jetpack0"],
-    "propeller": ["propeller0"],
-    "bullet": ["bullet0"],
-    "spring": ["spring0"],
-    "trampoline": ["trampoline0"]
+    "jetpackItem": ["jetpack0"],
+    "propellerItem": ["propeller0"],
+    "bulletItem": ["bullet0"],
+    "springItem": ["spring0"],
+    "trampolineItem": ["trampoline0"]
   },
   "meta": {
     "image": "items.webp",

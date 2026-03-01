@@ -33,7 +33,7 @@ export class Booster extends Generator {
 
     const {cPixi, cMatrix} = system.getBoosterInfo(eBooster);
 
-    const view = (cPixi.pixiObject = system.getAsset(eBooster, BOOSTER, {extraData: {name: texture}}));
+    const view = (cPixi.pixiObject = system.getAsset(eBooster, BOOSTER, {extraData: {textureName: texture}}));
 
     const scaleX = width / view.width;
     const scaleY = height / view.height;

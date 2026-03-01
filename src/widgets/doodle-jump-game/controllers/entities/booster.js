@@ -7,7 +7,7 @@ export const Boosters = {
 };
 
 export const BoosterTextures = {
-  PROPELLER: "propeller",
-  SPRING: "spring",
-  JETPACK: "jetpack",
+  PROPELLER: "propellerItem",
+  SPRING: "springItem",
+  JETPACK: "jetpackItem",
 };

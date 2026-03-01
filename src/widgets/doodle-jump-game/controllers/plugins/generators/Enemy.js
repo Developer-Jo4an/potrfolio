@@ -44,7 +44,7 @@ export class Enemy extends Generator {
 
     const {cPixi, cMatrix} = system.getEnemyInfo(eEnemy);
 
-    const view = (cPixi.pixiObject = system.getAsset(eEnemy, ENEMY, {extraData: {name: texture}}));
+    const view = (cPixi.pixiObject = system.getAsset(eEnemy, ENEMY, {extraData: {textureName: texture}}));
     view.play();
 
     const scaleX = width / view.width;

@@ -7,11 +7,10 @@ export function Image({
   src,
   className,
   alt = "",
-  width = 500,
-  height = 500,
+  width = 256,
+  height = 256,
   quality = 100,
-  priority = true,
-  loading = "eager",
+  priority = false,
   ...otherProps
 }) {
   return (
@@ -23,7 +22,6 @@ export function Image({
       height={height}
       quality={quality}
       priority={priority}
-      loading={loading}
       alt={alt}
       {...otherProps}
     />

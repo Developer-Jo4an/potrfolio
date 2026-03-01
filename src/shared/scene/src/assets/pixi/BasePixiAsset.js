@@ -20,16 +20,16 @@ export class BasePixiAsset extends Asset {
 
     asset.position.set(0);
     asset.scale.set(1);
-    asset.rotation = 0;
     asset.skew.set(0);
+    asset.rotation = 0;
     asset.zIndex = 0;
     asset.visible = true;
     asset.renderable = true;
     asset.alpha = 1;
     asset.eventMode = "passive";
     asset.cursor = null;
-    // ?label, ?id
     asset.removeFromParent();
+    asset.removeAllListeners();
 
     return asset;
   }
@@ -46,5 +46,9 @@ export class BasePixiAsset extends Asset {
         asset[key] = value;
       }
     }
+  }
+
+  _setName(value) {
+    // deprecated
   }
 }

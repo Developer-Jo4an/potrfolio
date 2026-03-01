@@ -1,6 +1,6 @@
 {
   "frames": {
-    "idle": {
+    "idleAnim": {
       "frame": {
         "x": 0,
         "y": 0,
@@ -12,7 +12,7 @@
         "h": 90
       }
     },
-    "shoot": {
+    "shootAnim": {
       "frame": {
         "x": 149,
         "y": 1,
@@ -24,7 +24,7 @@
         "h": 89
       }
     },
-    "propeller0": {
+    "propeller0Anim": {
       "frame": {
         "x": 0,
         "y": 130,
@@ -36,7 +36,7 @@
         "h": 116
       }
     },
-    "propeller1": {
+    "propeller1Anim": {
       "frame": {
         "x": 119,
         "y": 122,
@@ -48,7 +48,7 @@
         "h": 124
       }
     },
-    "propeller2": {
+    "propeller2Anim": {
       "frame": {
         "x": 240,
         "y": 123,
@@ -60,7 +60,7 @@
         "h": 123
       }
     },
-    "jetpack0": {
+    "jetpack0Anim": {
       "frame": {
         "x": 0,
         "y": 306,
@@ -72,7 +72,7 @@
         "h": 123
       }
     },
-    "jetpack1": {
+    "jetpack1Anim": {
       "frame": {
         "x": 240,
         "y": 309,
@@ -84,7 +84,7 @@
         "h": 120
       }
     },
-    "spring": {
+    "springAnim": {
       "frame": {
         "x": 0,
         "y": 458,
@@ -96,7 +96,7 @@
         "h": 116
       }
     },
-    "lose0": {
+    "lose0Anim": {
       "frame": {
         "x": 0,
         "y": 603,
@@ -108,7 +108,7 @@
         "h": 122
       }
     },
-    "lose1": {
+    "lose1Anim": {
       "frame": {
         "x": 126,
         "y": 608,
@@ -120,7 +120,7 @@
         "h": 117
       }
     },
-    "lose2": {
+    "lose2Anim": {
       "frame": {
         "x": 253,
         "y": 611,
@@ -134,12 +134,12 @@
     }
   },
   "animations" : {
-    "idle": ["idle"],
-    "shoot": ["shoot"],
-    "propeller": ["propeller0", "propeller1", "propeller2"],
-    "jetpack": ["jetpack0", "jetpack1"],
-    "spring": ["spring"],
-    "lose": ["lose0", "lose1", "lose2"]
+    "idle": ["idleAnim"],
+    "shoot": ["shootAnim"],
+    "propeller": ["propeller0Anim", "propeller1Anim", "propeller2Anim"],
+    "jetpack": ["jetpack0Anim", "jetpack1Anim"],
+    "spring": ["springAnim"],
+    "lose": ["lose0Anim", "lose1Anim", "lose2Anim"]
   },
   "meta": {
     "image": "character.webp",
