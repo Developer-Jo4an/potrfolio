@@ -5,77 +5,194 @@ import {STATE_MACHINE, LOSE, WIN} from "../controllers/constants/stateMachine";
 import {MODES} from "@entities/pause-modal";
 
 export default {
-  boosters: [
-    {
-      type: CLEAR_HIT,
-      img: {src: "widgets/basketball-game/clearHitBooster.png", className: "boosterImage"},
-      timeout: 1000,
-      background: {className: "background", src: "widgets/basketball-game/booster-background.png"},
-    },
-    {
-      type: EXTRA_LIFE,
-      img: {src: "widgets/basketball-game/extraLifeBooster.png", className: "boosterImage"},
-      timeout: 1000,
-      background: {className: "background", src: "widgets/basketball-game/booster-background.png"},
-    },
-    {
-      type: X2,
-      img: {src: "widgets/basketball-game/x2Booster.png", className: "boosterImage"},
-      timeout: 1000,
-      background: {className: "background", src: "widgets/basketball-game/booster-background.png"},
-    },
-  ],
-  background: {src: "widgets/basketball-game/background.png"},
+  background: {
+    src: "widgets/basketball-game/background.png",
+    width: 1600,
+    height: 900,
+    priority: true,
+  },
   menu: {
     lifes: {
-      background: {img: {src: "widgets/basketball-game/stats-button-background.png"}},
-      img: {src: "widgets/basketball-game/lifes-stat.png"},
+      background: {
+        img: {
+          src: "widgets/basketball-game/buttons/stats.png",
+          width: 256,
+          height: 256,
+          priority: true,
+        },
+      },
+      img: {
+        src: "widgets/basketball-game/stats/lifes.png",
+        width: 256,
+        height: 256,
+        priority: true,
+      },
     },
     score: {
-      background: {img: {src: "widgets/basketball-game/stats-button-background.png"}},
-      img: {src: "widgets/basketball-game/score-stat.png"},
+      background: {
+        img: {
+          src: "widgets/basketball-game/buttons/stats.png",
+          width: 256,
+          height: 256,
+          priority: true,
+        },
+      },
+      img: {
+        src: "widgets/basketball-game/stats/score.png",
+        width: 256,
+        height: 256,
+        priority: true,
+      },
     },
     pause: {
-      background: {src: "widgets/basketball-game/control-button-background.png"},
       mod: MODES.orange,
+      background: {
+        src: "widgets/basketball-game/buttons/control.png",
+        priority: true,
+        width: 256,
+        height: 256,
+      },
       buttons: [
         {
           id: ON,
           text: "Продолжить",
           className: "continueButton",
-          background: {src: "widgets/basketball-game/end-game/continue.png"},
+          background: {
+            src: "widgets/basketball-game/end-game/continue.png",
+            width: 512,
+            height: 256,
+          },
         },
         {
           id: OFF,
           text: "На главную",
           className: "closeButton",
-          background: {src: "widgets/basketball-game/end-game/close.png"},
+          background: {
+            src: "widgets/basketball-game/end-game/close.png",
+            width: 512,
+            height: 256,
+          },
         },
       ],
     },
-    sound: {background: {src: "widgets/basketball-game/control-button-background.png"}},
+    sound: {
+      background: {
+        src: "widgets/basketball-game/buttons/control.png",
+        priority: true,
+        width: 256,
+        height: 256,
+      },
+    },
   },
+
   effects: {
-    clearHit: {img: {src: "widgets/basketball-game/clearHit.png"}},
-    miss: {img: {src: "widgets/basketball-game/miss.png"}},
+    clearHit: {
+      img: {
+        src: "widgets/basketball-game/effects/clear-hit.png",
+        width: 512,
+        height: 256,
+      },
+    },
+    miss: {
+      img: {
+        src: "widgets/basketball-game/effects/miss.png",
+        width: 512,
+        height: 256,
+      },
+    },
   },
+  boosters: [
+    {
+      type: CLEAR_HIT,
+      timeout: 1000,
+      img: {
+        src: "widgets/basketball-game/boosters/clear-hit.png",
+        className: "boosterImage",
+        width: 128,
+        height: 128,
+        priority: true,
+      },
+      background: {
+        className: "background",
+        src: "widgets/basketball-game/buttons/booster.png",
+        width: 128,
+        height: 128,
+        priority: true,
+      },
+    },
+    {
+      type: EXTRA_LIFE,
+      timeout: 1000,
+      img: {
+        src: "widgets/basketball-game/boosters/extra-life.png",
+        className: "boosterImage",
+        width: 128,
+        height: 128,
+        priority: true,
+      },
+      background: {
+        className: "background",
+        src: "widgets/basketball-game/buttons/booster.png",
+        width: 128,
+        height: 128,
+        priority: true,
+      },
+    },
+    {
+      type: X2,
+      timeout: 1000,
+      img: {
+        src: "widgets/basketball-game/boosters/x2.png",
+        className: "boosterImage",
+        width: 128,
+        height: 128,
+        priority: true,
+      },
+      background: {
+        className: "background",
+        src: "widgets/basketball-game/buttons/booster.png",
+        width: 128,
+        height: 128,
+        priority: true,
+      },
+    },
+  ],
   endModal({status, wrapper, modalNames, score, story, pureCount, redirect}) {
     return {
       type: modalNames.gameEndModal,
       props: {
-        background: {src: "widgets/game-cards/backgrounds/basketball.png"},
-        title: {text: {[WIN]: "Победа", [LOSE]: "Поражение"}[status], status, mod: GAME_END_MODES.velvet},
-        img: {src: `widgets/basketball-game/end-game/${status}.png`},
+        background: {
+          src: "widgets/game-cards/backgrounds/basketball.png",
+          width: 512,
+          height: 1024,
+        },
+        title: {
+          status,
+          text: {[WIN]: "Победа", [LOSE]: "Поражение"}[status],
+          mod: GAME_END_MODES.velvet,
+        },
+        img: {
+          src: `widgets/basketball-game/end-game/${status}.png`,
+          width: 512,
+          height: 256,
+        },
         stats: {
           mod: GAME_END_MODES.velvet,
           list: [
-            {label: "Количество очко", img: "widgets/basketball-game/stats/star.png", value: `+${score}`},
+            {
+              label: "Количество очко",
+              img: "widgets/basketball-game/stats/score.png",
+              value: `+${score}`,
+            },
             {
               label: "Заброшенные мячи",
               img: "widgets/basketball-game/stats/ball.png",
               value: `${story.reduce((acc, isHit) => acc + +isHit, 0)}/${story.length}`,
             },
-            {label: "Чистые попадания", value: pureCount},
+            {
+              label: "Чистые попадания",
+              value: pureCount,
+            },
           ],
         },
         buttons: {
@@ -84,7 +201,13 @@ export default {
             {
               isDisposable: true,
               text: {[WIN]: "Продолжить", [LOSE]: "Реванш"}[status],
-              background: {img: {src: "widgets/basketball-game/end-game/continue.png"}},
+              background: {
+                img: {
+                  src: "widgets/basketball-game/end-game/continue.png",
+                  width: 512,
+                  height: 256,
+                },
+              },
               modalsData: {close: [{id: "active"}]},
               events: {
                 async onClick() {
@@ -96,7 +219,13 @@ export default {
             {
               isDisposable: true,
               text: "Выйти",
-              background: {img: {src: "widgets/basketball-game/end-game/close.png"}},
+              background: {
+                img: {
+                  src: "widgets/basketball-game/end-game/close.png",
+                  width: 512,
+                  height: 256,
+                },
+              },
               modalsData: {close: [{id: "active"}]},
               events: {
                 onClick() {

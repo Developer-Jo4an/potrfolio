@@ -11,6 +11,7 @@ export function Image({
   height = 256,
   quality = 100,
   priority = false,
+  unoptimized = false,
   ...otherProps
 }) {
   return (
@@ -22,6 +23,7 @@ export function Image({
       height={height}
       quality={quality}
       priority={priority}
+      unoptimized={unoptimized}
       alt={alt}
       {...otherProps}
     />

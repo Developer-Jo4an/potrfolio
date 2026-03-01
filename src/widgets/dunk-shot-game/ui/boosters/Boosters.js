@@ -5,8 +5,8 @@ import {EXTRA_LIFE, WINGS, X2} from "../../controllers/constants/boosters";
 import {WINGS as WINGS_STATE} from "../../controllers/constants/stateMachine";
 import {BOOSTERS_SET_DISABLED} from "../../controllers/constants/events";
 import content from "../../controllers/constants/content";
-import styles from "./Boosters.module.scss";
 import {BottomMenu, MODES} from "@entities/bottom-menu";
+import styles from "./Boosters.module.scss";
 
 const {boosters: boostersContent} = content;
 
@@ -66,7 +66,7 @@ export function Boosters() {
       value: value,
       child: (
         <div className={styles[background.className]}>
-          <Image src={background.src} />
+          <Image {...background} />
         </div>
       ),
       timeout,

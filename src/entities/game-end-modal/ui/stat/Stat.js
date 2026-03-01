@@ -7,7 +7,7 @@ export function Stat({label, value, mod, img}) {
     <div className={styles.stat} data-mod={mod}>
       <p className={styles.statName}>{`${label}:`}</p>
       <div className={styles.statInfo}>
-        {img && <Image src={img} className={styles.statImage} />}
+        {img && <Image src={img} width={64} height={64} className={styles.statImage} />}
         {!isNil(value) && <div className={styles.statValue}>{value}</div>}
       </div>
     </div>

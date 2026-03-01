@@ -42,7 +42,7 @@ export function Boosters({gameSpace, updateProps}) {
       value: count,
       child: (
         <div className={styles[background.className]}>
-          <Image src={background.src} />
+          <Image {...background} />
         </div>
       ),
       timeout,
