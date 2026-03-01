@@ -6,7 +6,6 @@ const LIMITS = {
   width: {
     max: 500,
   },
-  normalize: 0.9,
 };
 
 export function useSize() {
@@ -17,8 +16,8 @@ export function useSize() {
       const {current} = containerRef;
 
       const scale = Math.min(
-        (global.innerWidth * LIMITS.normalize) / current.clientWidth,
-        (global.innerHeight * LIMITS.normalize) / current.clientHeight,
+        global.innerWidth / current.clientWidth,
+        global.innerHeight / current.clientHeight,
         LIMITS.width.max / current.clientWidth,
       );
 

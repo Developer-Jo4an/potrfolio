@@ -1,5 +1,6 @@
 export * from "./src/hooks/useKillGsapTweens";
 export * from "./src/hooks/useResetOnResize";
+export * from "./src/hooks/useOnResize";
 export * from "./src/hooks/useDisposableClick";
 export * from "./src/hooks/useRequestsHandler";
 

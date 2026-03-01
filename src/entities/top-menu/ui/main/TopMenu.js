@@ -3,6 +3,7 @@ import {isNil, isObject} from "lodash";
 import {PauseButton} from "../../../pause-button";
 import {SoundButton} from "../../../sound-button";
 import {Image} from "@shared";
+import {useSize} from "../../model/hooks/useSize";
 import cl from "classnames";
 import styles from "./TopMenu.module.scss";
 
@@ -23,8 +24,10 @@ export function TopMenu({className, content, gameSpace, pause, sound, updateProp
     updateProps({topMenu: elements});
   }, []);
 
+  const containerRef = useSize();
+
   return (
-    <div className={cl(styles.topMenu, className)}>
+    <div className={cl(styles.topMenu, className)} ref={containerRef}>
       {isObject(pause) && (
         <PauseButton {...pause} className={cl(pause.className, styles.pause)} ref={(ref) => (elements.pause = ref)} />
       )}
