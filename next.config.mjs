@@ -2,11 +2,10 @@
 import nextBundleAnalyzer from "@next/bundle-analyzer";
 
 const nextConfig = {
-  output: "export",
   reactStrictMode: false,
   images: {
     remotePatterns: [],
-    unoptimized: true,
+    qualities: [25, 50, 75, 100],
   },
   webpack(config) {
     config.experiments = {

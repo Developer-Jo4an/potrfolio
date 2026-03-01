@@ -3,7 +3,17 @@ import {image} from "../../../../../lib";
 import cl from "classnames";
 import styles from "./Image.module.scss";
 
-export function Image({src, className, width = 500, height = 500, alt = "", ...otherProps}) {
+export function Image({
+  src,
+  className,
+  alt = "",
+  width = 500,
+  height = 500,
+  quality = 100,
+  priority = true,
+  loading = "eager",
+  ...otherProps
+}) {
   return (
     <NextImage
       src={image(src)}
@@ -11,6 +21,9 @@ export function Image({src, className, width = 500, height = 500, alt = "", ...o
       draggable={false}
       width={width}
       height={height}
+      quality={quality}
+      priority={priority}
+      loading={loading}
       alt={alt}
       {...otherProps}
     />
