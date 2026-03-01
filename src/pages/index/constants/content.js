@@ -18,6 +18,9 @@ export default {
   loading: {
     background: {
       src: "app/loading.png",
+      width: 1600,
+      height: 900,
+      quality: 50,
     },
   },
 };

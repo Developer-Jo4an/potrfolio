@@ -19,6 +19,12 @@ export const gameList = [
       height: 900,
       quality: 50,
     },
+    img: {
+      src: `widgets/game-cards/cards/dunkShot.png`,
+      width: 280,
+      height: 400,
+      quality: 50,
+    },
   },
   {
     id: "basketball",
@@ -29,6 +35,12 @@ export const gameList = [
       src: `widgets/game-cards/backgrounds/basketball.png`,
       width: 1600,
       height: 900,
+      quality: 50,
+    },
+    img: {
+      src: `widgets/game-cards/cards/basketball.png`,
+      width: 280,
+      height: 400,
       quality: 50,
     },
   },
@@ -43,6 +55,12 @@ export const gameList = [
       height: 900,
       quality: 75,
     },
+    img: {
+      src: `widgets/game-cards/cards/doodleJump.png`,
+      width: 280,
+      height: 400,
+      quality: 100,
+    },
   },
   {
     id: "car",
@@ -55,6 +73,12 @@ export const gameList = [
       height: 900,
       quality: 75,
     },
+    img: {
+      src: `widgets/game-cards/cards/car.png`,
+      width: 280,
+      height: 400,
+      quality: 50,
+    },
   },
   {
     id: "tileExplorer",
@@ -66,6 +90,12 @@ export const gameList = [
       width: 1600,
       height: 900,
       quality: 75,
+    },
+    img: {
+      src: `widgets/game-cards/cards/tileExplorer.png`,
+      width: 280,
+      height: 400,
+      quality: 50,
     },
   },
 ];
