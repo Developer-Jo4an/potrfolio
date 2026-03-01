@@ -2,6 +2,7 @@ import {useImperativeHandle, useRef} from "react";
 import {Button, Image} from "@shared";
 import {isFinite} from "lodash";
 import cl from "classnames";
+import {useSize} from "../../model/hooks/useSize";
 import styles from "./BottomMenu.module.scss";
 
 export function BottomMenu({className, buttons, children, mod, ref}) {
@@ -9,8 +10,10 @@ export function BottomMenu({className, buttons, children, mod, ref}) {
 
   useImperativeHandle(ref, () => elements);
 
+  const containerRef = useSize();
+
   return (
-    <div className={cl(styles.bottomMenu, className)} data-mod={mod}>
+    <div className={cl(styles.bottomMenu, className)} data-mod={mod} ref={containerRef}>
       {buttons?.map(
         ({id, className, timeout, isDisposable, onClick, value, isActive, isDisabled, Icon, img, child}, index) => (
           <Button
