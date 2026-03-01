@@ -1,49 +1,19 @@
 @use "@application/styles/mixins" as mixins;
 @use "@application/styles/constants" as constants;
 
-$root: "imageContainer";
-
 .imageContainer {
   position: relative;
 
   display: flex;
-  flex-direction: column;
   justify-content: center;
   align-items: center;
-  align-self: center;
 
   width: 100%;
-  height: 175px;
-
-  @include mixins.device using($device) {
-    @if ($device == constants.$MOB-PORT) {
-      width: 80%;
-      height: 130px;
-    }
-  }
+  height: 130px;
 }
 
 .image {
-  position: absolute;
-  left: 50%;
-  top: -6%;
-
-  transform: translateX(-50%);
-
-  @include mixins.device using($device) {
-    @if ($device == constants.$MOB-PORT) {
-      max-height: 200px;
-    } @else if ($device == constants.$MOB-LAND) {
-      max-height: 100px;
-    } @else {
-      max-height: 230px;
-    }
-  }
-
-
+  width: 100%;
+  height: 100%;
   object-fit: contain;
-
-  @include mixins.mod("ocean", $root) {
-    top: -40%;
-  }
 }

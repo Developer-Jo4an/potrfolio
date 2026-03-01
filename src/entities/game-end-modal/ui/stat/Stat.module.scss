@@ -11,13 +11,7 @@ $root: "stat";
   align-items: flex-end;
 
   padding-bottom: 5px;
-  height: 50px;
-
-  @include mixins.device using($device) {
-    @if ($device == constants.$MOB-PORT) {
-      height: 32px;
-    }
-  }
+  height: 32px;
 
   &:before {
     content: "";
@@ -50,20 +44,21 @@ $root: "stat";
 }
 
 .statName {
-  font-size: 18px;
-  font-family: Discovery, KogniGear, sans-serif;
+  width: 50%;
 
-  @include mixins.device using($device) {
-    @if ($device == constants.$MOB-PORT) {
-      font-size: 16px;
-    }
-  }
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+
+  font-size: 16px;
+  font-family: Discovery, KogniGear, sans-serif;
 }
 
 .statInfo {
   display: flex;
   align-items: flex-end;
   justify-content: center;
+
   gap: 10px;
 
   height: 100%;
@@ -74,20 +69,20 @@ $root: "stat";
 }
 
 .statValue {
-  position: relative;
-  top: 3px;
-
-  font-size: 24px;
-  font-family: InterBlack, KogniGear, sans-serif;
-  font-weight: 900;
-
-  @include mixins.device using($device) {
-    @if ($device == constants.$MOB-PORT) {
-      font-size: 20px;
-    }
-  }
+  width: 100%;
 
   display: flex;
   justify-content: center;
   align-items: center;
+
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+
+  position: relative;
+  top: 3px;
+
+  font-size: 16px;
+  font-family: InterBlack, KogniGear, sans-serif;
+  font-weight: 900;
 }
