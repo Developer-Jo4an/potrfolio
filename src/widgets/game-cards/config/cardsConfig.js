@@ -53,7 +53,7 @@ export const gameList = [
       src: `widgets/game-cards/backgrounds/doodleJump.png`,
       width: 1600,
       height: 900,
-      quality: 75,
+      quality: 50,
     },
     img: {
       src: `widgets/game-cards/cards/doodleJump.png`,
@@ -71,7 +71,7 @@ export const gameList = [
       src: `widgets/game-cards/backgrounds/car.png`,
       width: 1600,
       height: 900,
-      quality: 75,
+      quality: 50,
     },
     img: {
       src: `widgets/game-cards/cards/car.png`,
@@ -89,7 +89,7 @@ export const gameList = [
       src: `widgets/game-cards/backgrounds/tileExplorer.png`,
       width: 1600,
       height: 900,
-      quality: 75,
+      quality: 50,
     },
     img: {
       src: `widgets/game-cards/cards/tileExplorer.png`,
