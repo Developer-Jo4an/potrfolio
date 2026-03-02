@@ -39,12 +39,12 @@ export function Boosters({gameSpace, updateProps}) {
       isDisabled: !isCanUse || !count,
       img,
       value: count,
+      timeout,
       child: (styles) => (
         <div className={styles.background}>
           <Image {...background} />
         </div>
       ),
-      timeout,
     };
   });
 

@@ -1,10 +1,10 @@
 import {Image} from "@shared";
-import {BottomMenu, MODES} from "@entities/bottom-menu";
+import {MODES} from "@entities/bottom-menu";
+import {Boosters as BoostersMenu} from "@entities/boosters";
 import {useBoosters} from "../../model/hooks/useBoosters";
 import {useTileExplorerStore} from "../../model/state-manager/tileExplorerStore";
 import {PLAYING} from "../../controllers/constants/stateMachine";
 import content from "../../constants/content";
-import styles from "./Boosters.module.scss";
 
 const {boosters} = content;
 
@@ -20,19 +20,18 @@ export function Boosters({gameSpace: {gameData}}) {
 
     return {
       id: type,
-      className: styles.booster,
       onClick: () => onClick(type),
       isDisabled: !isCanUse || !count,
-      img: {...img, className: styles[img.className]},
+      img,
       value: count,
-      child: (
-        <div className={styles[background.className]}>
-          <Image {...background}/>
+      timeout,
+      child: (styles) => (
+        <div className={styles.background}>
+          <Image {...background} />
         </div>
       ),
-      timeout,
     };
   });
 
-  return <BottomMenu buttons={boosterButtons} mod={MODES.blue} />;
+  return <BoostersMenu list={boosterButtons} mod={MODES.blue} />;
 }

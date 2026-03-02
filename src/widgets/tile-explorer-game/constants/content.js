@@ -92,13 +92,11 @@ export default {
       timeout: 1000,
       img: {
         src: "widgets/tile-explorer-game/boosters/back.png",
-        className: "boosterImage",
         width: 256,
         height: 256,
         priority: true,
       },
       background: {
-        className: "background",
         src: "widgets/tile-explorer-game/buttons/booster.png",
         width: 256,
         height: 256,
@@ -110,13 +108,11 @@ export default {
       timeout: 1000,
       img: {
         src: "widgets/tile-explorer-game/boosters/mix.png",
-        className: "boosterImage",
         width: 256,
         height: 256,
         priority: true,
       },
       background: {
-        className: "background",
         src: "widgets/tile-explorer-game/buttons/booster.png",
         width: 256,
         height: 256,
@@ -128,13 +124,11 @@ export default {
       timeout: 1000,
       img: {
         src: "widgets/tile-explorer-game/boosters/help.png",
-        className: "boosterImage",
         width: 256,
         height: 256,
         priority: true,
       },
       background: {
-        className: "background",
         src: "widgets/tile-explorer-game/buttons/booster.png",
         width: 256,
         height: 256,
