@@ -1,16 +1,12 @@
 .booster {
-  width: 104px;
-  height: 68px;
+  flex-grow: 1;
 }
 
 .boosterImage {
+  position: relative;
+  bottom: 4%;
+
   height: 80%;
-
-  position: absolute;
-  left: 50%;
-  top: 46%;
-
-  transform: translate(-50%, -50%);
 }
 
 .background {
