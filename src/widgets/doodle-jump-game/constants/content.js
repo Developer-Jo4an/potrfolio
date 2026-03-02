@@ -124,8 +124,8 @@ export default {
                 img: {
                   src: "widgets/doodle-jump-game/end-game/close.png",
                   width: 512,
-                  height: 64
-                }
+                  height: 64,
+                },
               },
               modalsData: {close: [{id: "active"}]},
               events: {

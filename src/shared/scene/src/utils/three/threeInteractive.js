@@ -85,7 +85,7 @@ var c = class {
     add = (e, s = []) => {
       if (e)
         if (s.length > 0)
-          s.forEach(t => {
+          s.forEach((t) => {
             let n = e.getObjectByName(t);
             if (n) {
               let o = new c(n, t);
@@ -100,17 +100,17 @@ var c = class {
     remove = (e, s = []) => {
       if (!e) return;
       let t = new Set(s.length > 0 ? s : [e.name]);
-      this.interactiveObjects = this.interactiveObjects.filter(n => !t.has(n.name));
+      this.interactiveObjects = this.interactiveObjects.filter((n) => !t.has(n.name));
     };
     update = () => {
       this.raycaster.setFromCamera(this.mouse, this.camera),
-        this.interactiveObjects.forEach(n => {
+        this.interactiveObjects.forEach((n) => {
           n.target && this.checkIntersection(n);
         }),
         this.interactiveObjects.sort(function (n, o) {
           return n.distance - o.distance;
         });
-      let e = this.interactiveObjects.find(n => n.intersected) ?? null;
+      let e = this.interactiveObjects.find((n) => n.intersected) ?? null;
       if (e != this.closestObject) {
         if (this.closestObject) {
           let n = new i("mouseout");
@@ -123,70 +123,70 @@ var c = class {
         this.closestObject = e;
       }
       let s;
-      this.interactiveObjects.forEach(n => {
+      this.interactiveObjects.forEach((n) => {
         !n.intersected && n.wasIntersected && (s || (s = new i("mouseleave")), this.dispatch(n, s));
       });
       let t;
-      this.interactiveObjects.forEach(n => {
+      this.interactiveObjects.forEach((n) => {
         n.intersected && !n.wasIntersected && (t || (t = new i("mouseenter")), this.dispatch(n, t));
       });
     };
-    checkIntersection = e => {
+    checkIntersection = (e) => {
       let s = this.raycaster.intersectObjects([e.target], !0);
       if (((e.wasIntersected = e.intersected), s.length > 0)) {
         let t = s[0].distance;
-        s.forEach(n => {
+        s.forEach((n) => {
           n.distance < t && (t = n.distance);
         }),
           (e.intersected = !0),
           (e.distance = t);
       } else e.intersected = !1;
     };
-    onDocumentMouseMove = e => {
+    onDocumentMouseMove = (e) => {
       this.mapPositionToPoint(this.mouse, e.clientX, e.clientY);
       let s = new i("mousemove", e);
-      this.interactiveObjects.forEach(t => {
+      this.interactiveObjects.forEach((t) => {
         this.dispatch(t, s);
       });
     };
-    onTouchMove = e => {
+    onTouchMove = (e) => {
       this.mapPositionToPoint(this.mouse, e.touches[0].clientX, e.touches[0].clientY);
       let s = new i(this.treatTouchEventsAsMouseEvents ? "mousemove" : "touchmove", e);
-      this.interactiveObjects.forEach(t => {
+      this.interactiveObjects.forEach((t) => {
         this.dispatch(t, s);
       });
     };
-    onMouseClick = e => {
+    onMouseClick = (e) => {
       this.update();
       let s = new i("click", e);
-      this.interactiveObjects.forEach(t => {
+      this.interactiveObjects.forEach((t) => {
         t.intersected && this.dispatch(t, s);
       });
     };
-    onMouseDown = e => {
+    onMouseDown = (e) => {
       this.mapPositionToPoint(this.mouse, e.clientX, e.clientY), this.update();
       let s = new i("mousedown", e);
-      this.interactiveObjects.forEach(t => {
+      this.interactiveObjects.forEach((t) => {
         t.intersected && this.dispatch(t, s);
       });
     };
-    onTouchStart = e => {
+    onTouchStart = (e) => {
       this.mapPositionToPoint(this.mouse, e.touches[0].clientX, e.touches[0].clientY), this.update();
       let s = new i(this.treatTouchEventsAsMouseEvents ? "mousedown" : "touchstart", e);
-      this.interactiveObjects.forEach(t => {
+      this.interactiveObjects.forEach((t) => {
         t.intersected && this.dispatch(t, s);
       });
     };
-    onMouseUp = e => {
+    onMouseUp = (e) => {
       let s = new i("mouseup", e);
-      this.interactiveObjects.forEach(t => {
+      this.interactiveObjects.forEach((t) => {
         this.dispatch(t, s);
       });
     };
-    onTouchEnd = e => {
+    onTouchEnd = (e) => {
       this.mapPositionToPoint(this.mouse, e.touches[0].clientX, e.touches[0].clientY), this.update();
       let s = new i(this.treatTouchEventsAsMouseEvents ? "mouseup" : "touchend", e);
-      this.interactiveObjects.forEach(t => {
+      this.interactiveObjects.forEach((t) => {
         this.dispatch(t, s);
       });
     };
