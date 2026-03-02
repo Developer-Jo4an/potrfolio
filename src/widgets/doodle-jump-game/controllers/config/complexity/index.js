@@ -162,7 +162,7 @@ const complexityConfig = {
          * Огромный моб
          */
         {
-          weight: 2,
+          weight: 0.05,
           distanceBetween: [100, 150],
           entities: [
             {

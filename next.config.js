@@ -1,5 +1,6 @@
 /** @type {import("next").NextConfig} */
-import nextBundleAnalyzer from "@next/bundle-analyzer";
+const path = require("path");
+const nextBundleAnalyzer = require("@next/bundle-analyzer");
 
 const TYPES = {DEV: "development", PROD: "production"};
 
@@ -37,12 +38,10 @@ const nextConfig = {
       layers: true,
     };
 
-    if (isDev) config.cache = false;
-
     return config;
   },
+
+  outputFileTracingRoot: path.join(__dirname, "/*"),
 };
 
-const withBundleAnalyzer = nextBundleAnalyzer({enabled: process.env.ANALYZE === "true"});
-
-export default withBundleAnalyzer(nextConfig);
+module.exports = nextBundleAnalyzer({enabled: process.env.ANALYZE === "true"})(nextConfig)
