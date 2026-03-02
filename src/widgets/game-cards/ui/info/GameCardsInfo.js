@@ -12,11 +12,13 @@ export function GameCardsInfo() {
 
   const {title, description} = gameList.find(({id}) => id === activeGame) ?? {};
 
+  const extraStyle = styles[`gameCardsInfo${upperFirst(activeGame)}`];
+
   return (
     <div className={styles.gameCardsInfo}>
       {title && (
         <ReactTyped
-          className={cl(styles.gameCardsTitle, styles[`gameCardsInfo${upperFirst(activeGame)}`])}
+          className={cl(styles.gameCardsTitle, extraStyle)}
           strings={[title]}
           typedRef={(ref) => (typed.title = ref)}
           showCursor={false}
@@ -26,7 +28,7 @@ export function GameCardsInfo() {
 
       {description && (
         <ReactTyped
-          className={cl(styles.gameCardsDescription, styles[`gameCardsInfo${upperFirst(activeGame)}`])}
+          className={cl(styles.gameCardsDescription, extraStyle)}
           strings={[description]}
           typedRef={(ref) => (typed.description = ref)}
           showCursor={false}
