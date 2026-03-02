@@ -35,11 +35,13 @@ export const gameList = [
       width: 1600,
       height: 900,
       quality: 50,
+      priority: true,
     },
     img: {
       src: `widgets/game-cards/cards/basketball.png`,
       width: 512,
       height: 1024,
+      priority: true,
     },
   },
   {
@@ -57,6 +59,7 @@ export const gameList = [
       src: `widgets/game-cards/cards/doodleJump.png`,
       width: 512,
       height: 1024,
+      priority: true,
     },
   },
   {
@@ -74,6 +77,7 @@ export const gameList = [
       src: `widgets/game-cards/cards/car.png`,
       width: 512,
       height: 1024,
+      priority: true,
     },
   },
   {
@@ -91,6 +95,7 @@ export const gameList = [
       src: `widgets/game-cards/cards/tileExplorer.png`,
       width: 512,
       height: 1024,
+      priority: true,
     },
   },
 ];
