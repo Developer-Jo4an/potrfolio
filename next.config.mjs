@@ -8,28 +8,20 @@ const isDev = process.env.NODE_ENV === TYPES.DEV;
 const nextConfig = {
   reactStrictMode: false,
 
-  headers() {
-    if (!isDev) return [];
-
-    return [
-      {
-        source: "/:path*",
-        headers: [
-          {
-            key: "Cache-Control",
-            value: "no-store, no-cache, must-revalidate, proxy-revalidate",
-          },
-          {
-            key: "Pragma",
-            value: "no-cache",
-          },
-          {
-            key: "Expires",
-            value: "0",
-          },
-        ],
-      },
-    ];
+  async headers() {
+    if (isDev)
+      return [
+        {
+          source: "/:path*",
+          headers: [
+            {
+              key: "Cache-Control",
+              value: "no-store, max-age=0, must-revalidate",
+            },
+          ],
+        },
+      ];
+    else return [];
   },
 
   images: {

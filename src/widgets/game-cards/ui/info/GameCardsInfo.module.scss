@@ -1,4 +1,5 @@
 @use "@/application/styles/constants" as constants;
+@use "@/application/styles/mixins" as mixins;
 
 .gameCardsInfo {
   position: absolute;
@@ -19,7 +20,13 @@
 .gameCardsTitle {
   span {
     font-family: KogniGear, Discovery, sans-serif;
-    font-size: 42px;
+    font-size: 32px;
+
+    @include mixins.device using($device) {
+      @if $device == constants.$DESC-LAND {
+        font-size: 52px;
+      }
+    }
   }
 }
 

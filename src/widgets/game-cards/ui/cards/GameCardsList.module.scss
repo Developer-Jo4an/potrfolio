@@ -1,5 +1,9 @@
 @use "@/application/styles/constants" as constants;
 
+.gameCardsListWrapper {
+  position: absolute;
+  inset: 0;
+}
 
 .gameCardsList {
   position: absolute;
@@ -14,8 +18,8 @@
   inset: 0;
   margin: auto;
 
-  width: 280px;
-  height: 400px;
+  width: 240px;
+  height: 340px;
 
   border-radius: 24px;
 
