@@ -1,12 +1,12 @@
 import {useEffect} from "react";
+import {Boosters as BoostersMenu} from "@entities/boosters";
 import {APPLY, DISABLED, eventSubscription, Image} from "@shared";
+import {MODES} from "@entities/bottom-menu";
 import {useDunkShotStore} from "@widgets/dunk-shot-game/model/state-manager/dunkShotStore";
 import {EXTRA_LIFE, WINGS, X2} from "../../controllers/constants/boosters";
 import {WINGS as WINGS_STATE} from "../../controllers/constants/stateMachine";
 import {BOOSTERS_SET_DISABLED} from "../../controllers/constants/events";
 import content from "../../constants/content";
-import {BottomMenu, MODES} from "@entities/bottom-menu";
-import styles from "./Boosters.module.scss";
 
 const {boosters: boostersContent} = content;
 
@@ -58,14 +58,13 @@ export function Boosters() {
 
     return {
       id: type,
-      className: styles.booster,
       onClick: () => onClick({value, name: type, isDisabled: disabled}),
       isActive,
       isDisabled: disabled,
-      img: {...img, className: styles[img.className]},
-      value: value,
-      child: (
-        <div className={styles[background.className]}>
+      img,
+      value,
+      child: (styles) => (
+        <div className={styles.background}>
           <Image {...background} />
         </div>
       ),
@@ -73,5 +72,5 @@ export function Boosters() {
     };
   });
 
-  return <BottomMenu buttons={boosterButtons} mod={MODES.ocean} />;
+  return <BoostersMenu list={boosterButtons} mod={MODES.ocean} />;
 }

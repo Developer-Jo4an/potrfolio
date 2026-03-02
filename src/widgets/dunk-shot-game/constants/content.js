@@ -99,13 +99,11 @@ export default {
       timeout: 1000,
       img: {
         src: "widgets/dunk-shot-game/x2Booster.png",
-        className: "boosterImage",
         width: 256,
         height: 256,
         priority: true,
       },
       background: {
-        className: "background",
         src: "widgets/dunk-shot-game/buttons/booster.png",
         width: 256,
         height: 256,
@@ -117,13 +115,11 @@ export default {
       timeout: 1000,
       img: {
         src: "widgets/dunk-shot-game/boosters/extra-life.png",
-        className: "boosterImage",
         width: 256,
         height: 256,
         priority: true,
       },
       background: {
-        className: "background",
         src: "widgets/dunk-shot-game/buttons/booster.png",
         width: 256,
         height: 256,
@@ -135,13 +131,11 @@ export default {
       timeout: 1000,
       img: {
         src: "widgets/dunk-shot-game/boosters/wings.png",
-        className: "boosterImage",
         width: 256,
         height: 256,
         priority: true,
       },
       background: {
-        className: "background",
         src: "widgets/dunk-shot-game/buttons/booster.png",
         width: 256,
         height: 256,
