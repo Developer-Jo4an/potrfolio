@@ -3,7 +3,7 @@ import {BASKETBALL} from "../constants/game";
 
 const settings = {speed: 3};
 
-export function returnCharacterToInitialPositionTween(body, target) {
+export function returnCharacterToInitialPosition(body, target) {
   const {x, y, z} = body.translation();
   const proxy = {x, y, z};
 

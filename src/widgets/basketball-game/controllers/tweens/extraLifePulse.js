@@ -1,6 +1,6 @@
-import {image} from "@shared";
 import {TWEENS} from "../constants/tweens";
 import {BASKETBALL} from "../constants/game";
+import {createNodes, kill} from "./utils";
 
 const settings = {
   count: 10,
@@ -8,11 +8,12 @@ const settings = {
   scale: {start: 1, end: 4},
   duration: 1,
   delayBetween: 0.2,
+  src: "widgets/basketball-game/boosters/extra-life.png",
   ease: "sine.inOut",
 };
 
-export function extraLifePulseTween(bounding, parent) {
-  const nodes = createNodes(bounding, parent);
+export function extraLifePulse(bounding, parent) {
+  const nodes = createNodes(bounding, settings.count, settings.src, parent);
 
   const timeline = gsap
     .timeline({
@@ -52,35 +53,4 @@ export function extraLifePulseTween(bounding, parent) {
   });
 
   return timeline;
-}
-
-function kill() {
-  const {prevKill, nodes} = this;
-  prevKill();
-  nodes.forEach((node) => node.remove());
-}
-
-function createNodes(bounding, parent) {
-  return Array.from({length: settings.count}).map(() => {
-    const node = document.createElement("div");
-    gsap.set(node, {
-      width: bounding.width,
-      height: bounding.height,
-      position: "absolute",
-      left: `${-bounding.width / 2}px`,
-      top: `${-bounding.height / 2}px`,
-      transformOrigin: "50% 50%",
-      pointerEvents: "none",
-      willChange: "transform",
-    });
-
-    const img = document.createElement("img");
-    img.src = image("widgets/basketball-game/extraLifeBooster.png");
-    gsap.set(img, {draggable: false, width: bounding.width, height: bounding.height, objectFit: "cover"});
-    node.appendChild(img);
-
-    parent.appendChild(node);
-
-    return node;
-  });
 }

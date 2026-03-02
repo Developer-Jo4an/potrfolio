@@ -107,13 +107,11 @@ export default {
       timeout: 1000,
       img: {
         src: "widgets/basketball-game/boosters/clear-hit.png",
-        className: "boosterImage",
         width: 256,
         height: 256,
         priority: true,
       },
       background: {
-        className: "background",
         src: "widgets/basketball-game/buttons/booster.png",
         width: 256,
         height: 256,
@@ -125,13 +123,11 @@ export default {
       timeout: 1000,
       img: {
         src: "widgets/basketball-game/boosters/extra-life.png",
-        className: "boosterImage",
         width: 256,
         height: 256,
         priority: true,
       },
       background: {
-        className: "background",
         src: "widgets/basketball-game/buttons/booster.png",
         width: 256,
         height: 256,
@@ -143,13 +139,11 @@ export default {
       timeout: 1000,
       img: {
         src: "widgets/basketball-game/boosters/x2.png",
-        className: "boosterImage",
         width: 256,
         height: 256,
         priority: true,
       },
       background: {
-        className: "background",
         src: "widgets/basketball-game/buttons/booster.png",
         width: 256,
         height: 256,

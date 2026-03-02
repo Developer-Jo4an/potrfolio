@@ -1,8 +1,9 @@
 import {BASKETBALL} from "../constants/game";
 import {TWEENS} from "../constants/tweens";
-import {image} from "@shared";
+import {createNodes, kill} from "./utils";
 
 const settings = {
+  src: "widgets/basketball-game/stats/score.png",
   ease: "sine.inOut",
   duration: 0.4,
   count: 1,
@@ -12,7 +13,7 @@ const settings = {
   delayBetween: 0.2,
 };
 
-export function x2ViewTween(matrix, targetPosition, bounding, parent, angularVelocity, onComplete) {
+export function x2View(matrix, targetPosition, bounding, parent, angularVelocity, onComplete) {
   const timeline = gsap
     .timeline({
       id: TWEENS.x2ViewTween,
@@ -34,7 +35,7 @@ export function x2ViewTween(matrix, targetPosition, bounding, parent, angularVel
 
   const {position} = matrix;
   const length = position.clone().sub(targetPosition).length();
-  const nodes = createNodes(bounding, parent);
+  const nodes = createNodes(bounding, settings.count, settings.src, parent);
   const xStart = bounding.left + bounding.width / 2;
   const yStart = bounding.top + bounding.height / 2;
 
@@ -76,35 +77,4 @@ export function x2ViewTween(matrix, targetPosition, bounding, parent, angularVel
   });
 
   return timeline;
-}
-
-function kill() {
-  const {prevKill, nodes} = this;
-  prevKill();
-  nodes.forEach((node) => node.remove());
-}
-
-function createNodes(bounding, parent) {
-  return Array.from({length: settings.count}).map(() => {
-    const node = document.createElement("div");
-    gsap.set(node, {
-      width: bounding.width,
-      height: bounding.height,
-      position: "absolute",
-      left: `${-bounding.width / 2}px`,
-      top: `${-bounding.height / 2}px`,
-      transformOrigin: "50% 50%",
-      pointerEvents: "none",
-      willChange: "transform",
-    });
-
-    const img = document.createElement("img");
-    img.src = image("widgets/basketball-game/score-stat.png");
-    gsap.set(img, {draggable: false, width: bounding.width, height: bounding.height, objectFit: "cover"});
-    node.appendChild(img);
-
-    parent.appendChild(node);
-
-    return node;
-  });
 }

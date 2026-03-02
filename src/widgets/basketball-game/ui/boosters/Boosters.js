@@ -1,11 +1,11 @@
 import {useEffect, useRef} from "react";
 import {Image} from "@shared";
+import {Boosters as BoostersMenu} from "@entities/boosters";
 import {useBoosters} from "../../model/hooks/useBoosters";
-import {BottomMenu, MODES} from "@entities/bottom-menu";
 import {useBasketballStore} from "../../model/state-manager/basketballStore";
+import {MODES} from "@entities/bottom-menu";
 import {PLAYING} from "../../controllers/constants/stateMachine";
 import content from "../../constants/content";
-import styles from "./Boosters.module.scss";
 
 const {boosters} = content;
 
@@ -34,14 +34,13 @@ export function Boosters({gameSpace, updateProps}) {
 
     return {
       id: type,
-      className: styles.booster,
       onClick: () => onClick(type),
       isActive,
       isDisabled: !isCanUse || !count,
-      img: {...img, className: styles[img.className]},
+      img,
       value: count,
-      child: (
-        <div className={styles[background.className]}>
+      child: (styles) => (
+        <div className={styles.background}>
           <Image {...background} />
         </div>
       ),
@@ -49,5 +48,5 @@ export function Boosters({gameSpace, updateProps}) {
     };
   });
 
-  return <BottomMenu ref={elementsRef} buttons={boosterButtons} mod={MODES.orange} />;
+  return <BoostersMenu ref={elementsRef} list={boosterButtons} mod={MODES.orange} />;
 }

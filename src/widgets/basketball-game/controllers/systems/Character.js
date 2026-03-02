@@ -19,11 +19,11 @@ import {
   PI2,
 } from "@shared";
 import {clamp, random, upperFirst} from "lodash";
-import {returnCharacterToInitialPositionTween} from "../tweens/returnCharacterToInitialPositionTween";
-import {teleportActorToInitialPositionTween} from "../tweens/teleportActorToInitialPositionTween";
-import {extraLifeTrailTween} from "../tweens/extraLifeTrailTween";
-import {extraLifePulseTween} from "../tweens/extraLifePulseTween";
-import {x2ViewTween} from "../tweens/x2ViewTween";
+import {returnCharacterToInitialPosition} from "../tweens/returnCharacterToInitialPosition";
+import {teleportActorToInitialPosition} from "../tweens/teleportActorToInitialPosition";
+import {extraLifeTrail} from "../tweens/extraLifeTrail";
+import {extraLifePulse} from "../tweens/extraLifePulse";
+import {x2View} from "../tweens/x2View";
 import {CHARACTER} from "../constants/character";
 import {CLEAR_HIT, COLLISION_START, MISS, THROWN} from "../constants/events";
 import {GROUND} from "../constants/ground";
@@ -180,7 +180,7 @@ export class Character extends System {
 
     const cBody = eCharacter.get(Body);
 
-    const returnTween = returnCharacterToInitialPositionTween(cBody.object, position);
+    const returnTween = returnCharacterToInitialPosition(cBody.object, position);
     const cTween = eCharacter.get(GSAPTween);
     cTween.add(returnTween);
     await new Promise((res) => {
@@ -385,10 +385,10 @@ export class Character extends System {
 
     const extraLifeNode = extraLife.querySelector(`[data-image="menuImage"]`);
     const extraLideBounding = extraLifeNode.getBoundingClientRect();
-    extraLifeTrailTween(extraLideBounding, effectsFreeSpace);
+    extraLifeTrail(extraLideBounding, effectsFreeSpace);
 
     const lifesIconBounding = lifesIcon.getBoundingClientRect();
-    extraLifePulseTween(lifesIconBounding, effectsFreeSpace);
+    extraLifePulse(lifesIconBounding, effectsFreeSpace);
   }
 
   [createActivateMethod(CLEAR_HIT)]() {
@@ -470,7 +470,7 @@ export class Character extends System {
       const target = new THREE.Vector3();
       raycaster.ray.intersectPlane(plane, target);
 
-      const tween = x2ViewTween(cMatrix4Component, target, bounding, effectsFreeSpace, angularVelocity, () => {
+      const tween = x2View(cMatrix4Component, target, bounding, effectsFreeSpace, angularVelocity, () => {
         entity.destroy();
       });
 
@@ -629,7 +629,7 @@ export class Character extends System {
     const cThreeComponent = eCharacter.get(ThreeComponent);
     const cBody = eCharacter.get(Body);
 
-    const teleportTween = teleportActorToInitialPositionTween(
+    const teleportTween = teleportActorToInitialPosition(
       cThreeComponent.threeObject,
       () => {
         cBody.object.setBodyType(RAPIER3D.RigidBodyType.KinematicPositionBased);
