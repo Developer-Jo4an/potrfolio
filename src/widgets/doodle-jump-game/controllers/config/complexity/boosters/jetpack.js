@@ -11,7 +11,7 @@ export const jetpack = () => ({
       offset: {x: 0, y: -35},
       maxSpeed: -2500, // px / s
       acceleration: -3000,
-      time: 8,
+      time: 5,
     },
   },
 });

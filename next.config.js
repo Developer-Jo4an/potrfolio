@@ -6,8 +6,11 @@ const TYPES = {DEV: "development", PROD: "production"};
 
 const isDev = process.env.NODE_ENV === TYPES.DEV;
 
+console.log("isDev >>", isDev)
+
 const nextConfig = {
   reactStrictMode: false,
+  allowedDevOrigins: ["localhost", "192.168.1.64"],
 
   async headers() {
     if (isDev)

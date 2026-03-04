@@ -8,7 +8,7 @@ export const spring = () => ({
   behaviour: {
     type: Boosters.SPRING,
     props: {
-      time: 8,
+      time: 5,
       jumpForceMultiplier: 1.7,
       offset: {x: 0, y: -22.5},
     },

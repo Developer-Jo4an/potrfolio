@@ -11,7 +11,7 @@ export const propeller = () => ({
       offset: {x: 0, y: -20},
       maxSpeed: -1500, // px / s
       acceleration: -2000,
-      time: 6,
+      time: 4,
     },
   },
 });

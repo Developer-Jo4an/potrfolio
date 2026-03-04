@@ -23,9 +23,14 @@ export class Interactive extends System {
   async initInteractiveEvents() {
     const {
       storage: {
+        stage,
+        renderer,
         serviceData: {clearFunctions},
       },
     } = this;
+
+    stage.eventMode = "static";
+    stage.hitArea = renderer.screen;
 
     const {cInput} = this.getCharacterInfo();
 
@@ -43,11 +48,16 @@ export class Interactive extends System {
       }
     }
 
-    clearFunctions.push(
-      eventSubscription({
-        callbacksBus: [{event: "blur", callback: this.resetActions}],
-      }),
-    );
+    const clear = eventSubscription({
+      callbacksBus: [{event: "blur", callback: this.resetActions}],
+    });
+
+    clearFunctions.push(() => {
+      stage.eventMode = "passive";
+      stage.hitArea = null;
+
+      clear();
+    });
 
     this.clearSomeEvents();
   }
@@ -57,6 +67,7 @@ export class Interactive extends System {
 
     const {
       storage: {
+        stage,
         serviceData: {clearFunctions},
       },
       eventBus,
@@ -83,7 +94,7 @@ export class Interactive extends System {
         callbacksBus: [
           {event: "keydown", callback: actions.down},
           {event: "keyup", callback: actions.up},
-          {event: "click", callback: actions.onClick},
+          {target: stage, event: "pointertap", callback: actions.onClick},
         ],
       }),
     );
@@ -106,6 +117,7 @@ export class Interactive extends System {
     const {
       eventBus,
       storage: {
+        stage,
         serviceData: {clearFunctions},
       },
     } = this;
@@ -139,7 +151,7 @@ export class Interactive extends System {
       eventSubscription({
         callbacksBus: [
           {event: "deviceorientation", callback: actions.onChangeOrientation},
-          {event: "click", callback: actions.onClick},
+          {target: stage, event: "pointertap", callback: actions.onClick},
         ],
       }),
     );
@@ -160,7 +172,6 @@ export class Interactive extends System {
 
     const actions = {
       start: (e) => {
-        e.preventDefault();
         for (const {identifier} of e.changedTouches) {
           const {clientX} = e.changedTouches?.[0] ?? {clientX: 0};
           const action = clientX >= global.innerWidth / 2 ? InputActions.RIGHT : InputActions.LEFT;
@@ -169,7 +180,6 @@ export class Interactive extends System {
         }
       },
       end: (e) => {
-        e.preventDefault();
         for (const {identifier} of e.changedTouches) {
           const keyCode = touchData[identifier];
           if (!!keyCode) {
@@ -201,7 +211,7 @@ export class Interactive extends System {
 
     clearFunctions.push(
       eventSubscription({
-        callbacksBus: [{event: ["contextmenu", "pointerdown", "pointerup", "copy"], callback: disable}],
+        callbacksBus: [{event: ["contextmenu", "copy"], callback: disable}],
       }),
     );
   }
