@@ -3,8 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
-    "build": "next build",
+    "dev": "next dev --webpack",
+    "build": "next build --webpack",
     "build-static:check": "npx serve out",
     "build-server:check": "next start",
     "format": "biome format --write"
@@ -22,7 +22,7 @@
     "latest": "^0.2.0",
     "lodash": "^4.17.21",
     "matter-js": "^0.20.0",
-    "next": "15.5.4",
+    "next": "16.1.5",
     "on-change": "^6.0.1",
     "pixi.js": "^8.16.0",
     "react": "19.1.0",
@@ -36,10 +36,10 @@
     "three": "^0.181.2",
     "three.quarks": "^0.16.0",
     "uuid": "^13.0.0",
-    "zustand": "^5.0.6"
+    "zustand": "^5.0.6",
+    "@next/bundle-analyzer": "^16.1.6"
   },
   "devDependencies": {
-    "@next/bundle-analyzer": "^16.1.6",
     "@biomejs/biome": "2.3.11",
     "sass": "1.93"
   }
