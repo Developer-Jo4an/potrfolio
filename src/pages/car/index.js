@@ -1,1 +1,1 @@
-export {Car} from "./ui/main/Car";
+export {Car} from "./next/page/Car";

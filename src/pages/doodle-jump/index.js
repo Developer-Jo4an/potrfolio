@@ -1,1 +1,1 @@
-export {DoodleJump} from "./ui/main/DoodleJump";
+export {DoodleJump} from "./next/page/DoodleJump";
