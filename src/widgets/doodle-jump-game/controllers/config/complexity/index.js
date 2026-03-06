@@ -3,7 +3,6 @@ import {spring} from "./boosters/spring";
 import {propeller} from "./boosters/propeller";
 import {jetpack} from "./boosters/jetpack";
 import {trampoline} from "./helpers/trampoline";
-import {v4 as uuidv4} from "uuid";
 import {PLATFORM, PlatformTextures} from "../../entities/platform";
 import {ENEMY, EnemyBehaviours, EnemyTextures} from "../../entities/enemy";
 
@@ -494,14 +493,14 @@ export const complexity = cloneDeep(
           const {combinations} = waveData;
           return {
             ...waveData,
-            combinations: combinations.map((combination) => ({...combination, id: uuidv4()})),
+            combinations: combinations.map((combination) => ({...combination, id: crypto.randomUUID()})),
           };
         });
         break;
       }
 
       case "wiredCombinations": {
-        acc[key] = value.map((combination) => ({...combination, id: uuidv4()}));
+        acc[key] = value.map((combination) => ({...combination, id: crypto.randomUUID()}));
         break;
       }
 

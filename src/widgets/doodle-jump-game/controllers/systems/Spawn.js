@@ -3,7 +3,6 @@ import {Enemy} from "../plugins/generators/Enemy";
 import {Booster} from "../plugins/generators/Booster";
 import {Helper} from "../plugins/generators/Helper";
 import {Counter} from "../components/Counter";
-import {v4 as uuidv4} from "uuid";
 import {hide} from "../tweens/hide";
 import {fall} from "../tweens/fall";
 import {randFromWeightedArray, getPluginType, initPlugins, System, PixiComponent, SatCollider} from "@shared";
@@ -109,7 +108,7 @@ export class Spawn extends System {
   }
 
   createCombination({entities}, y) {
-    const combinationId = uuidv4();
+    const combinationId = crypto.randomUUID()
 
     entities.forEach((entityProps) => {
       const entity = this.spawnEntity(entityProps, combinationId, {y});

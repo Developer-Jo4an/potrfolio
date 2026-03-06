@@ -1,5 +1,3 @@
-import {v4 as uuidv4} from "uuid";
-
 export class FactoryStorage {
   items = [];
 
@@ -26,7 +24,7 @@ export class FactoryStorage {
       return;
     }
     item._storageType = type;
-    item._factoryUUID = uuidv4();
+    item._factoryUUID = crypto.randomUUID()
     item._isFactoryActiveItem = true;
 
     if (this.createdItems.indexOf(item) === -1) this.createdItems.push(item);

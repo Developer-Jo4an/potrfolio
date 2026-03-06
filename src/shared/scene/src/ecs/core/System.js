@@ -1,4 +1,3 @@
-import {v4 as uuidv4} from "uuid";
 import {Collection} from "../base/components/data/Collection";
 import {State} from "../base/components/state/State";
 import {Unit} from "./Unit";
@@ -20,7 +19,7 @@ export class System extends Unit {
     super(...arguments);
 
     this.factory = factory;
-    this.uuid = uuidv4();
+    this.uuid = crypto.randomUUID()
 
     this.eventBus.addEventListener(STATE_CHANGED, this.onStateChanged.bind(this));
   }
@@ -52,7 +51,7 @@ export class System extends Unit {
    * @param args
    * @param context
    */
-  addSideEffect({entity, effect, name = uuidv4(), args = [], context = this}) {
+  addSideEffect({entity, effect, name = crypto.randomUUID(), args = [], context = this}) {
     const collection = entity.getList(Collection)?.find(({group}) => group === "side-effects");
 
     if (!collection) {

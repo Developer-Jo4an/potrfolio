@@ -1,5 +1,3 @@
-import {v4 as uuidv4} from "uuid";
-
 export class Component {
   /**
    * CREATE - событие на создание компонента
@@ -44,7 +42,7 @@ export class Component {
     this.type = type ?? this.type;
     this.group = group ?? this.group;
     this.eventBus = eventBus;
-    this.uuid = uuidv4();
+    this.uuid = crypto.randomUUID()
   }
 
   /**

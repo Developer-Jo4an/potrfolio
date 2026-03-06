@@ -1,4 +1,3 @@
-import {v4 as uuidv4} from "uuid";
 import {Entity} from "./Entity";
 import {Component} from "./Component";
 import {Library as Collection} from "../base/library/Library";
@@ -37,7 +36,7 @@ export class Engine {
   constructor({eventBus, storage, decorators: decoratorClasses = []}) {
     this.eventBus = eventBus;
     this.storage = storage;
-    this.uuid = uuidv4();
+    this.uuid = crypto.randomUUID()
 
     analytics.connect("ecs", this);
     this.addListeners();

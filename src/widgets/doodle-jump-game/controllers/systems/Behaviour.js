@@ -4,7 +4,6 @@ import {PropellerTexture} from "../plugins/behaviours/PropellerTexture";
 import {DisableCollisions} from "../plugins/behaviours/DisableCollisions";
 import {JetpackTexture} from "../plugins/behaviours/JetpackTexture";
 import {LoseTexture} from "../plugins/behaviours/LoseTexture";
-import {v4 as uuidv4} from "uuid";
 import {Events} from "../constants/events";
 import {Behaviours} from "../constants/behaviours";
 import {System, getPluginType, initPlugins, eventSubscription} from "@shared";
@@ -89,7 +88,7 @@ export class Behaviour extends System {
       }
     });
 
-    resolvers[uuidv4()] = {
+    resolvers[crypto.randomUUID()] = {
       time: resolveTime ?? config.reduce((acc, {time}) => Math.max(time, acc), -Infinity),
       clear: resolve,
     };

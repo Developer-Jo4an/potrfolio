@@ -1,4 +1,3 @@
-import {v4 as uuidv4} from "uuid";
 import {Component} from "../../../core/Component";
 
 export class Promise extends Component {
@@ -38,7 +37,8 @@ export class Promise extends Component {
   add(promise, id) {
     const {promises} = this;
 
-    const totalId = id ?? uuidv4();
+    const totalId = id ?? crypto.randomUUID();
+
     promises.set(totalId, promise);
 
     promise.finally(() => this.isActive && this.remove(totalId));

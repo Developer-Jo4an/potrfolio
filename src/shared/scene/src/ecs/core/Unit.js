@@ -1,4 +1,3 @@
-import {v4 as uuidv4} from "uuid";
 import {Entity} from "./Entity";
 
 export class Unit {
@@ -18,7 +17,7 @@ export class Unit {
   constructor({eventBus, storage}) {
     this.eventBus = eventBus;
     this.storage = storage;
-    this.uuid = uuidv4();
+    this.uuid = crypto.randomUUID()
   }
 
   /**

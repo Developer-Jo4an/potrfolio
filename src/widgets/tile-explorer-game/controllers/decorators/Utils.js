@@ -1,4 +1,3 @@
-import {v4 as uuidv4} from "uuid";
 import {Tree} from "../components/Tree";
 import {Cell} from "../components/Cell";
 import {Queue} from "../components/Queue";
@@ -239,7 +238,7 @@ export class Utils extends Decorator {
   }
 
   createCell(x, y, z) {
-    return {x, y, z, id: uuidv4(), type: null, isInsidePool: false, isResolved: false, isBlocked: false};
+    return {x, y, z, id: crypto.randomUUID(), type: null, isInsidePool: false, isResolved: false, isBlocked: false};
   }
 
   getAvailableCells(tree) {

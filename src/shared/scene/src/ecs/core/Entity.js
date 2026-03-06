@@ -1,5 +1,3 @@
-import {v4 as uuidv4} from "uuid";
-
 export class Entity {
   /**
    * CHANGE    - событие для изменения сущности
@@ -53,7 +51,7 @@ export class Entity {
     this.type = type ?? this.type;
     this.group = group ?? this.group;
     this.name = name ?? this.name;
-    this.uuid = uuidv4();
+    this.uuid = crypto.randomUUID();
   }
 
   /**
