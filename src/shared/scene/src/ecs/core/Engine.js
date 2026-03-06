@@ -36,7 +36,7 @@ export class Engine {
   constructor({eventBus, storage, decorators: decoratorClasses = []}) {
     this.eventBus = eventBus;
     this.storage = storage;
-    this.uuid = crypto.randomUUID()
+    this.uuid = crypto.randomUUID();
 
     analytics.connect("ecs", this);
     this.addListeners();

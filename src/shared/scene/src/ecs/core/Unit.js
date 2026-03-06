@@ -17,7 +17,7 @@ export class Unit {
   constructor({eventBus, storage}) {
     this.eventBus = eventBus;
     this.storage = storage;
-    this.uuid = crypto.randomUUID()
+    this.uuid = crypto.randomUUID();
   }
 
   /**

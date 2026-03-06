@@ -42,7 +42,7 @@ export class Component {
     this.type = type ?? this.type;
     this.group = group ?? this.group;
     this.eventBus = eventBus;
-    this.uuid = crypto.randomUUID()
+    this.uuid = crypto.randomUUID();
   }
 
   /**

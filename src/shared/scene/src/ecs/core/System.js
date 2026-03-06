@@ -19,7 +19,7 @@ export class System extends Unit {
     super(...arguments);
 
     this.factory = factory;
-    this.uuid = crypto.randomUUID()
+    this.uuid = crypto.randomUUID();
 
     this.eventBus.addEventListener(STATE_CHANGED, this.onStateChanged.bind(this));
   }

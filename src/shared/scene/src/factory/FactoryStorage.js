@@ -24,7 +24,7 @@ export class FactoryStorage {
       return;
     }
     item._storageType = type;
-    item._factoryUUID = crypto.randomUUID()
+    item._factoryUUID = crypto.randomUUID();
     item._isFactoryActiveItem = true;
 
     if (this.createdItems.indexOf(item) === -1) this.createdItems.push(item);

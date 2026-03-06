@@ -108,7 +108,7 @@ export class Spawn extends System {
   }
 
   createCombination({entities}, y) {
-    const combinationId = crypto.randomUUID()
+    const combinationId = crypto.randomUUID();
 
     entities.forEach((entityProps) => {
       const entity = this.spawnEntity(entityProps, combinationId, {y});
