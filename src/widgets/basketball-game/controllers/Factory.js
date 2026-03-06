@@ -3,6 +3,8 @@ import {Factory, assetsManager, GLTF, THREE_SPACE} from "@shared";
 import {CHARACTER, CHARACTER_BODY, CHARACTER_VIEW_NAME} from "./constants/character";
 import {SCENE_FROM_BLENDER} from "./constants/preload";
 import {GROUND, GROUND_BODY} from "./constants/ground";
+import {X2VIEW} from "./constants/x2View";
+import {X2} from "./constants/boosters";
 import {
   RING,
   RING_BODY,
@@ -13,7 +15,6 @@ import {
   RING_VIEW_NAME,
   SENSOR,
 } from "./constants/ring";
-import {X2VIEW} from "./constants/x2View";
 
 const METHODS = {create: "create", prepare: "prepare", reset: "reset"};
 
@@ -76,13 +77,19 @@ export class BasketballFactory extends Factory {
       defaultProperties: {
         storage: {
           mainSceneSettings: {
-            ground: {width, height, depth, opacity},
+            ground: {width, height, renderOrder, depthTest, depth, opacity},
           },
         },
       },
     } = this;
 
-    return new THREE.Mesh(new THREE.BoxGeometry(width, height, depth), new THREE.ShadowMaterial({opacity}));
+    const groundMesh = new THREE.Mesh(
+      new THREE.BoxGeometry(width, height, depth),
+      new THREE.ShadowMaterial({opacity, depthTest}),
+    );
+    groundMesh.renderOrder = renderOrder;
+
+    return groundMesh;
   }
 
   /**
@@ -165,8 +172,23 @@ export class BasketballFactory extends Factory {
    * x2View
    */
   [createMethod(METHODS.create, X2VIEW)]() {
-    const geometry = new THREE.BoxGeometry(0.04, 0.04, 0.04);
-    const material = new THREE.MeshBasicMaterial({color: "red"});
+    const {
+      defaultProperties: {
+        storage: {
+          mainSceneSettings: {
+            boosters: {
+              [X2]: {color},
+            },
+          },
+        },
+      },
+    } = this;
+
+    const {scene} = assetsManager.getAssetFromSpace(THREE_SPACE, GLTF, SCENE_FROM_BLENDER);
+
+    const {material, geometry} = scene.getObjectByName(X2VIEW);
+    material.color.setHex(color);
+
     return new THREE.Mesh(geometry, material);
   }
 }

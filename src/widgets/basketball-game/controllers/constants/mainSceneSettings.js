@@ -33,6 +33,8 @@ export const mainSceneSettings = {
     width: 1000,
     height: 1,
     depth: 1000,
+    depthTest: false,
+    renderOrder: -1,
     opacity: 0.3,
     friction: 0,
     restitution: 1.25,
@@ -43,7 +45,14 @@ export const mainSceneSettings = {
   boosters: {
     [CLEAR_HIT]: {time: 1},
     [EXTRA_LIFE]: {},
-    [X2]: {angularVelocity: 40, count: 10, offsetRadius: 0.05, velocity: {min: 60, max: 120}},
+    [X2]: {
+      angularVelocity: 80,
+      count: 10,
+      color: 0xfce803,
+      offsetRadius: 0.05,
+      velocity: {min: 60, max: 120},
+      size: 0.08,
+    },
   },
 
   ring: {

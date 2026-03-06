@@ -320,7 +320,7 @@ export class Character extends System {
         scene,
         mainSceneSettings: {
           boosters: {
-            [X2]: {count, velocity, offsetRadius},
+            [X2]: {count, velocity, offsetRadius, size},
           },
         },
       },
@@ -334,8 +334,19 @@ export class Character extends System {
 
       const cThreeComponent = eX2.get(ThreeComponent);
       const x2View = (cThreeComponent.threeObject = cThreeComponent.threeObject = this.getAsset(eX2, X2VIEW));
+
       this.addSideEffect({entity: eX2, effect: add, args: [scene, x2View]});
       this.addSideEffect({entity: eX2, effect: resetMatrix, args: [x2View]});
+
+      const {min, max} = new THREE.Box3().setFromObject(x2View);
+      const currentSize = Math.max(max.x - min.x, max.y - min.y, max.z - min.z);
+      const cX2Matrix = eX2.get(Matrix4Component);
+      x2View.scale.multiplyScalar((cX2Matrix.scale = size / currentSize));
+      cX2Matrix.rotation = {
+        x: random(0, Math.PI * 2, true),
+        y: random(0, Math.PI * 2, true),
+        z: random(0, Math.PI * 2, true),
+      };
 
       const cOrbit = eX2.get(Orbit);
       cOrbit.center = eCharacter.get(Matrix4Component).position.clone();

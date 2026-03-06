@@ -1,1 +1,1 @@
-export const X2VIEW = "x2View";
+export const X2VIEW = "star";
