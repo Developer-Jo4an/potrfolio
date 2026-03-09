@@ -98,7 +98,7 @@ export default {
       type: X2,
       timeout: 1000,
       img: {
-        src: "widgets/dunk-shot-game/x2Booster.png",
+        src: "widgets/dunk-shot-game/boosters/x2.png",
         width: 256,
         height: 256,
         priority: true,
