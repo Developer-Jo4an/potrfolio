@@ -4,10 +4,6 @@ export const RING_VIEW_NAME = "ring";
 
 export const RING_SHIELD = "ringShield";
 export const RING_SHIELD_VIEW_NAME = "shield";
-
-export const RING_GRID = "ringGrid";
-export const RING_GRID_VIEW_NAME = "grid";
+export const RING_SHIELD_CONTAINER_NAME = "ringShieldContainer";
 
 export const SENSOR = "sensor";
-
-export const ANIMATIONS = {grid: "grid"};

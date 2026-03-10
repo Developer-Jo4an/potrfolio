@@ -126,11 +126,11 @@ export class Controller extends ThreeController {
         world,
         eventQueue,
         mainSceneSettings: {
-          world: {maxDeltaTime},
+          world: {maxDeltaTime, multiplier},
         },
       },
     } = this;
-    world.timestep = Math.min(maxDeltaTime, deltaTime);
+    world.timestep = Math.min(maxDeltaTime * multiplier, deltaTime * multiplier);
     world.step(eventQueue);
   }
 

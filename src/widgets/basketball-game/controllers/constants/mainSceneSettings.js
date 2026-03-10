@@ -2,7 +2,11 @@ import {CLEAR_HIT, EXTRA_LIFE, X2} from "./boosters";
 import {X2VIEW} from "./x2View";
 
 export const mainSceneSettings = {
-  world: {gravity: {x: 0, y: -9.81, z: 0}, maxDeltaTime: 0.016},
+  world: {
+    gravity: {x: 0, y: -9.81, z: 0},
+    maxDeltaTime: 0.016,
+    multiplier: 1.2,
+  },
 
   character: {
     transparent: true,
@@ -18,14 +22,14 @@ export const mainSceneSettings = {
     startData: {rotation: {x: 0, y: -Math.PI / 8, z: 0}, position: {x: 0, y: 0, z: 0}},
     movement: {clamp: {x: [-Infinity, Infinity], y: [0, Infinity], z: [-Infinity, Infinity]}},
     throw: {
-      duration: 1,
+      duration: 1.25,
       dragEventCountForThrow: 3,
       vectorHelp: 4,
       speedHelp: 2,
       minSpeed: 0.75,
       speedInterpolation: 2,
       multiplier: [0.6, 1.25],
-      angvel: {x: 8, y: 0, z: 0},
+      angvel: {x: 12, y: 0, z: 0},
     },
   },
 
@@ -57,24 +61,12 @@ export const mainSceneSettings = {
 
   ring: {
     transparent: true,
-    startData: {position: {x: 0, y: 1.2, z: -5}},
-    grid: {
-      height: 0.175,
-      radsProportion: 0.7,
-      radialSegments: 32,
-      heightSegments: 32,
-      openEnded: true,
-      thetaStart: (-Math.PI * 1.5) / 2,
-      thetaLength: Math.PI * 1.5,
-      restitution: 0,
-      friction: 0,
-    },
+    startData: {position: {x: 0, y: 2, z: -8}},
     sensor: {radius: 0.02, translation: [0, -0.125, 0]},
-    geometryRotation: {x: Math.PI / 2, y: 0, z: 0},
     tube: 0.015,
   },
 
-  camera: {position: {x: 0, y: 0.5, z: 3.25}, target: {x: 0, y: 0.5, z: 0}},
+  camera: {position: {x: 0, y: 0.98, z: 3.7}, fov: 50},
 
   lights: {
     ambient: {color: "#ffffff", intensity: 1},

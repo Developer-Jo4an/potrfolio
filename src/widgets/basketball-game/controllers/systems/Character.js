@@ -2,7 +2,6 @@ import {Orbit} from "../components/Orbit";
 import {
   Entity,
   System,
-  Mixer,
   Matrix4Component,
   GSAPTween,
   ThreeComponent,
@@ -28,7 +27,7 @@ import {CHARACTER} from "../constants/character";
 import {CLEAR_HIT, COLLISION_START, MISS, THROWN} from "../constants/events";
 import {GROUND} from "../constants/ground";
 import {TWEENS} from "../constants/tweens";
-import {ANIMATIONS, RING, RING_BODY, RING_GRID, RING_SHIELD, SENSOR} from "../constants/ring";
+import {RING, RING_BODY,  RING_SHIELD, SENSOR} from "../constants/ring";
 import {BASKETBALL, GAME} from "../constants/game";
 import {LOSE as LOSE_STATE, WIN as WIN_STATE} from "../constants/stateMachine";
 import {EXTRA_LIFE, X2} from "../constants/boosters";
@@ -563,7 +562,7 @@ export class Character extends System {
 
     const collisions = eCharacter.getSome(EventComponent, COLLISION_START);
     const isHasCollisionWithRing = collisions.some(({data: {collider}}) =>
-      [RING_BODY, RING_SHIELD, RING_GRID].includes(collider.userData.id),
+      [RING_BODY, RING_SHIELD].includes(collider.userData.id),
     );
     if (isHasCollisionWithRing) set(({characterMovement}) => (characterMovement.isCollisionWithRing = true));
   }
@@ -593,14 +592,6 @@ export class Character extends System {
       gameData.story.push(true);
       !isCollisionWithRing && gameData.pureCount++;
     });
-
-    const cRingMixer = eRing.get(Mixer);
-    const action = cRingMixer.mixer.clipAction(cRingMixer.animations[ANIMATIONS.grid]);
-    cRingMixer.mixer.update(0);
-    cRingMixer.mixer.setTime(0);
-    action.setLoop(THREE.LoopOnce);
-    action.stop();
-    action.play();
 
     if (isActiveBoosterX2) this.animateX2View();
 

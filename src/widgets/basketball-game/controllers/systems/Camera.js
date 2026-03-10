@@ -6,11 +6,12 @@ export class Camera extends System {
       storage: {
         camera,
         mainSceneSettings: {
-          camera: {position, target},
+          camera: {position, fov},
         },
       },
     } = this;
     camera.position.copy(position);
-    camera.lookAt(target.x, target.y, target.z);
+    camera.fov = fov;
+    camera.updateProjectionMatrix();
   }
 }

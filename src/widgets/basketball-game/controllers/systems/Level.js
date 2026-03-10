@@ -1,17 +1,9 @@
-import {Mixer, System, Body, ThreeComponent, Entity, add, GLTF, THREE_SPACE, assetsManager, X, Y, Z} from "@shared";
+import {Mixer, System, Body, ThreeComponent, Entity, add} from "@shared";
 import {getVerticesWithDeep} from "../../utils/getVerticesWithDeep";
 import {mean} from "lodash";
 import {CHARACTER, CHARACTER_BODY} from "../constants/character";
 import {GROUND, GROUND_BODY} from "../constants/ground";
-import {
-  ANIMATIONS,
-  RING,
-  RING_BODY,
-  RING_GRID_VIEW_NAME,
-  RING_SHIELD_VIEW_NAME,
-  RING_VIEW_NAME,
-} from "../constants/ring";
-import {SCENE_FROM_BLENDER} from "../constants/preload";
+import {RING, RING_BODY, RING_SHIELD_VIEW_NAME, RING_VIEW_NAME} from "../constants/ring";
 
 export class Level extends System {
   initializationLevelSelect() {
@@ -80,10 +72,7 @@ export class Level extends System {
         scene,
         mainSceneSettings: {
           ring: {
-            tube,
-            geometryRotation,
             sensor,
-            grid,
             transparent,
             startData: {position},
           },
@@ -101,64 +90,12 @@ export class Level extends System {
     this.addSideEffect({entity: eRing, effect: add, args: [scene, ringContainer]});
 
     const ringView = ringContainer.getObjectByName(RING_VIEW_NAME);
-    const ringBoundingBox = new THREE.Box3();
-    ringBoundingBox.setFromObject(ringView);
-    const ringRadius =
-      Math.max(
-        ...[X, Y, Z].map((axis) => {
-          const maxAxis = ringBoundingBox.max[axis];
-          const minAxis = ringBoundingBox.min[axis];
-          return Math.abs(maxAxis - minAxis) - tube * 2;
-        }),
-      ) / 2;
-    const ringViewGeometry = new THREE.TorusGeometry(ringRadius, tube);
-    const ringViewVertices = Array.from(ringViewGeometry.attributes.position.array);
-    const ringViewIndexes = Array.from(ringViewGeometry.index.array);
+
+    const ringViewVertices = Array.from(ringView.geometry.attributes.position.array);
+    const ringViewIndexes = Array.from(ringView.geometry.index.array);
 
     const shieldView = ringContainer.getObjectByName(RING_SHIELD_VIEW_NAME);
     const {vertices: shieldViewVertices, indexes: shieldViewIndexes} = getVerticesWithDeep(shieldView);
-
-    const gridView = ringContainer.getObjectByName(RING_GRID_VIEW_NAME);
-
-    const cGridMixer = eRing.get(Mixer);
-    cGridMixer.mixer = new THREE.AnimationMixer(gridView);
-    const {animations} = assetsManager.getAssetFromSpace(THREE_SPACE, GLTF, SCENE_FROM_BLENDER);
-    cGridMixer.animations = {[ANIMATIONS.grid]: THREE.AnimationClip.findByName(animations, ANIMATIONS.grid)};
-    this.addSideEffect({
-      entity: eRing,
-      effect: () => () => {
-        cGridMixer.mixer.stopAllAction();
-        gridView.children[0].skeleton.pose();
-      },
-    });
-
-    const gridBoundingBox = new THREE.Box3();
-    gridBoundingBox.setFromObject(ringView);
-    const gridRadiusTop =
-      Math.max(
-        ...[X, Y, Z].map((axis) => {
-          const maxAxis = gridBoundingBox.max[axis];
-          const minAxis = gridBoundingBox.min[axis];
-          return Math.abs(maxAxis - minAxis);
-        }),
-      ) / 2;
-    const radiusBottom = gridRadiusTop * grid.radsProportion;
-    const gridViewGeometry = new THREE.CylinderGeometry(
-      gridRadiusTop,
-      radiusBottom,
-      grid.height,
-      grid.radialSegments,
-      grid.heightSegments,
-      grid.openEnded,
-      grid.thetaStart,
-      grid.thetaLength,
-    );
-    const gridOffsetMatrix = new THREE.Matrix4();
-    gridOffsetMatrix.makeTranslation(0, -grid.height / 2, 0);
-    gridViewGeometry.applyMatrix4(gridOffsetMatrix);
-    gridViewGeometry.dispose();
-    const gridViewVertices = Array.from(gridViewGeometry.attributes.position.array);
-    const gridViewIndexes = Array.from(gridViewGeometry.index.array);
 
     const cBody = eRing.get(Body);
     const ringBody = (cBody.object = this.getAsset(eRing, RING_BODY, {
@@ -166,17 +103,13 @@ export class Level extends System {
         view: ringView,
         vertices: ringViewVertices,
         indexes: ringViewIndexes,
-        extraProps: {rotation: geometryRotation},
       },
       shield: {view: shieldView, vertices: shieldViewVertices, indexes: shieldViewIndexes, extraProps: {}},
-      grid: {view: gridView, vertices: gridViewVertices, indexes: gridViewIndexes, extraProps: {}},
       sensor,
     }));
 
     ringBody.setTranslation(position);
     ringBody.collider.ring.setActiveEvents(RAPIER3D.ActiveEvents.COLLISION_EVENTS);
-    ringBody.collider.grid.setFriction(grid.friction);
-    ringBody.collider.grid.setRestitution(grid.restitution);
   }
 
   initGround() {
