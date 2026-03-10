@@ -28,7 +28,7 @@ export const mainSceneSettings = {
       speedHelp: 2,
       minSpeed: 0.75,
       speedInterpolation: 2,
-      multiplier: [0.6, 1.25],
+      multiplier: [0.6, 1.3],
       angvel: {x: 12, y: 0, z: 0},
     },
   },
@@ -47,21 +47,19 @@ export const mainSceneSettings = {
   },
 
   boosters: {
-    [CLEAR_HIT]: {time: 1},
+    [CLEAR_HIT]: {time: 1.35},
     [EXTRA_LIFE]: {},
     [X2]: {
       angularVelocity: 80,
       count: 10,
-      color: 0xfce803,
-      offsetRadius: 0.05,
+      offsetRadius: 0.1,
       velocity: {min: 60, max: 120},
-      size: 0.08,
     },
   },
 
   ring: {
     transparent: true,
-    startData: {position: {x: 0, y: 2, z: -8}},
+    startData: {position: {x: 0, y: 2.5, z: -8}},
     sensor: {radius: 0.02, translation: [0, -0.125, 0]},
     tube: 0.015,
   },

@@ -5,7 +5,7 @@ import {createNodes, kill} from "./utils";
 const settings = {
   src: "widgets/basketball-game/stats/score.png",
   ease: "sine.inOut",
-  duration: 0.4,
+  speed: 6,
   count: 1,
   opacity: {start: 0.5, end: 0},
   scale: {start: 1, end: 3},
@@ -35,6 +35,7 @@ export function x2View(matrix, targetPosition, bounding, parent, angularVelocity
 
   const {position} = matrix;
   const length = position.clone().sub(targetPosition).length();
+
   const nodes = createNodes(bounding, settings.count, settings.src, parent);
   const xStart = bounding.left + bounding.width / 2;
   const yStart = bounding.top + bounding.height / 2;
@@ -48,7 +49,7 @@ export function x2View(matrix, targetPosition, bounding, parent, angularVelocity
       y: targetPosition.y,
       z: targetPosition.z,
       ease: settings.ease,
-      duration: length * settings.duration,
+      duration: length / settings.speed,
     })
     .set(
       nodes,

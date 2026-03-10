@@ -27,7 +27,7 @@ import {CHARACTER} from "../constants/character";
 import {CLEAR_HIT, COLLISION_START, MISS, THROWN} from "../constants/events";
 import {GROUND} from "../constants/ground";
 import {TWEENS} from "../constants/tweens";
-import {RING, RING_BODY,  RING_SHIELD, SENSOR} from "../constants/ring";
+import {RING, RING_BODY, RING_SHIELD, SENSOR} from "../constants/ring";
 import {BASKETBALL, GAME} from "../constants/game";
 import {LOSE as LOSE_STATE, WIN as WIN_STATE} from "../constants/stateMachine";
 import {EXTRA_LIFE, X2} from "../constants/boosters";
@@ -319,7 +319,7 @@ export class Character extends System {
         scene,
         mainSceneSettings: {
           boosters: {
-            [X2]: {count, velocity, offsetRadius, size},
+            [X2]: {count, velocity, offsetRadius},
           },
         },
       },
@@ -328,7 +328,7 @@ export class Character extends System {
     const eCharacter = this.getFirstEntityByType(CHARACTER);
     const eRing = this.getFirstEntityByType(RING);
 
-    Array.from({length: count}).map(() => {
+    Array.from({length: count}).forEach(() => {
       const eX2 = new Entity({eventBus, type: X2VIEW}).init();
 
       const cThreeComponent = eX2.get(ThreeComponent);
@@ -337,10 +337,7 @@ export class Character extends System {
       this.addSideEffect({entity: eX2, effect: add, args: [scene, x2View]});
       this.addSideEffect({entity: eX2, effect: resetMatrix, args: [x2View]});
 
-      const {min, max} = new THREE.Box3().setFromObject(x2View);
-      const currentSize = Math.max(max.x - min.x, max.y - min.y, max.z - min.z);
       const cX2Matrix = eX2.get(Matrix4Component);
-      x2View.scale.multiplyScalar((cX2Matrix.scale = size / currentSize));
       cX2Matrix.rotation = {
         x: random(0, Math.PI * 2, true),
         y: random(0, Math.PI * 2, true),
@@ -567,7 +564,7 @@ export class Character extends System {
     if (isHasCollisionWithRing) set(({characterMovement}) => (characterMovement.isCollisionWithRing = true));
   }
 
-  checkCollisionWithSensor({eCharacter, eRing}) {
+  checkCollisionWithSensor({eCharacter}) {
     const {
       storage: {
         gameSpace: {get, set},

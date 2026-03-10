@@ -163,23 +163,8 @@ export class BasketballFactory extends Factory {
    * x2View
    */
   [createMethod(METHODS.create, X2VIEW)]() {
-    const {
-      defaultProperties: {
-        storage: {
-          mainSceneSettings: {
-            boosters: {
-              [X2]: {color},
-            },
-          },
-        },
-      },
-    } = this;
-
     const {scene} = assetsManager.getAssetFromSpace(THREE_SPACE, GLTF, SCENE_FROM_BLENDER);
-
     const {material, geometry} = scene.getObjectByName(X2VIEW);
-    material.color.setHex(color);
-
     return new THREE.Mesh(geometry, material);
   }
 }
