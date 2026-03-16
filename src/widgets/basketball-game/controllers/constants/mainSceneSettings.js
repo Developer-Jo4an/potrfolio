@@ -12,8 +12,6 @@ export const mainSceneSettings = {
     transparent: true,
     castShadow: true,
     receiveShadow: false,
-    roughness: 0.75,
-    metalness: 0.25,
     opacity: 1,
     restitution: 0.25,
     friction: 0.4,
@@ -64,17 +62,38 @@ export const mainSceneSettings = {
     tube: 0.015,
   },
 
-  camera: {position: {x: 0, y: 0.98, z: 3.7}, fov: 50},
+  camera: {position: {x: 0, y: 0.85, z: 3.7}, fov: 44},
 
   lights: {
-    ambient: {color: "#ffffff", intensity: 1},
+    ambient: {
+      color: "#ffffff",
+      intensity: 1.25,
+    },
     directional: {
       color: "#ffffff",
       intensity: 2.5,
-      position: {x: 5, y: 7, z: 5},
-      target: {position: {x: 0, y: 0, z: 0}, name: "directionalLightTarget"},
       castShadow: true,
-      rectangle: {left: -5, right: 5, top: 5, bottom: -5, width: 2048, height: 2048},
+      position: {
+        x: 5,
+        y: 7,
+        z: 4,
+      },
+      target: {
+        position: {
+          x: 0,
+          y: 0,
+          z: 0,
+        },
+        name: "directionalLightTarget",
+      },
+      rectangle: {
+        left: -10,
+        right: 10,
+        top: 10,
+        bottom: -10,
+        width: 1024,
+        height: 1024,
+      },
     },
   },
 

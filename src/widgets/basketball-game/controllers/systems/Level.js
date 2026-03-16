@@ -40,8 +40,6 @@ export class Level extends System {
     const cThreeComponent = eCharacter.get(ThreeComponent);
     const characterView = (cThreeComponent.threeObject = this.getAsset(eCharacter, CHARACTER));
     characterView.material.transparent = transparent;
-    characterView.material.metalness = metalness;
-    characterView.material.roughness = roughness;
     characterView.material.opacity = opacity;
     characterView.receiveShadow = receiveShadow;
     characterView.castShadow = castShadow;
