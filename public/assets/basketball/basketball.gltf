@@ -40,11 +40,11 @@
 		},
 		{
 			"mesh":2,
-			"name":"ball"
+			"name":"star"
 		},
 		{
 			"mesh":3,
-			"name":"star"
+			"name":"ball"
 		}
 	],
 	"materials":[
@@ -78,17 +78,6 @@
 		},
 		{
 			"doubleSided":true,
-			"name":"ballMaterial",
-			"pbrMetallicRoughness":{
-				"baseColorTexture":{
-					"index":2
-				},
-				"metallicFactor":0,
-				"roughnessFactor":0.5
-			}
-		},
-		{
-			"doubleSided":true,
 			"name":"starMaterial",
 			"pbrMetallicRoughness":{
 				"baseColorFactor":[
@@ -97,6 +86,17 @@
 					0,
 					1
 				],
+				"metallicFactor":0,
+				"roughnessFactor":0.5
+			}
+		},
+		{
+			"doubleSided":true,
+			"name":"Material.001",
+			"pbrMetallicRoughness":{
+				"baseColorTexture":{
+					"index":2
+				},
 				"metallicFactor":0,
 				"roughnessFactor":0.5
 			}
@@ -132,7 +132,7 @@
 			]
 		},
 		{
-			"name":"ball",
+			"name":"star",
 			"primitives":[
 				{
 					"attributes":{
@@ -146,7 +146,7 @@
 			]
 		},
 		{
-			"name":"star",
+			"name":"ball",
 			"primitives":[
 				{
 					"attributes":{
@@ -187,8 +187,8 @@
 		},
 		{
 			"mimeType":"image/jpeg",
-			"name":"ball",
-			"uri":"ball.jpg"
+			"name":"baseColor",
+			"uri":"baseColor.jpg"
 		}
 	],
 	"accessors":[
@@ -263,40 +263,6 @@
 		{
 			"bufferView":8,
 			"componentType":5126,
-			"count":4223,
-			"max":[
-				0.2500000298023224,
-				0.25,
-				0.24999995529651642
-			],
-			"min":[
-				-0.2499999701976776,
-				-0.25,
-				-0.2500000298023224
-			],
-			"type":"VEC3"
-		},
-		{
-			"bufferView":9,
-			"componentType":5126,
-			"count":4223,
-			"type":"VEC3"
-		},
-		{
-			"bufferView":10,
-			"componentType":5126,
-			"count":4223,
-			"type":"VEC2"
-		},
-		{
-			"bufferView":11,
-			"componentType":5123,
-			"count":24192,
-			"type":"SCALAR"
-		},
-		{
-			"bufferView":12,
-			"componentType":5126,
 			"count":6168,
 			"max":[
 				0.06610153615474701,
@@ -311,21 +277,55 @@
 			"type":"VEC3"
 		},
 		{
-			"bufferView":13,
+			"bufferView":9,
 			"componentType":5126,
 			"count":6168,
 			"type":"VEC3"
 		},
 		{
-			"bufferView":14,
+			"bufferView":10,
 			"componentType":5126,
 			"count":6168,
 			"type":"VEC2"
 		},
 		{
-			"bufferView":15,
+			"bufferView":11,
 			"componentType":5123,
 			"count":36000,
+			"type":"SCALAR"
+		},
+		{
+			"bufferView":12,
+			"componentType":5126,
+			"count":24354,
+			"max":[
+				0.23004049062728882,
+				0.23004049062728882,
+				0.2354738861322403
+			],
+			"min":[
+				-0.23004046082496643,
+				-0.23004049062728882,
+				-0.2354738861322403
+			],
+			"type":"VEC3"
+		},
+		{
+			"bufferView":13,
+			"componentType":5126,
+			"count":24354,
+			"type":"VEC3"
+		},
+		{
+			"bufferView":14,
+			"componentType":5126,
+			"count":24354,
+			"type":"VEC2"
+		},
+		{
+			"bufferView":15,
+			"componentType":5123,
+			"count":135744,
 			"type":"SCALAR"
 		}
 	],
@@ -380,50 +380,50 @@
 		},
 		{
 			"buffer":0,
-			"byteLength":50676,
+			"byteLength":74016,
 			"byteOffset":27536,
 			"target":34962
 		},
 		{
 			"buffer":0,
-			"byteLength":50676,
-			"byteOffset":78212,
-			"target":34962
-		},
-		{
-			"buffer":0,
-			"byteLength":33784,
-			"byteOffset":128888,
-			"target":34962
-		},
-		{
-			"buffer":0,
-			"byteLength":48384,
-			"byteOffset":162672,
-			"target":34963
-		},
-		{
-			"buffer":0,
 			"byteLength":74016,
-			"byteOffset":211056,
-			"target":34962
-		},
-		{
-			"buffer":0,
-			"byteLength":74016,
-			"byteOffset":285072,
+			"byteOffset":101552,
 			"target":34962
 		},
 		{
 			"buffer":0,
 			"byteLength":49344,
-			"byteOffset":359088,
+			"byteOffset":175568,
 			"target":34962
 		},
 		{
 			"buffer":0,
 			"byteLength":72000,
-			"byteOffset":408432,
+			"byteOffset":224912,
+			"target":34963
+		},
+		{
+			"buffer":0,
+			"byteLength":292248,
+			"byteOffset":296912,
+			"target":34962
+		},
+		{
+			"buffer":0,
+			"byteLength":292248,
+			"byteOffset":589160,
+			"target":34962
+		},
+		{
+			"buffer":0,
+			"byteLength":194832,
+			"byteOffset":881408,
+			"target":34962
+		},
+		{
+			"buffer":0,
+			"byteLength":271488,
+			"byteOffset":1076240,
 			"target":34963
 		}
 	],
@@ -435,7 +435,7 @@
 	],
 	"buffers":[
 		{
-			"byteLength":480432,
+			"byteLength":1347728,
 			"uri":"basketball.bin"
 		}
 	]
