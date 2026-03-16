@@ -1,4 +1,4 @@
-import {Mixer, System, Body, ThreeComponent, Entity, add} from "@shared";
+import {System, Body, ThreeComponent, Entity, add} from "@shared";
 import {getVerticesWithDeep} from "../../utils/getVerticesWithDeep";
 import {mean} from "lodash";
 import {CHARACTER, CHARACTER_BODY} from "../constants/character";

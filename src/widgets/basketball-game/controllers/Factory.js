@@ -4,7 +4,6 @@ import {CHARACTER, CHARACTER_BODY, CHARACTER_VIEW_NAME} from "./constants/charac
 import {SCENE_FROM_BLENDER} from "./constants/preload";
 import {GROUND, GROUND_BODY} from "./constants/ground";
 import {X2VIEW} from "./constants/x2View";
-import {X2} from "./constants/boosters";
 import {
   RING,
   RING_BODY,
