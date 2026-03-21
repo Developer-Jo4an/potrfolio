@@ -1,6 +1,7 @@
 import NextImage from "next/image";
 import {image} from "../../../../../lib";
 import cl from "classnames";
+import {PRODUCTION} from "../../../../../constants/src/build/env";
 import styles from "./Image.module.scss";
 
 export function Image({
@@ -11,7 +12,7 @@ export function Image({
   height = 256,
   quality = 100,
   priority = false,
-  unoptimized = false,
+  unoptimized = process.env.NODE_ENV === PRODUCTION,
   ...otherProps
 }) {
   return (

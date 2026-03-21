@@ -62,24 +62,24 @@ export const gameList = [
       priority: true,
     },
   },
-  {
-    id: "car",
-    title: "Geometry dash vertical",
-    route: ROUTES.car,
-    description: "ecs, pixi, sat, gsap",
-    background: {
-      src: `widgets/game-cards/backgrounds/car.png`,
-      width: 1600,
-      height: 900,
-      quality: 50,
-    },
-    img: {
-      src: `widgets/game-cards/cards/car.png`,
-      width: 512,
-      height: 1024,
-      priority: true,
-    },
-  },
+  // {
+  //   id: "car",
+  //   title: "Geometry dash vertical",
+  //   route: ROUTES.car,
+  //   description: "ecs, pixi, sat, gsap",
+  //   background: {
+  //     src: `widgets/game-cards/backgrounds/car.png`,
+  //     width: 1600,
+  //     height: 900,
+  //     quality: 50,
+  //   },
+  //   img: {
+  //     src: `widgets/game-cards/cards/car.png`,
+  //     width: 512,
+  //     height: 1024,
+  //     priority: true,
+  //   },
+  // },
   {
     id: "tileExplorer",
     title: "Проводник плиток",

@@ -13,7 +13,7 @@ export const mainSceneSettings = {
     castShadow: true,
     receiveShadow: false,
     opacity: 1,
-    restitution: 0.25,
+    restitution: 0.5,
     friction: 0.4,
     linearDamping: 0,
     angularDamping: 0,

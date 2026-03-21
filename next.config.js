@@ -9,6 +9,7 @@ const isDev = process.env.NODE_ENV === TYPES.DEV;
 console.log("isDev >>", isDev)
 
 const nextConfig = {
+  ...(!isDev ? {output: "export"} : {}),
   reactStrictMode: false,
   allowedDevOrigins: ["localhost", "192.168.1.64"],
 
